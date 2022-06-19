@@ -22,6 +22,7 @@ export IP_EVMOS_3_INT="evmos3i.victortrusty.dev"
 export EVMOS_VER="v5.0.0"
 export EVMOS_BINARY="evmosd"
 export EVMOS_DENOM_EXPONENT=18 # no of digits
+export EVMOS_GAS_DENOM_EXPONENT=9 # no of digits
 export EVMOS_SOURCE_DIR="EVMOS-source-code"
 
 ## Validators

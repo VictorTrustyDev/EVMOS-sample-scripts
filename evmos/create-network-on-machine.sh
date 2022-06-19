@@ -21,8 +21,9 @@ else
     exit 1
 fi
 
+BINARY="$GOPATH/bin/$EVMOS_BINARY"
 # Check & Install evmosd binary if not exists
-if [ -f "$EVMOS_BINARY" ]; then
+if [ -f "$BINARY" ]; then
 	echo "Nice! EVMOS binary $EVMOS_BINARY is already exists"
 else
 	if [ -d "./$EVMOS_SOURCE_DIR" ]; then
@@ -40,14 +41,10 @@ else
 	cd "./$EVMOS_SOURCE_DIR"
 	echo "Compiling $EVMOS_BINARY. If this is the first time you compile, it will take time, you can enjoy a cup of coffee and comeback later"
     make install
-    if [ $? -ne 0 ]; then
-        echo "Failed to compile EVMOS"
-        exit 1
-    fi
+    [ $? -eq 0 ] || { echo "Failed to compile EVMOS"; exit 1; }
     cd ../
 fi
 
-BINARY="$GOPATH/bin/$EVMOS_BINARY"
 if [ ! -f "$BINARY" ]; then
     echo "EVMOS source code was compiled but binary $EVMOS_BINARY could not be found"
     echo "You must find it and put it into PATH environment variable"
@@ -102,6 +99,9 @@ GENESIS_JSON="$EVMOS_HOME/config/genesis.json"
 GENESIS_JSON_TMP="$EVMOS_HOME/config/tmp_genesis.json"
 echo "Updating file $GENESIS_JSON"
 # Change denom metadata
-cat $GENESIS_JSON | jq '.app_state["bank"]["denom_metadata"] += [{"description": "The native EVM, governance and staking token of the '$EVMOS_CHAINNAME' Hub", "denom_units": [{"denom": "'$MIN_DENOM_SYMBOL'", "exponent": 0}, {"denom": "'$DENOM_SYMBOL'", "exponent": 18, "aliases": []}],"base": "'$MIN_DENOM_SYMBOL'", "display": "'$DENOM_SYMBOL'", "name": "'$DENOM_SYMBOL'", "symbol": "'$DENOM_SYMBOL'"}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+cat $GENESIS_JSON | jq '.app_state["bank"]["denom_metadata"] += [{"description": "The native EVM, governance and staking token of the '$EVMOS_CHAINNAME' Hub", "denom_units": [{"denom": "'$MIN_DENOM_SYMBOL'", "exponent": 0}, {"denom": "'$GAS_DENOM_SYMBOL'", "exponent": '$EVMOS_GAS_DENOM_EXPONENT'}, {"denom": "'$DENOM_SYMBOL'", "exponent": '$EVMOS_DENOM_EXPONENT'}],"base": "'$MIN_DENOM_SYMBOL'", "display": "'$DENOM_SYMBOL'", "name": "'$DENOM_SYMBOL'", "symbol": "'$DENOM_SYMBOL'"}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+
+$BINARY validate-genesis
+[ $? -eq 0 ] || { echo "Failed to validate genesis"; exit 1; }
 
 echo "Done"
