@@ -175,8 +175,8 @@ if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
         echo "You can paste the following content to $SERVICE_FILE file to create a daemon service"
         echo "sudo vi $SERVICE_FILE"
         echo
-        echo "[Unit] $EVMOS_SERVICE_NAME chain $CHAIN_ID
-Description=($EVMOS_BINARY)
+        echo "[Unit]
+Description=$EVMOS_SERVICE_NAME chain $CHAIN_ID
 ConditionPathExists=$BINARY
 After=network.target
 [Service]
@@ -199,9 +199,11 @@ read -p "Do you want to run more validator?" -n 1 -r
 echo #
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-    echo 'Replacing seed IP in config.toml from localhost to '$IP_EVMOS_1_INT'... Done!'
+    echo 'Replacing seed IP in config.toml from "localhost" to "'$IP_EVMOS_1_INT'"'
     cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@'$IP_EVMOS_1_INT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+    [ $? -eq 0 ] || echo "Failed to replace, please replace it manually in file $CONFIG_TOML"
     cat $CONFIG_TOML_BAK | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@'$IP_EVMOS_1_INT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML_BAK
+    [ $? -eq 0 ] || echo "Failed to replace, please replace it manually in file $CONFIG_TOML_BAK"
     echo "Now you need to do:"
     echo "1. Update /etc/hosts to resolve $IP_EVMOS_1_INT domain to IP of this machine (this validator was configurated to be seed node)"
     echo "2. Copy the following files to the new machine"
