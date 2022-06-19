@@ -1,5 +1,14 @@
 ### Here you can find sample scripts and notes of how to setup an EVMOS network and create IBC relayer (using Hermes) to transfer tokens & coin between networks
 
+#### Pre-requisites
+- Go 1.17.5+
+- [jq](https://stedolan.github.io/jq/download)
+- [yq + tomlq (build on top of jq)](https://github.com/kislyuk/yq)
+- [bc](https://www.tecmint.com/bc-command-examples)
+- Rust (for Hermes - IBC relayer)
+
+I created all of the following sample on a Ubuntu 22 LTS
+
 ### List of samples:
 - [Script to install EVMOS into your machine (non-Docker)](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos)
 
