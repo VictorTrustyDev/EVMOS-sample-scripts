@@ -172,11 +172,10 @@ if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
     if [ -f "$SERVICE_FILE" ]; then
         echo "You are ready to restart $EVMOS_SERVICE_NAME service (sudo systemctl restart $EVMOS_SERVICE_NAME)"
     else
-        read -p "Do you want to create $EVMOS_SERVICE_NAME at $SERVICE_FILE ? (Y/n)" -n 1 -r
-        echo #
-        if [[ $REPLY =~ ^[Yy]$ ]]
-        then
-            sudo echo "[Unit] $EVMOS_SERVICE_NAME chain $CHAIN_ID
+        echo "You can paste the following content to $SERVICE_FILE file to create a daemon service"
+        echo "sudo vi $SERVICE_FILE"
+        echo
+        echo "[Unit] $EVMOS_SERVICE_NAME chain $CHAIN_ID
 Description=($EVMOS_BINARY)
 ConditionPathExists=$BINARY
 After=network.target
@@ -189,9 +188,9 @@ Restart=always
 RestartSec=2
 [Install]
 WantedBy=multi-user.target" > $SERVICE_FILE
-            sudo systemctl enable $EVMOS_SERVICE_NAME
-            echo "You are ready to start $EVMOS_SERVICE_NAME service (sudo systemctl restart $EVMOS_SERVICE_NAME)"
-        fi
+        echo
+        echo "sudo systemctl enable $EVMOS_SERVICE_NAME"
+        echo "sudo systemctl restart $EVMOS_SERVICE_NAME"
     fi
 fi
 
