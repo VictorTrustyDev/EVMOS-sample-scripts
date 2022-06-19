@@ -3,3 +3,7 @@ data/
 
 EVMOS-source-code/
 Hermes-source-code/
+
+genesis.json
+config.toml
+app.toml

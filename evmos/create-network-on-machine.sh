@@ -90,6 +90,8 @@ echo 'Verifing keys'
 # Update app.toml
 APP_TOML="$EVMOS_HOME/config/app.toml"
 APP_TOML_TMP="$EVMOS_HOME/config/tmp_app.toml"
+echo "Backup $APP_TOML into $APP_TOML_TMP for future use"
+cp $APP_TOML $APP_TOML_TMP
 echo "Updating file $APP_TOML"
 ## Enable API
 cat $APP_TOML | tomlq '.api["enable"]=true' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
@@ -124,11 +126,43 @@ cat $GENESIS_JSON | jq '.app_state["claims"]["params"]["duration_until_decay"]="
 amount_to_claim=$(bc <<< "$VAL_1_CLAIM + $VAL_2_CLAIM + $VAL_3_CLAIM")
 cat $GENESIS_JSON | jq '.app_state["bank"]["balances"] += [{"address":"'$EVMOS_CLAIM_MODULE_ACCOUNT'","coins":[{"denom":"'$MIN_DENOM_SYMBOL'", "amount":"'$amount_to_claim'"}]}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 
+# Update config.toml
+CONFIG_TOML="$EVMOS_HOME/config/config.toml"
+CONFIG_TOML_TMP="$EVMOS_HOME/config/tmp_config.toml"
+CONFIG_TOML_BAK="$EVMOS_HOME/config/bak_config.toml"
+echo "Updating file $CONFIG_TOML"
+## Update seed nodes
+TENDERMINT_NODE_ID=$($BINARY tendermint show-node-id)
+cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@localhost:26656"' --toml-output > $CONFIG_TOML && mv $CONFIG_TOML_TMP $CONFIG_TOML
+# Disable create empty block
+cat $CONFIG_TOML | tomlq '.p2p["create_empty_blocks"]="false"' --toml-output > $CONFIG_TOML && mv $CONFIG_TOML_TMP $CONFIG_TOML
+
+#if [[ "$OSTYPE" == "darwin"* ]]; then
+    #sed -i '' 's/seeds = ""/seeds = "'$TENDERMINT_NODE_ID'@'$IP1':26656"/g' $HOME_DIR/config/config.toml
+#    sed -i '' 's/create_empty_blocks = true/create_empty_blocks = false/g' $CONFIG_TOML
+#  else
+    #sed -i 's/seeds = ""/seeds = "'$TENDERMINT_NODE_ID'@'$IP1':26656"/g' $HOME_DIR/config/config.toml
+    ### Disable produce empty block
+#    sed -i 's/create_empty_blocks = true/create_empty_blocks = false/g' $CONFIG_TOML
+#fi
+## Backup
+echo "Backup $CONFIG_TOML into $CONFIG_TOML_BAK for future use"
+cp $CONFIG_TOML $CONFIG_TOML_BAK
+## 
+#if [[ "$OSTYPE" == "darwin"* ]]; then
+#    sed -i '' 's,laddr = "tcp://127.0.0.1:26657",laddr = "tcp://0.0.0.0:26657",g' $CONFIG_TOML
+#else
+    # Expose RPC
+#    sed -i 's,laddr = "tcp://127.0.0.1:26657",laddr = "tcp://0.0.0.0:26657",g' $CONFIG_TOML
+#fi
+
 # Collect genesis tx to genesis.json
-$BINARY collect-gentxs --home $EVMOS_HOME
+#$BINARY collect-gentxs --home $EVMOS_HOME
 
 # Validate genesis.json
 $BINARY validate-genesis --home $EVMOS_HOME
 [ $? -eq 0 ] || { echo "Failed to validate genesis"; exit 1; }
 
 echo "Done"
+echo '##### NOTICE #####'
+echo "1. Update /etc/hosts to resolve $IP_EVMOS_1_INT domain to IP of this machine or 127.0.0.1 (this validator was configurated to be seed node)"
