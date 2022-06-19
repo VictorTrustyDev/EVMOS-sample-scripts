@@ -24,7 +24,7 @@ export BINARY="$GOPATH/bin/$EVMOS_BINARY"
 
 # Check & Install evmosd binary if not exists
 ./_make_binary.sh
-[ $? -eq 0 ] || { echo "Failed to check & build $EVMOS_BINARY binary at $BINARY" }
+[ $? -eq 0 ] || { echo "Failed to check & build $EVMOS_BINARY binary at $BINARY"; }
 
 # Check genesis & config
 GENSIS_JSON_BAK="bak_genesis.json"
@@ -43,7 +43,5 @@ if [ ! -f $CONFIG_TOML_BAK ]; then
 	echo "It can be found at ~/.evmosd-?/config/$CONFIG_TOML_BAK"
 	exit 1
 fi
-
-
 
 echo 'Done'
