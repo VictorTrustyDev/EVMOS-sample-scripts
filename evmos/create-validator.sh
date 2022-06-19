@@ -53,7 +53,7 @@ $BINARY config keyring-backend $KEYRING --home $EVMOS_HOME
 $BINARY config chain-id $CHAIN_ID --home $EVMOS_HOME
 
 # Init a pseudo chain
-$BINARY init $EVMOS_MONIKER'-'$VAL_KEY_NAME --chain-id $CHAIN_ID --home $EVMOS_HOME
+$BINARY init $EVMOS_MONIKER'-'$VAL_KEY_NAME --chain-id $CHAIN_ID --home $EVMOS_HOME > /dev/null 2>&1
 
 GENESIS_JSON="$EVMOS_HOME/config/genesis.json"
 CONFIG_TOML="$EVMOS_HOME/config/config.toml"
