@@ -5,6 +5,8 @@ command -v jq > /dev/null 2>&1 || { echo >&2 "jq not installed. More info: https
 command -v yq > /dev/null 2>&1 || { echo >&2 "yq not installed. More info: https://github.com/kislyuk/yq/. Hint: sudo apt install python3-pip -y && pip3 install yq"; exit 1; }
 command -v tomlq > /dev/null 2>&1 || { echo >&2 "tomlq not installed, it is expected to be delivered within yq package"; exit 1; }
 command -v bc > /dev/null 2>&1 || { echo >&2 "bc command could not be found"; exit 1; }
+command -v make > /dev/null 2>&1 || { echo >&2 "make command could not be found"; exit 1; }
+command -v go > /dev/null 2>&1 || { echo >&2 "go was not installed"; exit 1; }
 
 # Configurations
 
