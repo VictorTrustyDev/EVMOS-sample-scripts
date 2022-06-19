@@ -1,1 +1,7 @@
-## Here you can find sample scripts and notes of how to setup an EVMOS network and create IBC relayer (using Hermes) to transfer tokens & coin between networks
+### Here you can find sample scripts and notes of how to setup an EVMOS network and create IBC relayer (using Hermes) to transfer tokens & coin between networks
+
+[Evmos v5.0.0](https://github.com/evmos/evmos/tree/v5.0.0)
+
+[Hermes v0.15.0](https://github.com/informalsystems/ibc-rs/tree/v0.15.0)
+
+You can change version EVMOS and Hermes by updating file [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)
