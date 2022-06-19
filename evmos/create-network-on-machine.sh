@@ -11,7 +11,7 @@ else
 		echo "Downloading EVMOS source code $EVMOS_VER"
 		git clone https://github.com/evmos/evmos.git --branch $EVMOS_VER --single-branch $EVMOS_SOURCE_DIR
 
-		if [ $? -ne 0 ] then
+		if [ $? -ne 0 ]; then
             echo "Git clone EVMOS $EVMOS_VER failed"
             exit 1
         fi
@@ -20,7 +20,7 @@ else
 	cd "./$EVMOS_SOURCE_DIR"
 	echo "Compiling $EVMOS_BINARY"
     make install
-    if [ $? -ne 0 ] then
+    if [ $? -ne 0 ]; then
         echo "Failed to compile EVMOS"
         exit 1
     fi
