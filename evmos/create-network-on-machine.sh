@@ -1,7 +1,5 @@
 #!/bin/bash
 
-KEYALGO="eth_secp256k1"
-
 source ../env.sh
 
 CHAIN_NO=$1
