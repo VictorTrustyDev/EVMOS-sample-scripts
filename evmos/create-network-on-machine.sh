@@ -74,10 +74,10 @@ $BINARY init $EVMOS_MONIKER'-'$KEY1 --chain-id $CHAIN_ID --home $EVMOS_HOME
 
 # Import validator keys
 echo "*** Decrypt password: $VAL_KEYS_FILE_DECRYPT_PASSWORD"
-$BINARY keys import "$VAL_1_KEY_NAME" ../keys/validator1.key --keyring-backend $KEYRING
+$BINARY keys import "$VAL_1_KEY_NAME" ../keys/validator1.key --keyring-backend $KEYRING --home $EVMOS_HOME
 echo "*** Decrypt password: $VAL_KEYS_FILE_DECRYPT_PASSWORD"
-$BINARY keys import "$VAL_2_KEY_NAME" ../keys/validator2.key --keyring-backend $KEYRING
+$BINARY keys import "$VAL_2_KEY_NAME" ../keys/validator2.key --keyring-backend $KEYRING --home $EVMOS_HOME
 echo "*** Decrypt password: $VAL_KEYS_FILE_DECRYPT_PASSWORD"
-$BINARY keys import "$VAL_3_KEY_NAME" ../keys/validator3.key --keyring-backend $KEYRING
+$BINARY keys import "$VAL_3_KEY_NAME" ../keys/validator3.key --keyring-backend $KEYRING --home $EVMOS_HOME
 
 echo "Done"
