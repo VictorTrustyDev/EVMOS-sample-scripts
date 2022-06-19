@@ -90,4 +90,18 @@ echo 'Verifing keys'
 [ "$VAL_2_ADDR" == $($BINARY keys show $VAL_2_KEY_NAME --keyring-backend $KEYRING --home $EVMOS_HOME --address) ] || { echo "Expect validator name $VAL_2_KEY_NAME has address $VAL_2_ADDR"; exit 1; }
 [ "$VAL_3_ADDR" == $($BINARY keys show $VAL_3_KEY_NAME --keyring-backend $KEYRING --home $EVMOS_HOME --address) ] || { echo "Expect validator name $VAL_3_KEY_NAME has address $VAL_3_ADDR"; exit 1; }
 
+APP_TOML="$EVMOS_HOME/config/app.toml"
+APP_TOML_TMP="$EVMOS_HOME/config/tmp_app.toml"
+echo "Updating file $APP_TOML"
+# Enable API
+cat $APP_TOML | tomlq '.api["enable"]=true' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+# Enable swagger for API
+cat $APP_TOML | tomlq '.api["swagger"]=true' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+
+GENESIS_JSON="$EVMOS_HOME/config/genesis.json"
+GENESIS_JSON_TMP="$EVMOS_HOME/config/tmp_genesis.json"
+echo "Updating file $GENESIS_JSON"
+# Change denom metadata
+cat $GENESIS_JSON | jq '.app_state["bank"]["denom_metadata"] += [{"description": "The native EVM, governance and staking token of the '$EVMOS_CHAINNAME' Hub", "denom_units": [{"denom": "'$MIN_DENOM_SYMBOL'", "exponent": 0}, {"denom": "'$DENOM_SYMBOL'", "exponent": 18, "aliases": []}],"base": "'$MIN_DENOM_SYMBOL'", "display": "'$DENOM_SYMBOL'", "name": "'$DENOM_SYMBOL'", "symbol": "'$DENOM_SYMBOL'"}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+
 echo "Done"
