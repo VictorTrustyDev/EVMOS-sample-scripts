@@ -27,6 +27,7 @@ export EVMOS_SOURCE_DIR="EVMOS-source-code"
 ## Validators
 export VAL_RAW_BALANCE=50000000 # Init with 50m EVMOS in balance for each validator
 export VAL_RAW_STAKE=5000000 # Each validator will stake 5m EVMOS
+export VAL_KEYS_FILE_DECRYPT_PASSWORD="11111111"
 ### Validator 1
 export VAL_1_KEY_NAME="val1"
 export VAL_1_SEED="spoil senior door access upset floor decorate shield high punch senior tape pigeon base slogan height clever buffalo cat report poem weapon labor satoshi"
