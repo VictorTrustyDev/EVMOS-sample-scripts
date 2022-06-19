@@ -6,7 +6,7 @@ command -v yq > /dev/null 2>&1 || { echo >&2 "yq not installed. More info: https
 command -v tomlq > /dev/null 2>&1 || { echo >&2 "tomlq not installed, it is expected to be delivered within yq package"; exit 1; }
 command -v bc > /dev/null 2>&1 || { echo >&2 "bc command could not be found"; exit 1; }
 command -v make > /dev/null 2>&1 || { echo >&2 "make command could not be found"; exit 1; }
-command -v go > /dev/null 2>&1 || { echo >&2 "go was not installed"; exit 1; }
+command -v go > /dev/null 2>&1 || { echo >&2 "go was not installed. More info: https://go.dev/doc/install"; exit 1; }
 
 # Configurations
 
