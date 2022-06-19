@@ -18,7 +18,7 @@ else
 	fi
 
 	cd "./$EVMOS_SOURCE_DIR"
-	echo "Compiling $EVMOS_BINARY"
+	echo "Compiling $EVMOS_BINARY. If this is the first time you compile, it will take time, you can enjoy a cup of coffee and comeback later"
     make install
     if [ $? -ne 0 ]; then
         echo "Failed to compile EVMOS"
