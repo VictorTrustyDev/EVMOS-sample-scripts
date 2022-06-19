@@ -7,10 +7,6 @@ command -v tomlq > /dev/null 2>&1 || { echo >&2 "tomlq not installed, it is expe
 command -v bc > /dev/null 2>&1 || { echo >&2 "bc command could not be found"; exit 1; }
 command -v make > /dev/null 2>&1 || { echo >&2 "make command could not be found"; exit 1; }
 command -v go > /dev/null 2>&1 || { echo >&2 "go was not installed. More info: https://go.dev/doc/install"; exit 1; }
-if [ -z "$GOPATH" ]; then
-    echo "Missing GOPATH environment variable, should be '$HOME/go'"
-    exit 1
-fi
 
 # Configurations
 
@@ -74,7 +70,6 @@ export REL_2_ADDR="evmos157g0zpv77su6awh04wec5s2jdyrk62jy40ck58"
 ## Reflects by above config (edit at your own risk)
 export EVMOS_CHAINNAME=$(echo $DENOM_SYMBOL | tr '[:lower:]' '[:upper:]')
 export EVMOS_MONIKER=$DENOM_SYMBOL'AIO'
-export EVMOS_SERVICE_NAME=$EVMOS_BINARY'-svc'
 export HERMES_SERVICE_NAME=$HERMES_BINARY'-svc'
 ### Validators
 #### Balance
@@ -86,4 +81,15 @@ export VAL_1_STAKE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_RAW_STAKE")
 export VAL_2_STAKE=$VAL_1_STAKE
 export VAL_3_STAKE=$VAL_1_STAKE
 
+# Others
 echo $NOTICE_DEV_ENV
+if [ -z "$GOPATH" ]; then
+    echo "Missing GOPATH environment variable, should be '$HOME/go'"
+    exit 1
+fi
+command -v systemctl > /dev/null 2>&1
+if [ $? -eq 0 ]
+    export DISABLE_SYSTEM=0
+else
+    export DISABLE_SYSTEM=1
+fi

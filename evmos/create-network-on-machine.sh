@@ -1,5 +1,7 @@
 #!/bin/bash
 
+KEYALGO="eth_secp256k1"
+
 source ../env.sh
 
 CHAIN_NO=$1
@@ -53,10 +55,16 @@ if [ ! -f "$BINARY" ]; then
 fi
 
 # Update environment variable for future use
-EVMOS_HOME="$HOME/.$EVMOS_BINARY-v-$CHAIN_ID"
+export EVMOS_HOME="$HOME/.$EVMOS_BINARY-v-$CHAIN_ID"
+export EVMOS_SERVICE_NAME=$EVMOS_BINARY'-svc-'$CHAIN_NO
+
+# Stop previous service
+[ $DISABLE_SYSTEM -eq 0 ] && { echo "Stopping $EVMOS_SERVICE_NAME service"; sudo systemctl stop $EVMOS_SERVICE_NAME; }
 
 # Cleanup
 echo 'Clean up previous setup'
 rm -rf "$EVMOS_HOME/config"
+
+# Init chain
 
 echo "Done"
