@@ -126,9 +126,6 @@ cat $GENESIS_JSON | jq '.app_state["claims"]["params"]["duration_until_decay"]="
 ### 0xA61808Fe40fEb8B3433778BBC2ecECCAA47c8c47 || evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz
 amount_to_claim=$(bc <<< "$VAL_1_CLAIM + $VAL_2_CLAIM + $VAL_3_CLAIM")
 cat $GENESIS_JSON | jq '.app_state["bank"]["balances"] += [{"address":"'$EVMOS_CLAIM_MODULE_ACCOUNT'","coins":[{"denom":"'$MIN_DENOM_SYMBOL'", "amount":"'$amount_to_claim'"}]}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
-## Update total supply + claim values
-total_supply=$(bc <<< "$VAL_1_BALANCE + $VAL_2_BALANCE + $VAL_3_BALANCE + $VAL_1_CLAIM + $VAL_2_CLAIM + $VAL_3_CLAIM")
-cat $GENESIS_JSON | jq '.app_state["bank"]["supply"][0]["amount"]='$total_supply > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 
 
 # Update config.toml
@@ -137,7 +134,7 @@ CONFIG_TOML_TMP="$EVMOS_HOME/config/tmp_config.toml"
 CONFIG_TOML_BAK="$EVMOS_HOME/config/bak_config.toml"
 echo "Updating file $CONFIG_TOML"
 ## Update seed nodes
-TENDERMINT_NODE_ID=$($BINARY tendermint show-node-id)
+TENDERMINT_NODE_ID=$($BINARY tendermint show-node-id --home $EVMOS_HOME)
 cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@localhost:26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 ## Disable create empty block
 cat $CONFIG_TOML | tomlq '.["create_empty_blocks"]=false' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
@@ -151,6 +148,10 @@ cat $CONFIG_TOML | tomlq '.rpc["laddr"]="tcp://0.0.0.0:26657"' --toml-output > $
 $BINARY add-genesis-account $VAL_1_KEY_NAME "$VAL_1_BALANCE$MIN_DENOM_SYMBOL" --keyring-backend $KEYRING --home $EVMOS_HOME
 $BINARY add-genesis-account $VAL_2_KEY_NAME "$VAL_2_BALANCE$MIN_DENOM_SYMBOL" --keyring-backend $KEYRING --home $EVMOS_HOME
 $BINARY add-genesis-account $VAL_3_KEY_NAME "$VAL_3_BALANCE$MIN_DENOM_SYMBOL" --keyring-backend $KEYRING --home $EVMOS_HOME
+
+# Update total supply + claim values in genesis.json
+total_supply=$(bc <<< "$VAL_1_BALANCE + $VAL_2_BALANCE + $VAL_3_BALANCE + $VAL_1_CLAIM + $VAL_2_CLAIM + $VAL_3_CLAIM")
+cat $GENESIS_JSON | jq '.app_state["bank"]["supply"][0]["amount"]='$total_supply > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 
 # Sign genesis transaction
 $BINARY gentx $VAL_1_KEY_NAME "$VAL_1_STAKE$MIN_DENOM_SYMBOL" --keyring-backend $KEYRING --chain-id $CHAIN_ID --home $EVMOS_HOME
