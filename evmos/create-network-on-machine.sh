@@ -133,9 +133,9 @@ CONFIG_TOML_BAK="$EVMOS_HOME/config/bak_config.toml"
 echo "Updating file $CONFIG_TOML"
 ## Update seed nodes
 TENDERMINT_NODE_ID=$($BINARY tendermint show-node-id)
-cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@localhost:26656"' --toml-output > $CONFIG_TOML && mv $CONFIG_TOML_TMP $CONFIG_TOML
+cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@localhost:26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 # Disable create empty block
-cat $CONFIG_TOML | tomlq '.["create_empty_blocks"]="false"' --toml-output > $CONFIG_TOML && mv $CONFIG_TOML_TMP $CONFIG_TOML
+cat $CONFIG_TOML | tomlq '.["create_empty_blocks"]="false"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 
 #if [[ "$OSTYPE" == "darwin"* ]]; then
     #sed -i '' 's/seeds = ""/seeds = "'$TENDERMINT_NODE_ID'@'$IP1':26656"/g' $HOME_DIR/config/config.toml
