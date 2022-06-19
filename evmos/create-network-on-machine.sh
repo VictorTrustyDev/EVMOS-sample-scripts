@@ -45,7 +45,7 @@ else
 fi
 
 BINARY="$GOPATH/bin/$EVMOS_BINARY"
-if [ ! -f "$EVMOS_BIN_GO" ]; then
+if [ ! -f "$BINARY" ]; then
     echo "EVMOS source code was compiled but binary $EVMOS_BINARY could not be found"
     echo "You must find it and put it into PATH environment variable"
     echo "(It usually compile and moved to $GOPATH/bin)"
