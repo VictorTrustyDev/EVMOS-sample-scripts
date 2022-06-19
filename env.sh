@@ -88,7 +88,7 @@ if [ -z "$GOPATH" ]; then
     exit 1
 fi
 command -v systemctl > /dev/null 2>&1
-if [ $? -eq 0 ]
+if [ $? -eq 0 ]; then
     export DISABLE_SYSTEMCTL=0
 else
     export DISABLE_SYSTEMCTL=1
