@@ -19,39 +19,15 @@ else
     exit 1
 fi
 
+# Binary
 BINARY="$GOPATH/bin/$EVMOS_BINARY"
+
 # Check & Install evmosd binary if not exists
-if [ -f "$BINARY" ]; then
-	echo "Nice! EVMOS binary $EVMOS_BINARY is already exists"
-else
-	if [ -d "./$EVMOS_SOURCE_DIR" ]; then
-		echo "EVMOS repo was downloaded"
-	else
-		echo "Downloading EVMOS source code $EVMOS_VER"
-		git clone https://github.com/evmos/evmos.git --branch $EVMOS_VER --single-branch $EVMOS_SOURCE_DIR
-
-		if [ $? -ne 0 ]; then
-            echo "Git clone EVMOS $EVMOS_VER failed"
-            exit 1
-        fi
-	fi
-
-	cd "./$EVMOS_SOURCE_DIR"
-	echo "Compiling $EVMOS_BINARY. If this is the first time you compile, it will take time, you can enjoy a cup of coffee and comeback later"
-    make install
-    [ $? -eq 0 ] || { echo "Failed to compile EVMOS"; exit 1; }
-    cd ../
-fi
-
-if [ ! -f "$BINARY" ]; then
-    echo "EVMOS source code was compiled but binary $EVMOS_BINARY could not be found"
-    echo "You must find it and put it into PATH environment variable"
-    echo "(It usually compile and moved to $GOPATH/bin)"
-    exit 1
-fi
+./_make_binary.sh
+[ $? -eq 0 ] || { echo "Failed to check & build $EVMOS_BINARY binary at $BINARY" }
 
 # Update environment variable for future use
-export EVMOS_HOME="$HOME/.$EVMOS_BINARY-v-$CHAIN_ID"
+export EVMOS_HOME="$HOME/.$EVMOS_BINARY-v-$CHAIN_ID-node1"
 export EVMOS_SERVICE_NAME=$EVMOS_BINARY'-svc-'$CHAIN_NO
 
 # Stop service if exists
@@ -161,6 +137,11 @@ $BINARY collect-gentxs --home $EVMOS_HOME
 # Validate genesis.json
 $BINARY validate-genesis --home $EVMOS_HOME
 [ $? -eq 0 ] || { echo "Failed to validate genesis"; exit 1; }
+
+# Backup genesis.json
+GENESIS_JSON_BAK="$EVMOS_HOME/config/bak_genesis.json"
+echo "Backup $GENESIS_JSON into $GENESIS_JSON_BAK for future use"
+cp $GENESIS_JSON $GENESIS_JSON_BAK
 
 echo "Done"
 
