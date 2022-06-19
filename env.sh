@@ -7,10 +7,15 @@ command -v tomlq > /dev/null 2>&1 || { echo >&2 "tomlq not installed, it is expe
 command -v bc > /dev/null 2>&1 || { echo >&2 "bc command could not be found"; exit 1; }
 command -v make > /dev/null 2>&1 || { echo >&2 "make command could not be found"; exit 1; }
 command -v go > /dev/null 2>&1 || { echo >&2 "go was not installed. More info: https://go.dev/doc/install"; exit 1; }
+if [ -z "$GOPATH" ]; then
+    echo "Missing GOPATH environment variable, should be '$HOME/go'"
+    exit 1
+fi
 
 # Configurations
 
 export KEYRING="test" # change to file for cloud or production env (DANGER: keyring test will allow transfer token from validator without key)
+export NOTICE_DEV_ENV="This sample scripts was developed on an Ubuntu 22.04 LTS machine"
 
 ## IP addresses
 export IP_EVMOS_1_INT="evmos1i.victortrusty.dev"
@@ -80,3 +85,5 @@ export VAL_3_BALANCE=$VAL_1_BALANCE
 export VAL_1_STAKE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_RAW_STAKE")
 export VAL_2_STAKE=$VAL_1_STAKE
 export VAL_3_STAKE=$VAL_1_STAKE
+
+echo $NOTICE_DEV_ENV
