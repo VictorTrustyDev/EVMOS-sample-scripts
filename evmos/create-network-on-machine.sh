@@ -190,7 +190,7 @@ RestartSec=2
 WantedBy=multi-user.target"
         echo
         echo "sudo systemctl enable $EVMOS_SERVICE_NAME"
-        echo "sudo systemctl restart $EVMOS_SERVICE_NAME"
+        echo "sudo systemctl start $EVMOS_SERVICE_NAME"
     fi
 fi
 
@@ -205,7 +205,7 @@ then
     cat $CONFIG_TOML_BAK | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@'$IP_EVMOS_1_INT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML_BAK
     [ $? -eq 0 ] || echo "Failed to replace, please replace it manually in file $CONFIG_TOML_BAK"
     echo "Now you need to do:"
-    echo "1. Update /etc/hosts to resolve $IP_EVMOS_1_INT domain to IP of this machine (this validator was configurated to be seed node)"
+    echo "1. Update /etc/hosts to resolve "$IP_EVMOS_1_INT" domain to IP of this machine (this validator was configurated to be seed node)"
     echo "2. Copy the following files to the new machine"
     echo " - $GENESIS_JSON"
     echo " - $CONFIG_TOML"
