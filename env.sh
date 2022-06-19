@@ -28,6 +28,7 @@ export EVMOS_SOURCE_DIR="EVMOS-source-code"
 ## Validators
 export VAL_RAW_BALANCE=50000000 # Init with 50m EVMOS in balance for each validator
 export VAL_RAW_STAKE=5000000 # Each validator will stake 5m EVMOS
+export VAL_RAW_CLAIM=1000 # Each validator can claimn this amount
 export VAL_KEYS_FILE_DECRYPT_PASSWORD="11111111"
 ### Validator 1
 export VAL_1_KEY_NAME="val1"
@@ -82,6 +83,10 @@ export VAL_3_BALANCE=$VAL_1_BALANCE
 export VAL_1_STAKE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_RAW_STAKE")
 export VAL_2_STAKE=$VAL_1_STAKE
 export VAL_3_STAKE=$VAL_1_STAKE
+#### Claim
+export VAL_1_CLAIM=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_RAW_CLAIM")
+export VAL_2_CLAIM=$VAL_1_CLAIM
+export VAL_3_CLAIM=$VAL_1_CLAIM
 
 # Others
 echo $NOTICE_DEV_ENV
