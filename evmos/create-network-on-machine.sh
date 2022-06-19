@@ -24,7 +24,7 @@ export BINARY="$GOPATH/bin/$EVMOS_BINARY"
 
 # Check & Install evmosd binary if not exists
 ./_make_binary.sh
-[ $? -eq 0 ] || { echo "Failed to check & build $EVMOS_BINARY binary at $BINARY" }
+[ $? -eq 0 ] || { echo "Failed to check & build $EVMOS_BINARY binary at $BINARY"; }
 
 # Update environment variable for future use
 export EVMOS_HOME="$HOME/.$EVMOS_BINARY-v-$CHAIN_ID-node1"
