@@ -47,6 +47,15 @@ fi
 CHAIN_ID=$(cat $GENSIS_JSON_BAK | jq .chain_id | head -n 1 | tr -d '"')
 echo "Chain ID: $CHAIN_ID"
 
+if [ "$CHAIN_ID" = "$CHAIN_1_ID" ]; then
+	export CHAIN_NO=1
+elif [ "$CHAIN_ID" = "$CHAIN_2_ID" ]; then
+	export CHAIN_NO=2
+else
+	echo "Unable to recognize chain $CHAIN_ID, it matches neither CHAIN_1_ID='$CHAIN_1_ID' nor CHAIN_2_ID='$CHAIN_2_ID' (check ../env.sh)"
+	exit 1
+fi
+
 export EVMOS_HOME="$HOME/.$EVMOS_BINARY-v-$CHAIN_ID-node$VALIDATOR_NO"
 
 $BINARY config keyring-backend $KEYRING --home $EVMOS_HOME
