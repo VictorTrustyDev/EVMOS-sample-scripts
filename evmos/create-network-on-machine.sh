@@ -4,6 +4,7 @@ source ../env.sh
 
 CHAIN_NO=$1
 
+# Validate input
 if [ "$CHAIN_NO" = "1" ]; then
     echo "Going to setup an EVMOS chain with id $CHAIN_1_ID"
     export CHAIN_ID="$CHAIN_1_ID"
@@ -17,8 +18,6 @@ else
     echo " or: $0 2"
     exit 1
 fi
-
-EVMOS_HOME="$HOME/.$EVMOS_BINARY-$CHAIN_ID"
 
 # Check & Install evmosd binary if not exists
 if [ -f "$EVMOS_BINARY" ]; then
@@ -44,7 +43,7 @@ else
         exit 1
     fi
 
-    if [ ! command -v $EVMOS_BINARY &> /dev/null ]; then
+    if [ ! command -v $EVMOS_BINARY ]; then
         EVMOS_BIN_GO="$GOPATH/bin/$EVMOS_BINARY"
         if [ -f "$EVMOS_BIN_GO" ]; then
             echo "$EVMOS_BINARY was compiled and moved to '$EVMOS_BIN_GO' but could not be accessed directly"
@@ -59,5 +58,12 @@ else
         fi
     fi
 fi
+
+# Update environment variable for future use
+EVMOS_HOME="$HOME/.$EVMOS_BINARY-v-$CHAIN_ID"
+
+# Cleanup
+echo 'Clean up previous setup'
+rm -rf "$EVMOS_HOME/config"
 
 echo "Done"
