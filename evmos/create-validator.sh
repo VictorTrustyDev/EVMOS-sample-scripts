@@ -47,4 +47,36 @@ fi
 CHAIN_ID=$(cat $GENSIS_JSON_BAK | jq .chain_id | head -n 1 | tr -d '"')
 echo "Chain ID: $CHAIN_ID"
 
+export EVMOS_HOME="$HOME/.$EVMOS_BINARY-v-$CHAIN_ID-node$VALIDATOR_NO"
+
+$BINARY config keyring-backend $KEYRING --home $EVMOS_HOME
+$BINARY config chain-id $CHAIN_ID --home $EVMOS_HOME
+
+# Init a pseudo chain
+$BINARY init $EVMOS_MONIKER'-'$VAL_KEY_NAME --chain-id $CHAIN_ID --home $EVMOS_HOME
+
+GENESIS_JSON="$EVMOS_HOME/config/genesis.json"
+CONFIG_TOML="$EVMOS_HOME/config/config.toml"
+
+# Restore genesis & config
+echo "Restore genesis.json"
+cp $GENSIS_JSON_BAK $GENESIS_JSON
+echo "Restore config.toml"
+cp $CONFIG_TOML_BAK $CONFIG_TOML
+
+# Import validator keys
+#echo "*** Decrypt password: $VAL_KEYS_FILE_DECRYPT_PASSWORD"
+#$BINARY keys import "$VAL_1_KEY_NAME" ../keys/validator1.key --keyring-backend $KEYRING --home $EVMOS_HOME
+#echo "*** Decrypt password: $VAL_KEYS_FILE_DECRYPT_PASSWORD"
+#$BINARY keys import "$VAL_2_KEY_NAME" ../keys/validator2.key --keyring-backend $KEYRING --home $EVMOS_HOME
+#echo "*** Decrypt password: $VAL_KEYS_FILE_DECRYPT_PASSWORD"
+#$BINARY keys import "$VAL_3_KEY_NAME" ../keys/validator3.key --keyring-backend $KEYRING --home $EVMOS_HOME
+echo "Copying validator keys from ../keys/keyring to $EVMOS_HOME/keyring-$KEYRING"
+cp -r ../keys/keyring/ "$EVMOS_HOME/keyring-$KEYRING"
+## Verify
+echo 'Verifing key for this node'
+[ "$VAL_ADDR" == $($BINARY keys show $VAL_KEY_NAME --keyring-backend $KEYRING --home $EVMOS_HOME --address) ] || { echo "Expect validator name $VAL_KEY_NAME has address $VAL_ADDR"; exit 1; }
+
+
+
 echo 'Done'

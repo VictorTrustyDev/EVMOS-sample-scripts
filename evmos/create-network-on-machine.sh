@@ -39,7 +39,7 @@ rm -rf "$EVMOS_HOME/config"
 rm -rf "$EVMOS_HOME/keyring*"
 
 # Init chain
-echo "Network home: $EVMOS_HOME"
+echo "Node home: $EVMOS_HOME"
 echo "Set keyring-backend to $KEYRING"
 $BINARY config keyring-backend $KEYRING --home $EVMOS_HOME
 $BINARY config chain-id $CHAIN_ID --home $EVMOS_HOME
@@ -53,7 +53,6 @@ $BINARY init $EVMOS_MONIKER'-'$VAL_1_KEY_NAME --chain-id $CHAIN_ID --home $EVMOS
 #echo "*** Decrypt password: $VAL_KEYS_FILE_DECRYPT_PASSWORD"
 #$BINARY keys import "$VAL_3_KEY_NAME" ../keys/validator3.key --keyring-backend $KEYRING --home $EVMOS_HOME
 echo "Copying validator keys from ../keys/keyring to $EVMOS_HOME/keyring-$KEYRING"
-pwd
 cp -r ../keys/keyring/ "$EVMOS_HOME/keyring-$KEYRING"
 ## Verify
 echo 'Verifing keys'
