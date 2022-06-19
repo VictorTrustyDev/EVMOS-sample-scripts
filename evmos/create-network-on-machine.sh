@@ -191,4 +191,6 @@ then
     echo "3. Update /etc/hosts of those machine to resolve the IP address of $IP_EVMOS_1_INT follow IP of this machine"
     echo "4. Run ./create-validator.sh (before that, remember to run the validator node on this machine first)"
     echo "Good luck with EVMOS"
+    cp $CONFIG_TOML_BAK 'bak_genesis.json'
+    cp $GENESIS_JSON_BAK 'bak_config.toml'
 fi
