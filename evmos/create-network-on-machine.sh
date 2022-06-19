@@ -145,16 +145,16 @@ cp $CONFIG_TOML $CONFIG_TOML_BAK
 cat $CONFIG_TOML | tomlq '.rpc["laddr"]="tcp://0.0.0.0:26657"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 
 # Allocate genesis accounts
-$BINARY add-genesis-account $VAL_1_KEY_NAME "$VAL_1_BALANCE$MIN_DENOM_SYMBOL" --keyring-backend $KEYRING --home $EVMOS_HOME
-$BINARY add-genesis-account $VAL_2_KEY_NAME "$VAL_2_BALANCE$MIN_DENOM_SYMBOL" --keyring-backend $KEYRING --home $EVMOS_HOME
-$BINARY add-genesis-account $VAL_3_KEY_NAME "$VAL_3_BALANCE$MIN_DENOM_SYMBOL" --keyring-backend $KEYRING --home $EVMOS_HOME
+$BINARY add-genesis-account $VAL_1_KEY_NAME "$VAL_1_BALANCE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --home $EVMOS_HOME
+$BINARY add-genesis-account $VAL_2_KEY_NAME "$VAL_2_BALANCE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --home $EVMOS_HOME
+$BINARY add-genesis-account $VAL_3_KEY_NAME "$VAL_3_BALANCE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --home $EVMOS_HOME
 
 # Update total supply + claim values in genesis.json
 total_supply=$(bc <<< "$VAL_1_BALANCE + $VAL_2_BALANCE + $VAL_3_BALANCE + $VAL_1_CLAIM + $VAL_2_CLAIM + $VAL_3_CLAIM")
 cat $GENESIS_JSON | jq '.app_state["bank"]["supply"][0]["amount"]='$total_supply > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 
 # Sign genesis transaction
-$BINARY gentx $VAL_1_KEY_NAME "$VAL_1_STAKE$MIN_DENOM_SYMBOL" --keyring-backend $KEYRING --chain-id $CHAIN_ID --home $EVMOS_HOME
+$BINARY gentx $VAL_1_KEY_NAME "$VAL_1_STAKE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --chain-id $CHAIN_ID --home $EVMOS_HOME
 
 # Collect genesis tx to genesis.json
 $BINARY collect-gentxs --home $EVMOS_HOME
