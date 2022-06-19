@@ -57,7 +57,7 @@ export EVMOS_HOME="$HOME/.$EVMOS_BINARY-v-$CHAIN_ID"
 export EVMOS_SERVICE_NAME=$EVMOS_BINARY'-svc-'$CHAIN_NO
 
 # Stop service if exists
-[ $DISABLE_SYSTEMCTL -eq 0 ] && { echo "Stopping $EVMOS_SERVICE_NAME service"; sudo systemctl stop $EVMOS_SERVICE_NAME; }
+[ $DISABLE_SYSTEMCTL -eq 0 ] && { echo "Stopping $EVMOS_SERVICE_NAME service"; sudo systemctl stop $EVMOS_SERVICE_NAME; sudo systemctl disable $EVMOS_SERVICE_NAME; }
 
 # Cleanup
 echo 'Clean up previous setup'
@@ -90,8 +90,9 @@ echo 'Verifing keys'
 # Update app.toml
 APP_TOML="$EVMOS_HOME/config/app.toml"
 APP_TOML_TMP="$EVMOS_HOME/config/tmp_app.toml"
-echo "Backup $APP_TOML into $APP_TOML_TMP for future use"
-cp $APP_TOML $APP_TOML_TMP
+APP_TOML_BAK="$EVMOS_HOME/config/bak_app.toml"
+echo "Backup $APP_TOML into $APP_TOML_BAK for future use"
+cp $APP_TOML $APP_TOML_BAK
 echo "Updating file $APP_TOML"
 ## Enable API
 cat $APP_TOML | tomlq '.api["enable"]=true' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
@@ -164,5 +165,50 @@ $BINARY validate-genesis --home $EVMOS_HOME
 [ $? -eq 0 ] || { echo "Failed to validate genesis"; exit 1; }
 
 echo "Done"
+
+# Re-Start service
+if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
+    SERVICE_FILE="/etc/systemd/system/$EVMOS_SERVICE_NAME.service"
+    if [ -f "$SERVICE_FILE" ]; then
+        echo "You are ready to restart $EVMOS_SERVICE_NAME service (sudo systemctl restart $EVMOS_SERVICE_NAME)"
+    else
+        read -p "Do you want to create $EVMOS_SERVICE_NAME at $SERVICE_FILE ? (Y/n)" -n 1 -r
+        echo #
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            sudo echo "[Unit] $EVMOS_SERVICE_NAME chain $CHAIN_ID
+Description=($EVMOS_BINARY)
+ConditionPathExists=$BINARY
+After=network.target
+[Service]
+Type=simple
+User=$USER
+WorkingDirectory=$HOME
+ExecStart=$BINARY start --chain-id $CHAIN_ID --home $EVMOS_HOME
+Restart=always
+RestartSec=2
+[Install]
+WantedBy=multi-user.target" > $SERVICE_FILE
+            sudo systemctl enable $EVMOS_SERVICE_NAME
+            echo "You are ready to start $EVMOS_SERVICE_NAME service (sudo systemctl restart $EVMOS_SERVICE_NAME)"
+        fi
+    fi
+fi
+
 echo '##### NOTICE #####'
-echo "1. Update /etc/hosts to resolve $IP_EVMOS_1_INT domain to IP of this machine or 127.0.0.1 (this validator was configurated to be seed node)"
+read -p "Do you want to run more validator?" -n 1 -r
+echo #
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    echo 'Replacing seed IP in config.toml from localhost to '$IP_EVMOS_1_INT'... Done!'
+    cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@'$IP_EVMOS_1_INT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+    cat $CONFIG_TOML_BAK | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@'$IP_EVMOS_1_INT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML_BAK
+    echo "Now you need to do:"
+    echo "1. Update /etc/hosts to resolve $IP_EVMOS_1_INT domain to IP of this machine (this validator was configurated to be seed node)"
+    echo "2. Copy the following files to the new machine"
+    echo " - $GENESIS_JSON"
+    echo " - $CONFIG_TOML"
+    echo "3. Update /etc/hosts of those machine to resolve the IP address of $IP_EVMOS_1_INT follow IP of this machine"
+    echo "4. Run ./create-validator.sh (before that, remember to run the validator node on this machine first)"
+    echo "Good luck with EVMOS"
+fi
