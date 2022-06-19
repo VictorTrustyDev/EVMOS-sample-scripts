@@ -52,6 +52,11 @@ export EVMOS_HOME="$HOME/.$EVMOS_BINARY-v-$CHAIN_ID-node$VALIDATOR_NO"
 $BINARY config keyring-backend $KEYRING --home $EVMOS_HOME
 $BINARY config chain-id $CHAIN_ID --home $EVMOS_HOME
 
+# Cleanup
+echo 'Clean up previous setup'
+rm -rf "$EVMOS_HOME/config"
+rm -rf "$EVMOS_HOME/keyring*"
+
 # Init a pseudo chain
 $BINARY init $EVMOS_MONIKER'-'$VAL_KEY_NAME --chain-id $CHAIN_ID --home $EVMOS_HOME > /dev/null 2>&1
 
