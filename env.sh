@@ -89,7 +89,7 @@ if [ -z "$GOPATH" ]; then
 fi
 command -v systemctl > /dev/null 2>&1
 if [ $? -eq 0 ]
-    export DISABLE_SYSTEM=0
+    export DISABLE_SYSTEMCTL=0
 else
-    export DISABLE_SYSTEM=1
+    export DISABLE_SYSTEMCTL=1
 fi
