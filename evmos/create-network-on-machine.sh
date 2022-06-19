@@ -44,6 +44,7 @@ else
         echo "Failed to compile EVMOS"
         exit 1
     fi
+    cd ../
 fi
 
 BINARY="$GOPATH/bin/$EVMOS_BINARY"
