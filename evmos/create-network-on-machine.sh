@@ -187,7 +187,7 @@ ExecStart=$BINARY start --chain-id $CHAIN_ID --home $EVMOS_HOME
 Restart=always
 RestartSec=2
 [Install]
-WantedBy=multi-user.target" > $SERVICE_FILE
+WantedBy=multi-user.target"
         echo
         echo "sudo systemctl enable $EVMOS_SERVICE_NAME"
         echo "sudo systemctl restart $EVMOS_SERVICE_NAME"
