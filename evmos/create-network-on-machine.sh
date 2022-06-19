@@ -20,7 +20,7 @@ else
 fi
 
 # Binary
-BINARY="$GOPATH/bin/$EVMOS_BINARY"
+export BINARY="$GOPATH/bin/$EVMOS_BINARY"
 
 # Check & Install evmosd binary if not exists
 ./_make_binary.sh
