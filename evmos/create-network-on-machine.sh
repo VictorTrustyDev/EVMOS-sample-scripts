@@ -58,7 +58,7 @@ fi
 export EVMOS_HOME="$HOME/.$EVMOS_BINARY-v-$CHAIN_ID"
 export EVMOS_SERVICE_NAME=$EVMOS_BINARY'-svc-'$CHAIN_NO
 
-# Stop previous service
+# Stop service if exists
 [ $DISABLE_SYSTEMCTL -eq 0 ] && { echo "Stopping $EVMOS_SERVICE_NAME service"; sudo systemctl stop $EVMOS_SERVICE_NAME; }
 
 # Cleanup
@@ -66,5 +66,10 @@ echo 'Clean up previous setup'
 rm -rf "$EVMOS_HOME/config"
 
 # Init chain
+echo "Network home: $EVMOS_HOME"
+echo "Set keyring-backend to $KEYRING"
+$BINARY config keyring-backend $KEYRING --home $EVMOS_HOME
+$BINARY config chain-id $CHAIN_ID --home $EVMOS_HOME
+$BINARY init $EVMOS_MONIKER'-'$KEY1 --chain-id $CHAIN_ID --home $EVMOS_HOME
 
 echo "Done"
