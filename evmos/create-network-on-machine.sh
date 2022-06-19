@@ -42,21 +42,14 @@ else
         echo "Failed to compile EVMOS"
         exit 1
     fi
+fi
 
-    if [ ! command -v $EVMOS_BINARY ]; then
-        EVMOS_BIN_GO="$GOPATH/bin/$EVMOS_BINARY"
-        if [ -f "$EVMOS_BIN_GO" ]; then
-            echo "$EVMOS_BINARY was compiled and moved to '$EVMOS_BIN_GO' but could not be accessed directly"
-            echo "You must appends the GOPATH bin to the PATH environment variable:"
-            echo "export \$PATH=\$PATH:\$GOPATH/bin"
-            exit 1
-        else
-            echo "$EVMOS_BINARY was compiled but could not be found"
-            echo "You must find it and put it into PATH environment variable"
-            echo "(It usually compile and moved to 'go/bin' folder under home directory like: $HOME/go/bin/$EVMOS_BINARY)"
-            exit 1
-        fi
-    fi
+BINARY="$GOPATH/bin/$EVMOS_BINARY"
+if [ ! -f "$EVMOS_BIN_GO" ]; then
+    echo "EVMOS source code was compiled but binary $EVMOS_BINARY could not be found"
+    echo "You must find it and put it into PATH environment variable"
+    echo "(It usually compile and moved to $GOPATH/bin)"
+    exit 1
 fi
 
 # Update environment variable for future use
