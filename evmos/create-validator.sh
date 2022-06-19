@@ -44,4 +44,7 @@ if [ ! -f $CONFIG_TOML_BAK ]; then
 	exit 1
 fi
 
+CHAIN_ID=$(cat $GENSIS_JSON_BAK | jq .chain_id | head -n 1 | tr -d '"')
+echo "Chain ID: $CHAIN_ID"
+
 echo 'Done'
