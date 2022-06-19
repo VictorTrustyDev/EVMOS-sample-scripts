@@ -85,6 +85,9 @@ echo "Copying validator keys from ../keys/keyring to $EVMOS_HOME/keyring-$KEYRIN
 pwd
 cp -r ../keys/keyring/ "$EVMOS_HOME/keyring-$KEYRING"
 
-$BINARY keys list --keyring-backend $KEYRING --home $EVMOS_HOME
+echo 'Verifing keys'
+[ "$VAL_1_ADDR" == $($BINARY keys show $VAL_1_KEY_NAME --keyring-backend $KEYRING --home $EVMOS_HOME --address) ] || { echo "Expect validator name $VAL_1_KEY_NAME has address $VAL_1_ADDR"; exit 1; }
+[ "$VAL_2_ADDR" == $($BINARY keys show $VAL_2_KEY_NAME --keyring-backend $KEYRING --home $EVMOS_HOME --address) ] || { echo "Expect validator name $VAL_2_KEY_NAME has address $VAL_2_ADDR"; exit 1; }
+[ "$VAL_3_ADDR" == $($BINARY keys show $VAL_3_KEY_NAME --keyring-backend $KEYRING --home $EVMOS_HOME --address) ] || { echo "Expect validator name $VAL_3_KEY_NAME has address $VAL_3_ADDR"; exit 1; }
 
 echo "Done"
