@@ -59,7 +59,7 @@ export EVMOS_HOME="$HOME/.$EVMOS_BINARY-v-$CHAIN_ID"
 export EVMOS_SERVICE_NAME=$EVMOS_BINARY'-svc-'$CHAIN_NO
 
 # Stop previous service
-[ "$DISABLE_SYSTEMCTL" -eq "0" ] && { echo "Stopping $EVMOS_SERVICE_NAME service"; sudo systemctl stop $EVMOS_SERVICE_NAME; }
+[ "$DISABLE_SYSTEMCTL" = "0" ] && { echo "Stopping $EVMOS_SERVICE_NAME service"; sudo systemctl stop $EVMOS_SERVICE_NAME; }
 
 # Cleanup
 echo 'Clean up previous setup'
