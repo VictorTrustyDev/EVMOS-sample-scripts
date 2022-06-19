@@ -69,7 +69,7 @@ echo "Network home: $EVMOS_HOME"
 echo "Set keyring-backend to $KEYRING"
 $BINARY config keyring-backend $KEYRING --home $EVMOS_HOME
 $BINARY config chain-id $CHAIN_ID --home $EVMOS_HOME
-$BINARY init $EVMOS_MONIKER'-'$KEY1 --chain-id $CHAIN_ID --home $EVMOS_HOME
+$BINARY init $EVMOS_MONIKER'-'$VAL_1_KEY_NAME --chain-id $CHAIN_ID --home $EVMOS_HOME
 
 # Import validator keys
 #echo "*** Decrypt password: $VAL_KEYS_FILE_DECRYPT_PASSWORD"
@@ -98,6 +98,7 @@ cat $APP_TOML | tomlq '.api["enable"]=true' --toml-output > $APP_TOML_TMP && mv 
 ## Enable swagger for API
 cat $APP_TOML | tomlq '.api["swagger"]=true' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 
+
 # Update genesis.json
 GENESIS_JSON="$EVMOS_HOME/config/genesis.json"
 GENESIS_JSON_TMP="$EVMOS_HOME/config/tmp_genesis.json"
@@ -125,6 +126,10 @@ cat $GENESIS_JSON | jq '.app_state["claims"]["params"]["duration_until_decay"]="
 ### 0xA61808Fe40fEb8B3433778BBC2ecECCAA47c8c47 || evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz
 amount_to_claim=$(bc <<< "$VAL_1_CLAIM + $VAL_2_CLAIM + $VAL_3_CLAIM")
 cat $GENESIS_JSON | jq '.app_state["bank"]["balances"] += [{"address":"'$EVMOS_CLAIM_MODULE_ACCOUNT'","coins":[{"denom":"'$MIN_DENOM_SYMBOL'", "amount":"'$amount_to_claim'"}]}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+## Update total supply + claim values
+total_supply=$(bc <<< "$VAL_1_BALANCE + $VAL_2_BALANCE + $VAL_3_BALANCE + $VAL_1_CLAIM + $VAL_2_CLAIM + $VAL_3_CLAIM")
+cat $GENESIS_JSON | jq '.app_state["bank"]["supply"][0]["amount"]='$total_supply > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+
 
 # Update config.toml
 CONFIG_TOML="$EVMOS_HOME/config/config.toml"
@@ -134,30 +139,24 @@ echo "Updating file $CONFIG_TOML"
 ## Update seed nodes
 TENDERMINT_NODE_ID=$($BINARY tendermint show-node-id)
 cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@localhost:26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
-# Disable create empty block
-cat $CONFIG_TOML | tomlq '.["create_empty_blocks"]="false"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
-
-#if [[ "$OSTYPE" == "darwin"* ]]; then
-    #sed -i '' 's/seeds = ""/seeds = "'$TENDERMINT_NODE_ID'@'$IP1':26656"/g' $HOME_DIR/config/config.toml
-#    sed -i '' 's/create_empty_blocks = true/create_empty_blocks = false/g' $CONFIG_TOML
-#  else
-    #sed -i 's/seeds = ""/seeds = "'$TENDERMINT_NODE_ID'@'$IP1':26656"/g' $HOME_DIR/config/config.toml
-    ### Disable produce empty block
-#    sed -i 's/create_empty_blocks = true/create_empty_blocks = false/g' $CONFIG_TOML
-#fi
+## Disable create empty block
+cat $CONFIG_TOML | tomlq '.["create_empty_blocks"]=false' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 ## Backup
 echo "Backup $CONFIG_TOML into $CONFIG_TOML_BAK for future use"
 cp $CONFIG_TOML $CONFIG_TOML_BAK
-## 
-#if [[ "$OSTYPE" == "darwin"* ]]; then
-#    sed -i '' 's,laddr = "tcp://127.0.0.1:26657",laddr = "tcp://0.0.0.0:26657",g' $CONFIG_TOML
-#else
-    # Expose RPC
-#    sed -i 's,laddr = "tcp://127.0.0.1:26657",laddr = "tcp://0.0.0.0:26657",g' $CONFIG_TOML
-#fi
+## Expose RPC
+cat $CONFIG_TOML | tomlq '.rpc["laddr"]="tcp://0.0.0.0:26657"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+
+# Allocate genesis accounts
+$BINARY add-genesis-account $VAL_1_KEY_NAME "$VAL_1_BALANCE$MIN_DENOM_SYMBOL" --keyring-backend $KEYRING --home $EVMOS_HOME
+$BINARY add-genesis-account $VAL_2_KEY_NAME "$VAL_2_BALANCE$MIN_DENOM_SYMBOL" --keyring-backend $KEYRING --home $EVMOS_HOME
+$BINARY add-genesis-account $VAL_3_KEY_NAME "$VAL_3_BALANCE$MIN_DENOM_SYMBOL" --keyring-backend $KEYRING --home $EVMOS_HOME
+
+# Sign genesis transaction
+$BINARY gentx $VAL_1_KEY_NAME "$VAL_1_STAKE$MIN_DENOM_SYMBOL" --keyring-backend $KEYRING --chain-id $CHAIN_ID --home $EVMOS_HOME
 
 # Collect genesis tx to genesis.json
-#$BINARY collect-gentxs --home $EVMOS_HOME
+$BINARY collect-gentxs --home $EVMOS_HOME
 
 # Validate genesis.json
 $BINARY validate-genesis --home $EVMOS_HOME
