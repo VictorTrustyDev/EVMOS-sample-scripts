@@ -3,24 +3,12 @@
 #### Step 1: create an EVMOS network
 > $ ./create-network-on-machine.sh 1
 
-The network will have following stats:
-- Home dir:
-    + Network 1: ~/.evmosd-v-evmos_9006-1-node*
-    + Network 2: ~/.evmosd-v-evmos_9007-1-node*
-- Node 0 (1st/genesis validator) will public the following ports to 0.0.0.0 network interface:
-    + 1317 for REST API
-    + 26657 for Tendermint RPC
-    + 8545 for Json RPC
-    + 9090 for gRPC
-    + 26656 for peer discovery
-- Node 1 (2nd validator) will NOT public any port, all endpoint will be adjusted to opens on localhost and almost port will be closed by default. Only open the following ports
-    + Tendermint RPC
-    + Peer discovery
-    + pprof_laddr
-- Same as node 1, the node 2 (3rd validator) will NOT public any port, all endpoint will be adjusted to opens on localhost and almost port will be closed by default. Only open the following ports
-    + Tendermint RPC
-    + Peer discovery
-    + pprof_laddr
+[You can view stats of network 1 here](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos/network1.md)
+
+or 
+> $ ./create-network-on-machine.sh 2
+
+Will create network 2 with stats [as defined here](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos/network2.md)
 
 **NOTICE**
 You have to add file following domain `evmos1.victortrusty.dev` to hosts file and resolve it to IP address of this machine (can not be 127.0.0.1) because it is being used for this node becomes seed node (check config.toml [p2p > seed])
@@ -33,5 +21,7 @@ You have to add file following domain `evmos1.victortrusty.dev` to hosts file an
 
 or
 > $ ./create-validator.sh 3
+
+The opened ports depends on which network you created [1](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos/network1.md) or [2](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos/network2.md)
 
 Want more validator? Just create more, no problem
