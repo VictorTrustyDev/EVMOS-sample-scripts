@@ -108,6 +108,9 @@ echo "- Adjust [p2p > laddr] from port 26656 to localhost:$DEFAULT_26656"
 cat $CONFIG_TOML | tomlq '.p2p["laddr"]="tcp://127.0.0.1:'$DEFAULT_26656'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 echo "- Adjust [rpc > laddr] from port 26657 to localhost:$DEFAULT_26657"
 cat $CONFIG_TOML | tomlq '.rpc["laddr"]="tcp://127.0.0.1:'$DEFAULT_26657'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+SEED_ID=$(cat $CONFIG_TOML | tomlq '.p2p["seeds_id"]' | head -n 1)
+echo "- Configure to connect to seed node 0 with id $SEED_ID"
+
 ##
 echo 'Update app.toml'
 APP_TOML_TMP="tmp_app.toml"
