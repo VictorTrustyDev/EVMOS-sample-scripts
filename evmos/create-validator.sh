@@ -165,6 +165,7 @@ $BINARY tx staking create-validator \
 	--commission-max-change-rate="$VAL_COMMISSION_CHANGE_RATE_MAX" \
 	--min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
 	--from=$VAL_KEY_NAME \
+	--home=$EVMOS_HOME \
 	--node="tcp://$IP_EVMOS_1_EXT:26657"
 
 echo 'Done'
