@@ -156,16 +156,16 @@ echo " + $VAL_KEY_NAME: OK"
 
 # Register node
 $BINARY tx staking create-validator \
+	--home="$EVMOS_HOME" \
 	--amount="$VAL_STAKE"$MIN_DENOM_SYMBOL \
 	--pubkey=$($BINARY tendermint show-validator --home $EVMOS_HOME) \
-	--moniker=$MONIKER \
-	--chain-id=$CHAIN_ID \
+	--moniker="$MONIKER" \
+	--chain-id="$CHAIN_ID" \
 	--commission-rate="$VAL_COMMISSION_RATE" \
 	--commission-max-rate="$VAL_COMMISSION_RATE_MAX" \
 	--commission-max-change-rate="$VAL_COMMISSION_CHANGE_RATE_MAX" \
 	--min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
-	--from=$VAL_KEY_NAME \
-	--home=$EVMOS_HOME \
+	--from="$VAL_KEY_NAME" \
 	--node="tcp://$IP_EVMOS_1_EXT:26657"
 
 echo 'Done'
