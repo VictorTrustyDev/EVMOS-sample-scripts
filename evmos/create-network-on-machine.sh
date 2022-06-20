@@ -104,9 +104,9 @@ echo "- Set claim start time in [app_state > claims > params > airdrop_start_tim
 cat $GENESIS_JSON | jq -r --arg current_date "$current_date" '.app_state["claims"]["params"]["airdrop_start_time"]=$current_date' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 ## Set claims records for validator account
 echo "- Set claim records for 3 validators in [app_state > claims > claims_records]"
-echo " + Validator $VAL_1_ADDR (node 0) can claim "$(bc <<< "$VAL_1_CLAIM / (10^$EVMOS_DENOM_EXPONENT)")
-echo " + Validator $VAL_2_ADDR (node 1) can claim "$(bc <<< "$VAL_2_CLAIM / (10^$EVMOS_DENOM_EXPONENT)")
-echo " + Validator $VAL_3_ADDR (node 2) can claim "$(bc <<< "$VAL_3_CLAIM / (10^$EVMOS_DENOM_EXPONENT)")
+echo " + Validator $VAL_1_ADDR (node 0) can claim "$(bc <<< "$VAL_1_CLAIM / (10^$EVMOS_DENOM_EXPONENT)")$DENOM_SYMBOL
+echo " + Validator $VAL_2_ADDR (node 1) can claim "$(bc <<< "$VAL_2_CLAIM / (10^$EVMOS_DENOM_EXPONENT)")$DENOM_SYMBOL
+echo " + Validator $VAL_3_ADDR (node 2) can claim "$(bc <<< "$VAL_3_CLAIM / (10^$EVMOS_DENOM_EXPONENT)")$DENOM_SYMBOL
 cat $GENESIS_JSON | jq '.app_state["claims"]["claims_records"]=[{"initial_claimable_amount":"'$VAL_1_CLAIM'", "actions_completed":[false, false, false, false],"address":"'$VAL_1_ADDR'"},{"initial_claimable_amount":"'$VAL_2_CLAIM'", "actions_completed":[false, false, false, false],"address":"'$VAL_2_ADDR'"},{"initial_claimable_amount":"'$VAL_3_CLAIM'", "actions_completed":[false, false, false, false],"address":"'$VAL_3_ADDR'"}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 ## Set claims decay
 cat $GENESIS_JSON | jq '.app_state["claims"]["params"]["duration_of_decay"]="2592000s"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
