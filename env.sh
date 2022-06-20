@@ -115,3 +115,10 @@ if [ $? -eq 0 ]; then
 else
     export SUPPORTS_TIMEOUT=0
 fi
+if [ -f "./extra_func.lic" ]; then
+    export EXTRA_FUNC=1
+elif [ -f "../extra_func.lic" ]; then
+    export EXTRA_FUNC=1
+else
+    export EXTRA_FUNC=0
+fi

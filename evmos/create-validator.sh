@@ -183,7 +183,12 @@ $BINARY tx staking create-validator --home "$EVMOS_HOME" --keyring-backend $KEYR
 echo '- Wait...'
 sleep 10s
 echo '- Check'
-$BINARY q staking validators
+MONIKER_EXISTS=$($BINARY q staking validators | grep $MONIKER)
+if [ -z "$MONIKER_EXISTS" ]; then
+	echo " + WARN ! Moniker $MONIKER could not be found in validators list"
+else
+	echo " + OK"
+fi
 
 echo 'Done'
 
