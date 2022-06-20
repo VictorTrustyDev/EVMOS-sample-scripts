@@ -138,7 +138,7 @@ echo "Updating config.toml"
 TENDERMINT_NODE_ID=$($BINARY tendermint show-node-id --home $EVMOS_HOME)
 echo '- Remove default seeds at [p2p > seeds]'
 #cat $CONFIG_TOML | tomlq '.p2p["seeds"]=""' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
-cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@$'$IP_EVMOS_1_INT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@'$IP_EVMOS_1_INT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 echo '- Save tendermint node id to be used as seeds for other nodes'
 cat $CONFIG_TOML | tomlq '.p2p["seeds_id"]="'$TENDERMINT_NODE_ID'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 ## Disable create empty block
