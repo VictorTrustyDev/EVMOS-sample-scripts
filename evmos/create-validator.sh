@@ -168,7 +168,7 @@ fi
 echo '- Wait node up'
 sleep 5s
 echo '- Wait block sync'
-sleep 10s
+sleep 5s
 echo '- Sign & Send message'
 echo "$EVMOS_BINARY tx staking create-validator \
 	--home "$EVMOS_HOME" \
@@ -233,6 +233,11 @@ WantedBy=multi-user.target"
     fi
 fi
 
+echo
+echo "ATTENTION: This script launched a node with \"--home $EVMOS_HOME\", make sure to stop/kill it to get rid of mysterious issue"
+echo " command to check: \"ps -aux | grep $EVMOS_BINARY | grep node$NODE_IDX\")"
+
+echo
 echo 'Active ports:'
 echo "- localhost:$DEFAULT_26657 (Tendermint RPC)"
 echo "- localhost:$DEFAULT_26656 (Tendermint Peer)"
@@ -251,4 +256,3 @@ echo 'If you want to expose those ports, use nginx as reverse proxy'
 echo
 echo 'Basic command to start this node:'
 echo "$EVMOS_BINARY start --home ~/$EVMOS_HOME_DIR"
-echo "(This script launched a node with \"--home $EVMOS_HOME\", make sure to stop/kill it to get rid of mysterious issue, command to check: \"ps -aux | grep $EVMOS_BINARY | grep node$NODE_IDX\")"
