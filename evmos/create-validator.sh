@@ -197,6 +197,11 @@ $BINARY tx staking create-validator \
 	--from "$VAL_KEY_NAME" \
 	--yes
 
+echo '- Wait...'
+sleep 10s
+echo '- Check'
+$BINARY q staking validators --home $EVMOS_HOME
+
 echo 'Done'
 
 # Re-Start service

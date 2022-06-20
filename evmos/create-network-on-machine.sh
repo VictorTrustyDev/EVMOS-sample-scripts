@@ -36,8 +36,8 @@ export EVMOS_SERVICE_NAME=$EVMOS_SERVICE_NAME_PAT'0'
 [ $DISABLE_SYSTEMCTL -eq 0 ] && { 
     echo "Stopping $EVMOS_SERVICE_NAME service";
     sudo systemctl stop $EVMOS_SERVICE_NAME;
-    sudo systemctl stop $EVMOS_SERVICE_NAME_PAT'1'; # Shutdown other validators
-    sudo systemctl stop $EVMOS_SERVICE_NAME_PAT'2'; # Shutdown other validators
+    sudo systemctl stop $EVMOS_SERVICE_NAME_PAT'1' > /dev/null 2>&1; # Shutdown other validators
+    sudo systemctl stop $EVMOS_SERVICE_NAME_PAT'2' > /dev/null 2>&1; # Shutdown other validators
     sudo systemctl disable $EVMOS_SERVICE_NAME;
 }
 
