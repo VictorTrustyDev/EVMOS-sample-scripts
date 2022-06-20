@@ -193,7 +193,7 @@ $BINARY tx staking create-validator --home "$EVMOS_HOME" --keyring-backend $KEYR
 	--commission-max-change-rate="$VAL_COMMISSION_CHANGE_RATE_MAX" \
 	--min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
 	--from="$VAL_KEY_NAME" \
-	--gas-prices="300000$MIN_DENOM_SYMBOL" \
+	--gas="300000" \
 	--yes
 
 echo '- Wait...'
