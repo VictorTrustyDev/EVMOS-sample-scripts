@@ -42,17 +42,17 @@ export VAL_GAS_LIMIT_CREATE_VALIDATOR=300000
 export VAL_1_KEY_NAME="val1"
 export VAL_1_SEED="spoil senior door access upset floor decorate shield high punch senior tape pigeon base slogan height clever buffalo cat report poem weapon labor satoshi"
 export VAL_1_ADDR="evmos1wuqvcpuunf7r5rg7xutqddhw55grfzc75qejyq"
-export VAL_1_RAW_STAKE=10000000 # Validator 1 will stake 10m EVMOS
+export VAL_1_RAW_STAKE=7000 # Validator 1 will stake 7k EVMOS
 ### Validator 2
 export VAL_2_KEY_NAME="val2"
 export VAL_2_SEED="width produce brush hour horse retreat play flag fresh broken measure culture scare broken erupt pilot buzz embody depend topic behind rigid fan battle"
 export VAL_2_ADDR="evmos1zxgt4pwzzsv02z24g80lc5rhtsp0prw0c5tk3d"
-export VAL_2_RAW_STAKE=5000000 # Validator 2 will stake 5m EVMOS
+export VAL_2_RAW_STAKE=3000 # Validator 2 will stake 3k EVMOS
 ### Validator 3
 export VAL_3_KEY_NAME="val3"
 export VAL_3_SEED="stage grid emotion thumb safe myth chair dizzy beyond casual select polar hover retire master neglect shift zero trigger section token replace truly father"
 export VAL_3_ADDR="evmos1vcy9v4jp0sd4hysqqcuwleytxre3ms4ckzmdnz"
-export VAL_3_RAW_STAKE=5000000 # Validator 3 will stake 5m EVMOS
+export VAL_3_RAW_STAKE=3000 # Validator 3 will stake 3k EVMOS
 
 ## Custom chain (design for future script update)
 export DENOM_SYMBOL="evmos"
