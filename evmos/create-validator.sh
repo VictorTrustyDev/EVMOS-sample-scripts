@@ -155,7 +155,7 @@ if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
         echo "sudo vi $SERVICE_FILE"
         echo
         echo "[Unit]
-Description=$EVMOS_CHAINNAME chain $CHAIN_ID
+Description=$EVMOS_CHAINNAME chain $CHAIN_ID node $NODE_IDX
 ConditionPathExists=$BINARY
 After=network.target
 [Service]
@@ -183,7 +183,7 @@ echo "- localhost:$DEFAULT_9091 (Web gRPC)"
 echo "- localhost:$DEFAULT_8545 (Json RPC)"
 echo "- localhost:$DEFAULT_8546 (Websocket Json RPC)"
 echo "- localhost:$DEFAULT_26658 (Proxy app)"
-echo 'If you want to expose those port, use nginx as reverse proxy'
+echo 'If you want to expose those ports, use nginx as reverse proxy'
 
 echo
 echo 'Basic command to start this node:'
