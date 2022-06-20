@@ -11,7 +11,7 @@ or
 Will create network 2 with stats [as defined here](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos/network2.md)
 
 **NOTICE**
-You have to add file following domain `evmos1.victortrusty.dev` to hosts file and resolve it to IP address of this machine (can not be 127.0.0.1) because it is being used for this node becomes seed node (check config.toml [p2p > seed])
+You have to add file following domain `evmos1.victortrusty.dev` to hosts file and resolve it to IP address of this machine (can not be 127.0.0.1) because it is being used for this node becomes seed node (check `config.toml` [p2p > seed])
 
 #### Step 2: create validator
 1. Copy the `bak_genesis.json` and `bak_config.toml` which was generated and backed up in the first node to current directory
