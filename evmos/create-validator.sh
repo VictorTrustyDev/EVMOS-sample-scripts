@@ -69,7 +69,8 @@ rm -rf "$EVMOS_HOME/config"
 rm -rf "$EVMOS_HOME/keyring*"
 
 # Init a pseudo chain
-$BINARY init $EVMOS_MONIKER'-'$VAL_KEY_NAME --chain-id $CHAIN_ID --home $EVMOS_HOME > /dev/null 2>&1
+$BINARY init $EVMOS_MONIKER'-'$VAL_KEY_NAME --chain-id $CHAIN_ID --home $EVMOS_HOME 1> /dev/null
+[ $? -eq 0 ] || { echo "Failed to init pseudo chain"; exit 1; }
 
 GENESIS_JSON="$EVMOS_HOME/config/genesis.json"
 CONFIG_TOML="$EVMOS_HOME/config/config.toml"
