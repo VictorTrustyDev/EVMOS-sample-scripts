@@ -96,6 +96,7 @@ echo 'Going to update service ports'
 PORT_OFFSET=$(bc <<< "$NODE_IDX * 10 + $CHAIN_NO * 100")
 echo '- Adjust with offset'
 DEFAULT_1317=$(bc <<< "1317 + $PORT_OFFSET")
+DEFAULT_6060=$(bc <<< "6060 + $PORT_OFFSET")
 DEFAULT_8545=$(bc <<< "8545 + $PORT_OFFSET")
 DEFAULT_8546=$(bc <<< "8546 + $PORT_OFFSET")
 DEFAULT_9090=$(bc <<< "9090 + $PORT_OFFSET")
@@ -108,10 +109,12 @@ echo 'Update config.toml'
 CONFIG_TOML_TMP="tmp_config.toml"
 echo "- Adjust [root > proxy_app] from port 26658 to localhost:$DEFAULT_26658 (turned off by default)"
 cat $CONFIG_TOML | tomlq '.["proxy_app"]="tcp://127.0.0.1:'$DEFAULT_26658'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
-echo "- Adjust [p2p > laddr] from port 26656 to localhost:$DEFAULT_26656"
-cat $CONFIG_TOML | tomlq '.p2p["laddr"]="tcp://127.0.0.1:'$DEFAULT_26656'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 echo "- Adjust [rpc > laddr] from port 26657 to localhost:$DEFAULT_26657"
 cat $CONFIG_TOML | tomlq '.rpc["laddr"]="tcp://127.0.0.1:'$DEFAULT_26657'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+echo "- Adjust [rpc > pprof_laddr] from port 6060 to localhost:$DEFAULT_6060"
+cat $CONFIG_TOML | tomlq '.rpc["pprof_laddr"]="tcp://127.0.0.1:'$DEFAULT_6060'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+echo "- Adjust [p2p > laddr] from port 26656 to localhost:$DEFAULT_26656"
+cat $CONFIG_TOML | tomlq '.p2p["laddr"]="tcp://127.0.0.1:'$DEFAULT_26656'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 SEED_ID=$(cat $CONFIG_TOML | tomlq '.p2p["seeds_id"]' | head -n 1 | tr -d '"')
 if [ -z "$SEED_ID" ]; then
 	echo "- [p2p > seeds_id] could not be found (this is a custom property injected by ./create-network-on-machine.sh script) so can not configure seeds properly"
@@ -203,6 +206,7 @@ fi
 echo 'Active ports:'
 echo "- localhost:$DEFAULT_26657 (Tendermint RPC)"
 echo "- localhost:$DEFAULT_26656 (Tendermint Peer)"
+echo "- localhost:$DEFAULT_6060 (pprof_laddr, original :6060)"
 echo 'Closed ports'
 echo "- localhost:$DEFAULT_1317 (REST API)"
 echo "- localhost:$DEFAULT_9090 (gRPC)"
