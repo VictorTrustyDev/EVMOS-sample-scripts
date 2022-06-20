@@ -63,6 +63,14 @@ fi
 EVMOS_HOME_DIR=".$EVMOS_BINARY-v-$CHAIN_ID-node$NODE_IDX"
 export EVMOS_HOME="$HOME/$EVMOS_HOME_DIR"
 export EVMOS_SERVICE_NAME=$EVMOS_BINARY'-c'$CHAIN_NO'-n'$NODE_IDX
+MONIKER=$EVMOS_MONIKER'-'$VAL_KEY_NAME
+
+# Check if validator is already exists
+MONIKER_EXISTS=$($BINARY q staking validators | grep $MONIKER)
+if [ ! -z "$MONIKER_EXISTS" ]; then
+	echo "Moniker $MONIKER is already exists, can not create duplicate"
+	exit 1
+fi
 
 # Stop service if exists
 [ $DISABLE_SYSTEMCTL -eq 0 ] && { echo "Stopping $EVMOS_SERVICE_NAME service"; sudo systemctl stop $EVMOS_SERVICE_NAME; sudo systemctl disable $EVMOS_SERVICE_NAME; }
@@ -77,7 +85,6 @@ rm -rf "$EVMOS_HOME/data"
 rm -rf "$EVMOS_HOME/keyring*"
 
 # Init a pseudo chain
-MONIKER=$EVMOS_MONIKER'-'$VAL_KEY_NAME
 $BINARY init $MONIKER --chain-id $CHAIN_ID --home $EVMOS_HOME > /dev/null 2>&1
 [ $? -eq 0 ] || { echo "Failed to init pseudo chain"; exit 1; }
 
