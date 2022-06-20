@@ -147,7 +147,7 @@ $BINARY add-genesis-account $VAL_3_KEY_NAME "$VAL_3_BALANCE"$MIN_DENOM_SYMBOL --
 
 # Update total supply + claim values in genesis.json
 total_supply=$(bc <<< "$VAL_1_BALANCE + $VAL_2_BALANCE + $VAL_3_BALANCE + $VAL_1_CLAIM + $VAL_2_CLAIM + $VAL_3_CLAIM")
-echo 'Update original total supply = '$total_supply' '$MIN_DENOM_SYMBOL' '$(bc <<< "$total_supply / (10^$EVMOS_DENOM_EXPONENT)")' '$DENOM_SYMBOL') into [app_state > bank > supply[0] > amount]'
+echo 'Update original total supply = '$(bc <<< "$total_supply / (10^$EVMOS_DENOM_EXPONENT)")' '$DENOM_SYMBOL' into [app_state > bank > supply[0] > amount]'
 cat $GENESIS_JSON | jq '.app_state["bank"]["supply"][0]["amount"]="'$total_supply'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 
 # Sign genesis transaction
