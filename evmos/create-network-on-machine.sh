@@ -144,8 +144,7 @@ CONFIG_TOML_BAK="$EVMOS_HOME/config/bak_config.toml"
 echo "Updating config.toml"
 ## Update seed nodes
 TENDERMINT_NODE_ID=$($BINARY tendermint show-node-id --home $EVMOS_HOME)
-echo '- Remove default seeds at [p2p > seeds]'
-#cat $CONFIG_TOML | tomlq '.p2p["seeds"]=""' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+echo '- Add seeds [p2p > seeds]'
 cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@'$IP_EVMOS_1_EXT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 echo '- Remove default persistent peers at [p2p > persistent_peers]'
 cat $CONFIG_TOML | tomlq '.p2p["persistent_peers"]=""' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
@@ -228,6 +227,9 @@ WantedBy=multi-user.target"
 fi
 
 echo '##### NOTICE #####'
+echo "You have to add file following domain \"$IP_EVMOS_1_EXT\" to hosts file and resolve it to IP address of this machine (can not be 127.0.0.1) because it is being used for this node becomes seed node (check config.toml [p2p > seed])"
+
+echo
 read -p "Do you want to run more validator? (Y/n)" -n 1 -r
 echo #
 if [[ $REPLY =~ ^[Yy]$ ]]

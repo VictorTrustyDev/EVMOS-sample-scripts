@@ -1,14 +1,29 @@
-### This sample will create a simple EVMOS network with 3 validators pre-defined
+### This sample will create a simple EVMOS network with 1 validator pre-defined, script supports add 2 more validators
 
 #### Step 1: create an EVMOS network
 > $ ./create-network-on-machine.sh 1
 
 The network will have following stats:
-TODO
+- Home dir:
+ + Network 1: ~/.evmosd-v-evmos_9006-1-node*
+ + Network 2: ~/.evmosd-v-evmos_9007-1-node*
+- Node 0 (1st/genesis validator) will public the following ports to 0.0.0.0 network interface:
+ + 1317 for REST API
+ + 26657 for Tendermint RPC
+ + 8545 for Json RPC
+ + 9090 for gRPC
+ + 26656 for peer discovery
+- Node 1 (2nd validator) will NOT public any port, all endpoint will be adjusted to opens on localhost and almost port will be closed by default. Only open the following ports
+ + Tendermint RPC
+ + Peer discovery
+ + pprof_laddr
+- Same as node 1, the node 2 (3rd validator) will NOT public any port, all endpoint will be adjusted to opens on localhost and almost port will be closed by default. Only open the following ports
+ + Tendermint RPC
+ + Peer discovery
+ + pprof_laddr
 
-In the end of this script, you will be asked if you want to create more validator
-- No: the seeds info in `config.toml` will only contains one seed node with format `<TENDERMINT_ID>@localhost:26656`
-- Yes: the seeds info in `config.toml` will contains one seed node with format `<TENDERMINT_ID>@evmos1i.victortrusty.dev:26656`, you will need to update your /etc/hosts to resolve this domain `evmos1i.victortrusty.dev` into your machine's IP address (or 127.0.0.1)
+**NOTICE**
+You have to add file following domain `evmos1.victortrusty.dev` to hosts file and resolve it to IP address of this machine (can not be 127.0.0.1) because it is being used for this node becomes seed node (check config.toml [p2p > seed])
 
 #### Step 2: create validator
 1. Copy the `bak_genesis.json` and `bak_config.toml` which was generated and backed up in the first node to current directory
