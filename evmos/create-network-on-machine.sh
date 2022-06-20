@@ -181,7 +181,7 @@ if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
         echo "sudo vi $SERVICE_FILE"
         echo
         echo "[Unit]
-Description=$EVMOS_SERVICE_NAME chain $CHAIN_ID
+Description=$EVMOS_CHAINNAME chain $CHAIN_ID
 ConditionPathExists=$BINARY
 After=network.target
 [Service]
