@@ -44,7 +44,7 @@ echo "Node home: $EVMOS_HOME"
 echo "Set keyring-backend to $KEYRING"
 $BINARY config keyring-backend $KEYRING --home $EVMOS_HOME
 $BINARY config chain-id $CHAIN_ID --home $EVMOS_HOME
-$BINARY init $EVMOS_MONIKER'-'$VAL_1_KEY_NAME --chain-id $CHAIN_ID --home $EVMOS_HOME > /dev/null
+$BINARY init $EVMOS_MONIKER'-'$VAL_1_KEY_NAME --chain-id $CHAIN_ID --home $EVMOS_HOME > /dev/null 2>&1
 [ $? -eq 0 ] || { echo "Failed to init chain"; exit 1; }
 
 # Import validator keys
@@ -153,12 +153,12 @@ cat $GENESIS_JSON | jq '.app_state["bank"]["supply"][0]["amount"]="'$total_suppl
 
 # Sign genesis transaction
 echo 'Generate genesis staking transaction '$(bc <<< "$VAL_1_STAKE / (10^$EVMOS_DENOM_EXPONENT)")' '$DENOM_SYMBOL' for validator '$VAL_1_KEY_NAME
-$BINARY gentx $VAL_1_KEY_NAME "$VAL_1_STAKE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --chain-id $CHAIN_ID --home $EVMOS_HOME 1> /dev/null
+$BINARY gentx $VAL_1_KEY_NAME "$VAL_1_STAKE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --chain-id $CHAIN_ID --home $EVMOS_HOME > /dev/null 2>&1
 [ $? -eq 0 ] || { echo "Failed to create genesis tx"; exit 1; }
 
 # Collect genesis tx to genesis.json
 echo "Collecting genesis tx into genesis.json"
-$BINARY collect-gentxs --home $EVMOS_HOME 1> /dev/null
+$BINARY collect-gentxs --home $EVMOS_HOME > /dev/null 2>&1
 [ $? -eq 0 ] || { echo "Failed to collect genesis tx"; exit 1; }
 
 # Validate genesis.json
