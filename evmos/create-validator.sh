@@ -178,7 +178,7 @@ echo "$EVMOS_BINARY tx staking create-validator \
 	--moniker="$MONIKER" \
 	--chain-id="$CHAIN_ID" \
 	--commission-rate="$VAL_COMMISSION_RATE" \
-	--commission-max-rate="$VAL_COMMISSION_RATE_MAX" \
+	--commission-max-rate"$VAL_COMMISSION_RATE_MAX" \
 	--commission-max-change-rate="$VAL_COMMISSION_CHANGE_RATE_MAX" \
 	--min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
 	--from="$VAL_KEY_NAME" \
@@ -193,6 +193,7 @@ $BINARY tx staking create-validator --home "$EVMOS_HOME" --keyring-backend $KEYR
 	--commission-max-change-rate="$VAL_COMMISSION_CHANGE_RATE_MAX" \
 	--min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
 	--from="$VAL_KEY_NAME" \
+	--gas-prices="300000$GAS_DENOM_SYMBOL" \
 	--yes
 
 echo '- Wait...'
