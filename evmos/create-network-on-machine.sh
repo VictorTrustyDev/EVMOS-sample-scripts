@@ -256,4 +256,5 @@ echo
 echo 'Basic command to start this node:'
 echo "$EVMOS_BINARY start --home ~/$EVMOS_HOME_DIR"
 
-[ $EXTRA_FUNC -eq 1 ] && sudo systemctl start $EVMOS_SERVICE_NAME
+echo "EXTRA_FUNC=$EXTRA_FUNC"
+[ $EXTRA_FUNC -eq 1 ] && { echo "Restart service due to EXTRA_FUNC has enabled"; sudo systemctl start $EVMOS_SERVICE_NAME; }
