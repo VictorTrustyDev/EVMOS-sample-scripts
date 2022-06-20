@@ -161,9 +161,9 @@ echo " + $VAL_KEY_NAME: OK"
 echo 'Register validator'
 echo '- Launching node'
 if [ $SUPPORTS_TIMEOUT -eq 1 ]; then
-	timeout 30s $BINARY start --chain-id $CHAIN_ID --home $EVMOS_HOME > /dev/null 2>&1
+	timeout 30s $BINARY start --chain-id $CHAIN_ID --home $EVMOS_HOME & > /dev/null 2>&1
 else
-	$BINARY start --chain-id $CHAIN_ID --home $EVMOS_HOME > /dev/null 2>&1
+	$BINARY start --chain-id $CHAIN_ID --home $EVMOS_HOME & > /dev/null 2>&1
 fi
 echo '- Wait node up'
 sleep 10s
