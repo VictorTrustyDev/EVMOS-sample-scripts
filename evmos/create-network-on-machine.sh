@@ -77,6 +77,8 @@ echo '- Enable API'
 cat $APP_TOML | tomlq '.api["enable"]=true' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 echo '- Enable Swagger (access via http://host/swagger/)'
 cat $APP_TOML | tomlq '.api["swagger"]=true' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+echo '- Bind API port to 0.0.0.0'
+cat $APP_TOML | tomlq '.api["address"]="tcp://0.0.0.0:1317"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 
 # Update genesis.json
 GENESIS_JSON="$EVMOS_HOME/config/genesis.json"
@@ -210,6 +212,7 @@ read -p "Do you want to run more validator? (Y/n)" -n 1 -r
 echo #
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
+    EXPOSED_26656=1
     echo 'Replacing seed IP in config.toml from "localhost" to "'$IP_EVMOS_1_INT'"'
     cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@'$IP_EVMOS_1_INT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
     [ $? -eq 0 ] || echo "Failed to replace, please replace it manually in file $CONFIG_TOML"
@@ -225,6 +228,16 @@ then
     echo "Good luck with EVMOS"
     cp $GENESIS_JSON_BAK 'bak_genesis.json'
     cp $CONFIG_TOML_BAK 'bak_config.toml'
+fi
+
+echo
+echo 'Exposed ports:'
+echo '- 0.0.0.0:1317 (REST API)'
+echo '- 0.0.0.0:9090 (gRPC)'
+echo '- 0.0.0.0:8545 (Json RPC)'
+echo '- 0.0.0.0:26657 (Tendermint RPC)'
+if [ $EXPOSED_26656 -eq 1 ]; then
+    echo '- 0.0.0.0:26656 (Tendermint Peer)'
 fi
 
 echo

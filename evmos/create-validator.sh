@@ -78,12 +78,53 @@ $BINARY init $EVMOS_MONIKER'-'$VAL_KEY_NAME --chain-id $CHAIN_ID --home $EVMOS_H
 
 GENESIS_JSON="$EVMOS_HOME/config/genesis.json"
 CONFIG_TOML="$EVMOS_HOME/config/config.toml"
+APP_TOML="$EVMOS_HOME/config/app.toml"
 
 # Restore genesis & config
 echo "Restore genesis.json"
 cp $GENSIS_JSON_BAK $GENESIS_JSON
 echo "Restore config.toml"
 cp $CONFIG_TOML_BAK $CONFIG_TOML
+
+# Update port
+echo 'Going to update service ports'
+PORT_OFFSET=$(bc <<< "$NODE_IDX * 10 + $CHAIN_NO * 100")
+echo '- Adjust with offset'
+DEFAULT_1317=$(bc <<< "1317 + $PORT_OFFSET")
+DEFAULT_8545=$(bc <<< "8545 + $PORT_OFFSET")
+DEFAULT_8546=$(bc <<< "8546 + $PORT_OFFSET")
+DEFAULT_9090=$(bc <<< "9090 + $PORT_OFFSET")
+DEFAULT_9091=$(bc <<< "9091 + $PORT_OFFSET")
+DEFAULT_26656=$(bc <<< "26656 + $PORT_OFFSET")
+DEFAULT_26657=$(bc <<< "26657 + $PORT_OFFSET")
+DEFAULT_26658=$(bc <<< "26658 + $PORT_OFFSET")
+##
+echo 'Update config.toml'
+CONFIG_TOML_TMP="tmp_config.toml"
+echo "- Adjust [root > proxy_app] from port 26658 to localhost:$DEFAULT_26658 (turned off by default)"
+cat $CONFIG_TOML | tomlq '.["proxy_app"]="tcp://127.0.0.1:'$DEFAULT_26658'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+echo "- Adjust [p2p > laddr] from port 26656 to localhost:$DEFAULT_26656"
+cat $CONFIG_TOML | tomlq '.p2p["laddr"]="tcp://127.0.0.1:'$DEFAULT_26656'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+echo "- Adjust [rpc > laddr] from port 26657 to localhost:$DEFAULT_26657"
+cat $CONFIG_TOML | tomlq '.rpc["laddr"]="tcp://127.0.0.1:'$DEFAULT_26657'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+##
+echo 'Update app.toml'
+APP_TOML_TMP="tmp_app.toml"
+echo "- Adjust [api > address] from port 1317 to localhost:$DEFAULT_1317 and turn it off by default"
+cat $APP_TOML_TMP | tomlq '.api["address"]="tcp://127.0.0.1:'$DEFAULT_1317'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
+cat $APP_TOML_TMP | tomlq '.api["swagger"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
+cat $APP_TOML_TMP | tomlq '.api["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
+echo "- Adjust [grpc > address] from port 9090 to localhost:$DEFAULT_9090 and turn it off by default"
+cat $APP_TOML_TMP | tomlq '.grpc["address"]="tcp://127.0.0.1:'$DEFAULT_9090'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
+cat $APP_TOML_TMP | tomlq '.grpc["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
+echo "- Adjust [grpc-web > address] from port 9091 to localhost:$DEFAULT_9091 and turn it off by default"
+cat $APP_TOML_TMP | tomlq '.grpc-web["address"]="tcp://127.0.0.1:'$DEFAULT_9091'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
+cat $APP_TOML_TMP | tomlq '.grpc-web["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
+echo "- Adjust [json-rpc > address] from port 8545 to localhost:$DEFAULT_8545, [json-rpc > ws-address] from port 8546 to localhost:$DEFAULT_8546 and turn it off by default"
+cat $APP_TOML_TMP | tomlq '.json-rpc["address"]="tcp://127.0.0.1:'$DEFAULT_8545'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
+cat $APP_TOML_TMP | tomlq '.json-rpc["ws-address"]="tcp://127.0.0.1:'$DEFAULT_8546'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
+cat $APP_TOML_TMP | tomlq '.json-rpc["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
+
 
 # Import validator keys
 echo 'Import validator keys'
@@ -130,6 +171,18 @@ WantedBy=multi-user.target"
         echo "sudo systemctl start $EVMOS_SERVICE_NAME"
     fi
 fi
+
+echo 'Open ports:'
+echo "- localhost:$DEFAULT_26657 (Tendermint RPC)"
+echo "- localhost:$DEFAULT_26656 (Tendermint Peer)"
+echo 'Closed ports'
+echo "- localhost:$DEFAULT_1317 (REST API)"
+echo "- localhost:$DEFAULT_9090 (gRPC)"
+echo "- localhost:$DEFAULT_9091 (Web gRPC)"
+echo "- localhost:$DEFAULT_8545 (Json RPC)"
+echo "- localhost:$DEFAULT_8546 (Websocket Json RPC)"
+echo "- localhost:$DEFAULT_26658 (Proxy app)"
+echo 'If you want to expose those port, use nginx as reverse proxy'
 
 echo
 echo 'Basic command to start this node:'
