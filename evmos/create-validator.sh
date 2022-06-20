@@ -8,10 +8,12 @@ VALIDATOR_NO=$1
 if [ "$VALIDATOR_NO" = "2" ]; then
 	export VAL_KEY_NAME="$VAL_2_KEY_NAME"
 	export VAL_ADDR="$VAL_2_ADDR"
+	export VAL_STAKE="$VAL_2_STAKE"
 	export NODE_IDX=1
 elif [ "$VALIDATOR_NO" = "3" ]; then
 	export VAL_KEY_NAME="$VAL_3_KEY_NAME"
 	export VAL_ADDR="$VAL_3_ADDR"
+	export VAL_STAKE="$VAL_3_STAKE"
 	export NODE_IDX=2
 else
     echo 'Missing or incorrect validator no as first argument, valid input is 2 or 3'
@@ -74,7 +76,8 @@ rm -rf "$EVMOS_HOME/config"
 rm -rf "$EVMOS_HOME/keyring*"
 
 # Init a pseudo chain
-$BINARY init $EVMOS_MONIKER'-'$VAL_KEY_NAME --chain-id $CHAIN_ID --home $EVMOS_HOME > /dev/null 2>&1
+MONIKER=$EVMOS_MONIKER'-'$VAL_KEY_NAME
+$BINARY init $MONIKER --chain-id $CHAIN_ID --home $EVMOS_HOME > /dev/null 2>&1
 [ $? -eq 0 ] || { echo "Failed to init pseudo chain"; exit 1; }
 
 GENESIS_JSON="$EVMOS_HOME/config/genesis.json"
@@ -113,7 +116,7 @@ if [ -z "$SEED_ID" ]; then
 	echo "- [p2p > seeds_id] could not be found (this is a custom property injected by ./create-network-on-machine.sh script) so can not configure seeds properly"
 else
 	echo "- Configure [p2p > seeds] to connect to seed node 0 with tendermint id $SEED_ID"
-	cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$SEED_ID'@'$IP_EVMOS_1_INT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+	cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$SEED_ID'@'$IP_EVMOS_1_EXT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 fi
 
 ##
@@ -149,6 +152,19 @@ cp -r ../keys/keyring/ "$EVMOS_HOME/keyring-$KEYRING"
 echo '- Verifing key for this node'
 [ "$VAL_ADDR" == $($BINARY keys show $VAL_KEY_NAME --keyring-backend $KEYRING --home $EVMOS_HOME --address) ] || { echo "Expect validator name $VAL_KEY_NAME has address $VAL_ADDR"; exit 1; }
 echo " + $VAL_KEY_NAME: OK"
+
+# Register node
+$BINARY tx staking create-validator \
+	--amount="$VAL_STAKE"$MIN_DENOM_SYMBOL \
+	--pubkey=$($BINARY tendermint show-validator --home $EVMOS_HOME) \
+	--moniker=$MONIKER \
+	--chain-id=$CHAIN_ID \
+	--commission-rate="$VAL_COMMISSION_RATE" \
+	--commission-max-rate="$VAL_COMMISSION_RATE_MAX" \
+	--commission-max-change-rate="$VAL_COMMISSION_CHANGE_RATE_MAX" \
+	--min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
+	--from=$VAL_KEY_NAME \
+	--node="tcp://$IP_EVMOS_1_EXT:26657"
 
 echo 'Done'
 

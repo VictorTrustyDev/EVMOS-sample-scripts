@@ -17,6 +17,9 @@ export NOTICE_DEV_ENV="This sample scripts was developed on an Ubuntu 22.04 LTS 
 export IP_EVMOS_1_INT="evmos1i.victortrusty.dev"
 export IP_EVMOS_2_INT="evmos2i.victortrusty.dev"
 export IP_EVMOS_3_INT="evmos3i.victortrusty.dev"
+export IP_EVMOS_1_EXT="evmos1.victortrusty.dev"
+export IP_EVMOS_2_EXT="evmos2.victortrusty.dev"
+export IP_EVMOS_3_EXT="evmos3.victortrusty.dev"
 
 ## EVMOS (network)
 export EVMOS_VER="v5.0.0"
@@ -31,6 +34,10 @@ export VAL_RAW_BALANCE=50000000 # Init with 50m EVMOS in balance for each valida
 export VAL_RAW_STAKE=5000000 # Each validator will stake 5m EVMOS
 export VAL_RAW_CLAIM=1000 # Each validator can claimn this amount
 export VAL_KEYS_FILE_DECRYPT_PASSWORD="11111111"
+export VAL_COMMISSION_RATE=0.05 # 5%
+export VAL_COMMISSION_RATE_MAX=0.20 # 20%
+export VAL_COMMISSION_CHANGE_RATE_MAX=0.01 # 1%
+export VAL_MIN_SELF_DELEGATION=1000000
 ### Validator 1
 export VAL_1_KEY_NAME="val1"
 export VAL_1_SEED="spoil senior door access upset floor decorate shield high punch senior tape pigeon base slogan height clever buffalo cat report poem weapon labor satoshi"

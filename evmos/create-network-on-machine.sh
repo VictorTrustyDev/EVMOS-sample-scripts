@@ -138,7 +138,7 @@ echo "Updating config.toml"
 TENDERMINT_NODE_ID=$($BINARY tendermint show-node-id --home $EVMOS_HOME)
 echo '- Remove default seeds at [p2p > seeds]'
 #cat $CONFIG_TOML | tomlq '.p2p["seeds"]=""' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
-cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@'$IP_EVMOS_1_INT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@'$IP_EVMOS_1_EXT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 echo '- Remove default persistent peers at [p2p > persistent_peers]'
 cat $CONFIG_TOML | tomlq '.p2p["persistent_peers"]=""' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 echo '- Save tendermint node id to be used as seeds for other nodes'
@@ -164,7 +164,14 @@ cat $GENESIS_JSON | jq '.app_state["bank"]["supply"][0]["amount"]="'$total_suppl
 
 # Sign genesis transaction
 echo 'Generate genesis staking transaction '$(bc <<< "$VAL_1_STAKE / (10^$EVMOS_DENOM_EXPONENT)")' '$DENOM_SYMBOL' for validator '$VAL_1_KEY_NAME
-$BINARY gentx $VAL_1_KEY_NAME "$VAL_1_STAKE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --chain-id $CHAIN_ID --home $EVMOS_HOME > /dev/null 2>&1
+$BINARY gentx $VAL_1_KEY_NAME "$VAL_1_STAKE"$MIN_DENOM_SYMBOL \
+    --commission-rate="$VAL_COMMISSION_RATE" \
+    --commission-max-rate="$VAL_COMMISSION_RATE_MAX" \
+    --commission-max-change-rate="$VAL_COMMISSION_CHANGE_RATE_MAX" \
+    --min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
+    --keyring-backend $KEYRING \
+    --chain-id $CHAIN_ID \
+    --home $EVMOS_HOME > /dev/null 2>&1
 [ $? -eq 0 ] || { echo "Failed to create genesis tx"; exit 1; }
 
 # Collect genesis tx to genesis.json
@@ -222,7 +229,7 @@ then
     echo "1. Copy the following files to the new machine"
     echo " - $GENESIS_JSON_BAK"
     echo " - $CONFIG_TOML_BAK"
-    echo "2. Update /etc/hosts of those machine to resolve the IP address of domain \"$IP_EVMOS_1_INT\" follow IP of this machine"
+    echo "2. Update /etc/hosts of those machine to resolve the IP address of domain \"$IP_EVMOS_1_EXT\" follow IP of this machine"
     echo "3. Run ./create-validator.sh (before that, remember to run the validator node on this machine first)"
     echo "Good luck with EVMOS"
     cp $GENESIS_JSON_BAK 'bak_genesis.json'
