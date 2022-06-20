@@ -151,7 +151,7 @@ echo 'Update original total supply = '$(bc <<< "$total_supply / (10^$EVMOS_DENOM
 cat $GENESIS_JSON | jq '.app_state["bank"]["supply"][0]["amount"]="'$total_supply'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 
 # Sign genesis transaction
-echo "Generate genesis staking transaction $VAL_1_STAKE $MIN_DENOM_SYMBOL for validator $VAL_1_KEY_NAME"
+echo 'Generate genesis staking transaction '$(bc <<< "$VAL_1_STAKE / (10^$EVMOS_DENOM_EXPONENT)")' '$DENOM_SYMBOL' for validator '$VAL_1_KEY_NAME
 $BINARY gentx $VAL_1_KEY_NAME "$VAL_1_STAKE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --chain-id $CHAIN_ID --home $EVMOS_HOME > /dev/null 2>&1
 [ $? -eq 0 ] || { echo "Failed to create genesis tx"; exit 1; }
 
@@ -200,7 +200,7 @@ WantedBy=multi-user.target"
 fi
 
 echo '##### NOTICE #####'
-read -p "Do you want to run more validator?" -n 1 -r
+read -p "Do you want to run more validator? (Y/n)" -n 1 -r
 echo #
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
