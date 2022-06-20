@@ -109,11 +109,16 @@ echo " + Validator $VAL_2_ADDR (node 1) can claim "$(bc <<< "$VAL_2_CLAIM / (10^
 echo " + Validator $VAL_3_ADDR (node 2) can claim "$(bc <<< "$VAL_3_CLAIM / (10^$EVMOS_DENOM_EXPONENT)")$DENOM_SYMBOL
 cat $GENESIS_JSON | jq '.app_state["claims"]["claims_records"]=[{"initial_claimable_amount":"'$VAL_1_CLAIM'", "actions_completed":[false, false, false, false],"address":"'$VAL_1_ADDR'"},{"initial_claimable_amount":"'$VAL_2_CLAIM'", "actions_completed":[false, false, false, false],"address":"'$VAL_2_ADDR'"},{"initial_claimable_amount":"'$VAL_3_CLAIM'", "actions_completed":[false, false, false, false],"address":"'$VAL_3_ADDR'"}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 ## Set claims decay
-cat $GENESIS_JSON | jq '.app_state["claims"]["params"]["duration_of_decay"]="2592000s"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
-cat $GENESIS_JSON | jq '.app_state["claims"]["params"]["duration_until_decay"]="86400s"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+duration_until_decay="86400s"
+duration_of_decay="2592000s"
+echo "- Set duration until decay in [app_state > claims > params > duration_until_decay] to $duration_until_decay"
+cat $GENESIS_JSON | jq '.app_state["claims"]["params"]["duration_until_decay"]="'$duration_until_decay'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+echo "- Set duration of decay in [app_state > claims > params > duration_of_decay] to $duration_of_decay"
+cat $GENESIS_JSON | jq '.app_state["claims"]["params"]["duration_of_decay"]="'$duration_of_decay'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 ## Claim module account:
 ### 0xA61808Fe40fEb8B3433778BBC2ecECCAA47c8c47 || evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz
 amount_to_claim=$(bc <<< "$VAL_1_CLAIM + $VAL_2_CLAIM + $VAL_3_CLAIM")
+echo "- Claimn module account addr $EVMOS_CLAIM_MODULE_ACCOUNT, total $amount_to_claim $MIN_DENOM_SYMBOL ("$(bc <<< "$amount_to_claim / (10^$EVMOS_DENOM_EXPONENT)")" $DENOM_SYMBOL)"
 cat $GENESIS_JSON | jq '.app_state["bank"]["balances"] += [{"address":"'$EVMOS_CLAIM_MODULE_ACCOUNT'","coins":[{"denom":"'$MIN_DENOM_SYMBOL'", "amount":"'$amount_to_claim'"}]}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 
 
@@ -124,8 +129,10 @@ CONFIG_TOML_BAK="$EVMOS_HOME/config/bak_config.toml"
 echo "Updating config.toml"
 ## Update seed nodes
 TENDERMINT_NODE_ID=$($BINARY tendermint show-node-id --home $EVMOS_HOME)
+echo '- Update seeds addresses at [p2p > seeds]'
 cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@localhost:26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 ## Disable create empty block
+echo '- Disable create empty block by setting [root > create_empty_blocks] to false'
 cat $CONFIG_TOML | tomlq '.["create_empty_blocks"]=false' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 ## Backup
 echo "Backup $CONFIG_TOML into $CONFIG_TOML_BAK for future use"
@@ -140,6 +147,7 @@ $BINARY add-genesis-account $VAL_3_KEY_NAME "$VAL_3_BALANCE"$MIN_DENOM_SYMBOL --
 
 # Update total supply + claim values in genesis.json
 total_supply=$(bc <<< "$VAL_1_BALANCE + $VAL_2_BALANCE + $VAL_3_BALANCE + $VAL_1_CLAIM + $VAL_2_CLAIM + $VAL_3_CLAIM")
+echo "Update original total supply = $total_supply $MIN_DENOM_SYMBOL ("$(bc <<< "$total_supply / (10^$EVMOS_DENOM_EXPONENT)" $DENOM_SYMBOL)" into [app_state > bank > supply[0] > amount]"
 cat $GENESIS_JSON | jq '.app_state["bank"]["supply"][0]["amount"]="'$total_supply'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 
 # Sign genesis transaction
