@@ -27,7 +27,8 @@ export BINARY="$GOPATH/bin/$EVMOS_BINARY"
 [ $? -eq 0 ] || { echo "Failed to check & build $EVMOS_BINARY binary at $BINARY"; }
 
 # Update environment variable for future use
-export EVMOS_HOME="$HOME/.$EVMOS_BINARY-v-$CHAIN_ID-node1"
+EVMOS_HOME_DIR=".$EVMOS_BINARY-v-$CHAIN_ID-node1"
+export EVMOS_HOME="$HOME/$EVMOS_HOME_DIR"
 export EVMOS_SERVICE_NAME=$EVMOS_BINARY'-svc-'$CHAIN_NO
 
 # Stop service if exists
@@ -185,8 +186,8 @@ then
     echo "Now you need to do:"
     echo "1. Update /etc/hosts to resolve "$IP_EVMOS_1_INT" domain to IP of this machine (this validator was configurated to be seed node)"
     echo "2. Copy the following files to the new machine"
-    echo " - $GENESIS_JSON"
-    echo " - $CONFIG_TOML"
+    echo " - $GENESIS_JSON_BAK"
+    echo " - $CONFIG_TOML_BAK"
     echo "3. Update /etc/hosts of those machine to resolve the IP address of $IP_EVMOS_1_INT follow IP of this machine"
     echo "4. Run ./create-validator.sh (before that, remember to run the validator node on this machine first)"
     echo "Good luck with EVMOS"
@@ -196,4 +197,4 @@ fi
 
 echo
 echo 'Basic command to start this node:'
-echo "$BINARY start --home $EVMOS_HOME"
+echo "$EVMOS_BINARY start --home ~/$EVMOS_HOME_DIR"
