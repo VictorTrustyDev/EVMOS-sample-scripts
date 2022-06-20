@@ -31,7 +31,6 @@ export EVMOS_CLAIM_MODULE_ACCOUNT="evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz"
 
 ## Validators
 export VAL_RAW_BALANCE=50000000 # Init with 50m EVMOS in balance for each validator
-export VAL_RAW_STAKE=5000000 # Each validator will stake 5m EVMOS
 export VAL_RAW_CLAIM=1000 # Each validator can claimn this amount
 export VAL_KEYS_FILE_DECRYPT_PASSWORD="11111111"
 export VAL_COMMISSION_RATE=0.05 # 5%
@@ -43,14 +42,17 @@ export VAL_GAS_LIMIT_CREATE_VALIDATOR=300000
 export VAL_1_KEY_NAME="val1"
 export VAL_1_SEED="spoil senior door access upset floor decorate shield high punch senior tape pigeon base slogan height clever buffalo cat report poem weapon labor satoshi"
 export VAL_1_ADDR="evmos1wuqvcpuunf7r5rg7xutqddhw55grfzc75qejyq"
+export VAL_1_RAW_STAKE=10000000 # Validator 1 will stake 10m EVMOS
 ### Validator 2
 export VAL_2_KEY_NAME="val2"
 export VAL_2_SEED="width produce brush hour horse retreat play flag fresh broken measure culture scare broken erupt pilot buzz embody depend topic behind rigid fan battle"
 export VAL_2_ADDR="evmos1zxgt4pwzzsv02z24g80lc5rhtsp0prw0c5tk3d"
+export VAL_2_RAW_STAKE=5000000 # Validator 2 will stake 5m EVMOS
 ### Validator 3
 export VAL_3_KEY_NAME="val3"
 export VAL_3_SEED="stage grid emotion thumb safe myth chair dizzy beyond casual select polar hover retire master neglect shift zero trigger section token replace truly father"
 export VAL_3_ADDR="evmos1vcy9v4jp0sd4hysqqcuwleytxre3ms4ckzmdnz"
+export VAL_3_RAW_STAKE=5000000 # Validator 3 will stake 5m EVMOS
 
 ## Custom chain (design for future script update)
 export DENOM_SYMBOL="evmos"
@@ -89,9 +91,9 @@ export VAL_1_BALANCE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_RAW_BALANCE")
 export VAL_2_BALANCE=$VAL_1_BALANCE
 export VAL_3_BALANCE=$VAL_1_BALANCE
 #### Stake
-export VAL_1_STAKE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_RAW_STAKE * 3")
-export VAL_2_STAKE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_RAW_STAKE")
-export VAL_3_STAKE=$VAL_1_STAKE
+export VAL_1_STAKE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_1_RAW_STAKE")
+export VAL_2_STAKE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_2_RAW_STAKE")
+export VAL_3_STAKE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_3_RAW_STAKE")
 #### Claim
 export VAL_1_CLAIM=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_RAW_CLAIM")
 export VAL_2_CLAIM=$VAL_1_CLAIM
