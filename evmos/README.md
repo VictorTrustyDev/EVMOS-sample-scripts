@@ -1,4 +1,4 @@
-### This sample will create a simple EVMOS network with 1 validator pre-defined, script supports add 2 more validators
+### This sample will create a simple EVMOS network ([v5.0.0](https://github.com/evmos/evmos/tree/v5.0.0)) with 1 validator pre-defined, script supports add 2 more validators
 
 #### Step 1: create an EVMOS network
 > $ ./create-network-on-machine.sh 1
