@@ -186,6 +186,7 @@ echo '- Check'
 MONIKER_EXISTS=$($BINARY q staking validators | grep $MONIKER)
 if [ -z "$MONIKER_EXISTS" ]; then
 	echo " + WARN ! Moniker $MONIKER could not be found in validators list"
+	$BINARY q staking validators | grep $EVMOS_MONIKER
 else
 	echo " + OK"
 fi
