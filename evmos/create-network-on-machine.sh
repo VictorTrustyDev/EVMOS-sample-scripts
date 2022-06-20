@@ -29,7 +29,7 @@ export BINARY="$GOPATH/bin/$EVMOS_BINARY"
 # Update environment variable for future use
 EVMOS_HOME_DIR=".$EVMOS_BINARY-v-$CHAIN_ID-node0"
 export EVMOS_HOME="$HOME/$EVMOS_HOME_DIR"
-export EVMOS_SERVICE_NAME=$EVMOS_BINARY'-n0'
+export EVMOS_SERVICE_NAME=$EVMOS_BINARY'-c'$CHAIN_NO'-n0'
 
 # Stop service if exists
 [ $DISABLE_SYSTEMCTL -eq 0 ] && { echo "Stopping $EVMOS_SERVICE_NAME service"; sudo systemctl stop $EVMOS_SERVICE_NAME; sudo systemctl disable $EVMOS_SERVICE_NAME; }
@@ -142,8 +142,8 @@ cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@'$IP_EVMOS_1_INT'
 echo '- Save tendermint node id to be used as seeds for other nodes'
 cat $CONFIG_TOML | tomlq '.p2p["seeds_id"]="'$TENDERMINT_NODE_ID'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 ## Disable create empty block
-echo '- Disable create empty block by setting [root > create_empty_blocks] to false'
-cat $CONFIG_TOML | tomlq '.["create_empty_blocks"]=true' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+#echo '- Disable create empty block by setting [root > create_empty_blocks] to false'
+#cat $CONFIG_TOML | tomlq '.["create_empty_blocks"]=false' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 ## Backup
 echo "Backup $CONFIG_TOML into $CONFIG_TOML_BAK for future use"
 cp $CONFIG_TOML $CONFIG_TOML_BAK

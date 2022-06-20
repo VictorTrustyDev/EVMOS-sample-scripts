@@ -60,7 +60,7 @@ fi
 
 EVMOS_HOME_DIR=".$EVMOS_BINARY-v-$CHAIN_ID-node$NODE_IDX"
 export EVMOS_HOME="$HOME/$EVMOS_HOME_DIR"
-export EVMOS_SERVICE_NAME=$EVMOS_BINARY'-n'$NODE_IDX
+export EVMOS_SERVICE_NAME=$EVMOS_BINARY'-c'$CHAIN_NO'-n'$NODE_IDX
 
 # Stop service if exists
 [ $DISABLE_SYSTEMCTL -eq 0 ] && { echo "Stopping $EVMOS_SERVICE_NAME service"; sudo systemctl stop $EVMOS_SERVICE_NAME; sudo systemctl disable $EVMOS_SERVICE_NAME; }
