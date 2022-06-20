@@ -61,6 +61,9 @@ fi
 export EVMOS_HOME="$HOME/.$EVMOS_BINARY-v-$CHAIN_ID-node$NODE_IDX"
 export EVMOS_SERVICE_NAME=$EVMOS_BINARY'-n'$NODE_IDX
 
+# Stop service if exists
+[ $DISABLE_SYSTEMCTL -eq 0 ] && { echo "Stopping $EVMOS_SERVICE_NAME service"; sudo systemctl stop $EVMOS_SERVICE_NAME; sudo systemctl disable $EVMOS_SERVICE_NAME; }
+
 $BINARY config keyring-backend $KEYRING --home $EVMOS_HOME
 $BINARY config chain-id $CHAIN_ID --home $EVMOS_HOME
 
@@ -103,6 +106,7 @@ echo 'Done'
 # Re-Start service
 if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
     SERVICE_FILE="/etc/systemd/system/$EVMOS_SERVICE_NAME.service"
+	echo
     if [ -f "$SERVICE_FILE" ]; then
         echo "You are ready to restart $EVMOS_SERVICE_NAME service (sudo systemctl restart $EVMOS_SERVICE_NAME)"
     else

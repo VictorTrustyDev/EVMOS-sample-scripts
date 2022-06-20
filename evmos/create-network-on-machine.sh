@@ -179,6 +179,7 @@ echo "Done"
 # Re-Start service
 if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
     SERVICE_FILE="/etc/systemd/system/$EVMOS_SERVICE_NAME.service"
+    echo
     if [ -f "$SERVICE_FILE" ]; then
         echo "You are ready to restart $EVMOS_SERVICE_NAME service (sudo systemctl restart $EVMOS_SERVICE_NAME)"
     else
