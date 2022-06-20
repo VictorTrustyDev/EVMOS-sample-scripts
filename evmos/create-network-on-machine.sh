@@ -118,7 +118,7 @@ cat $GENESIS_JSON | jq '.app_state["claims"]["params"]["duration_of_decay"]="'$d
 ## Claim module account:
 ### 0xA61808Fe40fEb8B3433778BBC2ecECCAA47c8c47 || evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz
 amount_to_claim=$(bc <<< "$VAL_1_CLAIM + $VAL_2_CLAIM + $VAL_3_CLAIM")
-echo "- Claimn module account addr $EVMOS_CLAIM_MODULE_ACCOUNT, total $amount_to_claim $MIN_DENOM_SYMBOL ("$(bc <<< "$amount_to_claim / (10^$EVMOS_DENOM_EXPONENT)")" $DENOM_SYMBOL)"
+echo '- Claimn module account addr '$EVMOS_CLAIM_MODULE_ACCOUNT', total '$(bc <<< "$amount_to_claim / (10^$EVMOS_DENOM_EXPONENT)")' '$DENOM_SYMBOL
 cat $GENESIS_JSON | jq '.app_state["bank"]["balances"] += [{"address":"'$EVMOS_CLAIM_MODULE_ACCOUNT'","coins":[{"denom":"'$MIN_DENOM_SYMBOL'", "amount":"'$amount_to_claim'"}]}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 
 
