@@ -2,7 +2,7 @@
 
 - Home dir: ~/.evmosd-v-evmos_9006-1-node*
 - Node 0 (1st/genesis validator)
-
+    + Service file `/etc/systemd/system/evmosd-c1-n0.service`
     + Expose almost it's port to the world
 
 | Port | Name | State (default) | Interface | Original Port Number |
@@ -15,10 +15,8 @@
 | 26658 | Proxy App | Close | localhost | - |
 | 6060 | pprof_laddr | Open | localhost | - |
 
-    + Service file `/etc/systemd/system/evmosd-c1-n0.service`
-
 - Node 1 (2nd validator)
-
+    + Service file `/etc/systemd/system/evmosd-c1-n1.service`
     + Will NOT public any port, all endpoint will be adjusted to opens on localhost and almost port will be closed by default
 
 | Port | Name | State (default) | Interface | Original Port Number |
@@ -33,9 +31,8 @@
 | 26768 | Proxy App | Close | localhost | 26658 |
 | 6170 | pprof_laddr | Open | localhost | 6060 |
 
-    + Service file `/etc/systemd/system/evmosd-c1-n1.service`
-
 - The node 2 (3rd validator)
+    + Service file `/etc/systemd/system/evmosd-c1-n2.service`
     + Same as node 1, this node will NOT public any port, all endpoint will be adjusted to opens on localhost and almost port will be closed by defaultthe following ports
 
 | Port | Name | State (default) | Interface | Original Port Number |
@@ -49,5 +46,3 @@
 | 9211 | Web gRPC | Close | localhost | 9091 |
 | 26778 | Proxy App | Close | localhost | 26658 |
 | 6180 | pprof_laddr | Open | localhost | 6060 |
-
-    + Service file `/etc/systemd/system/evmosd-c1-n2.service`
