@@ -118,12 +118,12 @@ echo "- Adjust [grpc > address] from port 9090 to localhost:$DEFAULT_9090 and tu
 cat $APP_TOML_TMP | tomlq '.grpc["address"]="tcp://127.0.0.1:'$DEFAULT_9090'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
 cat $APP_TOML_TMP | tomlq '.grpc["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
 echo "- Adjust [grpc-web > address] from port 9091 to localhost:$DEFAULT_9091 and turn it off by default"
-cat $APP_TOML_TMP | tomlq '.grpc-web["address"]="tcp://127.0.0.1:'$DEFAULT_9091'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
-cat $APP_TOML_TMP | tomlq '.grpc-web["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
+cat $APP_TOML_TMP | tomlq '."grpc-web"["address"]="tcp://127.0.0.1:'$DEFAULT_9091'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
+cat $APP_TOML_TMP | tomlq '."grpc-web"["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
 echo "- Adjust [json-rpc > address] from port 8545 to localhost:$DEFAULT_8545, [json-rpc > ws-address] from port 8546 to localhost:$DEFAULT_8546 and turn it off by default"
-cat $APP_TOML_TMP | tomlq '.json-rpc["address"]="tcp://127.0.0.1:'$DEFAULT_8545'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
-cat $APP_TOML_TMP | tomlq '.json-rpc["ws-address"]="tcp://127.0.0.1:'$DEFAULT_8546'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
-cat $APP_TOML_TMP | tomlq '.json-rpc["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
+cat $APP_TOML_TMP | tomlq '."json-rpc"["address"]="tcp://127.0.0.1:'$DEFAULT_8545'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
+cat $APP_TOML_TMP | tomlq '."json-rpc"["ws-address"]="tcp://127.0.0.1:'$DEFAULT_8546'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
+cat $APP_TOML_TMP | tomlq '."json-rpc"["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
 
 
 # Import validator keys
@@ -172,7 +172,7 @@ WantedBy=multi-user.target"
     fi
 fi
 
-echo 'Open ports:'
+echo 'Active ports:'
 echo "- localhost:$DEFAULT_26657 (Tendermint RPC)"
 echo "- localhost:$DEFAULT_26656 (Tendermint Peer)"
 echo 'Closed ports'
