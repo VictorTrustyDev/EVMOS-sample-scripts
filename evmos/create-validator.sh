@@ -173,6 +173,10 @@ $BINARY tx staking create-validator --home "$EVMOS_HOME" --keyring-backend $KEYR
 	--gas="$VAL_GAS_LIMIT_CREATE_VALIDATOR" \
 	--node="tcp://$IP_EVMOS_1_EXT:26657" \
 	--yes
+echo '- Wait...'
+sleep 10s
+echo '- Check'
+$BINARY q staking validators
 
 echo 'Done'
 
