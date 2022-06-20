@@ -38,6 +38,7 @@ export VAL_COMMISSION_RATE=0.05 # 5%
 export VAL_COMMISSION_RATE_MAX=0.20 # 20%
 export VAL_COMMISSION_CHANGE_RATE_MAX=0.01 # 1%
 export VAL_MIN_SELF_DELEGATION=1000000
+export VAL_GAS_LIMIT_CREATE_VALIDATOR=300000
 ### Validator 1
 export VAL_1_KEY_NAME="val1"
 export VAL_1_SEED="spoil senior door access upset floor decorate shield high punch senior tape pigeon base slogan height clever buffalo cat report poem weapon labor satoshi"

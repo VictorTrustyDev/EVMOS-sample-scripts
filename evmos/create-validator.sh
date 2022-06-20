@@ -159,16 +159,6 @@ echo " + $VAL_KEY_NAME: OK"
 
 #
 echo 'Register validator'
-echo '- Launching node'
-if [ $SUPPORTS_TIMEOUT -eq 1 ]; then
-	timeout 30s $BINARY start --chain-id $CHAIN_ID --home $EVMOS_HOME & > /dev/null 2>&1
-else
-	$BINARY start --chain-id $CHAIN_ID --home $EVMOS_HOME & > /dev/null 2>&1
-fi
-echo '- Wait node up'
-sleep 5s
-echo '- Wait block sync'
-sleep 5s
 echo '- Sign & Send message'
 $BINARY tx staking create-validator --home "$EVMOS_HOME" --keyring-backend $KEYRING \
 	--amount=$VAL_STAKE$MIN_DENOM_SYMBOL \
@@ -180,13 +170,9 @@ $BINARY tx staking create-validator --home "$EVMOS_HOME" --keyring-backend $KEYR
 	--commission-max-change-rate="$VAL_COMMISSION_CHANGE_RATE_MAX" \
 	--min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
 	--from="$VAL_KEY_NAME" \
-	--gas="auto" \
+	--gas="$VAL_GAS_LIMIT_CREATE_VALIDATOR" \
+	--node="tcp://$IP_EVMOS_1_EXT:26657" \
 	--yes
-
-echo '- Wait...'
-sleep 10s
-echo '- Check'
-$BINARY q staking validators --home $EVMOS_HOME
 
 echo 'Done'
 
