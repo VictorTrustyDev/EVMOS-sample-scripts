@@ -58,7 +58,8 @@ else
 	exit 1
 fi
 
-export EVMOS_HOME="$HOME/.$EVMOS_BINARY-v-$CHAIN_ID-node$NODE_IDX"
+EVMOS_HOME_DIR=".$EVMOS_BINARY-v-$CHAIN_ID-node$NODE_IDX"
+export EVMOS_HOME="$HOME/$EVMOS_HOME_DIR"
 export EVMOS_SERVICE_NAME=$EVMOS_BINARY'-n'$NODE_IDX
 
 # Stop service if exists
