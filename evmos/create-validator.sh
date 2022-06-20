@@ -108,8 +108,13 @@ echo "- Adjust [p2p > laddr] from port 26656 to localhost:$DEFAULT_26656"
 cat $CONFIG_TOML | tomlq '.p2p["laddr"]="tcp://127.0.0.1:'$DEFAULT_26656'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 echo "- Adjust [rpc > laddr] from port 26657 to localhost:$DEFAULT_26657"
 cat $CONFIG_TOML | tomlq '.rpc["laddr"]="tcp://127.0.0.1:'$DEFAULT_26657'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
-SEED_ID=$(cat $CONFIG_TOML | tomlq '.p2p["seeds_id"]' | head -n 1)
-echo "- Configure to connect to seed node 0 with id $SEED_ID"
+SEED_ID=$(cat $CONFIG_TOML | tomlq '.p2p["seeds_id"]' | head -n 1 | tr -d '"')
+if [ -z "$SEED_ID" ]; then
+	echo "- [p2p > seeds_id] could not be found (this is a custom property injected by ./create-network-on-machine.sh script) so can not configure seeds properly"
+else
+	echo "- Configure [p2p > seeds] to connect to seed node 0 with tendermint id $SEED_ID"
+	cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$SEED_ID'@'$IP_EVMOS_1_INT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+fi
 
 ##
 echo 'Update app.toml'
@@ -187,6 +192,8 @@ echo "- localhost:$DEFAULT_8545 (Json RPC)"
 echo "- localhost:$DEFAULT_8546 (Websocket Json RPC)"
 echo "- localhost:$DEFAULT_26658 (Proxy app)"
 echo 'If you want to expose those ports, use nginx as reverse proxy'
+
+[ -z "$SEED_ID" ] && { echo "ERR! No seed was configurated at config.toml"; }
 
 echo
 echo 'Basic command to start this node:'
