@@ -8,9 +8,11 @@ VALIDATOR_NO=$1
 if [ "$VALIDATOR_NO" = "2" ]; then
 	export VAL_KEY_NAME="$VAL_2_KEY_NAME"
 	export VAL_ADDR="$VAL_2_ADDR"
+	export NODE_IDX=1
 elif [ "$VALIDATOR_NO" = "3" ]; then
 	export VAL_KEY_NAME="$VAL_3_KEY_NAME"
 	export VAL_ADDR="$VAL_3_ADDR"
+	export NODE_IDX=2
 else
     echo 'Missing or incorrect validator no as first argument, valid input is 2 or 3'
     echo 'For example:'
@@ -56,7 +58,7 @@ else
 	exit 1
 fi
 
-export EVMOS_HOME="$HOME/.$EVMOS_BINARY-v-$CHAIN_ID-node$VALIDATOR_NO"
+export EVMOS_HOME="$HOME/.$EVMOS_BINARY-v-$CHAIN_ID-node$NODE_IDX"
 
 $BINARY config keyring-backend $KEYRING --home $EVMOS_HOME
 $BINARY config chain-id $CHAIN_ID --home $EVMOS_HOME

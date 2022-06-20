@@ -27,7 +27,7 @@ export BINARY="$GOPATH/bin/$EVMOS_BINARY"
 [ $? -eq 0 ] || { echo "Failed to check & build $EVMOS_BINARY binary at $BINARY"; }
 
 # Update environment variable for future use
-EVMOS_HOME_DIR=".$EVMOS_BINARY-v-$CHAIN_ID-node1"
+EVMOS_HOME_DIR=".$EVMOS_BINARY-v-$CHAIN_ID-node0"
 export EVMOS_HOME="$HOME/$EVMOS_HOME_DIR"
 export EVMOS_SERVICE_NAME=$EVMOS_BINARY'-svc-'$CHAIN_NO
 
@@ -67,32 +67,46 @@ APP_TOML_TMP="$EVMOS_HOME/config/tmp_app.toml"
 APP_TOML_BAK="$EVMOS_HOME/config/bak_app.toml"
 echo "Backup $APP_TOML into $APP_TOML_BAK for future use"
 cp $APP_TOML $APP_TOML_BAK
-echo "Updating file $APP_TOML"
-## Enable API
+echo "Updating app.toml"
+echo '- Enable API'
 cat $APP_TOML | tomlq '.api["enable"]=true' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
-## Enable swagger for API
+echo '- Enable Swagger (access via http://host/swagger/)'
 cat $APP_TOML | tomlq '.api["swagger"]=true' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
-
 
 # Update genesis.json
 GENESIS_JSON="$EVMOS_HOME/config/genesis.json"
 GENESIS_JSON_TMP="$EVMOS_HOME/config/tmp_genesis.json"
-echo "Updating file $GENESIS_JSON"
+echo "Updating genesis.json"
 ## Change denom metadata
+echo '- Add denom metadata at [app_state > bank > denom_metadata]'
 cat $GENESIS_JSON | jq '.app_state["bank"]["denom_metadata"] += [{"description": "The native EVM, governance and staking token of the '$EVMOS_CHAINNAME' Hub", "denom_units": [{"denom": "'$MIN_DENOM_SYMBOL'", "exponent": 0}, {"denom": "'$GAS_DENOM_SYMBOL'", "exponent": '$EVMOS_GAS_DENOM_EXPONENT'}, {"denom": "'$DENOM_SYMBOL'", "exponent": '$EVMOS_DENOM_EXPONENT'}],"base": "'$MIN_DENOM_SYMBOL'", "display": "'$DENOM_SYMBOL'", "name": "'$DENOM_SYMBOL'", "symbol": "'$DENOM_SYMBOL'"}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 ## Change parameter token denominations to *min denom symbol (eg aevmos)*
+echo "- Change token denomination to $MIN_DENOM_SYMBOL"
+echo ' + [app_state > staking > params > bond_denom]'
 cat $GENESIS_JSON | jq '.app_state["staking"]["params"]["bond_denom"]="'$MIN_DENOM_SYMBOL'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+echo ' + [app_state > crisis > constant_fee > denom]'
 cat $GENESIS_JSON | jq '.app_state["crisis"]["constant_fee"]["denom"]="'$MIN_DENOM_SYMBOL'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+echo ' + [app_state > gov > deposit_params > min_deposit[0] > denom]'
 cat $GENESIS_JSON | jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="'$MIN_DENOM_SYMBOL'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+echo ' + [app_state > evm > params > evm_denom]'
 cat $GENESIS_JSON | jq '.app_state["evm"]["params"]["evm_denom"]="'$MIN_DENOM_SYMBOL'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+echo ' + [app_state > inflation > params > mint_denom]'
 cat $GENESIS_JSON | jq '.app_state["inflation"]["params"]["mint_denom"]="'$MIN_DENOM_SYMBOL'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+echo ' + [app_state > claims > params > claims_denom]'
 cat $GENESIS_JSON | jq '.app_state["claims"]["params"]["claims_denom"]="'$MIN_DENOM_SYMBOL'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 ## Set gas limit
-cat $GENESIS_JSON | jq '.consensus_params["block"]["max_gas"]="10000000"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+CONS_BLOCK_GAS_LIMIT=10000000
+echo "- Set gas limit per block in [consensus_params > block > max_gas] to $CONS_BLOCK_GAS_LIMIT"
+cat $GENESIS_JSON | jq '.consensus_params["block"]["max_gas"]="'$CONS_BLOCK_GAS_LIMIT'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 ## Set claims start time
 current_date=$(date -u +"%Y-%m-%dT%TZ")
+echo "- Set claim start time in [app_state > claims > params > airdrop_start_time] to $current_date"
 cat $GENESIS_JSON | jq -r --arg current_date "$current_date" '.app_state["claims"]["params"]["airdrop_start_time"]=$current_date' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 ## Set claims records for validator account
+echo "- Set claim records for 3 validators in [app_state > claims > claims_records]"
+echo " + Validator $VAL_1_ADDR (node 0) can claim "$(bc <<< "$VAL_1_CLAIM / (10^$EVMOS_DENOM_EXPONENT)")
+echo " + Validator $VAL_2_ADDR (node 1) can claim "$(bc <<< "$VAL_2_CLAIM / (10^$EVMOS_DENOM_EXPONENT)")
+echo " + Validator $VAL_3_ADDR (node 2) can claim "$(bc <<< "$VAL_3_CLAIM / (10^$EVMOS_DENOM_EXPONENT)")
 cat $GENESIS_JSON | jq '.app_state["claims"]["claims_records"]=[{"initial_claimable_amount":"'$VAL_1_CLAIM'", "actions_completed":[false, false, false, false],"address":"'$VAL_1_ADDR'"},{"initial_claimable_amount":"'$VAL_2_CLAIM'", "actions_completed":[false, false, false, false],"address":"'$VAL_2_ADDR'"},{"initial_claimable_amount":"'$VAL_3_CLAIM'", "actions_completed":[false, false, false, false],"address":"'$VAL_3_ADDR'"}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 ## Set claims decay
 cat $GENESIS_JSON | jq '.app_state["claims"]["params"]["duration_of_decay"]="2592000s"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
@@ -107,7 +121,7 @@ cat $GENESIS_JSON | jq '.app_state["bank"]["balances"] += [{"address":"'$EVMOS_C
 CONFIG_TOML="$EVMOS_HOME/config/config.toml"
 CONFIG_TOML_TMP="$EVMOS_HOME/config/tmp_config.toml"
 CONFIG_TOML_BAK="$EVMOS_HOME/config/bak_config.toml"
-echo "Updating file $CONFIG_TOML"
+echo "Updating config.toml"
 ## Update seed nodes
 TENDERMINT_NODE_ID=$($BINARY tendermint show-node-id --home $EVMOS_HOME)
 cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@localhost:26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
