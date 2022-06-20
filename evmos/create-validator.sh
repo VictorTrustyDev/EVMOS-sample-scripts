@@ -170,19 +170,6 @@ sleep 5s
 echo '- Wait block sync'
 sleep 5s
 echo '- Sign & Send message'
-echo "$EVMOS_BINARY tx staking create-validator \
-	--home "$EVMOS_HOME" \
-	--keyring-backend $KEYRING \
-	--amount="$VAL_STAKE"$MIN_DENOM_SYMBOL \
-	--pubkey=\$($EVMOS_BINARY tendermint show-validator --home $EVMOS_HOME) \
-	--moniker="$MONIKER" \
-	--chain-id="$CHAIN_ID" \
-	--commission-rate="$VAL_COMMISSION_RATE" \
-	--commission-max-rate"$VAL_COMMISSION_RATE_MAX" \
-	--commission-max-change-rate="$VAL_COMMISSION_CHANGE_RATE_MAX" \
-	--min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
-	--from="$VAL_KEY_NAME" \
-	--yes"
 $BINARY tx staking create-validator --home "$EVMOS_HOME" --keyring-backend $KEYRING \
 	--amount=$VAL_STAKE$MIN_DENOM_SYMBOL \
 	--pubkey=$($BINARY tendermint show-validator --home $EVMOS_HOME) \
@@ -193,7 +180,7 @@ $BINARY tx staking create-validator --home "$EVMOS_HOME" --keyring-backend $KEYR
 	--commission-max-change-rate="$VAL_COMMISSION_CHANGE_RATE_MAX" \
 	--min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
 	--from="$VAL_KEY_NAME" \
-	--gas="300000" \
+	--gas="auto" \
 	--yes
 
 echo '- Wait...'
