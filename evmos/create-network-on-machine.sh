@@ -37,6 +37,7 @@ export EVMOS_SERVICE_NAME=$EVMOS_BINARY'-c'$CHAIN_NO'-n0'
 # Cleanup
 echo 'Clean up previous setup'
 rm -rf "$EVMOS_HOME/config"
+rm -rf "$EVMOS_HOME/data"
 rm -rf "$EVMOS_HOME/keyring*"
 
 # Init chain

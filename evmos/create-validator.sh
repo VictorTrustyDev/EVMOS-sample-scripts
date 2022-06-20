@@ -73,6 +73,7 @@ $BINARY config chain-id $CHAIN_ID --home $EVMOS_HOME
 # Cleanup
 echo 'Clean up previous setup'
 rm -rf "$EVMOS_HOME/config"
+rm -rf "$EVMOS_HOME/data"
 rm -rf "$EVMOS_HOME/keyring*"
 
 # Init a pseudo chain
