@@ -157,6 +157,7 @@ echo " + $VAL_KEY_NAME: OK"
 # Register node
 $BINARY tx staking create-validator \
 	--home="$EVMOS_HOME" \
+	--keyring-backend $KEYRING \
 	--amount="$VAL_STAKE"$MIN_DENOM_SYMBOL \
 	--pubkey=$($BINARY tendermint show-validator --home $EVMOS_HOME) \
 	--moniker="$MONIKER" \
