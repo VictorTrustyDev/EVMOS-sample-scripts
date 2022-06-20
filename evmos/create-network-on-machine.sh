@@ -48,19 +48,23 @@ $BINARY init $EVMOS_MONIKER'-'$VAL_1_KEY_NAME --chain-id $CHAIN_ID --home $EVMOS
 [ $? -eq 0 ] || { echo "Failed to init chain"; exit 1; }
 
 # Import validator keys
+echo 'Import validator keys'
 #echo "*** Decrypt password: $VAL_KEYS_FILE_DECRYPT_PASSWORD"
 #$BINARY keys import "$VAL_1_KEY_NAME" ../keys/validator1.key --keyring-backend $KEYRING --home $EVMOS_HOME
 #echo "*** Decrypt password: $VAL_KEYS_FILE_DECRYPT_PASSWORD"
 #$BINARY keys import "$VAL_2_KEY_NAME" ../keys/validator2.key --keyring-backend $KEYRING --home $EVMOS_HOME
 #echo "*** Decrypt password: $VAL_KEYS_FILE_DECRYPT_PASSWORD"
 #$BINARY keys import "$VAL_3_KEY_NAME" ../keys/validator3.key --keyring-backend $KEYRING --home $EVMOS_HOME
-echo "Copying validator keys from ../keys/keyring to $EVMOS_HOME/keyring-$KEYRING"
+echo "- Copying validator keys from ../keys/keyring to $EVMOS_HOME/keyring-$KEYRING"
 cp -r ../keys/keyring/ "$EVMOS_HOME/keyring-$KEYRING"
 ## Verify
-echo 'Verifing keys'
+echo '- Verifing keys'
 [ "$VAL_1_ADDR" == $($BINARY keys show $VAL_1_KEY_NAME --keyring-backend $KEYRING --home $EVMOS_HOME --address) ] || { echo "Expect validator name $VAL_1_KEY_NAME has address $VAL_1_ADDR"; exit 1; }
+echo " + $VAL_1_KEY_NAME: OK"
 [ "$VAL_2_ADDR" == $($BINARY keys show $VAL_2_KEY_NAME --keyring-backend $KEYRING --home $EVMOS_HOME --address) ] || { echo "Expect validator name $VAL_2_KEY_NAME has address $VAL_2_ADDR"; exit 1; }
+echo " + $VAL_2_KEY_NAME: OK"
 [ "$VAL_3_ADDR" == $($BINARY keys show $VAL_3_KEY_NAME --keyring-backend $KEYRING --home $EVMOS_HOME --address) ] || { echo "Expect validator name $VAL_3_KEY_NAME has address $VAL_3_ADDR"; exit 1; }
+echo " + $VAL_3_KEY_NAME: OK"
 
 # Update app.toml
 APP_TOML="$EVMOS_HOME/config/app.toml"

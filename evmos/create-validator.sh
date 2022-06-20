@@ -59,6 +59,7 @@ else
 fi
 
 export EVMOS_HOME="$HOME/.$EVMOS_BINARY-v-$CHAIN_ID-node$NODE_IDX"
+export EVMOS_SERVICE_NAME=$EVMOS_BINARY'-n'$NODE_IDX
 
 $BINARY config keyring-backend $KEYRING --home $EVMOS_HOME
 $BINARY config chain-id $CHAIN_ID --home $EVMOS_HOME
@@ -82,18 +83,47 @@ echo "Restore config.toml"
 cp $CONFIG_TOML_BAK $CONFIG_TOML
 
 # Import validator keys
+echo 'Import validator keys'
 #echo "*** Decrypt password: $VAL_KEYS_FILE_DECRYPT_PASSWORD"
 #$BINARY keys import "$VAL_1_KEY_NAME" ../keys/validator1.key --keyring-backend $KEYRING --home $EVMOS_HOME
 #echo "*** Decrypt password: $VAL_KEYS_FILE_DECRYPT_PASSWORD"
 #$BINARY keys import "$VAL_2_KEY_NAME" ../keys/validator2.key --keyring-backend $KEYRING --home $EVMOS_HOME
 #echo "*** Decrypt password: $VAL_KEYS_FILE_DECRYPT_PASSWORD"
 #$BINARY keys import "$VAL_3_KEY_NAME" ../keys/validator3.key --keyring-backend $KEYRING --home $EVMOS_HOME
-echo "Copying validator keys from ../keys/keyring to $EVMOS_HOME/keyring-$KEYRING"
+echo "- Copying validator keys from ../keys/keyring to $EVMOS_HOME/keyring-$KEYRING"
 cp -r ../keys/keyring/ "$EVMOS_HOME/keyring-$KEYRING"
 ## Verify
-echo 'Verifing key for this node'
+echo '- Verifing key for this node'
 [ "$VAL_ADDR" == $($BINARY keys show $VAL_KEY_NAME --keyring-backend $KEYRING --home $EVMOS_HOME --address) ] || { echo "Expect validator name $VAL_KEY_NAME has address $VAL_ADDR"; exit 1; }
-
+echo " + $VAL_KEY_NAME: OK"
 
 
 echo 'Done'
+
+# Re-Start service
+if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
+    SERVICE_FILE="/etc/systemd/system/$EVMOS_SERVICE_NAME.service"
+    if [ -f "$SERVICE_FILE" ]; then
+        echo "You are ready to restart $EVMOS_SERVICE_NAME service (sudo systemctl restart $EVMOS_SERVICE_NAME)"
+    else
+        echo "You can paste the following content to $SERVICE_FILE file to create a daemon service"
+        echo "sudo vi $SERVICE_FILE"
+        echo
+        echo "[Unit]
+Description=$EVMOS_CHAINNAME chain $CHAIN_ID
+ConditionPathExists=$BINARY
+After=network.target
+[Service]
+Type=simple
+User=$USER
+WorkingDirectory=$HOME
+ExecStart=$BINARY start --chain-id $CHAIN_ID --home $EVMOS_HOME
+Restart=always
+RestartSec=2
+[Install]
+WantedBy=multi-user.target"
+        echo
+        echo "sudo systemctl enable $EVMOS_SERVICE_NAME"
+        echo "sudo systemctl start $EVMOS_SERVICE_NAME"
+    fi
+fi
