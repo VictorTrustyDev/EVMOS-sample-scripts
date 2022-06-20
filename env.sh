@@ -108,3 +108,9 @@ if [ $? -eq 0 ]; then
 else
     export DISABLE_SYSTEMCTL=1
 fi
+command -v timeout > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+    export SUPPORTS_TIMEOUT=1
+else
+    export SUPPORTS_TIMEOUT=0
+fi

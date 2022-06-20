@@ -157,7 +157,17 @@ echo '- Verifing key for this node'
 [ "$VAL_ADDR" == $($BINARY keys show $VAL_KEY_NAME --keyring-backend $KEYRING --home $EVMOS_HOME --address) ] || { echo "Expect validator name $VAL_KEY_NAME has address $VAL_ADDR"; exit 1; }
 echo " + $VAL_KEY_NAME: OK"
 
-# Register node
+#
+echo 'Register validator'
+echo '- Launching node'
+if [ $SUPPORTS_TIMEOUT -eq 1 ]; then
+	timeout 30s $BINARY start --chain-id $CHAIN_ID --home $EVMOS_HOME > /dev/null 2>&1
+else
+	$BINARY start --chain-id $CHAIN_ID --home $EVMOS_HOME > /dev/null 2>&1
+fi
+echo '- Wait node up'
+sleep 10s
+echo '- Sign & Send message'
 $BINARY tx staking create-validator \
 	--home="$EVMOS_HOME" \
 	--keyring-backend $KEYRING \
@@ -170,7 +180,8 @@ $BINARY tx staking create-validator \
 	--commission-max-change-rate="$VAL_COMMISSION_CHANGE_RATE_MAX" \
 	--min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
 	--from="$VAL_KEY_NAME" \
-	--node="tcp://$IP_EVMOS_1_EXT:26657"
+	--node="tcp://localhost:$DEFAULT_26657" \
+	--yes
 
 echo 'Done'
 
@@ -221,3 +232,4 @@ echo 'If you want to expose those ports, use nginx as reverse proxy'
 echo
 echo 'Basic command to start this node:'
 echo "$EVMOS_BINARY start --home ~/$EVMOS_HOME_DIR"
+echo "(This script launched a node with \"--home $EVMOS_HOME\", make sure to stop/kill it to get rid of mysterious issue, command to check: \"ps -aux | grep $EVMOS_BINARY | grep node$NODE_IDX\")"
