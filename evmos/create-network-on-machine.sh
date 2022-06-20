@@ -131,7 +131,7 @@ cat $GENESIS_JSON | jq '.app_state["bank"]["supply"][0]["amount"]="'$total_suppl
 $BINARY gentx $VAL_1_KEY_NAME "$VAL_1_STAKE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --chain-id $CHAIN_ID --home $EVMOS_HOME
 
 # Collect genesis tx to genesis.json
-$BINARY collect-gentxs --home $EVMOS_HOME
+$BINARY collect-gentxs --home $EVMOS_HOME > /dev/null 2>&1
 
 # Validate genesis.json
 $BINARY validate-genesis --home $EVMOS_HOME
