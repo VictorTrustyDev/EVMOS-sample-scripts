@@ -137,7 +137,7 @@ echo "Updating config.toml"
 ## Update seed nodes
 TENDERMINT_NODE_ID=$($BINARY tendermint show-node-id --home $EVMOS_HOME)
 echo '- Update seeds addresses at [p2p > seeds]'
-cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@localhost:26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@0.0.0.0:26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 ## Disable create empty block
 echo '- Disable create empty block by setting [root > create_empty_blocks] to false'
 cat $CONFIG_TOML | tomlq '.["create_empty_blocks"]=false' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
@@ -213,7 +213,7 @@ echo #
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
     EXPOSED_26656=1
-    echo 'Replacing seed IP in config.toml from "localhost" to "'$IP_EVMOS_1_INT'"'
+    echo 'Replacing seed IP in config.toml from "0.0.0.0:26656" to "'$IP_EVMOS_1_INT':26656"'
     cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@'$IP_EVMOS_1_INT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
     [ $? -eq 0 ] || echo "Failed to replace, please replace it manually in file $CONFIG_TOML"
     cat $CONFIG_TOML_BAK | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@'$IP_EVMOS_1_INT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML_BAK
