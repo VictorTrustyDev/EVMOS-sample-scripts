@@ -29,7 +29,7 @@ export BINARY="$GOPATH/bin/$EVMOS_BINARY"
 # Update environment variable for future use
 EVMOS_HOME_DIR=".$EVMOS_BINARY-v-$CHAIN_ID-node0"
 export EVMOS_HOME="$HOME/$EVMOS_HOME_DIR"
-export EVMOS_SERVICE_NAME=$EVMOS_BINARY'-svc-'$CHAIN_NO
+export EVMOS_SERVICE_NAME=$EVMOS_BINARY'-n0'
 
 # Stop service if exists
 [ $DISABLE_SYSTEMCTL -eq 0 ] && { echo "Stopping $EVMOS_SERVICE_NAME service"; sudo systemctl stop $EVMOS_SERVICE_NAME; sudo systemctl disable $EVMOS_SERVICE_NAME; }
