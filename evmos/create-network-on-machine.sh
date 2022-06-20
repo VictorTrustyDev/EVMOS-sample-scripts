@@ -136,6 +136,8 @@ CONFIG_TOML_BAK="$EVMOS_HOME/config/bak_config.toml"
 echo "Updating config.toml"
 ## Update seed nodes
 TENDERMINT_NODE_ID=$($BINARY tendermint show-node-id --home $EVMOS_HOME)
+echo '- Remove default seeds at [p2p > seeds]'
+cat $CONFIG_TOML | tomlq '.p2p["seeds"]=""' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 echo '- Save tendermint node id to be used as seeds for other nodes'
 cat $CONFIG_TOML | tomlq '.p2p["seeds_id"]="'$TENDERMINT_NODE_ID'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 ## Disable create empty block
@@ -212,12 +214,6 @@ read -p "Do you want to run more validator? (Y/n)" -n 1 -r
 echo #
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-    EXPOSED_26656=1
-    #echo 'Replacing seed IP in config.toml from "0.0.0.0:26656" to "'$IP_EVMOS_1_INT':26656"'
-    #cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@'$IP_EVMOS_1_INT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
-    #[ $? -eq 0 ] || echo "Failed to replace, please replace it manually in file $CONFIG_TOML"
-    #cat $CONFIG_TOML_BAK | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@'$IP_EVMOS_1_INT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML_BAK
-    #[ $? -eq 0 ] || echo "Failed to replace, please replace it manually in file $CONFIG_TOML_BAK"
     echo "!This validator was configurated to be seed node"
     echo "Now you need to do:"
     echo "1. Copy the following files to the new machine"
@@ -236,9 +232,7 @@ echo '- 0.0.0.0:1317 (REST API)'
 echo '- 0.0.0.0:9090 (gRPC)'
 echo '- 0.0.0.0:8545 (Json RPC)'
 echo '- 0.0.0.0:26657 (Tendermint RPC)'
-if [ $EXPOSED_26656 -eq 1 ]; then
-    echo '- 0.0.0.0:26656 (Tendermint Peer)'
-fi
+echo '- 0.0.0.0:26656 (Tendermint Peer)'
 
 echo
 echo 'Basic command to start this node:'
