@@ -147,14 +147,18 @@ $BINARY add-genesis-account $VAL_3_KEY_NAME "$VAL_3_BALANCE"$MIN_DENOM_SYMBOL --
 
 # Update total supply + claim values in genesis.json
 total_supply=$(bc <<< "$VAL_1_BALANCE + $VAL_2_BALANCE + $VAL_3_BALANCE + $VAL_1_CLAIM + $VAL_2_CLAIM + $VAL_3_CLAIM")
-echo "Update original total supply = $total_supply $MIN_DENOM_SYMBOL ("$(bc <<< "$total_supply / (10^$EVMOS_DENOM_EXPONENT)" $DENOM_SYMBOL)" into [app_state > bank > supply[0] > amount]"
+echo 'Update original total supply = '$total_supply' '$MIN_DENOM_SYMBOL' '$(bc <<< "$total_supply / (10^$EVMOS_DENOM_EXPONENT)")' '$DENOM_SYMBOL') into [app_state > bank > supply[0] > amount]'
 cat $GENESIS_JSON | jq '.app_state["bank"]["supply"][0]["amount"]="'$total_supply'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 
 # Sign genesis transaction
-$BINARY gentx $VAL_1_KEY_NAME "$VAL_1_STAKE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --chain-id $CHAIN_ID --home $EVMOS_HOME
+echo "Generate genesis staking transaction $VAL_1_STAKE $MIN_DENOM_SYMBOL for validator $VAL_1_KEY_NAME"
+$BINARY gentx $VAL_1_KEY_NAME "$VAL_1_STAKE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --chain-id $CHAIN_ID --home $EVMOS_HOME > /dev/null 2>&1
+[ $? -eq 0 ] || { echo "Failed to create genesis tx"; exit 1; }
 
 # Collect genesis tx to genesis.json
+echo "Collecting genesis tx into genesis.json"
 $BINARY collect-gentxs --home $EVMOS_HOME > /dev/null 2>&1
+[ $? -eq 0 ] || { echo "Failed to collect genesis tx"; exit 1; }
 
 # Validate genesis.json
 $BINARY validate-genesis --home $EVMOS_HOME
