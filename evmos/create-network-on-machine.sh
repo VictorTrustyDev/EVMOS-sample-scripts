@@ -44,7 +44,7 @@ echo "Node home: $EVMOS_HOME"
 echo "Set keyring-backend to $KEYRING"
 $BINARY config keyring-backend $KEYRING --home $EVMOS_HOME
 $BINARY config chain-id $CHAIN_ID --home $EVMOS_HOME
-$BINARY init $EVMOS_MONIKER'-'$VAL_1_KEY_NAME --chain-id $CHAIN_ID --home $EVMOS_HOME 1> /dev/null
+$BINARY init $EVMOS_MONIKER'-'$VAL_1_KEY_NAME --chain-id $CHAIN_ID --home $EVMOS_HOME > /dev/null
 [ $? -eq 0 ] || { echo "Failed to init chain"; exit 1; }
 
 # Import validator keys
