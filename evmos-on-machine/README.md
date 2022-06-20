@@ -3,12 +3,12 @@
 #### Step 1: create an EVMOS network
 > $ ./create-network-on-machine.sh 1
 
-[You can view stats of network 1 here](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos/network1.md)
+[You can view stats of network 1 here](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos-on-machine/network1.md)
 
 or 
 > $ ./create-network-on-machine.sh 2
 
-Will create network 2 with stats [as defined here](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos/network2.md)
+Will create network 2 with stats [as defined here](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos-on-machine/network2.md)
 
 **NOTICE**
 You have to add file following domain `evmos1.victortrusty.dev` to hosts file and resolve it to IP address of this machine (can not be 127.0.0.1) because it is being used for this node becomes seed node (check `config.toml` [p2p > seed])
@@ -22,6 +22,6 @@ You have to add file following domain `evmos1.victortrusty.dev` to hosts file an
 or
 > $ ./create-validator.sh 3
 
-The opened ports depends on which network you created [1](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos/network1.md) or [2](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos/network2.md)
+The opened ports depends on which network you created [1](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos-on-machine/network1.md) or [2](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos-on-machine/network2.md)
 
 Want more validator? Just create more, no problem
