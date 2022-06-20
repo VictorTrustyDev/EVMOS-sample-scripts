@@ -112,19 +112,19 @@ cat $CONFIG_TOML | tomlq '.rpc["laddr"]="tcp://127.0.0.1:'$DEFAULT_26657'"' --to
 echo 'Update app.toml'
 APP_TOML_TMP="tmp_app.toml"
 echo "- Adjust [api > address] from port 1317 to localhost:$DEFAULT_1317 and turn it off by default"
-cat $APP_TOML_TMP | tomlq '.api["address"]="tcp://127.0.0.1:'$DEFAULT_1317'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
-cat $APP_TOML_TMP | tomlq '.api["swagger"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
-cat $APP_TOML_TMP | tomlq '.api["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
+cat $APP_TOML | tomlq '.api["address"]="tcp://127.0.0.1:'$DEFAULT_1317'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+cat $APP_TOML | tomlq '.api["swagger"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+cat $APP_TOML | tomlq '.api["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 echo "- Adjust [grpc > address] from port 9090 to localhost:$DEFAULT_9090 and turn it off by default"
-cat $APP_TOML_TMP | tomlq '.grpc["address"]="tcp://127.0.0.1:'$DEFAULT_9090'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
-cat $APP_TOML_TMP | tomlq '.grpc["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
+cat $APP_TOML | tomlq '.grpc["address"]="tcp://127.0.0.1:'$DEFAULT_9090'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+cat $APP_TOML | tomlq '.grpc["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 echo "- Adjust [grpc-web > address] from port 9091 to localhost:$DEFAULT_9091 and turn it off by default"
-cat $APP_TOML_TMP | tomlq '."grpc-web"["address"]="tcp://127.0.0.1:'$DEFAULT_9091'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
-cat $APP_TOML_TMP | tomlq '."grpc-web"["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
+cat $APP_TOML | tomlq '."grpc-web"["address"]="tcp://127.0.0.1:'$DEFAULT_9091'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+cat $APP_TOML | tomlq '."grpc-web"["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 echo "- Adjust [json-rpc > address] from port 8545 to localhost:$DEFAULT_8545, [json-rpc > ws-address] from port 8546 to localhost:$DEFAULT_8546 and turn it off by default"
-cat $APP_TOML_TMP | tomlq '."json-rpc"["address"]="tcp://127.0.0.1:'$DEFAULT_8545'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
-cat $APP_TOML_TMP | tomlq '."json-rpc"["ws-address"]="tcp://127.0.0.1:'$DEFAULT_8546'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
-cat $APP_TOML_TMP | tomlq '."json-rpc"["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML_TMP
+cat $APP_TOML | tomlq '."json-rpc"["address"]="tcp://127.0.0.1:'$DEFAULT_8545'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+cat $APP_TOML | tomlq '."json-rpc"["ws-address"]="tcp://127.0.0.1:'$DEFAULT_8546'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+cat $APP_TOML | tomlq '."json-rpc"["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 
 
 # Import validator keys
