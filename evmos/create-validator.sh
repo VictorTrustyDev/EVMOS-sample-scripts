@@ -100,7 +100,6 @@ echo '- Verifing key for this node'
 [ "$VAL_ADDR" == $($BINARY keys show $VAL_KEY_NAME --keyring-backend $KEYRING --home $EVMOS_HOME --address) ] || { echo "Expect validator name $VAL_KEY_NAME has address $VAL_ADDR"; exit 1; }
 echo " + $VAL_KEY_NAME: OK"
 
-
 echo 'Done'
 
 # Re-Start service
@@ -131,3 +130,7 @@ WantedBy=multi-user.target"
         echo "sudo systemctl start $EVMOS_SERVICE_NAME"
     fi
 fi
+
+echo
+echo 'Basic command to start this node:'
+echo "$EVMOS_BINARY start --home ~/$EVMOS_HOME_DIR"
