@@ -31,7 +31,7 @@ export BINARY="$GOPATH/bin/$EVMOS_BINARY"
 ./_make_binary.sh
 [ $? -eq 0 ] || { echo "Failed to check & build $EVMOS_BINARY binary at $BINARY"; }
 
-VAL_HOME_PREFIX='.evmosd'
+VAL_HOME_PREFIX='.evmosdn'
 VAL_HOME_1=$VAL_HOME_PREFIX'0'
 VAL_HOME_2=$VAL_HOME_PREFIX'1'
 VAL_HOME_3=$VAL_HOME_PREFIX'2'
