@@ -4,6 +4,29 @@ command -v cargo > /dev/null 2>&1 || { echo >&2 "Rust & Cargo was not installed.
 
 source ../env.sh
 
+echo "Hermes require an account on each chain with some coins reserved for broadcast tx purpose, so based on config"
+if [ "$REL_1_ADDR" = "$REL_2_ADDR" ]; then
+    echo "- Account $REL_1_ADDR will be used for both chains $HERMES_CFG_CHAIN_1_ID and $HERMES_CFG_CHAIN_1_ID"
+    echo "Are you sure the above account has coin balance on both chains?"
+else
+    echo "- Account $REL_1_ADDR will be used for chain $HERMES_CFG_CHAIN_1_ID"
+    echo "- Account $REL_2_ADDR will be used for chain $HERMES_CFG_CHAIN_2_ID"
+    echo "Are you sure the above accounts have coin balance on it's chain?"
+fi
+
+read -p "(Y/n)" -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    echo " ! Good"
+else
+    echo "Go prepare yourself"
+    echo "Hint: you can do this"
+    echo "evmosd tx bank send $VAL_1_KEY_NAME $REL_1_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$EVMOS_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --node tcp://$HERMES_CFG_CHAIN_1_RPC_ADDR"
+    echo "evmosd tx bank send $VAL_1_KEY_NAME $REL_2_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$EVMOS_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --node tcp://$HERMES_CFG_CHAIN_2_RPC_ADDR"
+    exit 1
+fi
+
 [ $DISABLE_SYSTEMCTL -eq 0 ] && {
     echo "Stopping $HERMES_SERVICE_NAME service";
     sudo systemctl stop $HERMES_SERVICE_NAME;
