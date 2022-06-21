@@ -225,7 +225,7 @@ update_config() {
         cat $CONFIG_TOML | tomlq '.p2p["seeds"]=""' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
     else
         echo '- Add seeds [p2p > seeds]'
-        cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$SEED_TENDERMINT_NODE_ID'@host.docker.internal:26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+        cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$SEED_TENDERMINT_NODE_ID'@vtevmos0:26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
     fi
     echo '- Remove default persistent peers at [p2p > persistent_peers]'
     cat $CONFIG_TOML | tomlq '.p2p["persistent_peers"]=""' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
