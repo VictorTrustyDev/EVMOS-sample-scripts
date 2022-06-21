@@ -56,13 +56,18 @@ echo "Chain ID: $CHAIN_ID"
 if [ "$CHAIN_ID" = "$CHAIN_1_ID" ]; then
 	export CHAIN_NO=1
 	export IP_EVMOS_EXT="$IP_EVMOS_1_EXT"
+	export NETWORK_PORT_OFFSET=$NETWORK_PORT_OFFSET_1
 elif [ "$CHAIN_ID" = "$CHAIN_2_ID" ]; then
 	export CHAIN_NO=2
 	export IP_EVMOS_EXT="$IP_EVMOS_2_EXT"
+	export NETWORK_PORT_OFFSET=$NETWORK_PORT_OFFSET_2
 else
 	echo "Unable to recognize chain $CHAIN_ID, it matches neither CHAIN_1_ID='$CHAIN_1_ID' nor CHAIN_2_ID='$CHAIN_2_ID' (check ../env.sh)"
 	exit 1
 fi
+
+NODE_0_PORT_26656=$(bc <<< "26656 + $NETWORK_PORT_OFFSET")
+NODE_0_PORT_26657=$(bc <<< "26657 + $NETWORK_PORT_OFFSET")
 
 EVMOS_HOME_DIR='.'$EVMOS_BINARY''$CHAIN_NO''$NODE_IDX
 export EVMOS_HOME="$HOME/$EVMOS_HOME_DIR"
@@ -70,7 +75,7 @@ export EVMOS_SERVICE_NAME=$EVMOS_BINARY''$CHAIN_NO''$NODE_IDX
 MONIKER=$EVMOS_MONIKER'-'$VAL_KEY_NAME
 
 # Check if validator is already exists
-MONIKER_EXISTS=$($BINARY q staking validators | grep $MONIKER)
+MONIKER_EXISTS=$($BINARY q staking validators --node="tcp://$IP_EVMOS_EXT:$NODE_0_PORT_26657" | grep $MONIKER)
 if [ ! -z "$MONIKER_EXISTS" ]; then
 	echo "Moniker $MONIKER is already exists, can not create duplicate"
 	exit 1
@@ -106,15 +111,15 @@ cp $CONFIG_TOML_BAK $CONFIG_TOML
 echo 'Going to update service ports'
 PORT_OFFSET=$(bc <<< "$NODE_IDX * 10 + $CHAIN_NO * 100")
 echo '- Adjust with offset'
-DEFAULT_1317=$(bc <<< "1317 + $PORT_OFFSET")
-DEFAULT_6060=$(bc <<< "6060 + $PORT_OFFSET")
-DEFAULT_8545=$(bc <<< "8545 + $PORT_OFFSET")
-DEFAULT_8546=$(bc <<< "8546 + $PORT_OFFSET")
-DEFAULT_9090=$(bc <<< "9090 + $PORT_OFFSET")
-DEFAULT_9091=$(bc <<< "9091 + $PORT_OFFSET")
-DEFAULT_26656=$(bc <<< "26656 + $PORT_OFFSET")
-DEFAULT_26657=$(bc <<< "26657 + $PORT_OFFSET")
-DEFAULT_26658=$(bc <<< "26658 + $PORT_OFFSET")
+DEFAULT_1317=$(bc <<< "1317 + $PORT_OFFSET + $NETWORK_PORT_OFFSET")
+DEFAULT_6060=$(bc <<< "6060 + $PORT_OFFSET + $NETWORK_PORT_OFFSET")
+DEFAULT_8545=$(bc <<< "8545 + $PORT_OFFSET + $NETWORK_PORT_OFFSET")
+DEFAULT_8546=$(bc <<< "8546 + $PORT_OFFSET + $NETWORK_PORT_OFFSET")
+DEFAULT_9090=$(bc <<< "9090 + $PORT_OFFSET + $NETWORK_PORT_OFFSET")
+DEFAULT_9091=$(bc <<< "9091 + $PORT_OFFSET + $NETWORK_PORT_OFFSET")
+DEFAULT_26656=$(bc <<< "26656 + $PORT_OFFSET + $NETWORK_PORT_OFFSET")
+DEFAULT_26657=$(bc <<< "26657 + $PORT_OFFSET + $NETWORK_PORT_OFFSET")
+DEFAULT_26658=$(bc <<< "26658 + $PORT_OFFSET + $NETWORK_PORT_OFFSET")
 ##
 echo 'Update config.toml'
 CONFIG_TOML_TMP="tmp_config.toml"
@@ -123,7 +128,7 @@ cat $CONFIG_TOML | tomlq '.["proxy_app"]="tcp://127.0.0.1:'$DEFAULT_26658'"' --t
 echo "- Adjust [rpc > laddr] from port 26657 to localhost:$DEFAULT_26657"
 cat $CONFIG_TOML | tomlq '.rpc["laddr"]="tcp://127.0.0.1:'$DEFAULT_26657'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 echo "- Adjust [rpc > pprof_laddr] from port 6060 to localhost:$DEFAULT_6060"
-cat $CONFIG_TOML | tomlq '.rpc["pprof_laddr"]="tcp://127.0.0.1:'$DEFAULT_6060'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+cat $CONFIG_TOML | tomlq '.rpc["pprof_laddr"]="127.0.0.1:'$DEFAULT_6060'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 echo "- Adjust [p2p > laddr] from port 26656 to localhost:$DEFAULT_26656"
 cat $CONFIG_TOML | tomlq '.p2p["laddr"]="tcp://127.0.0.1:'$DEFAULT_26656'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 SEED_ID=$(cat $CONFIG_TOML | tomlq '.p2p["seeds_id"]' | head -n 1 | tr -d '"')
@@ -131,7 +136,7 @@ if [ -z "$SEED_ID" ]; then
 	echo "- [p2p > seeds_id] could not be found (this is a custom property injected by ./create-network-on-machine.sh script) so can not configure seeds properly"
 else
 	echo "- Configure [p2p > seeds] to connect to seed node 0 with tendermint id $SEED_ID"
-	cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$SEED_ID'@'$IP_EVMOS_EXT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+	cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$SEED_ID'@'$IP_EVMOS_EXT':'$NODE_0_PORT_26656'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 fi
 
 ##
@@ -142,14 +147,14 @@ cat $APP_TOML | tomlq '.api["address"]="tcp://127.0.0.1:'$DEFAULT_1317'"' --toml
 cat $APP_TOML | tomlq '.api["swagger"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 cat $APP_TOML | tomlq '.api["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 echo "- Adjust [grpc > address] from port 9090 to localhost:$DEFAULT_9090 and turn it off by default"
-cat $APP_TOML | tomlq '.grpc["address"]="tcp://127.0.0.1:'$DEFAULT_9090'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+cat $APP_TOML | tomlq '.grpc["address"]="127.0.0.1:'$DEFAULT_9090'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 cat $APP_TOML | tomlq '.grpc["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 echo "- Adjust [grpc-web > address] from port 9091 to localhost:$DEFAULT_9091 and turn it off by default"
-cat $APP_TOML | tomlq '."grpc-web"["address"]="tcp://127.0.0.1:'$DEFAULT_9091'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+cat $APP_TOML | tomlq '."grpc-web"["address"]="127.0.0.1:'$DEFAULT_9091'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 cat $APP_TOML | tomlq '."grpc-web"["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 echo "- Adjust [json-rpc > address] from port 8545 to localhost:$DEFAULT_8545, [json-rpc > ws-address] from port 8546 to localhost:$DEFAULT_8546 and turn it off by default"
-cat $APP_TOML | tomlq '."json-rpc"["address"]="tcp://127.0.0.1:'$DEFAULT_8545'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
-cat $APP_TOML | tomlq '."json-rpc"["ws-address"]="tcp://127.0.0.1:'$DEFAULT_8546'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+cat $APP_TOML | tomlq '."json-rpc"["address"]="127.0.0.1:'$DEFAULT_8545'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+cat $APP_TOML | tomlq '."json-rpc"["ws-address"]="127.0.0.1:'$DEFAULT_8546'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 cat $APP_TOML | tomlq '."json-rpc"["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 
 
@@ -182,15 +187,15 @@ $BINARY tx staking create-validator --home "$EVMOS_HOME" --keyring-backend $KEYR
 	--min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
 	--from="$VAL_KEY_NAME" \
 	--gas="$VAL_GAS_LIMIT_CREATE_VALIDATOR" \
-	--node="tcp://$IP_EVMOS_EXT:26657" \
+	--node="tcp://$IP_EVMOS_EXT:$NODE_0_PORT_26657" \
 	--yes
 echo '- Wait...'
 sleep 10s
 echo '- Check'
-MONIKER_EXISTS=$($BINARY q staking validators | grep $MONIKER)
+MONIKER_EXISTS=$($BINARY q staking validators --node="tcp://$IP_EVMOS_EXT:$NODE_0_PORT_26657" | grep $MONIKER)
 if [ -z "$MONIKER_EXISTS" ]; then
 	echo " + WARN ! Moniker $MONIKER could not be found in validators list"
-	$BINARY q staking validators | grep $EVMOS_MONIKER
+	$BINARY q staking validators --node="tcp://$IP_EVMOS_EXT:$NODE_0_PORT_26657" | grep $EVMOS_MONIKER
 else
 	echo " + OK"
 fi

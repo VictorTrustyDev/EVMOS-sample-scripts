@@ -24,7 +24,7 @@ This will create a new EVMOS network 1 with:
         + Mnemonic: stage grid emotion thumb safe myth chair dizzy beyond casual select polar hover retire master neglect shift zero trigger section token replace truly father
 
 **NOTICE**
-You have to add file following domain `evmos1.victortrusty.dev` to hosts file and resolve it to IP address of this machine (can not be 127.0.0.1) because it is being used for this node becomes seed node (check `config.toml` [p2p > seed])
+You have to add file following domain `evmos1.victortrusty.dev` to hosts file and resolve it to IP address of this machine (or 127.0.0.1) because it is being used for this node becomes seed node (check `config.toml` [p2p > seed])
 
 #### Step 2: create validator
 1. Copy the `bak_genesis.json` and `bak_config.toml` which was generated and backed up in the first node to current directory
