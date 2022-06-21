@@ -27,18 +27,6 @@ fi
 # Binary
 export BINARY="$GOPATH/bin/$EVMOS_BINARY"
 
-# Check EVMOS source
-if [ -d "./$EVMOS_SOURCE_DIR" ]; then
-    echo "EVMOS repo was downloaded"
-else
-    echo "Downloading EVMOS source code $EVMOS_VER"
-    git clone https://github.com/evmos/evmos.git --branch $EVMOS_VER --single-branch $EVMOS_SOURCE_DIR
-
-    if [ $? -ne 0 ]; then
-        echo "Git clone EVMOS $EVMOS_VER failed"
-        exit 1
-    fi
-fi
 # Check & Install evmosd binary if not exists
 ./_make_binary.sh
 [ $? -eq 0 ] || { echo "Failed to check & build $EVMOS_BINARY binary at $BINARY"; }
@@ -245,5 +233,4 @@ cp "$APP_TOML" "$VAL_HOME_2/config/app.toml"
 echo '- Copying app.toml from node 0 to node 2'
 cp "$APP_TOML" "$VAL_HOME_3/config/app.toml"
 
-# Docker build
-docker build -t evmos.victortrusty.dev:latest .
+echo '### Done, you can move to next step'

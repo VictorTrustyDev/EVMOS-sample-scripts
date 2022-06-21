@@ -98,6 +98,8 @@ export VAL_3_STAKE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_3_RAW_STAKE")
 export VAL_1_CLAIM=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_RAW_CLAIM")
 export VAL_2_CLAIM=$VAL_1_CLAIM
 export VAL_3_CLAIM=$VAL_1_CLAIM
+### Docker
+export DOCKER_IMAGE_NAME="$DENOM_SYMBOL.victortrusty.dev:latest"
 
 # Others
 echo $NOTICE_DEV_ENV
