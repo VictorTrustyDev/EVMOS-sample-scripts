@@ -215,9 +215,6 @@ $BINARY gentx $VAL_3_KEY_NAME "$VAL_3_STAKE"$MIN_DENOM_SYMBOL \
 echo "Copy generated tx to $VAL_HOME_1/config/gentx"
 cp $VAL_HOME_3/config/gentx/gentx-* $VAL_HOME_1/config/gentx/
 
-echo 'Check persistent_peers 1'
-cat $CONFIG_TOML | tomlq '.p2p["persistent_peers"]'
-
 # Collect genesis tx to genesis.json
 echo "Collecting genesis transactions into genesis.json"
 $BINARY collect-gentxs --home $VAL_HOME_1 > /dev/null 2>&1
