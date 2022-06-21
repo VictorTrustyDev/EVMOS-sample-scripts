@@ -27,9 +27,9 @@ export BINARY="$GOPATH/bin/$EVMOS_BINARY"
 [ $? -eq 0 ] || { echo "Failed to check & build $EVMOS_BINARY binary at $BINARY"; }
 
 # Update environment variable for future use
-EVMOS_HOME_DIR=".$EVMOS_BINARY-v-$CHAIN_ID-node0"
+EVMOS_HOME_DIR='.'$EVMOS_BINARY''$CHAIN_ID'0'
 export EVMOS_HOME="$HOME/$EVMOS_HOME_DIR"
-EVMOS_SERVICE_NAME_PAT=$EVMOS_BINARY'-c'$CHAIN_NO'-n'
+EVMOS_SERVICE_NAME_PAT=$EVMOS_BINARY''$CHAIN_NO
 export EVMOS_SERVICE_NAME=$EVMOS_SERVICE_NAME_PAT'0'
 
 # Stop service if exists
