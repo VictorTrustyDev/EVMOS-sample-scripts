@@ -179,8 +179,8 @@ cat $CONFIG_TOML | tomlq '.p2p["persistent_peers"]=""' --toml-output > $CONFIG_T
 echo '- Save tendermint node id to be used as seeds for other nodes'
 cat $CONFIG_TOML | tomlq '.p2p["seeds_id"]="'$TENDERMINT_NODE_ID'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 ## Disable create empty block
-#echo '- Disable create empty block by setting [root > create_empty_blocks] to false'
-#cat $CONFIG_TOML | tomlq '.["create_empty_blocks"]=false' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+echo '- Disable create empty block by setting [root > create_empty_blocks] to false'
+cat $CONFIG_TOML | tomlq '.["create_empty_blocks"]=false' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 ## Backup
 echo "Backup $CONFIG_TOML into $CONFIG_TOML_BAK for future use"
 cp $CONFIG_TOML $CONFIG_TOML_BAK
