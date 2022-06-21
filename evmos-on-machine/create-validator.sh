@@ -53,8 +53,10 @@ echo "Chain ID: $CHAIN_ID"
 
 if [ "$CHAIN_ID" = "$CHAIN_1_ID" ]; then
 	export CHAIN_NO=1
+	export IP_EVMOS_EXT="$IP_EVMOS_1_EXT"
 elif [ "$CHAIN_ID" = "$CHAIN_2_ID" ]; then
 	export CHAIN_NO=2
+	export IP_EVMOS_EXT="$IP_EVMOS_2_EXT"
 else
 	echo "Unable to recognize chain $CHAIN_ID, it matches neither CHAIN_1_ID='$CHAIN_1_ID' nor CHAIN_2_ID='$CHAIN_2_ID' (check ../env.sh)"
 	exit 1
@@ -127,7 +129,7 @@ if [ -z "$SEED_ID" ]; then
 	echo "- [p2p > seeds_id] could not be found (this is a custom property injected by ./create-network-on-machine.sh script) so can not configure seeds properly"
 else
 	echo "- Configure [p2p > seeds] to connect to seed node 0 with tendermint id $SEED_ID"
-	cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$SEED_ID'@'$IP_EVMOS_1_EXT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+	cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$SEED_ID'@'$IP_EVMOS_EXT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 fi
 
 ##
@@ -178,7 +180,7 @@ $BINARY tx staking create-validator --home "$EVMOS_HOME" --keyring-backend $KEYR
 	--min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
 	--from="$VAL_KEY_NAME" \
 	--gas="$VAL_GAS_LIMIT_CREATE_VALIDATOR" \
-	--node="tcp://$IP_EVMOS_1_EXT:26657" \
+	--node="tcp://$IP_EVMOS_EXT:26657" \
 	--yes
 echo '- Wait...'
 sleep 10s

@@ -8,9 +8,11 @@ CHAIN_NO=$1
 if [ "$CHAIN_NO" = "1" ]; then
     echo "Going to setup an EVMOS chain with id $CHAIN_1_ID"
     export CHAIN_ID="$CHAIN_1_ID"
+    export IP_EVMOS_EXT="$IP_EVMOS_1_EXT"
 elif [ "$CHAIN_NO" = "2" ]; then
     echo "Going to setup an EVMOS chain with id $CHAIN_2_ID"
     export CHAIN_ID="$CHAIN_2_ID"
+    export IP_EVMOS_EXT="$IP_EVMOS_2_EXT"
 else
     echo 'Missing or incorrect chain no as first argument, valid input is 1 or 2'
     echo 'For example:'
@@ -68,11 +70,11 @@ cp -r ../keys/keyring/ "$EVMOS_HOME/keyring-$KEYRING"
 ## Verify
 echo '- Verifing keys'
 [ "$VAL_1_ADDR" == $($BINARY keys show $VAL_1_KEY_NAME --keyring-backend $KEYRING --home $EVMOS_HOME --address) ] || { echo "Expect validator name $VAL_1_KEY_NAME has address $VAL_1_ADDR"; exit 1; }
-echo " + $VAL_1_KEY_NAME: OK"
+echo " + OK: $VAL_1_KEY_NAME addr $VAL_1_ADDR seed '$VAL_1_SEED'"
 [ "$VAL_2_ADDR" == $($BINARY keys show $VAL_2_KEY_NAME --keyring-backend $KEYRING --home $EVMOS_HOME --address) ] || { echo "Expect validator name $VAL_2_KEY_NAME has address $VAL_2_ADDR"; exit 1; }
-echo " + $VAL_2_KEY_NAME: OK"
+echo " + OK: $VAL_2_KEY_NAME addr $VAL_2_ADDR seed '$VAL_2_SEED'"
 [ "$VAL_3_ADDR" == $($BINARY keys show $VAL_3_KEY_NAME --keyring-backend $KEYRING --home $EVMOS_HOME --address) ] || { echo "Expect validator name $VAL_3_KEY_NAME has address $VAL_3_ADDR"; exit 1; }
-echo " + $VAL_3_KEY_NAME: OK"
+echo " + OK: $VAL_3_KEY_NAME addr $VAL_3_ADDR seed '$VAL_3_SEED'"
 
 # Update app.toml
 APP_TOML="$EVMOS_HOME/config/app.toml"
@@ -145,7 +147,7 @@ echo "Updating config.toml"
 ## Update seed nodes
 TENDERMINT_NODE_ID=$($BINARY tendermint show-node-id --home $EVMOS_HOME)
 echo '- Add seeds [p2p > seeds]'
-cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@'$IP_EVMOS_1_EXT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@'$IP_EVMOS_EXT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 echo '- Remove default persistent peers at [p2p > persistent_peers]'
 cat $CONFIG_TOML | tomlq '.p2p["persistent_peers"]=""' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 echo '- Save tendermint node id to be used as seeds for other nodes'
@@ -227,7 +229,7 @@ WantedBy=multi-user.target"
 fi
 
 echo '##### NOTICE #####'
-echo "You have to add file following domain \"$IP_EVMOS_1_EXT\" to hosts file and resolve it to IP address of this machine (can not be 127.0.0.1) because it is being used for this node becomes seed node (check config.toml [p2p > seed])"
+echo "You have to add file following domain \"$IP_EVMOS_EXT\" to hosts file and resolve it to IP address of this machine (can not be 127.0.0.1) because it is being used for this node becomes seed node (check config.toml [p2p > seed])"
 
 echo
 read -p "Do you want to run more validator? (Y/n)" -n 1 -r
@@ -239,7 +241,7 @@ then
     echo "1. Copy the following files to the new machine"
     echo " - $GENESIS_JSON_BAK"
     echo " - $CONFIG_TOML_BAK"
-    echo "2. Update /etc/hosts of those machine to resolve the IP address of domain \"$IP_EVMOS_1_EXT\" follow IP of this machine"
+    echo "2. Update /etc/hosts of those machine to resolve the IP address of domain \"$IP_EVMOS_EXT\" follow IP of this machine"
     echo "3. Run ./create-validator.sh (before that, remember to run the validator node on this machine first)"
     echo "Good luck with EVMOS"
     cp $GENESIS_JSON_BAK 'bak_genesis.json'
