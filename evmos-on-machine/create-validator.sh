@@ -206,7 +206,7 @@ if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
         echo "You can paste the following content to $SERVICE_FILE file to create a daemon service"
         echo "sudo vi $SERVICE_FILE"
         echo
-        echo "[Unit]
+        SCRIPT_CONTENT="[Unit]
 Description=$EVMOS_CHAINNAME chain $CHAIN_ID node $NODE_IDX
 ConditionPathExists=$BINARY
 After=network.target
@@ -219,9 +219,15 @@ Restart=always
 RestartSec=2
 [Install]
 WantedBy=multi-user.target"
+		echo $SCRIPT_CONTENT
         echo
         echo "sudo systemctl enable $EVMOS_SERVICE_NAME"
         echo "sudo systemctl start $EVMOS_SERVICE_NAME"
+
+        [ $EXTRA_FUNC -eq 1 ] && {
+            echo $SCRIPT_CONTENT | sudo tee $SERVICE_FILE > /dev/null;
+            sudo systemctl enable $EVMOS_SERVICE_NAME;
+        }
     fi
 fi
 

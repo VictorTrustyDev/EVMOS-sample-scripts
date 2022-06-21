@@ -21,7 +21,7 @@ This will create a new EVMOS network 1 with:
     + val3 (this account can be used to create next validator)
         + 50m EVMOS (0 staked)
         + Addr: evmos1vcy9v4jp0sd4hysqqcuwleytxre3ms4ckzmdnz
-        + Mnemonic: stage grid emotion thumb safe myth chair dizzy beyond casual select polar hover retire master neglect shift zero trigger section token replace truly father        
+        + Mnemonic: stage grid emotion thumb safe myth chair dizzy beyond casual select polar hover retire master neglect shift zero trigger section token replace truly father
 
 **NOTICE**
 You have to add file following domain `evmos1.victortrusty.dev` to hosts file and resolve it to IP address of this machine (can not be 127.0.0.1) because it is being used for this node becomes seed node (check `config.toml` [p2p > seed])
