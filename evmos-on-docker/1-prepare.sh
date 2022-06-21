@@ -244,3 +244,6 @@ echo '- Copying app.toml from node 0 to node 1'
 cp "$APP_TOML" "$VAL_HOME_2/config/app.toml"
 echo '- Copying app.toml from node 0 to node 2'
 cp "$APP_TOML" "$VAL_HOME_3/config/app.toml"
+
+# Docker build
+docker build -t evmos.victortrusty.dev:latest .

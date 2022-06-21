@@ -19,9 +19,11 @@ RUN apt-get install ca-certificates jq -y
 WORKDIR /evmos_home
 
 COPY ./.evmosdn0 .
+COPY ./.evmosdn1 .
+COPY ./.evmosdn2 .
 
 WORKDIR /root
 
 EXPOSE 26656 26657 1317 9090 8545
 
-CMD ["evmosd", "start", "--home", "/evmos_home/.evmosdn0"]
+ENTRYPOINT /usr/bin/evmosd start --home "/evmos_home/.evmosdn$NODE"
