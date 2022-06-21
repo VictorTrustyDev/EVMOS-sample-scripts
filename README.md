@@ -4,7 +4,7 @@
 - [Go 1.17.5+](https://go.dev/doc/install)
 - [jq](https://stedolan.github.io/jq/download)
 - [yq + tomlq (build on top of jq)](https://github.com/kislyuk/yq)
-- Rust (for Hermes - IBC relayer)
+- [Rust 1.60+](https://www.rust-lang.org/tools/install) (for Hermes - IBC relayer)
 
 I created all of the following sample on a Ubuntu 22.04 LTS
 
