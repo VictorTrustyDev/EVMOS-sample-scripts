@@ -15,6 +15,11 @@
 You can check the IBC token hash created by the following command:
 > $ evmosd q bank balances evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp --node tcp://127.0.0.1:26657 | grep denom | grep ibc
 
+Sample output:
+> denom: ibc/0E8BF52B5A990E16C4AF2E5ED426503F3F0B12067FB2B4B660015A64CCE38EA0
+
+_The coin on chain A (eg aevmos) represents as `ibc/0E8BF...38EA0` on chain B, this hash changes on different relayers_
+
 ### III. Attention
 - The tendermint light client id, connection id and channel id will be appends to `.hermes/config.toml` file
 - If you send your coin (EVMOS) to a chain using different relayers (thus different channel id), your token will represent as a different IBC/_hash_
