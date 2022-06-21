@@ -8,28 +8,28 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
     echo 'Stopping services'
-    sudo systemctl stop evmosd10 evmosd11 evmosd12 evmosd20 evmosd21 evmosd22
+    sudo systemctl stop $EVMOS_BINARY'10' $EVMOS_BINARY'11' $EVMOS_BINARY'12' $EVMOS_BINARY'20' $EVMOS_BINARY'21' $EVMOS_BINARY'22'
     sleep 2s
     echo 'Disable services'
-    sudo systemctl disable evmosd10
-    sudo systemctl disable evmosd11
-    sudo systemctl disable evmosd12
-    sudo systemctl disable evmosd20
-    sudo systemctl disable evmosd21
-    sudo systemctl disable evmosd22
+    sudo systemctl disable $EVMOS_BINARY'10'
+    sudo systemctl disable $EVMOS_BINARY'11'
+    sudo systemctl disable $EVMOS_BINARY'12'
+    sudo systemctl disable $EVMOS_BINARY'20'
+    sudo systemctl disable $EVMOS_BINARY'21'
+    sudo systemctl disable $EVMOS_BINARY'22'
     echo 'Remove service files'
-    sudo rm -f /etc/systemd/system/evmosd10.service
-    sudo rm -f /etc/systemd/system/evmosd11.service
-    sudo rm -f /etc/systemd/system/evmosd12.service
-    sudo rm -f /etc/systemd/system/evmosd20.service
-    sudo rm -f /etc/systemd/system/evmosd21.service
-    sudo rm -f /etc/systemd/system/evmosd22.service
-    echo 'Removing home ~/.evmosd*'
-    sudo rm -rf ~/.evmosd10
-    sudo rm -rf ~/.evmosd11
-    sudo rm -rf ~/.evmosd12
-    sudo rm -rf ~/.evmosd20
-    sudo rm -rf ~/.evmosd21
-    sudo rm -rf ~/.evmosd22
+    sudo rm -f '/etc/systemd/system/'$EVMOS_BINARY'10.service'
+    sudo rm -f '/etc/systemd/system/'$EVMOS_BINARY'11.service'
+    sudo rm -f '/etc/systemd/system/'$EVMOS_BINARY'12.service'
+    sudo rm -f '/etc/systemd/system/'$EVMOS_BINARY'20.service'
+    sudo rm -f '/etc/systemd/system/'$EVMOS_BINARY'21.service'
+    sudo rm -f '/etc/systemd/system/'$EVMOS_BINARY'22.service'
+    echo "Removing home $HOME/.$EVMOS_BINARY*"
+    sudo rm -rf $HOME'/.'$EVMOS_BINARY'10'
+    sudo rm -rf $HOME'/.'$EVMOS_BINARY'11'
+    sudo rm -rf $HOME'/.'$EVMOS_BINARY'12'
+    sudo rm -rf $HOME'/.'$EVMOS_BINARY'20'
+    sudo rm -rf $HOME'/.'$EVMOS_BINARY'21'
+    sudo rm -rf $HOME'/.'$EVMOS_BINARY'22'
     echo 'Done'
 fi
