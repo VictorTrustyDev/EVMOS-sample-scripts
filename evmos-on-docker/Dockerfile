@@ -9,9 +9,9 @@ COPY ./EVMOS-source-code .
 
 RUN make build
 
-COPY /go/src/github.com/tharsis/evmos/build/evmosd /usr/bin/evmosd
-
 FROM golang:stretch
+
+COPY --from=build-env /go/src/github.com/tharsis/evmos/build/evmosd /usr/bin/evmosd
 
 RUN apt-get update -y
 RUN apt-get install ca-certificates jq -y
