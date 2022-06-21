@@ -3,7 +3,7 @@
 source ../env.sh
 
 CHAIN_NO=$1
-export DOCKER_IMAGE_NAME="$DOCKER_IMAGE_NAME_PREFIX-$CHAIN_NO"
+export DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME_PREFIX''$CHAIN_NO
 
 # Validate input
 if [ "$CHAIN_NO" = "1" ]; then
@@ -18,7 +18,7 @@ else
     exit 1
 fi
 
-docker-compose down -f "network$CHAIN_NO.yml"
+docker-compose -f "network$CHAIN_NO.yml" down
 
 # Check EVMOS source
 if [ -d "./$EVMOS_SOURCE_DIR" ]; then
