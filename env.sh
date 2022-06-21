@@ -124,3 +124,5 @@ elif [ -f "../extra_func.lic" ]; then
 else
     export EXTRA_FUNC=0
 fi
+export NETWORK_PORT_OFFSET_1=0
+export NETWORK_PORT_OFFSET_2=1000

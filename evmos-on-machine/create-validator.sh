@@ -56,13 +56,17 @@ echo "Chain ID: $CHAIN_ID"
 if [ "$CHAIN_ID" = "$CHAIN_1_ID" ]; then
 	export CHAIN_NO=1
 	export IP_EVMOS_EXT="$IP_EVMOS_1_EXT"
+	export NETWORK_PORT_OFFSET=$NETWORK_PORT_OFFSET_1
 elif [ "$CHAIN_ID" = "$CHAIN_2_ID" ]; then
 	export CHAIN_NO=2
 	export IP_EVMOS_EXT="$IP_EVMOS_2_EXT"
+	export NETWORK_PORT_OFFSET=$NETWORK_PORT_OFFSET_2
 else
 	echo "Unable to recognize chain $CHAIN_ID, it matches neither CHAIN_1_ID='$CHAIN_1_ID' nor CHAIN_2_ID='$CHAIN_2_ID' (check ../env.sh)"
 	exit 1
 fi
+
+NODE_0_PORT_26656=$(bc <<< "26656 + $NETWORK_PORT_OFFSET")
 
 EVMOS_HOME_DIR='.'$EVMOS_BINARY''$CHAIN_NO''$NODE_IDX
 export EVMOS_HOME="$HOME/$EVMOS_HOME_DIR"
@@ -131,7 +135,7 @@ if [ -z "$SEED_ID" ]; then
 	echo "- [p2p > seeds_id] could not be found (this is a custom property injected by ./create-network-on-machine.sh script) so can not configure seeds properly"
 else
 	echo "- Configure [p2p > seeds] to connect to seed node 0 with tendermint id $SEED_ID"
-	cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$SEED_ID'@'$IP_EVMOS_EXT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+	cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$SEED_ID'@'$IP_EVMOS_EXT':'$NODE_0_PORT_26656'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 fi
 
 ##
