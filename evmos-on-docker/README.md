@@ -2,7 +2,7 @@
 
 ### I. Create first network
 
-> $ ./1_prepare.sh 1
+> $ ./1_prepare-genesis.sh 1
 
 > $ ./2_build-docker-image.sh 1
 
@@ -13,7 +13,7 @@ To turn it off
 
 ### II. Create second network
 
-> $ ./1_prepare.sh 2
+> $ ./1_prepare-genesis.sh 2
 
 > $ ./2_build-docker-image.sh 2
 
@@ -53,4 +53,4 @@ Now you can create IBC relayer to connect them
 
 #### Wants to custom chain id, etc... Modify the [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh) file
 
-Performance: 2 networks created by this sample can run smoothly in a 4 core 4 gb ram machine
+Performance: 2 networks created by this sample can run in parallel smoothly in a 4 core 4 gb ram machine
