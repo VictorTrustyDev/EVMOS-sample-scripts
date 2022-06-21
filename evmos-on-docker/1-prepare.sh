@@ -130,20 +130,26 @@ cat $GENESIS_JSON | jq '.app_state["bank"]["balances"] += [{"address":"'$EVMOS_C
 
 
 # Update app.toml
-APP_TOML="$VAL_HOME_1/config/app.toml"
-APP_TOML_TMP="$VAL_HOME_1/config/tmp_app.toml"
-echo "Updating app.toml"
-echo '- Enable API by setting [api > enable] to "true"'
-cat $APP_TOML | tomlq '.api["enable"]=true' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
-echo '- Enable Swagger (access via http://host/swagger/) by setting [api > swagger] to "true"'
-cat $APP_TOML | tomlq '.api["swagger"]=true' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
-echo "- Bind API to 0.0.0.0:1317 by updating [api > address]"
-cat $APP_TOML | tomlq '.api["address"]="tcp://0.0.0.0:1317"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
-echo "- Bind Json-RPC to 0.0.0.0:8545 by updating [json-rpc > address]"
-cat $APP_TOML | tomlq '."json-rpc"["address"]="0.0.0.0:8545"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
-echo "- Bind gRPC to 0.0.0.0:9090 by updating [grpc > address]"
-cat $APP_TOML | tomlq '.grpc["address"]="0.0.0.0:9090"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+update_app() {
+    VAL_HOME=$1
+    APP_TOML="$VAL_HOME/config/app.toml"
+    APP_TOML_TMP="$VAL_HOME/config/tmp_app.toml"
+    echo "Updating app.toml in $VAL_HOME"
+    echo '- Enable API by setting [api > enable] to "true"'
+    cat $APP_TOML | tomlq '.api["enable"]=true' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+    echo '- Enable Swagger (access via http://host/swagger/) by setting [api > swagger] to "true"'
+    cat $APP_TOML | tomlq '.api["swagger"]=true' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+    echo "- Bind API to 0.0.0.0:1317 by updating [api > address]"
+    cat $APP_TOML | tomlq '.api["address"]="tcp://0.0.0.0:1317"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+    echo "- Bind Json-RPC to 0.0.0.0:8545 by updating [json-rpc > address]"
+    cat $APP_TOML | tomlq '."json-rpc"["address"]="0.0.0.0:8545"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+    echo "- Bind gRPC to 0.0.0.0:9090 by updating [grpc > address]"
+    cat $APP_TOML | tomlq '.grpc["address"]="0.0.0.0:9090"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+}
 
+update_app $VAL_HOME_1
+update_app $VAL_HOME_2
+update_app $VAL_HOME_3
 
 # Update config.toml
 CONFIG_TOML="$VAL_HOME_1/config/config.toml"
