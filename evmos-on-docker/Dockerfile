@@ -9,7 +9,7 @@ COPY ./EVMOS-source-code .
 
 RUN make build
 
-COPY --from=build-env /go/src/github.com/tharsis/evmos/build/evmosd /usr/bin/evmosd
+COPY /go/src/github.com/tharsis/evmos/build/evmosd /usr/bin/evmosd
 
 FROM golang:stretch
 
