@@ -218,7 +218,7 @@ update_config() {
     VAL_HOME=$1
     CONFIG_TOML="$VAL_HOME/config/config.toml"
     CONFIG_TOML_TMP="$VAL_HOME/config/tmp_config.toml"
-    echo "Updating app.toml in $VAL_HOME"
+    echo "Updating config.toml in $VAL_HOME"
     ## Update seed nodes
     if [ "$VAL_HOME" = "$VAL_HOME_1" ]; then
         echo '- Remove seeds [p2p > seeds]'
