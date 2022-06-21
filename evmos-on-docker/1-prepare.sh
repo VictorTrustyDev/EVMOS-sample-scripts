@@ -198,6 +198,8 @@ $BINARY gentx $VAL_2_KEY_NAME "$VAL_2_STAKE"$MIN_DENOM_SYMBOL \
     --chain-id $CHAIN_ID \
     --home $VAL_HOME_2 > /dev/null 2>&1
 [ $? -eq 0 ] || { echo "Failed to create genesis tx for validator 2"; exit 1; }
+echo "Copy generated tx to $VAL_HOME_1/config/gentx"
+cp "$VAL_HOME_2/config/gentx/*.json" "$VAL_HOME_1/config/gentx/"
 
 echo 'Generate genesis staking transaction '$(bc <<< "$VAL_3_STAKE / (10^$EVMOS_DENOM_EXPONENT)")' '$DENOM_SYMBOL' for validator '$VAL_3_KEY_NAME
 $BINARY gentx $VAL_3_KEY_NAME "$VAL_3_STAKE"$MIN_DENOM_SYMBOL \
@@ -209,11 +211,13 @@ $BINARY gentx $VAL_3_KEY_NAME "$VAL_3_STAKE"$MIN_DENOM_SYMBOL \
     --chain-id $CHAIN_ID \
     --home $VAL_HOME_3 > /dev/null 2>&1
 [ $? -eq 0 ] || { echo "Failed to create genesis tx for validator 3"; exit 1; }
+echo "Copy generated tx to $VAL_HOME_1/config/gentx"
+cp "$VAL_HOME_2/config/gentx/*.json" "$VAL_HOME_1/config/gentx/"
 
 # Collect genesis tx to genesis.json
-#echo "Collecting genesis tx into genesis.json"
-#$BINARY collect-gentxs --home $VAL_HOME_1 > /dev/null 2>&1
-#[ $? -eq 0 ] || { echo "Failed to collect genesis tx"; exit 1; }
+echo "Collecting genesis tx into genesis.json"
+$BINARY collect-gentxs --home $VAL_HOME_1 # > /dev/null 2>&1
+[ $? -eq 0 ] || { echo "Failed to collect genesis tx"; exit 1; }
 
 # Validate genesis.json
 #$BINARY validate-genesis --home $VAL_HOME_1
