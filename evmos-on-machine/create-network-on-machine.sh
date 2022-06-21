@@ -191,12 +191,12 @@ if [ $NETWORK_PORT_OFFSET -eq 0 ]; then
 else
     echo "- Bind RPC to 0.0.0.0:$DEFAULT_26657 by updating [rpc > laddr]"
     cat $CONFIG_TOML | tomlq '.rpc["laddr"]="tcp://0.0.0.0:'$DEFAULT_26657'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+    echo "- Bind Peer to 0.0.0.0:$DEFAULT_26656 by updating [p2p > laddr]"
+    cat $CONFIG_TOML | tomlq '.p2p["laddr"]="tcp://0.0.0.0:'$DEFAULT_26656'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
     echo "- Bind RPC pprof_laddr to localhost:$DEFAULT_6060 by updating [rpc > pprof_laddr]"
     cat $CONFIG_TOML | tomlq '.rpc["pprof_laddr"]="127.0.0.1:'$DEFAULT_6060'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
     echo "- Bind Proxy App to localhost:$DEFAULT_26658 by updating [root > proxy_app]"
     cat $CONFIG_TOML | tomlq '.["laddr"]="proxy_app://127.0.0.1:'$DEFAULT_26658'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
-    echo "- Bind Peer to localhost:$DEFAULT_26656 by updating [p2p > laddr]"
-    cat $CONFIG_TOML | tomlq '.p2p["laddr"]="tcp://127.0.0.1:'$DEFAULT_26656'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 fi
 
 # Allocate genesis accounts

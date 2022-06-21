@@ -10,6 +10,7 @@
 I created all of the following sample on a Ubuntu 22 LTS
 
 ### List of samples:
+- [Script to build docker image and run with docker compose](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos-on-docker)
 - [Script to install EVMOS into your machine (non-Docker)](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos-on-machine)
 
 ### Software versions:

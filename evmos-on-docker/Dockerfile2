@@ -1,0 +1,30 @@
+FROM golang:stretch AS build-env
+
+WORKDIR /go/src/github.com/tharsis/evmos
+
+RUN apt-get update -y
+RUN apt-get install git -y
+
+COPY ./EVMOS-source-code .
+
+RUN make build
+
+FROM golang:stretch
+
+COPY --from=build-env /go/src/github.com/tharsis/evmos/build/evmosd /usr/bin/evmosd
+
+RUN apt-get update -y
+RUN apt-get install ca-certificates jq -y
+
+WORKDIR /evmosd20
+COPY ./.evmosd20 .
+WORKDIR /evmosd21
+COPY ./.evmosd21 .
+WORKDIR /evmosd22
+COPY ./.evmosd22 .
+
+WORKDIR /root
+
+EXPOSE 26656 26657 1317 9090 8545
+
+ENTRYPOINT /usr/bin/evmosd start --home "/evmosd2$NODE"
