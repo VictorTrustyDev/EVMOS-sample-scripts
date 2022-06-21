@@ -3,7 +3,7 @@ networks:
   vtevmosnw1:
     driver: bridge
 services:
-  vtevmos0:
+  vtevmos10:
     container_name: vtevmos10
     ports:
       - "8545:8545"
@@ -20,7 +20,7 @@ services:
       - vtevmos12
     restart: always
     image: evmos.victortrusty.dev:c1
-  vtevmos1:
+  vtevmos11:
     container_name: vtevmos11
     networks:
       - vtevmosnw1
@@ -33,7 +33,7 @@ services:
       - vtevmos12
     restart: always
     image: evmos.victortrusty.dev:c1
-  vtevmos2:
+  vtevmos12:
     container_name: vtevmos12
     networks:
       - vtevmosnw1
