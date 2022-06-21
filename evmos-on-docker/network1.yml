@@ -15,9 +15,6 @@ services:
       - vtevmosnw1
     environment:
       - NODE=0
-    links:
-      - vtevmos11
-      - vtevmos12
     restart: always
     image: evmos.victortrusty.dev:c1
   vtevmos11:
@@ -28,9 +25,6 @@ services:
       - NODE=1
     depends_on:
       - vtevmos10
-    links:
-      - vtevmos10
-      - vtevmos12
     restart: always
     image: evmos.victortrusty.dev:c1
   vtevmos12:
@@ -41,8 +35,5 @@ services:
       - NODE=2
     depends_on:
       - vtevmos10
-    links:
-      - vtevmos10
-      - vtevmos11
     restart: always
     image: evmos.victortrusty.dev:c1
