@@ -231,6 +231,7 @@ if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
         [ $EXTRA_FUNC -eq 1 ] && {
             echo 'Creating service '$HERMES_SERVICE_NAME;
             echo -e $SCRIPT_CONTENT | sudo tee $SERVICE_FILE > /dev/null;
+            sudo systemctl daemon-reload;
             sudo systemctl enable $HERMES_SERVICE_NAME;
 			sudo systemctl start $HERMES_SERVICE_NAME;
         }
