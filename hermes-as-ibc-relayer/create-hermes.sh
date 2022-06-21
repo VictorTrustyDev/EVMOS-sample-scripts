@@ -10,6 +10,9 @@ sudo systemctl stop $HERMES_SERVICE_NAME
 echo "Remove previous setup"
 rm -rf "$HERMES_HOME_DIR"
 
+echo "Init new home dir"
+mkdir -p "$HERMES_HOME_DIR"
+
 echo 'You can custom config by editing keys with prefix [HERMES_CFG_CHAIN_*] in [env.sh] file'
 sleep 3s
 

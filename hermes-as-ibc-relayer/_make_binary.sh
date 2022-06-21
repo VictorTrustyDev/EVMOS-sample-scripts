@@ -18,6 +18,7 @@ else
     CUR_DIR=$(pwd)
 	cd "$HERMES_SOURCE_DIR"
 	echo "Compiling $HERMES_BINARY. If this is the first time you compile, it will take time, you can enjoy a cup of coffee and comeback later"
+    sleep 3s
     cargo build --release --bin $HERMES_BINARY
     [ $? -eq 0 ] || { echo "Failed to compile Hermes"; exit 1; }
     cd "$CUR_DIR"
