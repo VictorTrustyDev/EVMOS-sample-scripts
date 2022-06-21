@@ -219,14 +219,14 @@ Restart=always
 RestartSec=2
 [Install]
 WantedBy=multi-user.target"
-		echo $SCRIPT_CONTENT
+		echo -e $SCRIPT_CONTENT
         echo
         echo "sudo systemctl enable $EVMOS_SERVICE_NAME"
         echo "sudo systemctl start $EVMOS_SERVICE_NAME"
 
         [ $EXTRA_FUNC -eq 1 ] && {
             echo 'Creating service '$EVMOS_SERVICE_NAME;
-            echo $SCRIPT_CONTENT | sudo tee $SERVICE_FILE > /dev/null;
+            echo -e $SCRIPT_CONTENT | sudo tee $SERVICE_FILE > /dev/null;
             sudo systemctl enable $EVMOS_SERVICE_NAME;
         }
     fi
