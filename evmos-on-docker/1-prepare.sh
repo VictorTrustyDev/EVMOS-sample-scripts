@@ -151,25 +151,6 @@ update_app $VAL_HOME_1
 update_app $VAL_HOME_2
 update_app $VAL_HOME_3
 
-# Update config.toml
-CONFIG_TOML="$VAL_HOME_1/config/config.toml"
-CONFIG_TOML_TMP="$VAL_HOME_1/config/tmp_config.toml"
-echo "Updating config.toml"
-## Update seed nodes
-TENDERMINT_NODE_ID=$($BINARY tendermint show-node-id --home $VAL_HOME_1)
-echo '- Add seeds [p2p > seeds]'
-cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@'$IP_EVMOS_EXT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
-echo '- Remove default persistent peers at [p2p > persistent_peers]'
-cat $CONFIG_TOML | tomlq '.p2p["persistent_peers"]=""' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
-## Disable create empty block
-###echo '- Disable create empty block by setting [root > create_empty_blocks] to false'
-###cat $CONFIG_TOML | tomlq '.["create_empty_blocks"]=false' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
-## Expose ports
-echo "- Bind RPC to 0.0.0.0:26657 by updating [rpc > laddr]"
-cat $CONFIG_TOML | tomlq '.rpc["laddr"]="tcp://0.0.0.0:26657"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
-echo "- Bind Peer to 0.0.0.0:26656 by updating [p2p > laddr]"
-cat $CONFIG_TOML | tomlq '.p2p["laddr"]="tcp://0.0.0.0:26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
-
 # Allocate genesis accounts
 $BINARY add-genesis-account $VAL_1_KEY_NAME "$VAL_1_BALANCE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --home $VAL_HOME_1
 $BINARY add-genesis-account $VAL_2_KEY_NAME "$VAL_2_BALANCE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --home $VAL_HOME_1
@@ -230,25 +211,39 @@ $BINARY collect-gentxs --home $VAL_HOME_1 > /dev/null 2>&1
 $BINARY validate-genesis --home $VAL_HOME_1
 [ $? -eq 0 ] || { echo "Failed to validate genesis"; exit 1; }
 
-# Update config.toml part 2
-echo "Updating config.toml part 2"
-echo '- Remove default persistent peers at [p2p > persistent_peers]'
-cat $CONFIG_TOML | tomlq '.p2p["persistent_peers"]=""' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+
+# Update config.toml
+SEED_TENDERMINT_NODE_ID=$($BINARY tendermint show-node-id --home $VAL_HOME_1)
+update_config() {
+    VAL_HOME=$1
+    CONFIG_TOML="$VAL_HOME/config/config.toml"
+    CONFIG_TOML_TMP="$VAL_HOME/config/tmp_config.toml"
+    echo "Updating app.toml in $VAL_HOME"
+    ## Update seed nodes
+    echo '- Add seeds [p2p > seeds]'
+    cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$SEED_TENDERMINT_NODE_ID'@'$IP_EVMOS_EXT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+    echo '- Remove default persistent peers at [p2p > persistent_peers]'
+    cat $CONFIG_TOML | tomlq '.p2p["persistent_peers"]=""' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+    ## Disable create empty block
+    ###echo '- Disable create empty block by setting [root > create_empty_blocks] to false'
+    ###cat $CONFIG_TOML | tomlq '.["create_empty_blocks"]=false' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+    ## Expose ports
+    echo "- Bind RPC to 0.0.0.0:26657 by updating [rpc > laddr]"
+    cat $CONFIG_TOML | tomlq '.rpc["laddr"]="tcp://0.0.0.0:26657"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+    echo "- Bind Peer to 0.0.0.0:26656 by updating [p2p > laddr]"
+    cat $CONFIG_TOML | tomlq '.p2p["laddr"]="tcp://0.0.0.0:26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+}
+
+update_config $VAL_HOME_1
+update_config $VAL_HOME_2
+update_config $VAL_HOME_3
 
 # Copy
-echo 'Copy'
+echo 'Copy genesis.json'
 echo '- Copying genesis.json from node 0 to node 1'
-cp "$GENESIS_JSON" "$VAL_HOME_2/config/genesis.json"
+cp "$VAL_HOME_1/config/genesis.json" "$VAL_HOME_2/config/genesis.json"
 echo '- Copying genesis.json from node 0 to node 2'
-cp "$GENESIS_JSON" "$VAL_HOME_3/config/genesis.json"
-echo '- Copying app.toml from node 0 to node 1'
-cp "$APP_TOML" "$VAL_HOME_2/config/app.toml"
-echo '- Copying app.toml from node 0 to node 2'
-cp "$APP_TOML" "$VAL_HOME_3/config/app.toml"
-echo '- Copying config.toml from node 0 to node 1'
-cp "$CONFIG_TOML" "$VAL_HOME_2/config/config.toml"
-echo '- Copying config.toml from node 0 to node 2'
-cp "$CONFIG_TOML" "$VAL_HOME_3/config/config.toml"
+cp "$VAL_HOME_1/config/genesis.json" "$VAL_HOME_3/config/genesis.json"
 
 # Update config.toml part 3
 echo "Updating config.toml part 3"
