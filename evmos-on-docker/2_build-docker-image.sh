@@ -33,7 +33,7 @@ else
     fi
 fi
 
-VAL_HOME_PREFIX='.evmosdn'
+VAL_HOME_PREFIX='.'$DENOM_SYMBOL'd'$CHAIN_NO
 VAL_HOME_1=$VAL_HOME_PREFIX'0'
 VAL_HOME_2=$VAL_HOME_PREFIX'1'
 VAL_HOME_3=$VAL_HOME_PREFIX'2'
@@ -42,7 +42,7 @@ VAL_HOME_3=$VAL_HOME_PREFIX'2'
 docker rmi "$DOCKER_IMAGE_NAME"
 
 # Docker build
-docker build -t "$DOCKER_IMAGE_NAME" .
+docker build -t "$DOCKER_IMAGE_NAME" -f Dockerfile1 .
 
 echo "Image: $DOCKER_IMAGE_NAME"
 echo 'Done, you can move to next step'
