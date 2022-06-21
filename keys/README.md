@@ -10,6 +10,6 @@
     + Addr: evmos1vcy9v4jp0sd4hysqqcuwleytxre3ms4ckzmdnz
     + Mnemonic: stage grid emotion thumb safe myth chair dizzy beyond casual select polar hover retire master neglect shift zero trigger section token replace truly father
 
-The `validator1.key`, `validator2.key` and `validator3.key` are exported from keyring via `evmosd keys export..` with protection password is `11111111` (8x digit 1)
+The `validator1.key`, `validator2.key` and `validator3.key` was exported from keyring via `evmosd keys export..` with protection password is `11111111` (8x digit 1)
 
-The files in `keyring` folder was copied from `~/.evmosd/keyring-test` and will be used to copy into new chain for solid purpose
+The files in `keyring` folder was copied from `~/.evmosd/keyring-test` will be used to copy into new chain and use as validators for convenience purposes
