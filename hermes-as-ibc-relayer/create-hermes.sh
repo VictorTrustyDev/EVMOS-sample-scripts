@@ -89,7 +89,7 @@ else
 fi
 
 # Binary
-export BINARY=$HERMES_SOURCE_DIR'/target/release/'$HERMES_BINARY
+export BINARY=$(pwd)'/'$HERMES_SOURCE_DIR'/target/release/'$HERMES_BINARY
 
 # Check & Install hermes binary if not exists
 ./_make_binary.sh

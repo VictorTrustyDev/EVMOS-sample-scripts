@@ -26,7 +26,7 @@ export EVMOS_VER="v5.0.0"
 export EVMOS_BINARY="evmosd"
 export EVMOS_DENOM_EXPONENT=18 # no of digits
 export EVMOS_GAS_DENOM_EXPONENT=9 # no of digits
-export EVMOS_SOURCE_DIR="EVMOS-source-code"
+export EVMOS_SOURCE_DIR="EVMOS-source-code" # do NOT modify
 export EVMOS_CLAIM_MODULE_ACCOUNT="evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz"
 
 ## Validators
@@ -70,7 +70,7 @@ export CHAIN_2_COINTYPE=60
 ## Hermes (IBC Relayer)
 export HERMES_VER="v0.15.0"
 export HERMES_BINARY="hermes"
-export HERMES_SOURCE_DIR="Hermes-source-code"
+export HERMES_SOURCE_DIR="Hermes-source-code" # do NOT modify
 export HERMES_HOME_DIR=".hermes"
 export HERMES_RESERVED_FEE=100 # will be transfered to relayer's account and reserved for relay purpose
 export HERMES_CFG_CHAIN_1_ID="$CHAIN_1_ID"
