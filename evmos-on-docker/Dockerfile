@@ -21,9 +21,11 @@ WORKDIR /evmos_home
 COPY ./.evmosdn0 .
 COPY ./.evmosdn1 .
 COPY ./.evmosdn2 .
+RUN ls -la
 
 WORKDIR /root
 
 EXPOSE 26656 26657 1317 9090 8545
 
+ENTRYPOINT ls -la /evmos_home
 ENTRYPOINT /usr/bin/evmosd start --home "/evmos_home/.evmosdn$NODE"
