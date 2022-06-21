@@ -128,7 +128,7 @@ cat $CONFIG_TOML | tomlq '.["proxy_app"]="tcp://127.0.0.1:'$DEFAULT_26658'"' --t
 echo "- Adjust [rpc > laddr] from port 26657 to localhost:$DEFAULT_26657"
 cat $CONFIG_TOML | tomlq '.rpc["laddr"]="tcp://127.0.0.1:'$DEFAULT_26657'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 echo "- Adjust [rpc > pprof_laddr] from port 6060 to localhost:$DEFAULT_6060"
-cat $CONFIG_TOML | tomlq '.rpc["pprof_laddr"]="tcp://127.0.0.1:'$DEFAULT_6060'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+cat $CONFIG_TOML | tomlq '.rpc["pprof_laddr"]="127.0.0.1:'$DEFAULT_6060'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 echo "- Adjust [p2p > laddr] from port 26656 to localhost:$DEFAULT_26656"
 cat $CONFIG_TOML | tomlq '.p2p["laddr"]="tcp://127.0.0.1:'$DEFAULT_26656'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 SEED_ID=$(cat $CONFIG_TOML | tomlq '.p2p["seeds_id"]' | head -n 1 | tr -d '"')
@@ -147,14 +147,14 @@ cat $APP_TOML | tomlq '.api["address"]="tcp://127.0.0.1:'$DEFAULT_1317'"' --toml
 cat $APP_TOML | tomlq '.api["swagger"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 cat $APP_TOML | tomlq '.api["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 echo "- Adjust [grpc > address] from port 9090 to localhost:$DEFAULT_9090 and turn it off by default"
-cat $APP_TOML | tomlq '.grpc["address"]="tcp://127.0.0.1:'$DEFAULT_9090'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+cat $APP_TOML | tomlq '.grpc["address"]="127.0.0.1:'$DEFAULT_9090'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 cat $APP_TOML | tomlq '.grpc["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 echo "- Adjust [grpc-web > address] from port 9091 to localhost:$DEFAULT_9091 and turn it off by default"
-cat $APP_TOML | tomlq '."grpc-web"["address"]="tcp://127.0.0.1:'$DEFAULT_9091'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+cat $APP_TOML | tomlq '."grpc-web"["address"]="127.0.0.1:'$DEFAULT_9091'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 cat $APP_TOML | tomlq '."grpc-web"["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 echo "- Adjust [json-rpc > address] from port 8545 to localhost:$DEFAULT_8545, [json-rpc > ws-address] from port 8546 to localhost:$DEFAULT_8546 and turn it off by default"
-cat $APP_TOML | tomlq '."json-rpc"["address"]="tcp://127.0.0.1:'$DEFAULT_8545'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
-cat $APP_TOML | tomlq '."json-rpc"["ws-address"]="tcp://127.0.0.1:'$DEFAULT_8546'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+cat $APP_TOML | tomlq '."json-rpc"["address"]="127.0.0.1:'$DEFAULT_8545'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+cat $APP_TOML | tomlq '."json-rpc"["ws-address"]="127.0.0.1:'$DEFAULT_8546'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 cat $APP_TOML | tomlq '."json-rpc"["enable"]=false' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 
 

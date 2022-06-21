@@ -107,13 +107,13 @@ else
     echo "- Bind API to 0.0.0.0:$DEFAULT_1317 by updating [api > address]"
     cat $APP_TOML | tomlq '.api["address"]="tcp://0.0.0.0:'$DEFAULT_1317'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
     echo "- Bind gRPC to 0.0.0.0:$DEFAULT_9090 by updating [grpc > address]"
-    cat $APP_TOML | tomlq '.grpc["address"]="[tcp://0.0.0.0]:'$DEFAULT_9090'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+    cat $APP_TOML | tomlq '.grpc["address"]="0.0.0.0:'$DEFAULT_9090'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
     echo "- Bind Web-gRPC to 0.0.0.0:$DEFAULT_9091 by updating [grpc-web > address]"
-    cat $APP_TOML | tomlq '."grpc-web"["address"]="tcp://0.0.0.0:'$DEFAULT_9091'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+    cat $APP_TOML | tomlq '."grpc-web"["address"]="0.0.0.0:'$DEFAULT_9091'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
     echo "- Bind Json-RPC to 0.0.0.0:$DEFAULT_8545 by updating [json-rpc > address]"
-    cat $APP_TOML | tomlq '."json-rpc"["address"]="tcp://0.0.0.0:'$DEFAULT_8545'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+    cat $APP_TOML | tomlq '."json-rpc"["address"]="0.0.0.0:'$DEFAULT_8545'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
     echo "- Bind Json-RPC websocket to 0.0.0.0:$DEFAULT_8546 by updating [json-rpc > ws-address]"
-    cat $APP_TOML | tomlq '."json-rpc"["ws-address"]="tcp://0.0.0.0:'$DEFAULT_8546'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+    cat $APP_TOML | tomlq '."json-rpc"["ws-address"]="0.0.0.0:'$DEFAULT_8546'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 fi
 
 # Update genesis.json
@@ -192,7 +192,7 @@ else
     echo "- Bind RPC to 0.0.0.0:$DEFAULT_26657 by updating [rpc > laddr]"
     cat $CONFIG_TOML | tomlq '.rpc["laddr"]="tcp://0.0.0.0:'$DEFAULT_26657'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
     echo "- Bind RPC pprof_laddr to localhost:$DEFAULT_6060 by updating [rpc > pprof_laddr]"
-    cat $CONFIG_TOML | tomlq '.rpc["pprof_laddr"]="proxy_app://127.0.0.1:'$DEFAULT_6060'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+    cat $CONFIG_TOML | tomlq '.rpc["pprof_laddr"]="127.0.0.1:'$DEFAULT_6060'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
     echo "- Bind Proxy App to localhost:$DEFAULT_26658 by updating [root > proxy_app]"
     cat $CONFIG_TOML | tomlq '.["laddr"]="proxy_app://127.0.0.1:'$DEFAULT_26658'"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
     echo "- Bind Peer to localhost:$DEFAULT_26656 by updating [p2p > laddr]"
