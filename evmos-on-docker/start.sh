@@ -19,4 +19,4 @@ fi
 
 docker-compose down -f "network$CHAIN_NO.yml"
 
-docker-compose up -f "network$CHAIN_NO.yml" -d
+docker-compose -f "network$CHAIN_NO.yml" up -d
