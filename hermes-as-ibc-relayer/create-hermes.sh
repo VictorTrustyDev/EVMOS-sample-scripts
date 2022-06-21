@@ -22,8 +22,8 @@ then
 else
     echo "Go prepare yourself"
     echo "Hint: you can do this"
-    echo "evmosd tx bank send $VAL_1_KEY_NAME $REL_1_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$EVMOS_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --node tcp://$HERMES_CFG_CHAIN_1_RPC_ADDR"
-    echo "evmosd tx bank send $VAL_1_KEY_NAME $REL_2_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$EVMOS_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --node tcp://$HERMES_CFG_CHAIN_2_RPC_ADDR"
+    echo " evmosd tx bank send $VAL_1_KEY_NAME $REL_1_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$EVMOS_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --node tcp://$HERMES_CFG_CHAIN_1_RPC_ADDR"
+    echo " evmosd tx bank send $VAL_1_KEY_NAME $REL_2_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$EVMOS_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --node tcp://$HERMES_CFG_CHAIN_2_RPC_ADDR"
     exit 1
 fi
 
@@ -158,6 +158,24 @@ sed -i "s/NoteConnection1/Connection 1 to 2: $CONN_1_TO_2/g" $CONFIG_TOML
 sed -i "s/NoteConnection2/Connection 2 to 1: $CONN_2_TO_1/g" $CONFIG_TOML
 sed -i "s/NoteChannel1/Channel 1 to 2: $CHAN_1_TO_2/g" $CONFIG_TOML
 sed -i "s/NoteChannel2/Channel 2 to 1: $CHAN_2_TO_1/g" $CONFIG_TOML
+
+echo 'Initialize token hash on opposite channel'
+echo "- Init for $HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL on $HERMES_CFG_CHAIN_2_ID"
+echo ' + FT-Transfer from '$HERMES_CFG_CHAIN_1_ID' to '$HERMES_CFG_CHAIN_2_ID
+$BINARY tx raw ft-transfer $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID transfer $CHAN_1_TO_2 1 --timeout-height-offset 1000 --number-msgs 1 --denom $HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL
+echo ' + Send `recv_packet` to '$HERMES_CFG_CHAIN_2_ID
+$BINARY tx raw packet-recv $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID transfer $CHAN_1_TO_2
+echo ' + Send acknowledgement to '$HERMES_CFG_CHAIN_1_ID
+$BINARY tx raw packet-ack $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID transfer $CHAN_1_TO_2
+sleep 5s
+echo "- Init for $HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL on $HERMES_CFG_CHAIN_1_ID"
+echo ' + FT-Transfer from '$HERMES_CFG_CHAIN_2_ID' to '$HERMES_CFG_CHAIN_1_ID
+$BINARY tx raw ft-transfer $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID transfer $CHAN_2_TO_1 1 --timeout-height-offset 1000 --number-msgs 1 --denom $HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL
+echo ' + Send `recv_packet` to '$HERMES_CFG_CHAIN_1_ID
+$BINARY tx raw packet-recv $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID transfer $CHAN_2_TO_1
+echo ' + Send acknowledgement to '$HERMES_CFG_CHAIN_2_ID
+$BINARY tx raw packet-ack $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID transfer $CHAN_2_TO_1
+sleep 5s
 
 echo 'Information summary'
 echo '- Client 1 to 2: '$TENDERMINT_CLIENT_1_TO_2
