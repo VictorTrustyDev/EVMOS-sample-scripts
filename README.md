@@ -1,4 +1,4 @@
-### Here you can find sample scripts and notes of how to setup an EVMOS network and create IBC relayer (using Hermes) to transfer tokens & coin between networks
+### Here you can find sample scripts and notes of how to setup an EVMOS network and connect them via an IBC relayer (using Hermes) to transfer tokens & coin cross chain
 
 #### Pre-requisites
 - [Go 1.17.5+](https://go.dev/doc/install)
