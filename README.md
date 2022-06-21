@@ -19,3 +19,4 @@ I created all of the following sample on a Ubuntu 22.04 LTS
 - [Hermes v0.15.0](https://github.com/informalsystems/ibc-rs/tree/v0.15.0)
 
 You can change version EVMOS and Hermes by updating file [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)
+- This sample is using keyring `test`, you may need to change to `file` for secure your test env if needed

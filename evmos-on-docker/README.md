@@ -54,3 +54,5 @@ Now you can create IBC relayer to connect them
 #### Wants to custom chain id, etc... Modify the [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh) file
 
 Performance: 2 networks created by this sample can run in parallel smoothly in a 4 core 4 gb ram machine
+
+This sample is using keyring `test`, you may need to change to `file` for secure your test env if needed
