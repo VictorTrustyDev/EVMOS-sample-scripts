@@ -107,50 +107,50 @@ $BINARY -c $CONFIG_TOML keys restore --mnemonic "$REL_2_SEED" --hd-path "m/44'/$
 
 echo "Creating client, connection and channels"
 echo '- Creating client'
-RES_CREATE_CLIENT_1_TO_2=$($BINARY tx raw create-client $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID)
+RES_CREATE_CLIENT_1_TO_2=$($BINARY -c $CONFIG_TOML tx raw create-client $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID)
 TENDERMINT_CLIENT_1_TO_2=$(echo $RES_CREATE_CLIENT_1_TO_2 | grep -o '07-tendermint-[0-9]*')
 echo ' > Client 1 to 2: '$TENDERMINT_CLIENT_1_TO_2
 
-RES_CREATE_CLIENT_2_TO_1=$($BINARY tx raw create-client $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID)
+RES_CREATE_CLIENT_2_TO_1=$($BINARY -c $CONFIG_TOML tx raw create-client $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID)
 TENDERMINT_CLIENT_2_TO_1=$(echo $RES_CREATE_CLIENT_2_TO_1 | grep -o '07-tendermint-[0-9]*')
 echo ' > Client 2 to 1: '$TENDERMINT_CLIENT_2_TO_1
 
 echo '- Creating connection'
-RES_CREATE_CONN_1_TO_2=$($BINARY tx raw conn-init $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID $TENDERMINT_CLIENT_1_TO_2 $TENDERMINT_CLIENT_2_TO_1)
+RES_CREATE_CONN_1_TO_2=$($BINARY -c $CONFIG_TOML tx raw conn-init $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID $TENDERMINT_CLIENT_1_TO_2 $TENDERMINT_CLIENT_2_TO_1)
 CONN_1_TO_2=$(echo $RES_CREATE_CONN_1_TO_2 | grep -o 'connection-[0-9]*')
 echo ' > Connection 1 to 2: '$CONN_1_TO_2
 
-RES_CREATE_CONN_2_TO_1=$($BINARY tx raw conn-try $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID $TENDERMINT_CLIENT_2_TO_1 $TENDERMINT_CLIENT_1_TO_2 -s $CONN_1_TO_2)
+RES_CREATE_CONN_2_TO_1=$($BINARY -c $CONFIG_TOML tx raw conn-try $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID $TENDERMINT_CLIENT_2_TO_1 $TENDERMINT_CLIENT_1_TO_2 -s $CONN_1_TO_2)
 CONN_2_TO_1=$(echo $RES_CREATE_CONN_2_TO_1 | grep -o 'connection-[0-9]*' | head -n 1)
 echo ' > Connection 2 to 1: '$CONN_2_TO_1
 
-$BINARY tx raw conn-ack $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID $TENDERMINT_CLIENT_1_TO_2 $TENDERMINT_CLIENT_2_TO_1 -d $CONN_1_TO_2 -s $CONN_2_TO_1
+$BINARY -c $CONFIG_TOML tx raw conn-ack $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID $TENDERMINT_CLIENT_1_TO_2 $TENDERMINT_CLIENT_2_TO_1 -d $CONN_1_TO_2 -s $CONN_2_TO_1
 sleep 3s
-$BINARY tx raw conn-confirm $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID $TENDERMINT_CLIENT_2_TO_1 $TENDERMINT_CLIENT_1_TO_2 -d $CONN_2_TO_1 -s $CONN_1_TO_2
+$BINARY -c $CONFIG_TOML tx raw conn-confirm $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID $TENDERMINT_CLIENT_2_TO_1 $TENDERMINT_CLIENT_1_TO_2 -d $CONN_2_TO_1 -s $CONN_1_TO_2
 
 echo ' + Testing connection 1'
-$BINARY query connection end $HERMES_CFG_CHAIN_1_ID $CONN_1_TO_2 | grep 'Open'
+$BINARY -c $CONFIG_TOML query connection end $HERMES_CFG_CHAIN_1_ID $CONN_1_TO_2 | grep 'Open'
 
 echo ' + Testing connection 2'
-$BINARY query connection end $HERMES_CFG_CHAIN_2_ID $CONN_2_TO_1 | grep 'Open'
+$BINARY -c $CONFIG_TOML query connection end $HERMES_CFG_CHAIN_2_ID $CONN_2_TO_1 | grep 'Open'
 
 echo '- Creating channel'
 
-RES_CREATE_CHAN_1_TO_2=$($BINARY tx raw chan-open-init $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID $CONN_1_TO_2 transfer transfer -o UNORDERED)
+RES_CREATE_CHAN_1_TO_2=$($BINARY -c $CONFIG_TOML tx raw chan-open-init $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID $CONN_1_TO_2 transfer transfer -o UNORDERED)
 CHAN_1_TO_2=$(echo $RES_CREATE_CHAN_1_TO_2 | grep -o 'channel-[0-9]*')
 
-RES_CREATE_CHAN_2_TO_1=$($BINARY tx raw chan-open-try $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID $CONN_2_TO_1 transfer transfer -s $CHAN_1_TO_2)
+RES_CREATE_CHAN_2_TO_1=$($BINARY -c $CONFIG_TOML tx raw chan-open-try $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID $CONN_2_TO_1 transfer transfer -s $CHAN_1_TO_2)
 CHAN_2_TO_1=$(echo $RES_CREATE_CHAN_2_TO_1 | grep -o 'channel-[0-9]*' | head -n 1)
 
-$BINARY tx raw chan-open-ack $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID $CONN_1_TO_2 transfer transfer -d $CHAN_1_TO_2 -s $CHAN_2_TO_1
+$BINARY -c $CONFIG_TOML tx raw chan-open-ack $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID $CONN_1_TO_2 transfer transfer -d $CHAN_1_TO_2 -s $CHAN_2_TO_1
 sleep 3s
-$BINARY tx raw chan-open-confirm $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID $CONN_2_TO_1 transfer transfer -d $CHAN_2_TO_1 -s $CHAN_1_TO_2
+$BINARY -c $CONFIG_TOML tx raw chan-open-confirm $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID $CONN_2_TO_1 transfer transfer -d $CHAN_2_TO_1 -s $CHAN_1_TO_2
 
 echo ' + Testing channel 1'
-$BINARY query channel end $HERMES_CFG_CHAIN_1_ID transfer $CHAN_1_TO_2 | grep 'Open'
+$BINARY -c $CONFIG_TOML query channel end $HERMES_CFG_CHAIN_1_ID transfer $CHAN_1_TO_2 | grep 'Open'
 
 echo ' + Testing channel 2'
-$BINARY query channel end $HERMES_CFG_CHAIN_2_ID transfer $CHAN_2_TO_1 | grep 'Open'
+$BINARY -c $CONFIG_TOML query channel end $HERMES_CFG_CHAIN_2_ID transfer $CHAN_2_TO_1 | grep 'Open'
 
 sed -i "s/NoteClient1/Client 1 to 2: $TENDERMINT_CLIENT_1_TO_2/g" $CONFIG_TOML
 sed -i "s/NoteClient2/Client 2 to 1: $TENDERMINT_CLIENT_2_TO_1/g" $CONFIG_TOML
@@ -162,19 +162,19 @@ sed -i "s/NoteChannel2/Channel 2 to 1: $CHAN_2_TO_1/g" $CONFIG_TOML
 echo 'Initialize token hash on opposite channel'
 echo "- Init for $HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL on $HERMES_CFG_CHAIN_2_ID"
 echo ' + FT-Transfer from '$HERMES_CFG_CHAIN_1_ID' to '$HERMES_CFG_CHAIN_2_ID
-$BINARY tx raw ft-transfer $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID transfer $CHAN_1_TO_2 1 --timeout-height-offset 1000 --number-msgs 1 --denom $HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL
+$BINARY -c $CONFIG_TOML tx raw ft-transfer $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID transfer $CHAN_1_TO_2 1 --timeout-height-offset 1000 --number-msgs 1 --denom $HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL
 echo ' + Send `recv_packet` to '$HERMES_CFG_CHAIN_2_ID
-$BINARY tx raw packet-recv $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID transfer $CHAN_1_TO_2
+$BINARY -c $CONFIG_TOML tx raw packet-recv $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID transfer $CHAN_1_TO_2
 echo ' + Send acknowledgement to '$HERMES_CFG_CHAIN_1_ID
-$BINARY tx raw packet-ack $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID transfer $CHAN_1_TO_2
+$BINARY -c $CONFIG_TOML tx raw packet-ack $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID transfer $CHAN_1_TO_2
 sleep 5s
 echo "- Init for $HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL on $HERMES_CFG_CHAIN_1_ID"
 echo ' + FT-Transfer from '$HERMES_CFG_CHAIN_2_ID' to '$HERMES_CFG_CHAIN_1_ID
-$BINARY tx raw ft-transfer $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID transfer $CHAN_2_TO_1 1 --timeout-height-offset 1000 --number-msgs 1 --denom $HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL
+$BINARY -c $CONFIG_TOML tx raw ft-transfer $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID transfer $CHAN_2_TO_1 1 --timeout-height-offset 1000 --number-msgs 1 --denom $HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL
 echo ' + Send `recv_packet` to '$HERMES_CFG_CHAIN_1_ID
-$BINARY tx raw packet-recv $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID transfer $CHAN_2_TO_1
+$BINARY -c $CONFIG_TOML tx raw packet-recv $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID transfer $CHAN_2_TO_1
 echo ' + Send acknowledgement to '$HERMES_CFG_CHAIN_2_ID
-$BINARY tx raw packet-ack $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID transfer $CHAN_2_TO_1
+$BINARY -c $CONFIG_TOML tx raw packet-ack $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID transfer $CHAN_2_TO_1
 sleep 5s
 
 echo 'Information summary'
@@ -185,9 +185,11 @@ echo '- Connection 2 to 1: '$CONN_2_TO_1
 echo '- Channel 1 to 2: '$CHAN_1_TO_2
 echo '- Channel 2 to 1: '$CHAN_2_TO_1
 echo "> The above information was saved as comment lines in [$CONFIG_TOML], you can review it any time"
+echo '## NOTICE: Always run hermes binary with path of config.toml as input:'
+echo " > $BINARY -c $CONFIG_TOML [command]"
 
 echo 'Final steps need to be done'
-echo '- Update config file '$CONF_FILE
+echo '- Update config file '$CONFIG_TOML
 echo ' + Add [chains.packet_filter] for chain '$HERMES_CFG_CHAIN_1_ID' allows transfer via '$CHAN_1_TO_2
 echo ' + Add [chains.packet_filter] for chain '$HERMES_CFG_CHAIN_2_ID' allows transfer via '$CHAN_2_TO_1
 echo ' + Validate config'
@@ -209,18 +211,18 @@ if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
         WORKING_DIR=$(pwd)
         
         SCRIPT_CONTENT="[Unit]
-Description=Hermes as IBC Relayer ($HERMES_BINARY)
-ConditionPathExists=$BINARY
-After=network.target
-[Service]
-Type=simple
-User=$USER
-WorkingDirectory=$WORKING_DIR
-ExecStart=$BINARY -c $CONFIG_TOML --json start
-Restart=always
-RestartSec=2
-[Install]
-WantedBy=multi-user.target"
+\nDescription=Hermes as IBC Relayer ($HERMES_BINARY)
+\nConditionPathExists=$BINARY
+\nAfter=network.target
+\n[Service]
+\nType=simple
+\nUser=$USER
+\nWorkingDirectory=$WORKING_DIR
+\nExecStart=$BINARY -c $CONFIG_TOML --json start
+\nRestart=always
+\nRestartSec=2
+\n[Install]
+\nWantedBy=multi-user.target"
 		echo -e $SCRIPT_CONTENT
         echo
         echo "sudo systemctl enable $HERMES_SERVICE_NAME"
