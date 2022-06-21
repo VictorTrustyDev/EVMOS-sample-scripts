@@ -4,13 +4,13 @@
 - [Go 1.17.5+](https://go.dev/doc/install)
 - [jq](https://stedolan.github.io/jq/download)
 - [yq + tomlq (build on top of jq)](https://github.com/kislyuk/yq)
-- [bc](https://www.tecmint.com/bc-command-examples)
 - Rust (for Hermes - IBC relayer)
 
-I created all of the following sample on a Ubuntu 22 LTS
+I created all of the following sample on a Ubuntu 22.04 LTS
 
 ### List of samples:
-- [Script to build docker image and run with docker compose](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos-on-docker)
+- [Script to build EVMOS networks and run with docker compose](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos-on-docker)
+- [Script to build an IBC relayer using Hermes](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/hermes-as-ibc-relayer)
 - [Script to install EVMOS into your machine (non-Docker)](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos-on-machine)
 
 ### Software versions:

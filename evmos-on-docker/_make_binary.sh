@@ -3,7 +3,7 @@
 if [ -f "$BINARY" ]; then
 	echo "Nice! EVMOS binary $EVMOS_BINARY is already exists"
 else
-	if [ -d "./$EVMOS_SOURCE_DIR" ]; then
+	if [ -d "$EVMOS_SOURCE_DIR" ]; then
 		echo "EVMOS repo was downloaded"
 	else
 		echo "Downloading EVMOS source code $EVMOS_VER"
@@ -15,11 +15,12 @@ else
         fi
 	fi
 
-	cd "./$EVMOS_SOURCE_DIR"
+    CUR_DIR=$(pwd)
+	cd "$EVMOS_SOURCE_DIR"
 	echo "Compiling $EVMOS_BINARY. If this is the first time you compile, it will take time, you can enjoy a cup of coffee and comeback later"
     make install
     [ $? -eq 0 ] || { echo "Failed to compile EVMOS"; exit 1; }
-    cd ../
+    cd "$CUR_DIR"
 fi
 
 if [ ! -f "$BINARY" ]; then

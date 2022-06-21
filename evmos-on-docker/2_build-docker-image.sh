@@ -21,11 +21,11 @@ fi
 docker-compose -f "network$CHAIN_NO.yml" down
 
 # Check EVMOS source
-if [ -d "./$EVMOS_SOURCE_DIR" ]; then
+if [ -d "./EVMOS-source-code" ]; then
     echo "EVMOS repo was downloaded"
 else
     echo "Downloading EVMOS source code $EVMOS_VER"
-    git clone https://github.com/evmos/evmos.git --branch $EVMOS_VER --single-branch $EVMOS_SOURCE_DIR
+    git clone https://github.com/evmos/evmos.git --branch $EVMOS_VER --single-branch "EVMOS-source-code"
 
     if [ $? -ne 0 ]; then
         echo "Git clone EVMOS $EVMOS_VER failed"
