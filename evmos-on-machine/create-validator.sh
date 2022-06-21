@@ -67,6 +67,7 @@ else
 fi
 
 NODE_0_PORT_26656=$(bc <<< "26656 + $NETWORK_PORT_OFFSET")
+NODE_0_PORT_26657=$(bc <<< "26657 + $NETWORK_PORT_OFFSET")
 
 EVMOS_HOME_DIR='.'$EVMOS_BINARY''$CHAIN_NO''$NODE_IDX
 export EVMOS_HOME="$HOME/$EVMOS_HOME_DIR"
@@ -74,7 +75,7 @@ export EVMOS_SERVICE_NAME=$EVMOS_BINARY''$CHAIN_NO''$NODE_IDX
 MONIKER=$EVMOS_MONIKER'-'$VAL_KEY_NAME
 
 # Check if validator is already exists
-MONIKER_EXISTS=$($BINARY q staking validators | grep $MONIKER)
+MONIKER_EXISTS=$($BINARY q staking validators --node="tcp://$IP_EVMOS_EXT:$NODE_0_PORT_26657" | grep $MONIKER)
 if [ ! -z "$MONIKER_EXISTS" ]; then
 	echo "Moniker $MONIKER is already exists, can not create duplicate"
 	exit 1
@@ -186,15 +187,15 @@ $BINARY tx staking create-validator --home "$EVMOS_HOME" --keyring-backend $KEYR
 	--min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
 	--from="$VAL_KEY_NAME" \
 	--gas="$VAL_GAS_LIMIT_CREATE_VALIDATOR" \
-	--node="tcp://$IP_EVMOS_EXT:26657" \
+	--node="tcp://$IP_EVMOS_EXT:$NODE_0_PORT_26657" \
 	--yes
 echo '- Wait...'
 sleep 10s
 echo '- Check'
-MONIKER_EXISTS=$($BINARY q staking validators | grep $MONIKER)
+MONIKER_EXISTS=$($BINARY q staking validators --node="tcp://$IP_EVMOS_EXT:$NODE_0_PORT_26657" | grep $MONIKER)
 if [ -z "$MONIKER_EXISTS" ]; then
 	echo " + WARN ! Moniker $MONIKER could not be found in validators list"
-	$BINARY q staking validators | grep $EVMOS_MONIKER
+	$BINARY q staking validators --node="tcp://$IP_EVMOS_EXT:$NODE_0_PORT_26657" | grep $EVMOS_MONIKER
 else
 	echo " + OK"
 fi
