@@ -22,7 +22,7 @@ To turn it off
 To turn it off
 > $ docker-compose -f network2.yml down
 
-Now you can create IBC relayer to connect them
+Now you can [follow this sample](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/tree/main/hermes-as-ibc-relayer) to create an IBC relayer to connect them
 
 ### III. Network stats
 
