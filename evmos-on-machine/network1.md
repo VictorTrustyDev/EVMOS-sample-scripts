@@ -1,7 +1,7 @@
 ### Network 1 stats
 
-- Home dir: ~/.evmosd-v-evmos_9006-1-node*
 - Node 0 (1st/genesis validator)
+    + Home dir: `~/.evmosd10`
     + Service file `/etc/systemd/system/evmosd-c1-n0.service`
     + Expose almost it's port to the world
 
@@ -16,6 +16,7 @@
 | 6060 | pprof_laddr | Open | localhost | - |
 
 - Node 1 (2nd validator)
+    + Home dir: `~/.evmosd11`
     + Service file `/etc/systemd/system/evmosd-c1-n1.service`
     + Will NOT public any port, all endpoint will be adjusted to opens on localhost and almost port will be closed by default
 
@@ -32,6 +33,7 @@
 | 6170 | pprof_laddr | Open | localhost | 6060 |
 
 - The node 2 (3rd validator)
+    + Home dir: `~/.evmosd12`
     + Service file `/etc/systemd/system/evmosd-c1-n2.service`
     + Same as node 1, this node will NOT public any port, all endpoint will be adjusted to opens on localhost and almost port will be closed by defaultthe following ports
 
