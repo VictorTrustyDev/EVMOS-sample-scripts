@@ -81,9 +81,6 @@ export REL_1_ADDR="evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp"
 export REL_2_SEED="above name soft reunion change cabin rack outside wedding orange dice impact"
 export REL_2_ADDR="evmos157g0zpv77su6awh04wec5s2jdyrk62jy40ck58"
 
-## Docker
-DOCKER_NETWORK_NAME="evmos"
-
 ## Reflects by above config (edit at your own risk)
 export EVMOS_CHAINNAME=$(echo $DENOM_SYMBOL | tr '[:lower:]' '[:upper:]')
 export EVMOS_MONIKER=$DENOM_SYMBOL'AIO'
@@ -102,7 +99,7 @@ export VAL_1_CLAIM=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_RAW_CLAIM")
 export VAL_2_CLAIM=$VAL_1_CLAIM
 export VAL_3_CLAIM=$VAL_1_CLAIM
 ### Docker
-export DOCKER_IMAGE_NAME="$DENOM_SYMBOL.victortrusty.dev:latest"
+export DOCKER_IMAGE_NAME_PREFIX="$DENOM_SYMBOL.victortrusty.dev:c"
 
 # Others
 echo $NOTICE_DEV_ENV

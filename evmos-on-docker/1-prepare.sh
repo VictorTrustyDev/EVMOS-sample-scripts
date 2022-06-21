@@ -9,13 +9,11 @@ CHAIN_NO=$1
 
 # Validate input
 if [ "$CHAIN_NO" = "1" ]; then
-    echo "Going to setup an EVMOS chain with id $CHAIN_1_ID"
+    echo "Initializing chain $CHAIN_1_ID"
     export CHAIN_ID="$CHAIN_1_ID"
-    export IP_EVMOS_EXT="$IP_EVMOS_1_EXT"
 elif [ "$CHAIN_NO" = "2" ]; then
-    echo "Going to setup an EVMOS chain with id $CHAIN_2_ID"
+    echo "Initializing chain $CHAIN_2_ID"
     export CHAIN_ID="$CHAIN_2_ID"
-    export IP_EVMOS_EXT="$IP_EVMOS_2_EXT"
 else
     echo 'Missing or incorrect chain no as first argument, valid input is 1 or 2'
     echo 'For example:'
@@ -31,10 +29,12 @@ export BINARY="$GOPATH/bin/$EVMOS_BINARY"
 ./_make_binary.sh
 [ $? -eq 0 ] || { echo "Failed to check & build $EVMOS_BINARY binary at $BINARY"; }
 
-VAL_HOME_PREFIX='.evmosdn'
+VAL_HOME_PREFIX='.'$DENOM_SYMBOL'd'$CHAIN_NO
 VAL_HOME_1=$VAL_HOME_PREFIX'0'
 VAL_HOME_2=$VAL_HOME_PREFIX'1'
 VAL_HOME_3=$VAL_HOME_PREFIX'2'
+
+CONTAINER_PREFIX="vt$DENOM_SYMBOL"$CHAIN_NO
 # Cleanup
 echo 'Clean up previous setup'
 rm -rf $VAL_HOME_1'/'
@@ -223,9 +223,9 @@ update_config() {
     echo "Updating config.toml in $VAL_HOME"
     ## Update seed nodes
     echo '- Add seeds to [p2p > seeds]'
-    cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID_1'@vtevmos0:26656,'$TENDERMINT_NODE_ID_2'@vtevmos1:26656,'$TENDERMINT_NODE_ID_3'@vtevmos2:26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+    cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID_1'@'$CONTAINER_PREFIX'0:26656,'$TENDERMINT_NODE_ID_2'@'$CONTAINER_PREFIX'1:26656,'$TENDERMINT_NODE_ID_3'@'$CONTAINER_PREFIX'2:26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
     echo '- Add persistent peers to [p2p > persistent_peers]'
-    cat $CONFIG_TOML | tomlq '.p2p["persistent_peers"]="'$TENDERMINT_NODE_ID_1'@vtevmos0:26656,'$TENDERMINT_NODE_ID_2'@vtevmos1:26656,'$TENDERMINT_NODE_ID_3'@vtevmos2:26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+    cat $CONFIG_TOML | tomlq '.p2p["persistent_peers"]="'$TENDERMINT_NODE_ID_1'@'$CONTAINER_PREFIX'0:26656,'$TENDERMINT_NODE_ID_2'@'$CONTAINER_PREFIX'1:26656,'$TENDERMINT_NODE_ID_3'@'$CONTAINER_PREFIX'2:26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
     ## Disable create empty block
     ###echo '- Disable create empty block by setting [root > create_empty_blocks] to false'
     ###cat $CONFIG_TOML | tomlq '.["create_empty_blocks"]=false' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
