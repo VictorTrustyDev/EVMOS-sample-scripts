@@ -7,10 +7,13 @@
         + evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp (for both networks)
             + Seed: raw course slim hockey salt crawl sick safe december during armed fragile
     + You need to manually transfer some coins (EVMOS) to this address, so the relayer can use this account to broadcast some needed transactions
-        > Sample command: `evmosd tx bank send val1 evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp 100000000000000000000aevmos --node tcp://127.0.0.1:26657`
+        > Sample command: `$ evmosd tx bank send val1 evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp 100000000000000000000aevmos --node tcp://127.0.0.1:26657`
 
 ### II. Create the IBC relayer
 > $ ./create-hermes.sh
+
+You can check the IBC token hash created by the following command:
+> $ evmosd q bank balances evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp --node tcp://127.0.0.1:26657 | grep denom | grep ibc
 
 ### III. Attention
 - The tendermint light client id, connection id and channel id will be appends to `.hermes/config.toml` file
