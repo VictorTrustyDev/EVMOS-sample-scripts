@@ -213,22 +213,19 @@ $BINARY validate-genesis --home $VAL_HOME_1
 
 
 # Update config.toml
-SEED_TENDERMINT_NODE_ID=$($BINARY tendermint show-node-id --home $VAL_HOME_1)
+TENDERMINT_NODE_ID_1=$($BINARY tendermint show-node-id --home $VAL_HOME_1)
+TENDERMINT_NODE_ID_2=$($BINARY tendermint show-node-id --home $VAL_HOME_2)
+TENDERMINT_NODE_ID_3=$($BINARY tendermint show-node-id --home $VAL_HOME_3)
 update_config() {
     VAL_HOME=$1
     CONFIG_TOML="$VAL_HOME/config/config.toml"
     CONFIG_TOML_TMP="$VAL_HOME/config/tmp_config.toml"
     echo "Updating config.toml in $VAL_HOME"
     ## Update seed nodes
-    if [ "$VAL_HOME" = "$VAL_HOME_1" ]; then
-        echo '- Remove seeds [p2p > seeds]'
-        cat $CONFIG_TOML | tomlq '.p2p["seeds"]=""' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
-    else
-        echo '- Add seeds [p2p > seeds]'
-        cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$SEED_TENDERMINT_NODE_ID'@vtevmos0:26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
-    fi
-    echo '- Remove default persistent peers at [p2p > persistent_peers]'
-    cat $CONFIG_TOML | tomlq '.p2p["persistent_peers"]=""' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+    echo '- Add seeds to [p2p > seeds]'
+    cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID_1'@vtevmos0:26656,'$TENDERMINT_NODE_ID_2'@vtevmos1:26656,'$TENDERMINT_NODE_ID_3'@vtevmos2:26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+    echo '- Add persistent peers to [p2p > persistent_peers]'
+    cat $CONFIG_TOML | tomlq '.p2p["persistent_peers"]="'$TENDERMINT_NODE_ID_1'@vtevmos0:26656,'$TENDERMINT_NODE_ID_2'@vtevmos1:26656,'$TENDERMINT_NODE_ID_3'@vtevmos2:26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
     ## Disable create empty block
     ###echo '- Disable create empty block by setting [root > create_empty_blocks] to false'
     ###cat $CONFIG_TOML | tomlq '.["create_empty_blocks"]=false' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
