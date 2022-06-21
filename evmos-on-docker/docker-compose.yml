@@ -1,0 +1,43 @@
+version: "3"
+networks:
+  vtevmos:
+    driver: bridge
+services:
+  vtevmos0:
+    container_name: vtevmos0
+    ports:
+      - "8545:8545"
+      - "26657:26657"
+      - "1317:1317"
+      - "9090:9090"
+      - "26656:26656"
+    networks:
+      - vtevmos
+    environment:
+      - NODE=0
+    restart: always
+    image: evmos.victortrusty.dev:latest
+  vtevmos1:
+    container_name: vtevmos1
+    networks:
+      - vtevmos
+    environment:
+      - NODE=1
+    depends_on:
+      - vtevmos0
+    links:
+      - vtevmos0
+    restart: always
+    image: evmos.victortrusty.dev:latest
+  vtevmos2:
+    container_name: vtevmos2
+    networks:
+      - vtevmos
+    environment:
+      - NODE=2
+    depends_on:
+      - vtevmos0
+    links:
+      - vtevmos0
+    restart: always
+    image: evmos.victortrusty.dev:latest
