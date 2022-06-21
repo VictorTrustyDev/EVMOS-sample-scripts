@@ -1,25 +1,26 @@
-### This helps you create 2 EVMOS networks ([v5.0.0](https://github.com/evmos/evmos/tree/v5.0.0)) with 3 validators and run with docker compose
+### This helps you create 2 EVMOS networks ([v5.0.0](https://github.com/evmos/evmos/tree/v5.0.0)) with 3 validators on each network and run with docker compose
 
 #### Create first network
 
 > $ ./1_prepare.sh 1
 
-> $ ./1_prepare.sh 1
+> $ ./2_build-docker-image.sh 1
 
-**NOTICE**
-You have to add file following domain `evmos1.victortrusty.dev` to hosts file and resolve it to IP address of this machine (or 127.0.0.1) because it is being used for this node becomes seed node (check `config.toml` [p2p > seed])
+> $ docker-compose -f network1.yml up -d
 
-#### Step 2: create validator
-1. Copy the `bak_genesis.json` and `bak_config.toml` which was generated and backed up in the first node to current directory
-2. Make sure the node 0 already started (`evmosd start --home ~/.evmosd10`)
-2. Execute the command
-> $ ./create-validator.sh 2 (or 3)
+To turn it off
+> $ docker-compose -f network1.yml down
 
-The new validator will be create based on above accounts with 3k coin staked
+#### Create second network
 
-The opened ports depends on which network you created (view the list in the end of this page)
+> $ ./1_prepare.sh 2
 
-Want more validator? Just create more, no problem
+> $ ./2_build-docker-image.sh 2
+
+> $ docker-compose -f network2.yml up -d
+
+To turn it off
+> $ docker-compose -f network2.yml down
 
 ### Network stats
 
@@ -44,3 +45,5 @@ Want more validator? Just create more, no problem
         + 3k coin staked
         + Addr: evmos1vcy9v4jp0sd4hysqqcuwleytxre3ms4ckzmdnz
         + Mnemonic: stage grid emotion thumb safe myth chair dizzy beyond casual select polar hover retire master neglect shift zero trigger section token replace truly father
+
+#### Wants to custom chain id, etc... Modify the `env.sh` file
