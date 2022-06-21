@@ -201,6 +201,8 @@ if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
 	echo
     if [ -f "$SERVICE_FILE" ]; then
         echo "You are ready to restart $EVMOS_SERVICE_NAME service (sudo systemctl restart $EVMOS_SERVICE_NAME)"
+		
+		[ $EXTRA_FUNC -eq 1 ] && sudo systemctl start $EVMOS_SERVICE_NAME
     else
         echo "You can paste the following content to $SERVICE_FILE file to create a daemon service"
         echo "sudo vi $SERVICE_FILE"
@@ -227,15 +229,10 @@ if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
             echo 'Creating service '$EVMOS_SERVICE_NAME;
             echo -e $SCRIPT_CONTENT | sudo tee $SERVICE_FILE > /dev/null;
             sudo systemctl enable $EVMOS_SERVICE_NAME;
+			sudo systemctl start $EVMOS_SERVICE_NAME;
         }
     fi
-
-	[ $EXTRA_FUNC -eq 1 ] && sudo systemctl start $EVMOS_SERVICE_NAME
 fi
-
-echo
-echo "ATTENTION: This script launched a node with \"--home $EVMOS_HOME\", make sure to stop/kill it to get rid of mysterious issue"
-echo " command to check: \"ps -aux | grep $EVMOS_BINARY | grep node$NODE_IDX\")"
 
 echo
 echo 'Active ports:'
