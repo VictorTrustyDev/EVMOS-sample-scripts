@@ -9,11 +9,13 @@ if [ "$VALIDATOR_NO" = "2" ]; then
 	export VAL_KEY_NAME="$VAL_2_KEY_NAME"
 	export VAL_ADDR="$VAL_2_ADDR"
 	export VAL_STAKE="$VAL_2_STAKE"
+	export VAL_SEED="$VAL_2_SEED"
 	export NODE_IDX=1
 elif [ "$VALIDATOR_NO" = "3" ]; then
 	export VAL_KEY_NAME="$VAL_3_KEY_NAME"
 	export VAL_ADDR="$VAL_3_ADDR"
 	export VAL_STAKE="$VAL_3_STAKE"
+	export VAL_SEED="$VAL_3_SEED"
 	export NODE_IDX=2
 else
     echo 'Missing or incorrect validator no as first argument, valid input is 2 or 3'
@@ -164,7 +166,7 @@ cp -r ../keys/keyring/ "$EVMOS_HOME/keyring-$KEYRING"
 ## Verify
 echo '- Verifing key for this node'
 [ "$VAL_ADDR" == $($BINARY keys show $VAL_KEY_NAME --keyring-backend $KEYRING --home $EVMOS_HOME --address) ] || { echo "Expect validator name $VAL_KEY_NAME has address $VAL_ADDR"; exit 1; }
-echo " + $VAL_KEY_NAME: OK"
+echo " + OK: $VAL_KEY_NAME addr $VAL_ADDR seed '$VAL_3_SEED'"
 
 #
 echo 'Register validator'
@@ -201,7 +203,7 @@ if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
 	echo
     if [ -f "$SERVICE_FILE" ]; then
         echo "You are ready to restart $EVMOS_SERVICE_NAME service (sudo systemctl restart $EVMOS_SERVICE_NAME)"
-		
+
 		[ $EXTRA_FUNC -eq 1 ] && sudo systemctl start $EVMOS_SERVICE_NAME
     else
         echo "You can paste the following content to $SERVICE_FILE file to create a daemon service"
