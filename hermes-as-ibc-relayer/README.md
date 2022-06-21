@@ -1,7 +1,7 @@
 ### This helps you create a IBC relayer service using Hermes ([v0.15.0](https://github.com/informalsystems/ibc-rs/tree/v0.15.0)) to transfer coins between 2 networks
 
 ### I. Prepare
-- Open file `env.sh`, locate the variables with prefix `HERMES_CFG_CHAIN_*` and updated based on your need
+- **IMPORTANT** Open file `env.sh`, locate the variables with prefix `HERMES_CFG_CHAIN_*` and updated based on your need
 - Hermes require an account on each chain with some coins reserved for broadcast tx purpose
     + Account used by default:
         + evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp (for both networks)

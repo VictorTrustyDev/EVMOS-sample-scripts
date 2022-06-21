@@ -22,7 +22,7 @@ To turn it off
 To turn it off
 > $ docker-compose -f network2.yml down
 
-Now you can create IBC relayer to connect them
+Now you can [follow this sample](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/tree/main/hermes-as-ibc-relayer) to create an IBC relayer to connect them
 
 ### III. Network stats
 
@@ -54,3 +54,5 @@ Now you can create IBC relayer to connect them
 #### Wants to custom chain id, etc... Modify the [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh) file
 
 Performance: 2 networks created by this sample can run in parallel smoothly in a 4 core 4 gb ram machine
+
+This sample is using keyring `test`, you may need to change to `file` ([env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)) to secure your test env if needed
