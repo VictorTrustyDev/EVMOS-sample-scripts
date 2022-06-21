@@ -220,8 +220,13 @@ update_config() {
     CONFIG_TOML_TMP="$VAL_HOME/config/tmp_config.toml"
     echo "Updating app.toml in $VAL_HOME"
     ## Update seed nodes
-    echo '- Add seeds [p2p > seeds]'
-    cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$SEED_TENDERMINT_NODE_ID'@'$IP_EVMOS_EXT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+    if [ "$VAL_HOME" = "$VAL_HOME_1" ]; then
+        echo '- Remove seeds [p2p > seeds]'
+        cat $CONFIG_TOML | tomlq '.p2p["seeds"]=""' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+    else
+        echo '- Add seeds [p2p > seeds]'
+        cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$SEED_TENDERMINT_NODE_ID'@host.docker.internal:26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+    fi
     echo '- Remove default persistent peers at [p2p > persistent_peers]'
     cat $CONFIG_TOML | tomlq '.p2p["persistent_peers"]=""' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
     ## Disable create empty block
