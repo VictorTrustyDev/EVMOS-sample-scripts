@@ -4,10 +4,10 @@
 > $ ./create-network-on-machine.sh 1
 
 This will create a new EVMOS network 1 with:
-- Chain ID evmos_9006-1 (or `evmos_9007-1` if `./create-network-on-machine.sh 2`)
+- Chain ID evmos_9006-1 (or `evmos_9007-1` if create network `2`)
 - One validator (node 0)
-- P2P Seeds: _tendermint-node-id_@evmos1.victortrusty.dev:26656 (or `evmos2.victortrusty.dev` if `./create-network-on-machine.sh 2`)
-- RPC 26657, P2P 26656, JSON RPC 8545, REST 1317,...
+- P2P Seeds: _tendermint-node-id_@evmos1.victortrusty.dev:26656 (or `evmos2.victortrusty.dev` if create network `2`)
+- JSON RPC `8545`, RPC `26657`, REST `1317`, gRPC 9090, P2P 26656,...
 - 3 accounts
     + val1 as validator
         + 50m EVMOS
@@ -28,9 +28,11 @@ You have to add file following domain `evmos1.victortrusty.dev` to hosts file an
 
 #### Step 2: create validator
 1. Copy the `bak_genesis.json` and `bak_config.toml` which was generated and backed up in the first node to current directory
-2. Make sure the node 1 already started (`evmosd start --home ~/.evmosd-?`)
+2. Make sure the node 0 already started (`evmosd start --home ~/.evmosd10`)
 2. Execute the command
 > $ ./create-validator.sh 2 (or 3)
+
+The new validator will be create based on above accounts with 3k coin staked
 
 The opened ports depends on which network you created (view the list in the end of this page)
 
@@ -47,6 +49,7 @@ Want more validator? Just create more, no problem
     + Network 2: ~/.evmos2*
 
 - Node 0 (1st/genesis validator)
+    + Stake 7k, addr evmos1wuqvcpuunf7r5rg7xutqddhw55grfzc75qejyq
     + Home dir: `~/.evmosd10` on network 1 or `~/.evmosd20` on network 2
     + Service file `/etc/systemd/system/evmosd10.service`
     + Expose almost it's port to the world
@@ -62,6 +65,7 @@ Want more validator? Just create more, no problem
 | 6060 | pprof_laddr | Open | localhost | - |
 
 - Node 1 (2nd validator)
+    + Stake 3k, addr evmos1zxgt4pwzzsv02z24g80lc5rhtsp0prw0c5tk3d
     + Home dir: `~/.evmosd11` on network 1 or `~/.evmosd21` on network 2
     + Service file `/etc/systemd/system/evmosd11.service`
     + Will NOT public any port, all endpoint will be adjusted to opens on localhost and almost port will be closed by default
@@ -79,6 +83,7 @@ Want more validator? Just create more, no problem
 | 6170 | pprof_laddr | Open | localhost | 6060 |
 
 - The node 2 (3rd validator)
+    + Stake 3k, addr evmos1vcy9v4jp0sd4hysqqcuwleytxre3ms4ckzmdnz
     + Home dir: `~/.evmosd12` on network 1 or `~/.evmosd22` on network 2
     + Service file `/etc/systemd/system/evmosd12.service`
     + Same as node 1, this node will NOT public any port, all endpoint will be adjusted to opens on localhost and almost port will be closed by defaultthe following ports
