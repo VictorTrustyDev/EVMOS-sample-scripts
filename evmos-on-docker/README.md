@@ -1,6 +1,6 @@
 ### This helps you create 2 EVMOS networks ([v5.0.0](https://github.com/evmos/evmos/tree/v5.0.0)) with 3 validators on each network and run with docker compose
 
-#### Create first network
+### I. Create first network
 
 > $ ./1_prepare.sh 1
 
@@ -11,7 +11,7 @@
 To turn it off
 > $ docker-compose -f network1.yml down
 
-#### Create second network
+### II. Create second network
 
 > $ ./1_prepare.sh 2
 
@@ -22,7 +22,7 @@ To turn it off
 To turn it off
 > $ docker-compose -f network2.yml down
 
-### Network stats
+### III. Network stats
 
 | Network | Chain ID | RPC | Json RPC | REST | gRPC | P2P |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -46,4 +46,4 @@ To turn it off
         + Addr: evmos1vcy9v4jp0sd4hysqqcuwleytxre3ms4ckzmdnz
         + Mnemonic: stage grid emotion thumb safe myth chair dizzy beyond casual select polar hover retire master neglect shift zero trigger section token replace truly father
 
-#### Wants to custom chain id, etc... Modify the `env.sh` file
+#### Wants to custom chain id, etc... Modify the [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh) file
