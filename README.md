@@ -12,7 +12,8 @@ I created all of the following samples on an Ubuntu 22.04 LTS machine with 4 CPU
 
 ### List of samples:
 - [Script to build EVMOS networks and run with docker compose](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos-on-docker)
-- [Script to build an IBC relayer using Hermes](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/hermes-as-ibc-relayer)
+- [Script to build & setup Hermes as an IBC relayer](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/hermes-as-ibc-relayer)
+- [Script to setup bdjuno (back-end of Big Dipper block explorer)](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/bdjuno)
 
 ### Software versions:
 
