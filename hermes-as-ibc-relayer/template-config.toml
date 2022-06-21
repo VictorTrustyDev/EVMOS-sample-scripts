@@ -262,3 +262,11 @@ address_type = { derivation = 'ethermint', proto_type = { pk_type = '/ethermint.
 # list = [
 #   ['transfer', 'channel-?'],
 # ]
+
+# Notes
+# NoteClient1
+# NoteClient2
+# NoteConnection1
+# NoteConnection2
+# NoteChannel1
+# NoteChannel2
