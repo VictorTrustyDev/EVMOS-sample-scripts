@@ -9,7 +9,8 @@
 I created all of the following sample on a Ubuntu 22.04 LTS
 
 ### List of samples:
-- [Script to build docker image and run with docker compose](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos-on-docker)
+- [Script to build EVMOS networks and run with docker compose](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos-on-docker)
+- [Script to build an IBC relayer using Hermes](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/hermes-as-ibc-relayer)
 - [Script to install EVMOS into your machine (non-Docker)](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos-on-machine)
 
 ### Software versions:

@@ -71,6 +71,20 @@ export CHAIN_2_COINTYPE=60
 export HERMES_VER="v0.15.0"
 export HERMES_BINARY="hermes"
 export HERMES_SOURCE_DIR="Hermes-source-code"
+export HERMES_HOME_DIR=".hermes"
+export HERMES_RESERVED_FEE=100 # will be transfered to relayer's account and reserved for relay purpose
+export HERMES_CFG_CHAIN_1_ID="$CHAIN_1_ID"
+export HERMES_CFG_CHAIN_1_RPC_ADDR="127.0.0.1:26657"
+export HERMES_CFG_CHAIN_1_GRPC_ADDR="127.0.0.1:9090"
+export HERMES_CFG_CHAIN_1_ACCOUNT_PREFIX="evmos"
+export HERMES_CFG_CHAIN_1_KEY_NAME="evmoskey"
+export HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL="$MIN_DENOM_SYMBOL"
+export HERMES_CFG_CHAIN_2_ID="$CHAIN_2_ID"
+export HERMES_CFG_CHAIN_2_RPC_ADDR="127.0.0.1:36657"
+export HERMES_CFG_CHAIN_2_GRPC_ADDR="127.0.0.1:19090"
+export HERMES_CFG_CHAIN_2_ACCOUNT_PREFIX="evmos"
+export HERMES_CFG_CHAIN_2_KEY_NAME="evmoskey"
+export HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL="$MIN_DENOM_SYMBOL"
 
 ## Relayer account
 export REL_KEY_NAME="default"
@@ -78,8 +92,10 @@ export REL_KEY_NAME="default"
 export REL_1_SEED="raw course slim hockey salt crawl sick safe december during armed fragile"
 export REL_1_ADDR="evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp"
 ### Chain 2
-export REL_2_SEED="above name soft reunion change cabin rack outside wedding orange dice impact"
-export REL_2_ADDR="evmos157g0zpv77su6awh04wec5s2jdyrk62jy40ck58"
+#export REL_2_SEED="above name soft reunion change cabin rack outside wedding orange dice impact"
+#export REL_2_ADDR="evmos157g0zpv77su6awh04wec5s2jdyrk62jy40ck58"
+export REL_2_SEED="raw course slim hockey salt crawl sick safe december during armed fragile"
+export REL_2_ADDR="evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp"
 
 ## Reflects by above config (edit at your own risk)
 export EVMOS_CHAINNAME=$(echo $DENOM_SYMBOL | tr '[:lower:]' '[:upper:]')
