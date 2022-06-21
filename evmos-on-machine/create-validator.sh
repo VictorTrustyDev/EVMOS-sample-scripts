@@ -166,7 +166,7 @@ cp -r ../keys/keyring/ "$EVMOS_HOME/keyring-$KEYRING"
 ## Verify
 echo '- Verifing key for this node'
 [ "$VAL_ADDR" == $($BINARY keys show $VAL_KEY_NAME --keyring-backend $KEYRING --home $EVMOS_HOME --address) ] || { echo "Expect validator name $VAL_KEY_NAME has address $VAL_ADDR"; exit 1; }
-echo " + OK: $VAL_KEY_NAME addr $VAL_ADDR seed '$VAL_3_SEED'"
+echo " + OK: $VAL_KEY_NAME addr $VAL_ADDR seed '$VAL_SEED'"
 
 #
 echo 'Register validator'
