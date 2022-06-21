@@ -191,7 +191,6 @@ if [ -z "$MONIKER_EXISTS" ]; then
 	$BINARY q staking validators | grep $EVMOS_MONIKER
 else
 	echo " + OK"
-	[ $EXTRA_FUNC -eq 1 ] && sudo systemctl start $EVMOS_SERVICE_NAME
 fi
 
 echo 'Done'
@@ -230,6 +229,8 @@ if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
             sudo systemctl enable $EVMOS_SERVICE_NAME;
         }
     fi
+
+	[ $EXTRA_FUNC -eq 1 ] && sudo systemctl start $EVMOS_SERVICE_NAME
 fi
 
 echo
