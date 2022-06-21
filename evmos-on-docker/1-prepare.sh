@@ -145,6 +145,7 @@ echo "- Bind gRPC to 0.0.0.0:9090 by updating [grpc > address]"
 cat $APP_TOML | tomlq '.grpc["address"]="0.0.0.0:9090"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 
 
+# Update config.toml
 CONFIG_TOML="$VAL_HOME_1/config/config.toml"
 CONFIG_TOML_TMP="$VAL_HOME_1/config/tmp_config.toml"
 echo "Updating config.toml"
@@ -222,15 +223,17 @@ echo "Collecting genesis transactions into genesis.json"
 $BINARY collect-gentxs --home $VAL_HOME_1 > /dev/null 2>&1
 [ $? -eq 0 ] || { echo "Failed to collect genesis transactions"; exit 1; }
 
-echo 'Check persistent_peers 2'
-cat $CONFIG_TOML | tomlq '.p2p["persistent_peers"]'
 # Validate genesis.json
 $BINARY validate-genesis --home $VAL_HOME_1
 [ $? -eq 0 ] || { echo "Failed to validate genesis"; exit 1; }
 
-echo 'Check persistent_peers 3'
-cat $CONFIG_TOML | tomlq '.p2p["persistent_peers"]'
+# Update config.toml part 2
+echo "Updating config.toml part 2"
+echo '- Remove default persistent peers at [p2p > persistent_peers]'
+cat $CONFIG_TOML | tomlq '.p2p["persistent_peers"]=""' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+
 # Copy
+echo 'Copy'
 echo '- Copying genesis.json from node 0 to node 1'
 cp "$GENESIS_JSON" "$VAL_HOME_2/config/genesis.json"
 echo '- Copying genesis.json from node 0 to node 2'
@@ -239,5 +242,14 @@ echo '- Copying app.toml from node 0 to node 1'
 cp "$APP_TOML" "$VAL_HOME_2/config/app.toml"
 echo '- Copying app.toml from node 0 to node 2'
 cp "$APP_TOML" "$VAL_HOME_3/config/app.toml"
+echo '- Copying config.toml from node 0 to node 1'
+cp "$CONFIG_TOML" "$VAL_HOME_2/config/config.toml"
+echo '- Copying config.toml from node 0 to node 2'
+cp "$CONFIG_TOML" "$VAL_HOME_3/config/config.toml"
+
+# Update config.toml part 3
+echo "Updating config.toml part 3"
+echo '- Clean seeds of node 0'
+cat $CONFIG_TOML | tomlq '.p2p["seeds"]=""' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 
 echo '### Done, you can move to next step'
