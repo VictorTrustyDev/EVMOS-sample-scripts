@@ -225,6 +225,7 @@ WantedBy=multi-user.target"
         echo "sudo systemctl start $EVMOS_SERVICE_NAME"
 
         [ $EXTRA_FUNC -eq 1 ] && {
+            echo 'Creating service '$EVMOS_SERVICE_NAME;
             echo $SCRIPT_CONTENT | sudo tee $SERVICE_FILE > /dev/null;
             sudo systemctl enable $EVMOS_SERVICE_NAME;
         }
