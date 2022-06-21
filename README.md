@@ -1,5 +1,7 @@
 ### Here you can find sample scripts and notes of how to [setup multple EVMOS networks](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/tree/main/evmos-on-docker) and [connect them via an IBC relayer (using Hermes)](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/tree/main/hermes-as-ibc-relayer) to transfer tokens & coin cross chain
 
+I wrote hundred lines of comments which explains every steps in each script file and each readme file, hope that helps you guys in exploring Evmos & Cosmos Ecosystem
+
 #### Pre-requisites
 - [Go 1.17.5+](https://go.dev/doc/install)
 - [jq](https://stedolan.github.io/jq/download)
