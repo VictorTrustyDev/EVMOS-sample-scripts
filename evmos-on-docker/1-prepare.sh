@@ -127,8 +127,101 @@ cat $GENESIS_JSON | jq '.app_state["claims"]["params"]["duration_of_decay"]="'$d
 amount_to_claim=$(bc <<< "$VAL_1_CLAIM + $VAL_2_CLAIM + $VAL_3_CLAIM")
 echo '- Claimn module account addr '$EVMOS_CLAIM_MODULE_ACCOUNT', total '$(bc <<< "$amount_to_claim / (10^$EVMOS_DENOM_EXPONENT)")' '$DENOM_SYMBOL
 cat $GENESIS_JSON | jq '.app_state["bank"]["balances"] += [{"address":"'$EVMOS_CLAIM_MODULE_ACCOUNT'","coins":[{"denom":"'$MIN_DENOM_SYMBOL'", "amount":"'$amount_to_claim'"}]}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
-## Copy
+
+
+# Update app.toml
+APP_TOML="$VAL_HOME_1/config/app.toml"
+APP_TOML_TMP="$VAL_HOME_1/config/tmp_app.toml"
+echo "Updating app.toml"
+echo '- Enable API by setting [api > enable] to "true"'
+cat $APP_TOML | tomlq '.api["enable"]=true' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+echo '- Enable Swagger (access via http://host/swagger/) by setting [api > swagger] to "true"'
+cat $APP_TOML | tomlq '.api["swagger"]=true' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+echo "- Bind API to 0.0.0.0:1317 by updating [api > address]"
+cat $APP_TOML | tomlq '.api["address"]="tcp://0.0.0.0:1317"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+echo "- Bind Json-RPC to 0.0.0.0:8545 by updating [json-rpc > address]"
+cat $APP_TOML | tomlq '."json-rpc"["address"]="0.0.0.0:8545"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+echo "- Bind gRPC to 0.0.0.0:9090 by updating [grpc > address]"
+cat $APP_TOML | tomlq '.grpc["address"]="0.0.0.0:9090"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+
+
+CONFIG_TOML="$VAL_HOME_1/config/config.toml"
+CONFIG_TOML_TMP="$VAL_HOME_1/config/tmp_config.toml"
+echo "Updating config.toml"
+## Update seed nodes
+TENDERMINT_NODE_ID=$($BINARY tendermint show-node-id --home $VAL_HOME_1)
+echo '- Add seeds [p2p > seeds]'
+cat $CONFIG_TOML | tomlq '.p2p["seeds"]="'$TENDERMINT_NODE_ID'@'$IP_EVMOS_EXT':26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+echo '- Remove default persistent peers at [p2p > persistent_peers]'
+cat $CONFIG_TOML | tomlq '.p2p["persistent_peers"]=""' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+## Disable create empty block
+###echo '- Disable create empty block by setting [root > create_empty_blocks] to false'
+###cat $CONFIG_TOML | tomlq '.["create_empty_blocks"]=false' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+## Expose ports
+echo "- Bind RPC to 0.0.0.0:26657 by updating [rpc > laddr]"
+cat $CONFIG_TOML | tomlq '.rpc["laddr"]="tcp://0.0.0.0:26657"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+echo "- Bind Peer to 0.0.0.0:26656 by updating [p2p > laddr]"
+cat $CONFIG_TOML | tomlq '.p2p["laddr"]="tcp://0.0.0.0:26656"' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
+
+# Allocate genesis accounts
+$BINARY add-genesis-account $VAL_1_KEY_NAME "$VAL_1_BALANCE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --home $VAL_HOME_1
+$BINARY add-genesis-account $VAL_2_KEY_NAME "$VAL_2_BALANCE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --home $VAL_HOME_1
+$BINARY add-genesis-account $VAL_3_KEY_NAME "$VAL_3_BALANCE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --home $VAL_HOME_1
+
+# Update total supply + claim values in genesis.json
+total_supply=$(bc <<< "$VAL_1_BALANCE + $VAL_2_BALANCE + $VAL_3_BALANCE + $VAL_1_CLAIM + $VAL_2_CLAIM + $VAL_3_CLAIM")
+echo 'Update original total supply = '$(bc <<< "$total_supply / (10^$EVMOS_DENOM_EXPONENT)")' '$DENOM_SYMBOL' into [app_state > bank > supply[0] > amount]'
+cat $GENESIS_JSON | jq '.app_state["bank"]["supply"][0]["amount"]="'$total_supply'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+
+# Sign genesis transaction
+echo 'Generate genesis staking transaction '$(bc <<< "$VAL_1_STAKE / (10^$EVMOS_DENOM_EXPONENT)")' '$DENOM_SYMBOL' for validator '$VAL_1_KEY_NAME
+$BINARY gentx $VAL_1_KEY_NAME "$VAL_1_STAKE"$MIN_DENOM_SYMBOL \
+    --commission-rate="$VAL_COMMISSION_RATE" \
+    --commission-max-rate="$VAL_COMMISSION_RATE_MAX" \
+    --commission-max-change-rate="$VAL_COMMISSION_CHANGE_RATE_MAX" \
+    --min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
+    --keyring-backend $KEYRING \
+    --chain-id $CHAIN_ID \
+    --home $VAL_HOME_1 > /dev/null 2>&1
+[ $? -eq 0 ] || { echo "Failed to create genesis tx for validator 1"; exit 1; }
+
+echo 'Generate genesis staking transaction '$(bc <<< "$VAL_2_STAKE / (10^$EVMOS_DENOM_EXPONENT)")' '$DENOM_SYMBOL' for validator '$VAL_2_KEY_NAME
+$BINARY gentx $VAL_2_KEY_NAME "$VAL_2_STAKE"$MIN_DENOM_SYMBOL \
+    --commission-rate="$VAL_COMMISSION_RATE" \
+    --commission-max-rate="$VAL_COMMISSION_RATE_MAX" \
+    --commission-max-change-rate="$VAL_COMMISSION_CHANGE_RATE_MAX" \
+    --min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
+    --keyring-backend $KEYRING \
+    --chain-id $CHAIN_ID \
+    --home $VAL_HOME_2 > /dev/null 2>&1
+[ $? -eq 0 ] || { echo "Failed to create genesis tx for validator 2"; exit 1; }
+
+echo 'Generate genesis staking transaction '$(bc <<< "$VAL_3_STAKE / (10^$EVMOS_DENOM_EXPONENT)")' '$DENOM_SYMBOL' for validator '$VAL_3_KEY_NAME
+$BINARY gentx $VAL_3_KEY_NAME "$VAL_3_STAKE"$MIN_DENOM_SYMBOL \
+    --commission-rate="$VAL_COMMISSION_RATE" \
+    --commission-max-rate="$VAL_COMMISSION_RATE_MAX" \
+    --commission-max-change-rate="$VAL_COMMISSION_CHANGE_RATE_MAX" \
+    --min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
+    --keyring-backend $KEYRING \
+    --chain-id $CHAIN_ID \
+    --home $VAL_HOME_3 > /dev/null 2>&1
+[ $? -eq 0 ] || { echo "Failed to create genesis tx for validator 3"; exit 1; }
+
+# Collect genesis tx to genesis.json
+#echo "Collecting genesis tx into genesis.json"
+#$BINARY collect-gentxs --home $VAL_HOME_1 > /dev/null 2>&1
+#[ $? -eq 0 ] || { echo "Failed to collect genesis tx"; exit 1; }
+
+# Validate genesis.json
+#$BINARY validate-genesis --home $VAL_HOME_1
+#[ $? -eq 0 ] || { echo "Failed to validate genesis"; exit 1; }
+
+# Copy
 echo '- Copying genesis.json from node 0 to node 1'
-cp "$VAL_HOME_1/config/genesis.json" "$VAL_HOME_2/config/genesis.json"
+cp "$GENESIS_JSON" "$VAL_HOME_2/config/genesis.json"
 echo '- Copying genesis.json from node 0 to node 2'
-cp "$VAL_HOME_1/config/genesis.json" "$VAL_HOME_3/config/genesis.json"
+cp "$GENESIS_JSON" "$VAL_HOME_3/config/genesis.json"
+echo '- Copying app.toml from node 0 to node 1'
+cp "$APP_TOML" "$VAL_HOME_2/config/app.toml"
+echo '- Copying app.toml from node 0 to node 2'
+cp "$APP_TOML" "$VAL_HOME_3/config/app.toml"
