@@ -107,7 +107,7 @@ else
     echo "- Bind API to 0.0.0.0:$DEFAULT_1317 by updating [api > address]"
     cat $APP_TOML | tomlq '.api["address"]="tcp://0.0.0.0:'$DEFAULT_1317'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
     echo "- Bind gRPC to 0.0.0.0:$DEFAULT_9090 by updating [grpc > address]"
-    cat $APP_TOML | tomlq '.grpc["address"]="[tcp://0.0.0.0:'$DEFAULT_9090']"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+    cat $APP_TOML | tomlq '.grpc["address"]="[tcp://0.0.0.0]:'$DEFAULT_9090'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
     echo "- Bind Web-gRPC to 0.0.0.0:$DEFAULT_9091 by updating [grpc-web > address]"
     cat $APP_TOML | tomlq '."grpc-web"["address"]="tcp://0.0.0.0:'$DEFAULT_9091'"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
     echo "- Bind Json-RPC to 0.0.0.0:$DEFAULT_8545 by updating [json-rpc > address]"
