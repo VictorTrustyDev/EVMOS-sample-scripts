@@ -215,13 +215,13 @@ echo "Copy generated tx to $VAL_HOME_1/config/gentx"
 cp $VAL_HOME_3/config/gentx/gentx-* $VAL_HOME_1/config/gentx/
 
 # Collect genesis tx to genesis.json
-echo "Collecting genesis tx into genesis.json"
-$BINARY collect-gentxs --home $VAL_HOME_1 # > /dev/null 2>&1
-[ $? -eq 0 ] || { echo "Failed to collect genesis tx"; exit 1; }
+echo "Collecting genesis transactions into genesis.json"
+$BINARY collect-gentxs --home $VAL_HOME_1 > /dev/null 2>&1
+[ $? -eq 0 ] || { echo "Failed to collect genesis transactions"; exit 1; }
 
 # Validate genesis.json
-#$BINARY validate-genesis --home $VAL_HOME_1
-#[ $? -eq 0 ] || { echo "Failed to validate genesis"; exit 1; }
+$BINARY validate-genesis --home $VAL_HOME_1
+[ $? -eq 0 ] || { echo "Failed to validate genesis"; exit 1; }
 
 # Copy
 echo '- Copying genesis.json from node 0 to node 1'
