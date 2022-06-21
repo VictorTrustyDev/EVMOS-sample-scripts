@@ -16,15 +16,15 @@ COPY --from=build-env /go/src/github.com/tharsis/evmos/build/evmosd /usr/bin/evm
 RUN apt-get update -y
 RUN apt-get install ca-certificates jq -y
 
-WORKDIR /evmosd10
-COPY ./.evmosd10 .
-WORKDIR /evmosd11
-COPY ./.evmosd11 .
-WORKDIR /evmosd12
-COPY ./.evmosd12 .
+WORKDIR /evmosd20
+COPY ./.evmosd20 .
+WORKDIR /evmosd21
+COPY ./.evmosd21 .
+WORKDIR /evmosd22
+COPY ./.evmosd22 .
 
 WORKDIR /root
 
 EXPOSE 26656 26657 1317 9090 8545
 
-ENTRYPOINT /usr/bin/evmosd start --home "/evmosd1$NODE"
+ENTRYPOINT /usr/bin/evmosd start --home "/evmosd2$NODE"
