@@ -207,18 +207,18 @@ if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
         echo "sudo vi $SERVICE_FILE"
         echo
         SCRIPT_CONTENT="[Unit]
-Description=$EVMOS_CHAINNAME chain $CHAIN_ID node $NODE_IDX
-ConditionPathExists=$BINARY
-After=network.target
-[Service]
-Type=simple
-User=$USER
-WorkingDirectory=$HOME
-ExecStart=$BINARY start --chain-id $CHAIN_ID --home $EVMOS_HOME
-Restart=always
-RestartSec=2
-[Install]
-WantedBy=multi-user.target"
+\nDescription=$EVMOS_CHAINNAME chain $CHAIN_ID node $NODE_IDX
+\nConditionPathExists=$BINARY
+\nAfter=network.target
+\n[Service]
+\nType=simple
+\nUser=$USER
+\nWorkingDirectory=$HOME
+\nExecStart=$BINARY start --chain-id $CHAIN_ID --home $EVMOS_HOME
+\nRestart=always
+\nRestartSec=2
+\n[Install]
+\nWantedBy=multi-user.target"
 		echo -e $SCRIPT_CONTENT
         echo
         echo "sudo systemctl enable $EVMOS_SERVICE_NAME"
