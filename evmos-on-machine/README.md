@@ -6,7 +6,7 @@
 This will create a new EVMOS network 1 with:
 - Chain ID evmos_9006-1 (or `evmos_9007-1` if `./create-network-on-machine.sh 2`)
 - One validator (node 0)
-- P2P Seeds: <tendermint-node-id>@evmos1.victortrusty.dev:26656 (or `evmos2.victortrusty.dev` if `./create-network-on-machine.sh 2`)
+- P2P Seeds: _tendermint-node-id_@evmos1.victortrusty.dev:26656 (or `evmos2.victortrusty.dev` if `./create-network-on-machine.sh 2`)
 - RPC 26657, P2P 26656, JSON RPC 8545, REST 1317,...
 - 3 accounts
     + val1 as validator
