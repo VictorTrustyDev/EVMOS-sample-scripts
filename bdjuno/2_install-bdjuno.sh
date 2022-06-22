@@ -29,6 +29,12 @@ else
     exit 1
 fi
 
+# Stop service if exists
+[ $DISABLE_SYSTEMCTL -eq 0 ] && {
+	echo "Stopping $BDJ_SERVICE_NAME service";
+	sudo systemctl stop $BDJ_SERVICE_NAME > /dev/null 2>&1;
+}
+
 # Parse
 GENESIS_JSON="$BDJ_HOME/genesis.json"
 if [ ! -f "$GENESIS_JSON" ]; then
