@@ -5,6 +5,7 @@ override-env.sh
 
 EVMOS-source-code/
 Hermes-source-code/
+bdjuno-source-code/
 
 *genesis.json
 *config.toml

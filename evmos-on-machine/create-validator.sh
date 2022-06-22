@@ -82,7 +82,11 @@ if [ ! -z "$MONIKER_EXISTS" ]; then
 fi
 
 # Stop service if exists
-[ $DISABLE_SYSTEMCTL -eq 0 ] && { echo "Stopping $EVMOS_SERVICE_NAME service"; sudo systemctl stop $EVMOS_SERVICE_NAME; sudo systemctl disable $EVMOS_SERVICE_NAME; }
+[ $DISABLE_SYSTEMCTL -eq 0 ] && { 
+	echo "Stopping $EVMOS_SERVICE_NAME service"; 
+	sudo systemctl stop $EVMOS_SERVICE_NAME;
+	sudo systemctl disable $EVMOS_SERVICE_NAME; 
+}
 
 $BINARY config keyring-backend $KEYRING --home $EVMOS_HOME
 $BINARY config chain-id $CHAIN_ID --home $EVMOS_HOME

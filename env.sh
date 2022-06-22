@@ -13,14 +13,6 @@ command -v go > /dev/null 2>&1 || { echo >&2 "go was not installed. More info: h
 export KEYRING="test" # change to file for cloud or production env (DANGER: keyring test will allow transfer token from validator without key)
 export NOTICE_DEV_ENV="This sample scripts was developed on an Ubuntu 22.04 LTS machine"
 
-## IP addresses
-export IP_EVMOS_1_INT="evmos1i.victortrusty.dev"
-export IP_EVMOS_2_INT="evmos2i.victortrusty.dev"
-export IP_EVMOS_3_INT="evmos3i.victortrusty.dev"
-export IP_EVMOS_1_EXT="evmos1.victortrusty.dev"
-export IP_EVMOS_2_EXT="evmos2.victortrusty.dev"
-export IP_EVMOS_3_EXT="evmos3.victortrusty.dev"
-
 ## EVMOS (network)
 export EVMOS_VER="v5.0.0"
 export EVMOS_BINARY="evmosd"
@@ -97,6 +89,23 @@ export REL_1_ADDR="evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp"
 export REL_2_SEED="raw course slim hockey salt crawl sick safe december during armed fragile"
 export REL_2_ADDR="evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp"
 
+## Big Dipper (bdjuno)
+export BDJ_BRANCH="chains/evmos/mainnet"
+export BDJ_SOURCE_DIR="bdjuno-source-code" # do NOT modify
+export BDJ_BINARY="$GOPATH/bin/bdjuno"
+export BD_CFG_DB=bdjuno
+export BD_CFG_USER=bdjuno
+export BD_CFG_PASS=6N4QtiFYMt7h97uazrWTckmMvFZW9Ije
+export BD_CFG_PG_USR_PASS=6N4QtiFYMt7h97uazrWTckmMvFZW9Ije
+export BD_CFG_CHAIN_1_PG_PORT=5432
+export BD_CFG_CHAIN_1_ACCOUNT_PREFIX="evmos"
+export BD_CFG_CHAIN_1_RPC_ADDR="127.0.0.1:26657"
+export BD_CFG_CHAIN_1_GRPC_ADDR="127.0.0.1:9090"
+export BD_CFG_CHAIN_2_PG_PORT=15432
+export BD_CFG_CHAIN_2_ACCOUNT_PREFIX="evmos"
+export BD_CFG_CHAIN_2_RPC_ADDR="127.0.0.1:36657"
+export BD_CFG_CHAIN_2_GRPC_ADDR="127.0.0.1:19090"
+
 ## Reflects by above config (edit at your own risk)
 export EVMOS_CHAINNAME=$(echo $DENOM_SYMBOL | tr '[:lower:]' '[:upper:]')
 export EVMOS_MONIKER=$DENOM_SYMBOL'AIO'
@@ -116,6 +125,14 @@ export VAL_2_CLAIM=$VAL_1_CLAIM
 export VAL_3_CLAIM=$VAL_1_CLAIM
 ### Docker
 export DOCKER_IMAGE_NAME_PREFIX="$DENOM_SYMBOL.victortrusty.dev:c"
+
+## IP addresses
+export IP_EVMOS_1_INT="evmos1i.victortrusty.dev"
+export IP_EVMOS_2_INT="evmos2i.victortrusty.dev"
+export IP_EVMOS_3_INT="evmos3i.victortrusty.dev"
+export IP_EVMOS_1_EXT="evmos1.victortrusty.dev"
+export IP_EVMOS_2_EXT="evmos2.victortrusty.dev"
+export IP_EVMOS_3_EXT="evmos3.victortrusty.dev"
 
 # Others
 echo $NOTICE_DEV_ENV
