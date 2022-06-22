@@ -63,4 +63,5 @@ docker rmi "$DOCKER_IMAGE_NAME"
 docker build -t "$DOCKER_IMAGE_NAME" -f "Dockerfile$CHAIN_NO" .
 
 echo "Image: $DOCKER_IMAGE_NAME"
-echo 'Done, you can move to next step'
+echo 'Done, you can start them now'
+echo '$ docker-compose -f network'$CHAIN_NO' up -d'
