@@ -7,6 +7,7 @@ I wrote hundred lines of comments which explains every steps in each script file
 - [jq](https://stedolan.github.io/jq/download)
 - [yq + tomlq (build on top of jq)](https://github.com/kislyuk/yq)
 - [Rust 1.60+](https://www.rust-lang.org/tools/install) (for Hermes - IBC relayer)
+- [docker](https://docs.docker.com/engine/install/) & [docker compose](https://docs.docker.com/compose/install/)
 
 I created all of the following samples on an Ubuntu 22.04 LTS machine with 4 CPU 4 GB RAM. It can run 
 - 2 EVMOS networks
@@ -14,7 +15,7 @@ I created all of the following samples on an Ubuntu 22.04 LTS machine with 4 CPU
 - 2 bdjuno as block explorer's backend
 - 2 hasura as graphql service
 
-without any performance issue.
+without any performance issue (CPU ~20% per core, ram ~45% via htop).
 
 ### List of samples:
 - [Script to build EVMOS networks and run with docker compose](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos-on-docker)
