@@ -7,7 +7,6 @@ chain:
         - bank
         - consensus
         - gov
-        - mint
         - pricefeed
         - slashing
         - staking

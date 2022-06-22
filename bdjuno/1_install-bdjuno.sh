@@ -126,5 +126,6 @@ echo "- Postgres SQL db was exposed to port $PG_PORT"
 echo "- bdjuno home: $BD_HOME"
 echo "Now you need to:"
 echo "- copy genesis.json of the chain and put it into $BD_HOME folder (expect file $BD_HOME/genesis.json)"
+echo '// TODO: try to add mint module to config.yaml'
 
 echo "After that you can move to step 2 (run ./2_install-bdjuno.sh)"
