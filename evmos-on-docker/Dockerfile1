@@ -8,6 +8,8 @@ WORKDIR /go/src/github.com/tharsis/evmos
 
 COPY $SRC_DIR .
 
+RUN ls -la
+
 RUN make build
 
 FROM golang:stretch
