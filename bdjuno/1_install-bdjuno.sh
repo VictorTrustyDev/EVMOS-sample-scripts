@@ -121,11 +121,12 @@ sed -i "s/p_db_pass/$BD_CFG_PG_USR_PASS/g" "$CONFIG_YAML"
 sed -i "s/p_token_denom/$DENOM_SYMBOL/g" "$CONFIG_YAML"
 sed -i "s/p_token_min_denom/$MIN_DENOM_SYMBOL/g" "$CONFIG_YAML"
 sed -i "s/p_denom_exponent/$EVMOS_DENOM_EXPONENT/g" "$CONFIG_YAML"
-sed -i "s/p_action_port/$EVMOS_DENOM_EXPONENT/g" "$CONFIG_YAML"
+sed -i "s/p_action_port/$BD_HASURA_ACTIONBASE_PORT/g" "$CONFIG_YAML"
 
 echo "Step 1 done!"
 echo "- Postgres SQL db was exposed to port $PG_PORT"
 echo "- bdjuno home: $BD_HOME"
+echo "- hasura action base was exposed to port : $BD_HASURA_ACTIONBASE_PORT"
 echo "Now you need to:"
 echo "- copy genesis.json of the chain and put it into $BD_HOME folder (expect file $BD_HOME/genesis.json)"
 echo '// TODO: try to add mint module to config.yaml'
