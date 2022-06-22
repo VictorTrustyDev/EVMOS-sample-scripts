@@ -1,12 +1,11 @@
 FROM golang:stretch AS build-env
-ARG evmos_src_dir
 
 WORKDIR /go/src/github.com/tharsis/evmos
 
 RUN apt-get update -y
 RUN apt-get install git -y
 
-COPY "${evmos_src_dir}" .
+COPY $evmos_src_dir .
 
 RUN make build
 
