@@ -18,10 +18,10 @@ node:
     config:
         rpc:
             client_name: juno
-            address: http://evmosc1.mytwdns.com:26657
+            address: http://127.0.0.1:26657
             max_connections: 20
         grpc:
-            address: evmosc1.mytwdns.com:9090
+            address: 127.0.0.1:9090
             insecure: true
 parsing:
     workers: 1
@@ -35,7 +35,7 @@ database:
     host: 0.0.0.0
     port: 5432
     user: bdjuno
-    password: 6N4QtiFYMt7h97uazrWTckmMvFZW9Ije
+    password: 6N4QtFYMt7h972uazrWTckmMvFZWIje
     schema: public
     max_open_connections: 1
     max_idle_connections: 1
