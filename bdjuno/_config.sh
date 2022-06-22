@@ -13,3 +13,6 @@ elif [ "$CHAIN_NO" = "2" ]; then
     export RPC_ADDR=$BD_CFG_CHAIN_2_RPC_ADDR
     export GRPC_ADDR=$BD_CFG_CHAIN_2_GRPC_ADDR
 fi
+
+export BDJ_HOME=$(pwd)"/.bdjuno$CHAIN_NO"
+

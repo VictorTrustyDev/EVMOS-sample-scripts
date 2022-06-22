@@ -7,12 +7,16 @@ source ../env.sh
 
 CHAIN_NO=$1
 
-if [ -f "./_config.sh" ]; then
-    source "./_config.sh"
-fi
-
 if [ -f "./override-env.sh" ]; then
     source "./override-env.sh"
+fi
+
+if [ -f "./_config.sh" ]; then
+    source "./_config.sh"
+else
+    echo "ERR: Wrong working directory"
+    echo "ERR: Scripts must be executed within [bdjuno] directory"
+    exit 1
 fi
 
 # Validate input
@@ -100,7 +104,6 @@ echo
 echo 'Compiling bdjuno'
 make install
 
-export BDJ_HOME=$(pwd)"/.bdjuno$CHAIN_NO"
 echo "Init bdjuno"
 rm -rf "$BDJ_HOME"
 $BDJ_BINARY init --home "$BDJ_HOME"
