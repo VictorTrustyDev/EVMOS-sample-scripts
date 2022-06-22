@@ -50,6 +50,7 @@ if [ ! -f "$GENESIS_JSON" ]; then
         exit 1
     fi
 fi
+echo "Parsing genesis file"
 $BDJ_BINARY parse genesis-file --genesis-file-path "$GENESIS_JSON" --home "$BDJ_HOME"
 [ $? -eq 0 ] || { echo "ERR: Failed to parse genesis.json!"; exit 1; }
 ## Check chain id
