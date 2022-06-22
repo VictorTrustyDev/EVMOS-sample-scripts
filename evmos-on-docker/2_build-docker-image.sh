@@ -60,7 +60,7 @@ VAL_HOME_3=$VAL_HOME_PREFIX'2'
 docker rmi "$DOCKER_IMAGE_NAME"
 
 # Docker build
-docker build -t "$DOCKER_IMAGE_NAME" -f "Dockerfile$CHAIN_NO" --build-arg "SRC_DIR=$EVMOS_SOURCE_DIR" .
+docker build -t "$DOCKER_IMAGE_NAME" -f "Dockerfile$CHAIN_NO" --build-arg "SRC_DIR=$EVMOS_SOURCE_DIR" --no-cache .
 
 echo "Image: $DOCKER_IMAGE_NAME"
 echo 'Done, you can start them now'
