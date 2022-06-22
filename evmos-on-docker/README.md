@@ -51,7 +51,7 @@ Now you can [follow this sample](https://github.com/VictorTrustyDev/EVMOS-sample
         + Mnemonic: stage grid emotion thumb safe myth chair dizzy beyond casual select polar hover retire master neglect shift zero trigger section token replace truly father
         + Key name: val3
 
-### Customization
+### IV. Customization
 You can custom your chain just by editting keys in the [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh) file
 
 Here are some of them:
