@@ -31,6 +31,6 @@ sudo systemctl start bdjuno
 
 echo 'Finished bdjuno installtion'
 
-echo 'Now move to install Hasura by running install-3.sh'
+echo 'Now move to install Hasura by running 3_install-hasura.sh'
 
 

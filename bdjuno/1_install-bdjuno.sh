@@ -61,4 +61,4 @@ echo "Step 1 done! Now you need to:"
 echo "- copy genesis.json of the chain and put it into $BDJUNO_HOME folder (expect file $BDJUNO_HOME/genesis.json)"
 echo "- update file $BDJUNO_HOME/config.yaml (refer to or copy from sample.config.yaml)"
 
-echo "After that you can move to step 2 (run ./install-2.sh)"
+echo "After that you can move to step 2 (run ./2_install-bdjuno.sh)"
