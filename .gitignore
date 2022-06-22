@@ -1,6 +1,7 @@
 .DS_Store
 data/
 extra_func.lic
+override-env.sh
 
 EVMOS-source-code/
 Hermes-source-code/

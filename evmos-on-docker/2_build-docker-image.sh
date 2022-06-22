@@ -1,6 +1,13 @@
 #!/bin/bash
 
+command -v docker > /dev/null 2>&1 || { echo >&2 "docker is required"; exit 1; }
+command -v 'docker-compose' > /dev/null 2>&1 || { echo >&2 "docker-compose is required"; exit 1; }
+
 source ../env.sh
+
+if [ -f "./override-env.sh" ]; then
+    source "./override-env.sh"
+fi
 
 CHAIN_NO=$1
 export DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME_PREFIX''$CHAIN_NO

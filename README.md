@@ -22,3 +22,4 @@ I created all of the following samples on an Ubuntu 22.04 LTS machine with 4 CPU
 
 You can change version EVMOS and Hermes by updating file [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)
 - This sample is using keyring `test`, you may need to change to `file` for secure your test env if needed
+- You can create `override-env.sh` file and override values there (git ignores this file)

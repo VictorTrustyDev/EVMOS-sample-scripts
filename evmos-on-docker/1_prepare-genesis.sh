@@ -5,6 +5,10 @@ command -v 'docker-compose' > /dev/null 2>&1 || { echo >&2 "docker-compose is re
 
 source ../env.sh
 
+if [ -f "./override-env.sh" ]; then
+    source "./override-env.sh"
+fi
+
 CHAIN_NO=$1
 
 # Validate input

@@ -144,3 +144,6 @@ else
 fi
 export NETWORK_PORT_OFFSET_1=0
 export NETWORK_PORT_OFFSET_2=1000
+if [ -f "./override-env.sh" ]; then
+    source "./override-env.sh"
+fi
