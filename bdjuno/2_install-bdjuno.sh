@@ -33,7 +33,7 @@ fi
 GENESIS_JSON="$BDJ_HOME/genesis.json"
 if [ ! -f "$GENESIS_JSON" ]; then
     if [ $EXTRA_FUNC -eq 1 ]; then
-        cp '../evmos-on-docker/.evmosd'$CHAIN_NO'0/*genesis.json' "$GENESIS_JSON"
+        cp '../evmos-on-docker/.evmosd'$CHAIN_NO'0/config/genesis.json' "$GENESIS_JSON"
         if [ ! -f "$GENESIS_JSON" ]; then
             echo "Please copy genesis.json from your chain into $BDJ_HOME"
             exit 1
