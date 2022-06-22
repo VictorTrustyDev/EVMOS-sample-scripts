@@ -15,4 +15,4 @@ elif [ "$CHAIN_NO" = "2" ]; then
 fi
 
 export BDJ_HOME=$(pwd)"/.bdjuno$CHAIN_NO"
-
+export BDJ_SERVICE_NAME="bdjuno-svc$CHAIN_NO"

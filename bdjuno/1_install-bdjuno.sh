@@ -34,13 +34,12 @@ fi
 
 PG_CON_NAME="bdjdb$CHAIN_NO"
 PG_VOL_NAME="bdjdb$CHAIN_NO"
-BDJUNO_SERVICE_NAME="bdjuno-svc$CHAIN_NO"
 
 # Stop service if exists
 [ $DISABLE_SYSTEMCTL -eq 0 ] && {
-	echo "Stopping $BDJUNO_SERVICE_NAME service"; 
-	sudo systemctl stop $BDJUNO_SERVICE_NAME > /dev/null 2>&1;
-	sudo systemctl disable $BDJUNO_SERVICE_NAME > /dev/null 2>&1;
+	echo "Stopping $BDJ_SERVICE_NAME service"; 
+	sudo systemctl stop $BDJ_SERVICE_NAME > /dev/null 2>&1;
+	sudo systemctl disable $BDJ_SERVICE_NAME > /dev/null 2>&1;
 }
 
 echo 'Remove existing docker container & volumes'

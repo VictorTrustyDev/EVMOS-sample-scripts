@@ -50,7 +50,7 @@ if [ ! -f $CONFIG_TOML_BAK ]; then
 	exit 1
 fi
 
-CHAIN_ID=$(cat $GENSIS_JSON_BAK | jq .chain_id | head -n 1 | tr -d '"')
+CHAIN_ID=$(cat "$GENSIS_JSON_BAK" | jq .chain_id | head -n 1 | tr -d '"')
 echo "Chain ID: $CHAIN_ID"
 
 if [ "$CHAIN_ID" = "$CHAIN_1_ID" ]; then
