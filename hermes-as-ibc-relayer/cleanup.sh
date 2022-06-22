@@ -9,5 +9,5 @@ if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
     sudo systemctl stop $HERMES_SERVICE_NAME
     sudo systemctl disable $HERMES_SERVICE_NAME
 else
-    echo "I don't know what to do"
+    echo "I don't know what to do, this script only be used to stop hermes service name [$HERMES_SERVICE_NAME] on Debian OS"
 fi
