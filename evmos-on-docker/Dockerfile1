@@ -1,4 +1,5 @@
 FROM golang:stretch AS build-env
+ARG evmos_src_dir
 
 WORKDIR /go/src/github.com/tharsis/evmos
 
