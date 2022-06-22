@@ -90,21 +90,31 @@ export REL_2_SEED="raw course slim hockey salt crawl sick safe december during a
 export REL_2_ADDR="evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp"
 
 ## Big Dipper (bdjuno)
-export BDJ_BRANCH="chains/evmos/mainnet"
-export BDJ_SOURCE_DIR="bdjuno-source-code" # do NOT modify
-export BDJ_BINARY="$GOPATH/bin/bdjuno"
-export BD_CFG_DB=bdjuno
-export BD_CFG_USER=bdjuno
-export BD_CFG_PASS=6N4QtiFYMt7h97uazrWTckmMvFZW9Ije
-export BD_CFG_PG_USR_PASS=6N4QtiFYMt7h97uazrWTckmMvFZW9Ije
+export BD_BRANCH="chains/evmos/mainnet"
+export BD_SOURCE_DIR="bdjuno-source-code" # do NOT modify
+export BD_BINARY="$GOPATH/bin/bdjuno"
+export BD_PG_DB=bdjuno
+export BD_PG_USER=bdjuno
+export BD_PG_PASS=6N4QtFYMt7h972uazrWTckmMvFZWIje
+export BD_HASURA_BINARY=/usr/local/bin/hasura
+export BD_HASURA_PORT=8080
+export BD_HASURA_SECRET=myadminsecretkey
+export BD_HASURA_ACTIONBASE_PORT=3000
+export BD_PG_HASURA_META_DB=hasurameta
+export BD_PG_HASURA_DB=hasura
+export BD_PG_HASURA_USER=hasura
+export BD_PG_HASURA_PASS=PX2RNvtZ4m7fntnbRrtySB4ROG5EKk4J
+export BD_CFG_PG_USR_PASS=6N4QtFYMt7h972uazrWTckmMvFZWIje # Password of default user postgres
 export BD_CFG_CHAIN_1_PG_PORT=5432
 export BD_CFG_CHAIN_1_ACCOUNT_PREFIX="evmos"
 export BD_CFG_CHAIN_1_RPC_ADDR="127.0.0.1:26657"
 export BD_CFG_CHAIN_1_GRPC_ADDR="127.0.0.1:9090"
+export BD_CFG_CHAIN_1_ID="$CHAIN_1_ID"
 export BD_CFG_CHAIN_2_PG_PORT=15432
 export BD_CFG_CHAIN_2_ACCOUNT_PREFIX="evmos"
 export BD_CFG_CHAIN_2_RPC_ADDR="127.0.0.1:36657"
 export BD_CFG_CHAIN_2_GRPC_ADDR="127.0.0.1:19090"
+export BD_CFG_CHAIN_2_ID="$CHAIN_2_ID"
 
 ## Reflects by above config (edit at your own risk)
 export EVMOS_CHAINNAME=$(echo $DENOM_SYMBOL | tr '[:lower:]' '[:upper:]')
