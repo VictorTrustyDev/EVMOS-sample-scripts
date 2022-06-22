@@ -8,7 +8,13 @@ I wrote hundred lines of comments which explains every steps in each script file
 - [yq + tomlq (build on top of jq)](https://github.com/kislyuk/yq)
 - [Rust 1.60+](https://www.rust-lang.org/tools/install) (for Hermes - IBC relayer)
 
-I created all of the following samples on an Ubuntu 22.04 LTS machine with 4 CPU 4 GB RAM. It can run 2 EVMOS networks + 1 Hermes as IBC relayer without any performance issue.
+I created all of the following samples on an Ubuntu 22.04 LTS machine with 4 CPU 4 GB RAM. It can run 
+- 2 EVMOS networks
+- 1 Hermes as IBC relayer to connect them
+- 2 bdjuno as block explorer's backend
+- 2 hasura as graphql service
+
+without any performance issue.
 
 ### List of samples:
 - [Script to build EVMOS networks and run with docker compose](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos-on-docker)
