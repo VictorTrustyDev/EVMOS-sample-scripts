@@ -96,7 +96,7 @@ fi
 CUR_DIR=$(pwd)
 cd "$SCHEMA_DIR"
 echo "- Run sql files"
-ls -1 | while read line ; do PGPASSWORD=$BD_CFG_PASS psql -p $PG_PORT -d $BD_CFG_DB -U $BD_CFG_USER -f $line ; done
+ls -1 | while read line ; do PGPASSWORD=$BD_CFG_PASS psql -h 127.0.0.1 -p $PG_PORT -d $BD_CFG_DB -U $BD_CFG_USER -f $line ; done
 
 cd "$CUR_DIR"
 cd "./$BDJ_SOURCE_DIR"
