@@ -3,6 +3,7 @@
 command -v docker > /dev/null 2>&1 || { echo >&2 "docker is required"; exit 1; }
 command -v psql > /dev/null 2>&1 || { echo >&2 "psql is required, you first need to install psql client. Hint: sudo apt install postgresql-client"; exit 1; }
 
+echo "BD_HASURA_BINARY=$BD_HASURA_BINARY"
 if [ -f "$BD_HASURA_BINARY" ]; then
     echo "Hasura binary exists"
 elif [ command -v hasura > /dev/null 2>&1 ]; then
