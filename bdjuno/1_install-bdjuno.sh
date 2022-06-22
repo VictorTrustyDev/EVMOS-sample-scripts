@@ -3,7 +3,7 @@
 command -v docker > /dev/null 2>&1 || { echo >&2 "docker is required"; exit 1; }
 command -v psql > /dev/null 2>&1 || { echo >&2 "psql is required, you first need to install psql client. Hint: sudo apt install postgresql-client"; exit 1; }
 
-source ./env.sh
+source ../env.sh
 
 if [ -f "./override-env.sh" ]; then
     source "./override-env.sh"
@@ -37,7 +37,7 @@ PG_VOL_NAME="bdjdb$CHAIN_NO"
 BDJUNO_SERVICE_NAME="bdjuno-svc$CHAIN_NO"
 
 # Stop service if exists
-[ $DISABLE_SYSTEMCTL -eq 0 ] && { 
+[ $DISABLE_SYSTEMCTL -eq 0 ] && {
 	echo "Stopping $BDJUNO_SERVICE_NAME service"; 
 	sudo systemctl stop $BDJUNO_SERVICE_NAME > /dev/null 2>&1;
 	sudo systemctl disable $BDJUNO_SERVICE_NAME > /dev/null 2>&1;
