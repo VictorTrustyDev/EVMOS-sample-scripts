@@ -117,8 +117,8 @@ export BD_CFG_CHAIN_2_ACCOUNT_PREFIX="evmos"
 export BD_CFG_CHAIN_2_RPC_ADDR="127.0.0.1:36657"
 export BD_CFG_CHAIN_2_GRPC_ADDR="127.0.0.1:19090"
 export BD_CFG_CHAIN_2_ID="$CHAIN_2_ID"
-export BD_CFG_CHAIN_2_HASURA_PORT=8081
-export BD_CFG_CHAIN_2_HASURA_ACTIONBASE_PORT=3001
+export BD_CFG_CHAIN_2_HASURA_PORT=8082
+export BD_CFG_CHAIN_2_HASURA_ACTIONBASE_PORT=3002
 
 ## Reflects by above config (edit at your own risk)
 export EVMOS_CHAINNAME=$(echo $DENOM_SYMBOL | tr '[:lower:]' '[:upper:]')
