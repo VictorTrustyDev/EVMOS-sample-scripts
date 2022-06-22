@@ -31,7 +31,7 @@ You can change version EVMOS and Hermes by updating file [env.sh](https://github
 - This sample is using keyring `test`, you may need to change to `file` for secure your test env if needed
 - You can create `override-env.sh` file and override values there (git ignores this file)
 
-### Default ports used in these samples
+#### Default ports used in these samples
 
 | Sample name | Port No. for network 1 | Port No. for network 2 | Desc |
 | --- | --- | --- | --- |
@@ -42,3 +42,14 @@ You can change version EVMOS and Hermes by updating file [env.sh](https://github
 | EVMOS on docker | 26656 | 36656 | P2P |
 | bdjuno | 8080 | 8082 | Hasura's graphql service |
 | bdjuno | 3000 | 3002 | bdjuno hasura action base |
+
+#### Default service name & container name used in these samples
+| Sample name | Name for network 1 | Name for network 2 | Desc |
+| --- | --- | --- | --- |
+| EVMOS on docker | vtevmos10 | vtevmos20 | Node 0 (validator 1) of EVMOS network run via docker-compose |
+| EVMOS on docker | vtevmos11 | vtevmos21 | Node 1 (validator 2) of EVMOS network run via docker-compose |
+| EVMOS on docker | vtevmos12 | vtevmos22 | Node 2 (validator 3) of EVMOS network run via docker-compose |
+| Hermes as IBC relayer | (hermes-svc as a shared service) | (hermes-svc as a shared service) | Hermes connects both networks (Debian* daemon service) |
+| bdjuno | bdjuno-svc1 | bdjuno-svc2 | bdjuno app (Debian* daemon service) |
+| bdjuno | bdjdb1 | bdjdb2 | bdjuno & hasura database |
+| bdjuno | bdjhasura1 | bdjhasura2 | Hasura graphql service |
