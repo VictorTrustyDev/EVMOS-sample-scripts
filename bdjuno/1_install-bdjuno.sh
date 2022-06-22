@@ -102,6 +102,7 @@ cd "./$BD_SOURCE_DIR"
 echo
 echo 'Compiling bdjuno'
 make install
+cd "$CUR_DIR"
 
 echo "Init bdjuno"
 rm -rf "$BD_HOME"
