@@ -3,7 +3,7 @@ data/
 extra_func.lic
 override-env.sh
 
-EVMOS-source-code/
+EVMOS-source-code*/
 Hermes-source-code/
 bdjuno-source-code/
 

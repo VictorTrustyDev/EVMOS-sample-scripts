@@ -51,7 +51,19 @@ Now you can [follow this sample](https://github.com/VictorTrustyDev/EVMOS-sample
         + Mnemonic: stage grid emotion thumb safe myth chair dizzy beyond casual select polar hover retire master neglect shift zero trigger section token replace truly father
         + Key name: val3
 
-#### Wants to custom chain id, etc... Modify the [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh) file
+### Customization
+You can custom your chain just by editting keys in the [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh) file
+
+Here are some of them:
+
+| Key | Default value | Explain |
+| --- | --- | --- |
+| `EVMOS_CHAIN_1_REPO` | https://github.com/evmos/evmos.git | Git repo to be used to build network 1 |
+| `EVMOS_CHAIN_1_BRANCH` | v5.0.0 | Git branch to be used to build network 1 |
+| `CHAIN_1_ID` | evmos_9006-1 | Chain id of network 1 |
+| `EVMOS_CHAIN_2_REPO` | https://github.com/evmos/evmos.git | Git repo to be used to build network 2 |
+| `EVMOS_CHAIN_2_BRANCH` | v5.0.0 | Git branch to be used to build network 2 |
+| `CHAIN_2_ID` | evmos_9007-1 | Chain id of network 2 |
 
 Performance: 2 networks created by this sample can run in parallel smoothly in a 4 core 4 gb ram machine
 

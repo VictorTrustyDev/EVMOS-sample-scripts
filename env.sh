@@ -14,12 +14,14 @@ export KEYRING="test" # change to file for cloud or production env (DANGER: keyr
 export NOTICE_DEV_ENV="This sample scripts was developed on an Ubuntu 22.04 LTS machine"
 
 ## EVMOS (network)
-export EVMOS_VER="v5.0.0"
 export EVMOS_BINARY="evmosd"
 export EVMOS_DENOM_EXPONENT=18 # no of digits
 export EVMOS_GAS_DENOM_EXPONENT=9 # no of digits
-export EVMOS_SOURCE_DIR="EVMOS-source-code" # do NOT modify
 export EVMOS_CLAIM_MODULE_ACCOUNT="evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz"
+export EVMOS_CHAIN_1_REPO="https://github.com/evmos/evmos.git"
+export EVMOS_CHAIN_1_BRANCH="v5.0.0"
+export EVMOS_CHAIN_1_REPO="https://github.com/evmos/evmos.git"
+export EVMOS_CHAIN_2_BRANCH="v5.0.0"
 
 ## Validators
 export VAL_RAW_BALANCE=50000000 # Init with 50m EVMOS in balance for each validator

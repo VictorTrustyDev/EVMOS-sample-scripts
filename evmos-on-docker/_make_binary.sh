@@ -1,5 +1,7 @@
 #!/bin/bash
 
+EVMOS_SOURCE_DIR="./EVMOS-source-code-$EVMOS_VER"
+
 if [ -f "$BINARY" ]; then
 	echo "Nice! EVMOS binary $EVMOS_BINARY is already exists"
 else
@@ -7,7 +9,7 @@ else
 		echo "EVMOS repo was downloaded"
 	else
 		echo "Downloading EVMOS source code $EVMOS_VER"
-		git clone https://github.com/evmos/evmos.git --branch $EVMOS_VER --single-branch $EVMOS_SOURCE_DIR
+		git clone "$EVMOS_REPO" --branch "$EVMOS_VER" --single-branch "$EVMOS_SOURCE_DIR"
 
 		if [ $? -ne 0 ]; then
             echo "Git clone EVMOS $EVMOS_VER failed"

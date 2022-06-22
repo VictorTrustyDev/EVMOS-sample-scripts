@@ -39,11 +39,11 @@ echo "Going to build docker image $DOCKER_IMAGE_NAME for chain $CHAIN_ID"
 docker-compose -f "network$CHAIN_NO.yml" down
 
 # Check EVMOS source
-if [ -d "./EVMOS-source-code" ]; then
+if [ -d "$EVMOS_SOURCE_DIR" ]; then
     echo "EVMOS repo was downloaded"
 else
     echo "Downloading EVMOS source code $EVMOS_VER"
-    git clone https://github.com/evmos/evmos.git --branch $EVMOS_VER --single-branch "EVMOS-source-code"
+    git clone "$EVMOS_REPO" --branch "$EVMOS_VER" --single-branch "$EVMOS_SOURCE_DIR"
 
     if [ $? -ne 0 ]; then
         echo "Git clone EVMOS $EVMOS_VER failed"
