@@ -18,9 +18,9 @@ fi
 
 # Validate input
 if [ "$CHAIN_NO" = "1" ]; then
-    echo "Creating bdjuno for $BD_CFG_CHAIN_1_ID"
+    echo "Network 1"
 elif [ "$CHAIN_NO" = "2" ]; then
-    echo "Creating bdjuno for $BD_CFG_CHAIN_2_ID"
+    echo "Network 2"
 else
     echo 'Missing or incorrect chain no as first argument, valid input is 1 or 2'
     echo 'For example:'

@@ -14,5 +14,11 @@ elif [ "$CHAIN_NO" = "2" ]; then
     export GRPC_ADDR=$BD_CFG_CHAIN_2_GRPC_ADDR
 fi
 
+echo "Creating bdjuno for $CHAIN_ID"
+echo "- RPC: $RPC_ADDR"
+echo "- gRPC: $GRPC_ADDR"
+echo "- Postgres port: $PG_PORT"
+echo "- Account prefix: $ACCOUNT_PREFIX"
+
 export BD_HOME=$(pwd)"/.bdjuno$CHAIN_NO"
 export BD_SERVICE_NAME="bdjuno-svc$CHAIN_NO"

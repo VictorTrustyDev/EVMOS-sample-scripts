@@ -5,19 +5,25 @@ command -v 'docker-compose' > /dev/null 2>&1 || { echo >&2 "docker-compose is re
 
 source ../env.sh
 
+CHAIN_NO=$1
+
 if [ -f "./override-env.sh" ]; then
     source "./override-env.sh"
 fi
 
-CHAIN_NO=$1
+if [ -f "./_config.sh" ]; then
+    source "./_config.sh"
+else
+    echo "ERR: Wrong working directory"
+    echo "ERR: Scripts must be executed within [bdjuno] directory"
+    exit 1
+fi
 
 # Validate input
 if [ "$CHAIN_NO" = "1" ]; then
-    echo "Initializing chain $CHAIN_1_ID"
-    export CHAIN_ID="$CHAIN_1_ID"
+    echo "Network 1"
 elif [ "$CHAIN_NO" = "2" ]; then
-    echo "Initializing chain $CHAIN_2_ID"
-    export CHAIN_ID="$CHAIN_2_ID"
+    echo "Network 2"
 else
     echo 'Missing or incorrect chain no as first argument, valid input is 1 or 2'
     echo 'For example:'
