@@ -58,24 +58,27 @@ docker run \
   -e POSTGRES_PASSWORD=$BD_CFG_PG_USR_PASS \
   -v $PG_VOL_NAME:/data/db \
   postgres:12.5
-[ $? -eq 0 ] || { echo "Failed to create a PostgreSQL container"; }
+[ $? -eq 0 ] || { echo "ERR: Failed to create a PostgreSQL container"; }
 
 echo 'Waiting DB up'
 sleep 3s
 
 echo "- Creating database $BD_CFG_DB"
-PGPASSWORD=$BD_CFG_PG_USR_PASS psql -p $PG_PORT -d postgres -U postgres -c "CREATE DATABASE $BD_CFG_DB;"
+PGPASSWORD=$BD_CFG_PG_USR_PASS psql -h 127.0.0.1 -p $PG_PORT -d postgres -U postgres -c "CREATE DATABASE $BD_CFG_DB;"
+[ $? -eq 0 ] || { echo "ERR: Operation failed!"; }
 echo "- Creating user $BD_CFG_USER"
-PGPASSWORD=$BD_CFG_PG_USR_PASS psql -p $PG_PORT -d postgres -U postgres -c "CREATE USER $BD_CFG_USER WITH ENCRYPTED PASSWORD '$BD_CFG_PASS';"
+PGPASSWORD=$BD_CFG_PG_USR_PASS psql -h 127.0.0.1 -p $PG_PORT -d postgres -U postgres -c "CREATE USER $BD_CFG_USER WITH ENCRYPTED PASSWORD '$BD_CFG_PASS';"
+[ $? -eq 0 ] || { echo "ERR: Operation failed!"; }
 echo "- Grant all privileges on db $BD_CFG_DB to user $BD_CFG_USER"
-PGPASSWORD=$BD_CFG_PG_USR_PASS psql -p $PG_PORT -d postgres -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE $BD_CFG_DB TO $BD_CFG_USER;"
+PGPASSWORD=$BD_CFG_PG_USR_PASS psql -h 127.0.0.1 -p $PG_PORT -d postgres -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE $BD_CFG_DB TO $BD_CFG_USER;"
+[ $? -eq 0 ] || { echo "ERR: Operation failed!"; }
 
 # Check bdjuno source
 if [ -d "./$BDJ_SOURCE_DIR" ]; then
     echo "bdjuno repo was downloaded"
 else
     echo "Downloading bdjuno source code from branch $BDJ_BRANCH"
-    git clone https://github.com/evmos/evmos.git --branch $BDJ_BRANCH --single-branch "$BDJ_SOURCE_DIR"
+    git clone https://github.com/forbole/bdjuno.git --branch $BDJ_BRANCH --single-branch "$BDJ_SOURCE_DIR"
 
     if [ $? -ne 0 ]; then
         echo "Git clone bdjuno branch $BDJ_BRANCH failed"
