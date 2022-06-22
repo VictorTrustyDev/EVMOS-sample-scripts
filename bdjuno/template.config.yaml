@@ -1,5 +1,5 @@
 chain:
-    bech32_prefix: evmos
+    bech32_prefix: p_bech32_prefix
     modules:
         - modules
         - messages
@@ -18,10 +18,10 @@ node:
     config:
         rpc:
             client_name: juno
-            address: http://127.0.0.1:26657
+            address: http://p_rpc_addr
             max_connections: 20
         grpc:
-            address: 127.0.0.1:9090
+            address: p_grpc_addr
             insecure: true
 parsing:
     workers: 1
@@ -31,11 +31,11 @@ parsing:
     start_height: 1
     average_block_time: 5s
 database:
-    name: bdjuno
-    host: 0.0.0.0
-    port: 5432
-    user: bdjuno
-    password: 6N4QtFYMt7h972uazrWTckmMvFZWIje
+    name: p_db_name
+    host: 127.0.0.1
+    port: p_db_port
+    user: p_db_user
+    password: p_db_pass
     schema: public
     max_open_connections: 1
     max_idle_connections: 1
@@ -52,11 +52,11 @@ telemetry:
     port: 5000
 pricefeed:
     tokens:
-        - name: EVMOS
+        - name: p_token_denom
           units:
-            - denom: aevmos
+            - denom: p_token_min_denom
               exponent: 0
-            - denom: evmos
+            - denom: p_token_denom
               exponent: 18
               price_id: evmos
 actions:

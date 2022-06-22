@@ -109,19 +109,21 @@ $BD_BINARY init --home "$BD_HOME"
 
 echo 'Config bdjuno'
 CONFIG_YAML="$BD_HOME/config.yaml"
-sed -i "s/bech32_prefix: cosmos/bech32_prefix: $ACCOUNT_PREFIX/g" $CONFIG_YAML
-sed -i "s,http://localhost:26657,http://$RPC_ADDR,g" $CONFIG_YAML
-sed -i "s/address: localhost:9090/address: $GRPC_ADDR/g" $CONFIG_YAML
-sed -i "s/name: database-name/name: $BD_PG_DB/g" $CONFIG_YAML
-#sed -i "s/host: localhost/host: $PG_HOST/g" $CONFIG_YAML
-sed -i "s/user: user/user: $BD_PG_USER/g" $CONFIG_YAML
-sed -i "s/password: password/password: $BD_PG_PASS/g" $CONFIG_YAML
+cp template.config.yaml "$CONFIG_YAML"
+sed -i "s/p_bech32_prefix/$ACCOUNT_PREFIX/g" "$CONFIG_YAML"
+sed -i "s,p_rpc_addr,$RPC_ADDR,g" "$CONFIG_YAML"
+sed -i "s,p_grpc_addr,$GRPC_ADDR,g" "$CONFIG_YAML"
+sed -i "s/p_db_name/$BD_PG_DB/g" "$CONFIG_YAML"
+sed -i "s/p_db_user/$BD_PG_USER/g" "$CONFIG_YAML"
+sed -i "s/p_db_port/$PG_PORT/g" "$CONFIG_YAML"
+sed -i "s/p_db_pass/$BD_PG_PASS/g" "$CONFIG_YAML"
+sed -i "s/p_token_denom/$DENOM_SYMBOL/g" "$CONFIG_YAML"
+sed -i "s/p_token_min_denom/$MIN_DENOM_SYMBOL/g" "$CONFIG_YAML"
 
 echo "Step 1 done!"
 echo "- Postgres SQL db was exposed to port $PG_PORT"
 echo "- bdjuno home: $BD_HOME"
 echo "Now you need to:"
 echo "- copy genesis.json of the chain and put it into $BD_HOME folder (expect file $BD_HOME/genesis.json)"
-echo "- update file $BD_HOME/config.yaml (refer to or copy from sample.config.yaml)"
 
 echo "After that you can move to step 2 (run ./2_install-bdjuno.sh)"
