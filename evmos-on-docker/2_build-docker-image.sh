@@ -60,8 +60,9 @@ VAL_HOME_3=$VAL_HOME_PREFIX'2'
 docker rmi "$DOCKER_IMAGE_NAME"
 
 # Docker build
-docker build -t "$DOCKER_IMAGE_NAME" -f "Dockerfile$CHAIN_NO" --build-arg "SRC_DIR=$EVMOS_SOURCE_DIR" --no-cache .
+docker build -t "$DOCKER_IMAGE_NAME" -f "Dockerfile$CHAIN_NO" --build-arg "SRC_DIR=$EVMOS_SOURCE_DIR" .
+[ $? -eq 0 ] || { echo "Failed to build docker image"; exit 1; }
 
-echo "Image: $DOCKER_IMAGE_NAME"
-echo 'Done, you can start them now'
+echo "Docker image: $DOCKER_IMAGE_NAME"
+echo 'You can start them now'
 echo '$ docker-compose -f network'$CHAIN_NO'.yml up -d'

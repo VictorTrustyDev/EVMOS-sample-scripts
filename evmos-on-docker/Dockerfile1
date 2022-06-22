@@ -1,10 +1,10 @@
 FROM golang:stretch AS build-env
 ARG SRC_DIR
 
-WORKDIR /go/src/github.com/tharsis/evmos
-
 RUN apt-get update -y
 RUN apt-get install git -y
+
+WORKDIR /go/src/github.com/tharsis/evmos
 
 COPY $SRC_DIR .
 
