@@ -59,13 +59,8 @@ VAL_HOME_3=$VAL_HOME_PREFIX'2'
 # Remove previous image
 docker rmi "$DOCKER_IMAGE_NAME"
 
-CUR_DIR=$(pwd)
-cd "$EVMOS_SOURCE_DIR"
-SRC_DIR=$(pwd)
-cd "$CUR_DIR"
-
 # Docker build
-docker build -t "$DOCKER_IMAGE_NAME" -f "Dockerfile$CHAIN_NO" --build-arg "SRC_DIR=$SRC_DIR" .
+docker build -t "$DOCKER_IMAGE_NAME" -f "Dockerfile$CHAIN_NO" --build-arg "SRC_DIR=$EVMOS_SOURCE_DIR" .
 
 echo "Image: $DOCKER_IMAGE_NAME"
 echo 'Done, you can start them now'
