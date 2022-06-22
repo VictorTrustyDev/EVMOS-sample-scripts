@@ -20,7 +20,7 @@ without any performance issue (CPU ~20% per core, ram ~45% via htop).
 ### List of samples:
 - [Script to build EVMOS networks and run with docker compose](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos-on-docker)
 - [Script to build & setup Hermes as an IBC relayer](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/hermes-as-ibc-relayer)
-- [Script to setup bdjuno (back-end of Big Dipper block explorer)](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/bdjuno)
+- [Script to setup bdjuno (back-end of Big Dipper block explorer) with hasura as graphql service](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/bdjuno)
 
 ### Software versions:
 
