@@ -30,3 +30,15 @@ without any performance issue (CPU ~20% per core, ram ~45% via htop).
 You can change version EVMOS and Hermes by updating file [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)
 - This sample is using keyring `test`, you may need to change to `file` for secure your test env if needed
 - You can create `override-env.sh` file and override values there (git ignores this file)
+
+### Default ports used in these samples
+
+| Sample name | Port No. for network 1 | Port No. for network 2 | Desc |
+| --- | --- | --- | --- |
+| EVMOS on docker | 26657 | 36657 | RPC |
+| EVMOS on docker | 8545 | 18545 | Json RPC |
+| EVMOS on docker | 1317 | 11317 | REST API |
+| EVMOS on docker | 9090 | 19090 | gRPC |
+| EVMOS on docker | 26656 | 36656 | P2P |
+| bdjuno | 8080 | 8082 | Hasura's graphql service |
+| bdjuno | 3000 | 3002 | bdjuno hasura action base |
