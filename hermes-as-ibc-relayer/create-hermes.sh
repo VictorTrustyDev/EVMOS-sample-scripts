@@ -4,6 +4,10 @@ command -v cargo > /dev/null 2>&1 || { echo >&2 "Rust & Cargo was not installed.
 
 source ../env.sh
 
+if [ -f "./override-env.sh" ]; then
+    source "./override-env.sh"
+fi
+
 echo "Hermes require an account on each chain with some coins reserved for broadcast tx purpose, so based on config"
 if [ "$REL_1_ADDR" = "$REL_2_ADDR" ]; then
     echo "- Account $REL_1_ADDR will be used for both chains $HERMES_CFG_CHAIN_1_ID and $HERMES_CFG_CHAIN_1_ID"

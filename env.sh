@@ -13,21 +13,15 @@ command -v go > /dev/null 2>&1 || { echo >&2 "go was not installed. More info: h
 export KEYRING="test" # change to file for cloud or production env (DANGER: keyring test will allow transfer token from validator without key)
 export NOTICE_DEV_ENV="This sample scripts was developed on an Ubuntu 22.04 LTS machine"
 
-## IP addresses
-export IP_EVMOS_1_INT="evmos1i.victortrusty.dev"
-export IP_EVMOS_2_INT="evmos2i.victortrusty.dev"
-export IP_EVMOS_3_INT="evmos3i.victortrusty.dev"
-export IP_EVMOS_1_EXT="evmos1.victortrusty.dev"
-export IP_EVMOS_2_EXT="evmos2.victortrusty.dev"
-export IP_EVMOS_3_EXT="evmos3.victortrusty.dev"
-
 ## EVMOS (network)
-export EVMOS_VER="v5.0.0"
 export EVMOS_BINARY="evmosd"
 export EVMOS_DENOM_EXPONENT=18 # no of digits
 export EVMOS_GAS_DENOM_EXPONENT=9 # no of digits
-export EVMOS_SOURCE_DIR="EVMOS-source-code" # do NOT modify
 export EVMOS_CLAIM_MODULE_ACCOUNT="evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz"
+export EVMOS_CHAIN_1_REPO="https://github.com/evmos/evmos.git"
+export EVMOS_CHAIN_1_BRANCH="v5.0.0"
+export EVMOS_CHAIN_1_REPO="https://github.com/evmos/evmos.git"
+export EVMOS_CHAIN_2_BRANCH="v5.0.0"
 
 ## Validators
 export VAL_RAW_BALANCE=50000000 # Init with 50m EVMOS in balance for each validator
@@ -97,6 +91,35 @@ export REL_1_ADDR="evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp"
 export REL_2_SEED="raw course slim hockey salt crawl sick safe december during armed fragile"
 export REL_2_ADDR="evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp"
 
+## Big Dipper (bdjuno)
+export BD_BRANCH="chains/evmos/mainnet"
+export BD_SOURCE_DIR="bdjuno-source-code" # do NOT modify
+export BD_BINARY="$GOPATH/bin/bdjuno"
+export BD_PG_DB=bdjuno
+export BD_PG_USER=bdjuno
+export BD_PG_PASS=6N4QtFYMt7h972uazrWTckmMvFZWIje
+export BD_HASURA_BINARY=/usr/local/bin/hasura
+export BD_HASURA_SECRET=myadminsecretkey
+export BD_PG_HASURA_META_DB=hasurameta
+export BD_PG_HASURA_DB=hasura
+export BD_PG_HASURA_USER=hasura
+export BD_PG_HASURA_PASS=PX2RNvtZ4m7fntnbRrtySB4ROG5EKk4J
+export BD_CFG_PG_USR_PASS=6N4QtFYMt7h972uazrWTckmMvFZWIje # Password of default user postgres
+export BD_CFG_CHAIN_1_PG_PORT=5432
+export BD_CFG_CHAIN_1_ACCOUNT_PREFIX="evmos"
+export BD_CFG_CHAIN_1_RPC_ADDR="127.0.0.1:26657"
+export BD_CFG_CHAIN_1_GRPC_ADDR="127.0.0.1:9090"
+export BD_CFG_CHAIN_1_ID="$CHAIN_1_ID"
+export BD_CFG_CHAIN_1_HASURA_PORT=8080
+export BD_CFG_CHAIN_1_HASURA_ACTIONBASE_PORT=3000
+export BD_CFG_CHAIN_2_PG_PORT=15432
+export BD_CFG_CHAIN_2_ACCOUNT_PREFIX="evmos"
+export BD_CFG_CHAIN_2_RPC_ADDR="127.0.0.1:36657"
+export BD_CFG_CHAIN_2_GRPC_ADDR="127.0.0.1:19090"
+export BD_CFG_CHAIN_2_ID="$CHAIN_2_ID"
+export BD_CFG_CHAIN_2_HASURA_PORT=8082
+export BD_CFG_CHAIN_2_HASURA_ACTIONBASE_PORT=3002
+
 ## Reflects by above config (edit at your own risk)
 export EVMOS_CHAINNAME=$(echo $DENOM_SYMBOL | tr '[:lower:]' '[:upper:]')
 export EVMOS_MONIKER=$DENOM_SYMBOL'AIO'
@@ -144,3 +167,6 @@ else
 fi
 export NETWORK_PORT_OFFSET_1=0
 export NETWORK_PORT_OFFSET_2=1000
+if [ -f "./override-env.sh" ]; then
+    source "./override-env.sh"
+fi
