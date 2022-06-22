@@ -99,9 +99,7 @@ export BD_PG_DB=bdjuno
 export BD_PG_USER=bdjuno
 export BD_PG_PASS=6N4QtFYMt7h972uazrWTckmMvFZWIje
 export BD_HASURA_BINARY=/usr/local/bin/hasura
-export BD_HASURA_PORT=8080
 export BD_HASURA_SECRET=myadminsecretkey
-export BD_HASURA_ACTIONBASE_PORT=3000
 export BD_PG_HASURA_META_DB=hasurameta
 export BD_PG_HASURA_DB=hasura
 export BD_PG_HASURA_USER=hasura
@@ -112,11 +110,15 @@ export BD_CFG_CHAIN_1_ACCOUNT_PREFIX="evmos"
 export BD_CFG_CHAIN_1_RPC_ADDR="127.0.0.1:26657"
 export BD_CFG_CHAIN_1_GRPC_ADDR="127.0.0.1:9090"
 export BD_CFG_CHAIN_1_ID="$CHAIN_1_ID"
+export BD_CFG_CHAIN_1_HASURA_PORT=8080
+export BD_CFG_CHAIN_1_HASURA_ACTIONBASE_PORT=3000
 export BD_CFG_CHAIN_2_PG_PORT=15432
 export BD_CFG_CHAIN_2_ACCOUNT_PREFIX="evmos"
 export BD_CFG_CHAIN_2_RPC_ADDR="127.0.0.1:36657"
 export BD_CFG_CHAIN_2_GRPC_ADDR="127.0.0.1:19090"
 export BD_CFG_CHAIN_2_ID="$CHAIN_2_ID"
+export BD_CFG_CHAIN_2_HASURA_PORT=8081
+export BD_CFG_CHAIN_2_HASURA_ACTIONBASE_PORT=3001
 
 ## Reflects by above config (edit at your own risk)
 export EVMOS_CHAINNAME=$(echo $DENOM_SYMBOL | tr '[:lower:]' '[:upper:]')

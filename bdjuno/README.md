@@ -11,7 +11,7 @@
 ##### 2. Copy `genesis.json` file into bdjuno home at `.bdjuno1` & parse it
 > $ ./2_install-bdjuno.sh 1
 
-##### 3. Run `hasura` graphql service and expose port
+##### 3. Run `hasura` graphql service and expose port `8080`
 > $ ./3_install-hasura.sh 1
 
 #### B. Create network 2

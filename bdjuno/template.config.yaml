@@ -56,7 +56,7 @@ pricefeed:
             - denom: p_token_min_denom
               exponent: 0
             - denom: p_token_denom
-              exponent: 18
+              exponent: p_denom_exponent
               price_id: evmos
 actions:
-    port: 3000
+    port: p_action_port
