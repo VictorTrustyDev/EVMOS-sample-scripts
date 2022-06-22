@@ -5,25 +5,21 @@ command -v psql > /dev/null 2>&1 || { echo >&2 "psql is required, you first need
 
 source ../env.sh
 
+CHAIN_NO=$1
+
+if [ -f "./_config.sh" ]; then
+    source "./_config.sh"
+fi
+
 if [ -f "./override-env.sh" ]; then
     source "./override-env.sh"
 fi
 
-CHAIN_NO=$1
-
 # Validate input
 if [ "$CHAIN_NO" = "1" ]; then
     echo "Creating bdjuno for $CHAIN_1_ID"
-    export PG_PORT=$BD_CFG_CHAIN_1_PG_PORT
-    export ACCOUNT_PREFIX=$BD_CFG_CHAIN_1_ACCOUNT_PREFIX
-    export RPC_ADDR=$BD_CFG_CHAIN_1_RPC_ADDR
-    export GRPC_ADDR=$BD_CFG_CHAIN_1_GRPC_ADDR
 elif [ "$CHAIN_NO" = "2" ]; then
     echo "Creating bdjuno for $CHAIN_2_ID"
-    export PG_PORT=$BD_CFG_CHAIN_2_PG_PORT
-    export ACCOUNT_PREFIX=$BD_CFG_CHAIN_2_ACCOUNT_PREFIX
-    export RPC_ADDR=$BD_CFG_CHAIN_2_RPC_ADDR
-    export GRPC_ADDR=$BD_CFG_CHAIN_2_GRPC_ADDR
 else
     echo 'Missing or incorrect chain no as first argument, valid input is 1 or 2'
     echo 'For example:'
