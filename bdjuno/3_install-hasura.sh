@@ -75,7 +75,7 @@ sleep 3s
 
 echo 'Applying Hasura metadata'
 
-cd hasura/
+cd "$BD_SOURCE_DIR/hasura/"
 
 $BD_HASURA_BINARY metadata apply --endpoint http://localhost:$BD_HASURA_PORT --admin-secret $BD_HASURA_SECRET
 

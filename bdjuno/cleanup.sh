@@ -14,5 +14,7 @@ fi
 echo 'Remove existing docker container & volumes'
 docker rm -f bdjdb1
 docker volume rm -f bdjdb1
+docker rm -f bdjhasura1
 docker rm -f bdjdb2
 docker volume rm -f bdjdb2
+docker rm -f bdjhasura2
