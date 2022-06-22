@@ -140,14 +140,6 @@ export VAL_3_CLAIM=$VAL_1_CLAIM
 ### Docker
 export DOCKER_IMAGE_NAME_PREFIX="$DENOM_SYMBOL.victortrusty.dev:c"
 
-## IP addresses
-export IP_EVMOS_1_INT="evmos1i.victortrusty.dev"
-export IP_EVMOS_2_INT="evmos2i.victortrusty.dev"
-export IP_EVMOS_3_INT="evmos3i.victortrusty.dev"
-export IP_EVMOS_1_EXT="evmos1.victortrusty.dev"
-export IP_EVMOS_2_EXT="evmos2.victortrusty.dev"
-export IP_EVMOS_3_EXT="evmos3.victortrusty.dev"
-
 # Others
 echo $NOTICE_DEV_ENV
 if [ -z "$GOPATH" ]; then
