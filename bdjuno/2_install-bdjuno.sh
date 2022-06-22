@@ -44,13 +44,13 @@ if [ ! -f "$GENESIS_JSON" ]; then
         exit 1
     fi
 fi
-$BDJ_BINARY parse genesis-file --genesis-file-path "$GENESIS_JSON"
-[ $? -eq 0 ] || { echo "ERR: Failed to parse genesis.json!"; }
+$BDJ_BINARY parse genesis-file --genesis-file-path "$GENESIS_JSON" --home "$BDJ_HOME"
+[ $? -eq 0 ] || { echo "ERR: Failed to parse genesis.json!"; exit 1; }
 ## Check chain id
 GENESIS_CHAIN_ID=$(cat "$GENESIS_JSON" | jq .chain_id | head -n 1 | tr -d '"')
 
 if [ "$GENESIS_CHAIN_ID" != "$CHAIN_ID" ]; then
-    echo "Mis-match chain id, expect [$CHAIN_ID] but found [$GENESIS_CHAIN_ID] on genesis.json"
+    echo "ERR: Mis-match chain id, expect [$CHAIN_ID] but found [$GENESIS_CHAIN_ID] on genesis.json"
     exit 1
 fi
 
