@@ -32,9 +32,17 @@ fi
 # Parse
 GENESIS_JSON="$BDJ_HOME/genesis.json"
 if [ ! -f "$GENESIS_JSON" ]; then
-    echo "Missing genesis.json file (expect: $GENESIS_JSON)"
-    echo "Please copy that file from your chain"
-    exit 1
+    if [ $EXTRA_FUNC -eq 1 ]; then
+        cp '../evmos-on-docker/.evmosd'$CHAIN_NO'0' "$GENESIS_JSON"
+        if [ ! -f "$GENESIS_JSON" ]; then
+            echo "Please copy genesis.json from your chain into $BDJ_HOME"
+            exit 1
+        fi
+    else
+        echo "Missing genesis.json file (expect: $GENESIS_JSON)"
+        echo "Please copy that file from your chain"
+        exit 1
+    fi
 fi
 $BDJ_BINARY parse genesis-file --genesis-file-path "$GENESIS_JSON"
 [ $? -eq 0 ] || { echo "ERR: Failed to parse genesis.json!"; }
