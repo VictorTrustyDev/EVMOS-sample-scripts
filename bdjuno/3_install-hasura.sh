@@ -3,6 +3,15 @@
 command -v docker > /dev/null 2>&1 || { echo >&2 "docker is required"; exit 1; }
 command -v psql > /dev/null 2>&1 || { echo >&2 "psql is required, you first need to install psql client. Hint: sudo apt install postgresql-client"; exit 1; }
 
+if [ -f "$BD_HASURA_BINARY" ]; then
+    echo "Hasura binary exists"
+elif [ command -v hasura > /dev/null 2>&1 ]; then
+    export BD_HASURA_BINARY="hasura"
+else
+    echo "hasura-cli is required, more info: https://hasura.io/docs/latest/graphql/core/hasura-cli/install-hasura-cli/ . Hint: curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash"
+    exit 1
+fi
+
 source ../env.sh
 
 CHAIN_NO=$1
