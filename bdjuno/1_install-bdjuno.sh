@@ -109,14 +109,14 @@ $BD_BINARY init --home "$BD_HOME"
 
 echo 'Config bdjuno'
 CONFIG_YAML="$BD_HOME/config.yaml"
-cp template.config.yaml "$CONFIG_YAML"
+cp "./template.config.yaml" "$CONFIG_YAML"
 sed -i "s/p_bech32_prefix/$ACCOUNT_PREFIX/g" "$CONFIG_YAML"
 sed -i "s,p_rpc_addr,$RPC_ADDR,g" "$CONFIG_YAML"
 sed -i "s,p_grpc_addr,$GRPC_ADDR,g" "$CONFIG_YAML"
 sed -i "s/p_db_name/$BD_PG_DB/g" "$CONFIG_YAML"
 sed -i "s/p_db_user/$BD_PG_USER/g" "$CONFIG_YAML"
 sed -i "s/p_db_port/$PG_PORT/g" "$CONFIG_YAML"
-sed -i "s/p_db_pass/$BD_PG_PASS/g" "$CONFIG_YAML"
+sed -i "s/p_db_pass/$BD_CFG_PG_USR_PASS/g" "$CONFIG_YAML"
 sed -i "s/p_token_denom/$DENOM_SYMBOL/g" "$CONFIG_YAML"
 sed -i "s/p_token_min_denom/$MIN_DENOM_SYMBOL/g" "$CONFIG_YAML"
 
