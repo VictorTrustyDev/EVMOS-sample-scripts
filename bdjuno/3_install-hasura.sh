@@ -89,4 +89,4 @@ cd "$BD_SOURCE_DIR/hasura/"
 $BD_HASURA_BINARY metadata apply --endpoint http://localhost:$BD_HASURA_PORT --admin-secret $BD_HASURA_SECRET
 
 echo "Done, run the following command to test"
-echo "curl http://localhost:$BD_HASURA_ACTIONBASE_PORT/account_balance --data '{ \"input\": { \"address\": \"evmos1wuqvcpuunf7r5rg7xutqddhw55grfzc75qejyq\"} }'"
+echo "curl http://localhost:$BD_HASURA_ACTIONBASE_PORT/account_balance --data '{ \"input\": { \"address\": \"'$VAL_1_ADDR'\"} }'"
