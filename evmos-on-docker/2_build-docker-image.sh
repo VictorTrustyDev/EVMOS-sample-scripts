@@ -116,4 +116,4 @@ echo "+ 26658 => $PORT_26656"
 # Finish
 echo 'Done'
 echo 'You can start them now'
-echo "$ docker-compose -f $DOCKER_COMPOSE_FILE up -d"
+echo "$ docker-compose -f \"$DOCKER_COMPOSE_FILE\" up -d"

@@ -2,10 +2,17 @@
 
 command -v 'docker-compose' > /dev/null 2>&1 || { echo >&2 "docker-compose is required"; exit 1; }
 
-echo 'docker-compose down'
-if [ -f "network1.yml" ]; then
-    docker-compose -f network1.yml down
-fi
-if [ -f "network2.yml" ]; then
-    docker-compose -f network2.yml down
-fi
+down() {
+    CHAIN_NO=$1
+    DCF="network$CHAIN_NO.yml"
+
+    if [ -f "$DCF" ]; then
+        echo "Shutting down network $CHAIN_NO"
+        docker-compose -f "$DCF" down
+    else
+        echo "Can not shutdown containers of network $CHAIN_NO because docker compose file $DCF could not be found"
+    fi
+}
+
+down 1
+down 2

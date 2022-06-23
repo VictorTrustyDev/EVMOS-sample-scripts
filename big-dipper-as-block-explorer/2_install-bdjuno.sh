@@ -12,7 +12,7 @@ if [ -f "./_config.sh" ]; then
     source "./_config.sh"
 else
     echo "ERR: Wrong working directory"
-    echo "ERR: Scripts must be executed within [bdjuno] directory"
+    echo "ERR: Scripts must be executed within [big-dipper-as-block-explorer] directory"
     exit 1
 fi
 
@@ -75,7 +75,10 @@ if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
         echo "sudo vi $SERVICE_FILE"
         echo
 
+        CUR_DIR=$(pwd)
+        cd "$BD_HOME"
         WORKING_DIR=$(pwd)
+        cd "$CUR_DIR"
         
         SCRIPT_CONTENT="[Unit]
 \nDescription=BDJuno parser
@@ -84,6 +87,7 @@ if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
 
 \n[Service]
 \nUser=$USER
+\nWorkingDirectory=$WORKING_DIR
 \nExecStart=$BD_BINARY start --home $BD_HOME
 \nRestart=always
 \nRestartSec=3
