@@ -89,6 +89,7 @@ cat "$BD2_CODEGEN_YML" | yq '.generates["./src/graphql/types/general_types.tsx"]
 
 CUR_DIR=$(pwd)
 cd "$BD2_SOURCE_DIR"
+WORKING_DIR=$(pwd)
 # Build
 ## Install graphql-codegen 
 npm i -D @graphql-codegen/cli > /dev/null 2>&1
@@ -116,15 +117,13 @@ if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
         echo "sudo vi $SERVICE_FILE"
         echo
 
-        WORKING_DIR=$(pwd)
-        
         SCRIPT_CONTENT="[Unit]
 \nDescription=Big Dipper 2.0 for $DENOM_SYMBOL chain (network $CHAIN_NO)
 \nAfter=network-online.target
 
 \n[Service]
 \nUser=$USER
-\nWorkingDirectory=$BD2_SOURCE_DIR
+\nWorkingDirectory=$WORKING_DIR
 \nExecStart=$(which npm) run dev
 \nRestart=always
 \nRestartSec=3
