@@ -52,7 +52,7 @@ else
 fi
 
 # npm environment variables
-NPM_ENV=".env"
+NPM_ENV="$BD2_SOURCE_DIR/.env"
 echo -e "
 NEXT_PUBLIC_GRAPHQL_URL=http://$BD2_PUBLIC_DOMAIN:$BD_HASURA_PORT/v1/graphql
 \nNEXT_PUBLIC_GRAPHQL_WS=ws://$BD2_PUBLIC_DOMAIN:$BD_HASURA_PORT/v1/graphql
