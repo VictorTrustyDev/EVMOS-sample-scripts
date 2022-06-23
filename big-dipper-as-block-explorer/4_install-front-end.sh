@@ -1,6 +1,6 @@
 #!/bin/bash
 
-command -v npm > /dev/null 2>&1 || { echo >&2 "npm is required"; exit 1; }
+#command -v npm > /dev/null 2>&1 || { echo >&2 "npm is required"; exit 1; }
 
 source ../env.sh
 
