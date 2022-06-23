@@ -124,7 +124,7 @@ if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
 
 \n[Service]
 \nUser=$USER
-\nWorkingDirectory=$CUR_DIR
+\nWorkingDirectory=$BD2_SOURCE_DIR
 \nExecStart=$(which npm) run dev
 \nRestart=always
 \nRestartSec=3
