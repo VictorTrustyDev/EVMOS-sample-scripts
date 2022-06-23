@@ -67,9 +67,9 @@ export VAL_3_RAW_STAKE=3000 # Validator 3 will stake this amount
 export VAL_3_RAW_CLAIM=1000 # Validator 3 can claim this amount
 
 ## Custom chain (design for future script update)
-export DENOM_SYMBOL="evmos"
-export MIN_DENOM_SYMBOL="aevmos"
-export GAS_DENOM_SYMBOL="nevmos"
+#export DENOM_SYMBOL="evmos"
+#export MIN_DENOM_SYMBOL="aevmos"
+#export GAS_DENOM_SYMBOL="nevmos"
 
 ## Multichain config
 ### Chain 1
