@@ -66,9 +66,23 @@ fi
 echo "Remove previous docker image $DOCKER_IMAGE_NAME"
 docker rmi "$DOCKER_IMAGE_NAME"
 
+# Create Dockerfile
+DOCKER_FILE="Dockerfile$CHAIN_NO"
+echo "Creating docker file: $DOCKER_FILE"
+cp template.DockerfileX "$DOCKER_FILE"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    sed -i '' "s,_p_src_dir_,$EVMOS_SOURCE_DIR,g" "$DOCKER_FILE"
+    sed -i '' "s/_p_daemon_binary_/$EVMOS_DAEMON/g" "$DOCKER_FILE"
+    sed -i '' "s/_p_home_prefix_/$VAL_HOME_PREFIX/g" "$DOCKER_FILE"
+else
+    sed -i "s,_p_src_dir_,$EVMOS_SOURCE_DIR,g" "$DOCKER_FILE"
+    sed -i "s/_p_daemon_binary_/$EVMOS_DAEMON/g" "$DOCKER_FILE"
+    sed -i "s/_p_home_prefix_/$VAL_HOME_PREFIX/g" "$DOCKER_FILE"
+fi
+
 # Docker build
 echo "Build new docker image $DOCKER_IMAGE_NAME"
-docker build -t "$DOCKER_IMAGE_NAME" -f "Dockerfile$CHAIN_NO" --build-arg "SRC_DIR=$EVMOS_SOURCE_DIR" .
+docker build -t "$DOCKER_IMAGE_NAME" -f "$DOCKER_FILE" .
 [ $? -eq 0 ] || { echo "Failed to build docker image"; exit 1; }
 
 # Create docker-compose yml

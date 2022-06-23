@@ -1,3 +1,5 @@
 .evmosd*/
 network*.yml
+Dockerfile*
+
 
