@@ -53,6 +53,6 @@ You can change version EVMOS and Hermes by updating file [env.sh](https://github
 | EVMOS on docker | vtevmos12 | vtevmos22 | Node 2 (validator 3) of EVMOS network run via docker-compose |
 | Hermes as IBC relayer | (hermes-svc as a shared service) | (hermes-svc as a shared service) | Hermes connects both networks (Debian* daemon service) |
 | Big Dipper as Block Explorer | bdjuno-svc1 | bdjuno-svc2 | bdjuno app (Debian* daemon service) |
-| Big Dipper as Block Explorer | bdjdb1 | bdjdb2 | bdjuno & hasura database |
-| Big Dipper as Block Explorer | bdjhasura1 | bdjhasura2 | Hasura graphql service |
-| Big Dipper as Block Explorer | bd2-svc1 | bd2-svc2 | Big Dipper 2.0 web UI |
+| Big Dipper as Block Explorer | bdjdb1 | bdjdb2 | bdjuno & hasura database (docker) |
+| Big Dipper as Block Explorer | bdjhasura1 | bdjhasura2 | Hasura graphql service (docker) |
+| Big Dipper as Block Explorer | bd2-svc1 | bd2-svc2 | Big Dipper front end (Debian* daemon service) |

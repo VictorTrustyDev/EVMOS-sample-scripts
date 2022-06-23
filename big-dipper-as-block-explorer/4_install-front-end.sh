@@ -104,7 +104,7 @@ npm run build
 cd "$CUR_DIR"
 
 # Re-Start service
-if [ $BD2_SERVICE_NAME -eq 0 ]; then
+if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
     SERVICE_FILE="/etc/systemd/system/$BD2_SERVICE_NAME.service"
 	echo
     if [ -f "$SERVICE_FILE" ]; then
