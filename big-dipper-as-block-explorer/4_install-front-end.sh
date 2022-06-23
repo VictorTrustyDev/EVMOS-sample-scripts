@@ -86,3 +86,12 @@ BD2_CODEGEN_YML="$BD2_SOURCE_DIR/codegen.yml"
 BD2_CODEGEN_YML_TMP="$BD2_SOURCE_DIR/tmp_codegen.yml"
 echo "Setting up file $BD2_CODEGEN_YML"
 cat "$BD2_CODEGEN_YML" | yq '.generates["./src/graphql/types/general_types.tsx"]["schema"]="http://'$BD2_PUBLIC_DOMAIN':'$BD_HASURA_PORT'/v1/graphql"' -Y > "$BD2_CODEGEN_YML_TMP" && mv "$BD2_CODEGEN_YML_TMP" "$BD2_CODEGEN_YML"
+
+# Build
+## Install graphql-codegen 
+npm i -D @graphql-codegen/cli
+## Gen code
+echo 'Generating code'
+npm run graphql:codegen
+echo 'Build'
+npm run build
