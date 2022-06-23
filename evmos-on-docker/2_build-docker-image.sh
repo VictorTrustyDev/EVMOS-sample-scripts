@@ -73,25 +73,31 @@ docker build -t "$DOCKER_IMAGE_NAME" -f "Dockerfile$CHAIN_NO" --build-arg "SRC_D
 
 # Create docker-compose yml
 DOCKER_COMPOSE_FILE="network$CHAIN_NO.yml"
+echo "Creating docker compose file: $DOCKER_COMPOSE_FILE"
 cp template.networkX.yml "$DOCKER_COMPOSE_FILE"
-
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    sed -i '' "s/[p_chain_no]/$CHAIN_NO/g" "$DOCKER_COMPOSE_FILE"
-    sed -i '' "s/[p_26657]/$PORT_26657/g" "$DOCKER_COMPOSE_FILE"
-    sed -i '' "s/[p_9090]/$PORT_9090/g" "$DOCKER_COMPOSE_FILE"
-    sed -i '' "s/[p_8545]/$PORT_8545/g" "$DOCKER_COMPOSE_FILE"
-    sed -i '' "s/[p_1317]/$PORT_1317/g" "$DOCKER_COMPOSE_FILE"
-    sed -i '' "s/[p_26656]/$PORT_26656/g" "$DOCKER_COMPOSE_FILE"
-    sed -i '' "s/[p_image_prefix]/$DOCKER_IMAGE_NAME_PREFIX/g" "$DOCKER_COMPOSE_FILE"
+    sed -i '' "s/_p_chain_no_/$CHAIN_NO/g" "$DOCKER_COMPOSE_FILE"
+    sed -i '' "s/_p_26657_/$PORT_26657/g" "$DOCKER_COMPOSE_FILE"
+    sed -i '' "s/_p_9090_/$PORT_9090/g" "$DOCKER_COMPOSE_FILE"
+    sed -i '' "s/_p_8545_/$PORT_8545/g" "$DOCKER_COMPOSE_FILE"
+    sed -i '' "s/_p_1317_/$PORT_1317/g" "$DOCKER_COMPOSE_FILE"
+    sed -i '' "s/_p_26656_/$PORT_26656/g" "$DOCKER_COMPOSE_FILE"
+    sed -i '' "s/_p_image_prefix_/$DOCKER_IMAGE_NAME_PREFIX/g" "$DOCKER_COMPOSE_FILE"
 else
-    sed -i "s/[p_chain_no]/$CHAIN_NO/g" "$DOCKER_COMPOSE_FILE"
-    sed -i "s/[p_26657]/$PORT_26657/g" "$DOCKER_COMPOSE_FILE"
-    sed -i "s/[p_9090]/$PORT_9090/g" "$DOCKER_COMPOSE_FILE"
-    sed -i "s/[p_8545]/$PORT_8545/g" "$DOCKER_COMPOSE_FILE"
-    sed -i "s/[p_1317]/$PORT_1317/g" "$DOCKER_COMPOSE_FILE"
-    sed -i "s/[p_26656]/$PORT_26656/g" "$DOCKER_COMPOSE_FILE"
-    sed -i "s/[p_image_prefix]/$DOCKER_IMAGE_NAME_PREFIX/g" "$DOCKER_COMPOSE_FILE"
+    sed -i "s/_p_chain_no_/$CHAIN_NO/g" "$DOCKER_COMPOSE_FILE"
+    sed -i "s/_p_26657_/$PORT_26657/g" "$DOCKER_COMPOSE_FILE"
+    sed -i "s/_p_9090_/$PORT_9090/g" "$DOCKER_COMPOSE_FILE"
+    sed -i "s/_p_8545_/$PORT_8545/g" "$DOCKER_COMPOSE_FILE"
+    sed -i "s/_p_1317_/$PORT_1317/g" "$DOCKER_COMPOSE_FILE"
+    sed -i "s/_p_26656_/$PORT_26656/g" "$DOCKER_COMPOSE_FILE"
+    sed -i "s/_p_image_prefix_/$DOCKER_IMAGE_NAME_PREFIX/g" "$DOCKER_COMPOSE_FILE"
 fi
+echo '- Expose ports:'
+echo "+ 26657 => $PORT_26657"
+echo "+ 9090 => $PORT_9090"
+echo "+ 8545 => $PORT_8545"
+echo "+ 1317 => $PORT_1317"
+echo "+ 26658 => $PORT_26656"
 
 # Finish
 echo 'Done'
