@@ -1,0 +1,39 @@
+version: "3"
+networks:
+  vtevmosnw_p_chain_no_:
+    driver: bridge
+services:
+  vtevmos_p_chain_no_0:
+    container_name: vtevmos_p_chain_no_0
+    ports:
+      - "_p_8545_:8545"
+      - "_p_26657_:26657"
+      - "_p_1317_:1317"
+      - "_p_9090_:9090"
+      - "_p_26656_:26656"
+    networks:
+      - vtevmosnw_p_chain_no_
+    environment:
+      - NODE=0
+    restart: always
+    image: _p_image_prefix__p_chain_no_
+  vtevmos_p_chain_no_1:
+    container_name: vtevmos_p_chain_no_1
+    networks:
+      - vtevmosnw_p_chain_no_
+    environment:
+      - NODE=1
+    depends_on:
+      - vtevmos_p_chain_no_0
+    restart: always
+    image: _p_image_prefix__p_chain_no_
+  vtevmos_p_chain_no_2:
+    container_name: vtevmos_p_chain_no_2
+    networks:
+      - vtevmosnw_p_chain_no_
+    environment:
+      - NODE=2
+    depends_on:
+      - vtevmos_p_chain_no_0
+    restart: always
+    image: _p_image_prefix__p_chain_no_

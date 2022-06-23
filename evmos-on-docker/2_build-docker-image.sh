@@ -22,8 +22,18 @@ fi
 # Validate input
 if [ "$CHAIN_NO" = "1" ]; then
     echo "Network 1"
+    export PORT_26657="$EVMOS_CHAIN_1_PORT_RPC"
+    export PORT_9090="$EVMOS_CHAIN_1_PORT_GRPC"
+    export PORT_8545="$EVMOS_CHAIN_1_PORT_JSON_RPC"
+    export PORT_1317="$EVMOS_CHAIN_1_PORT_REST_API"
+    export PORT_26656="$EVMOS_CHAIN_1_PORT_P2P"
 elif [ "$CHAIN_NO" = "2" ]; then
     echo "Network 2"
+    export PORT_26657="$EVMOS_CHAIN_2_PORT_RPC"
+    export PORT_9090="$EVMOS_CHAIN_2_PORT_GRPC"
+    export PORT_8545="$EVMOS_CHAIN_2_PORT_JSON_RPC"
+    export PORT_1317="$EVMOS_CHAIN_2_PORT_REST_API"
+    export PORT_26656="$EVMOS_CHAIN_2_PORT_P2P"
 else
     echo 'Missing or incorrect chain no as first argument, valid input is 1 or 2'
     echo 'For example:'
@@ -33,10 +43,11 @@ else
 fi
 
 export DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME_PREFIX''$CHAIN_NO
+DOCKER_COMPOSE_FILE="network$CHAIN_NO.yml"
 
-echo "Going to build docker image $DOCKER_IMAGE_NAME for chain $CHAIN_ID"
-
-docker-compose -f "network$CHAIN_NO.yml" down
+if [ -f "$DOCKER_COMPOSE_FILE" ]; then
+    docker-compose -f "$DOCKER_COMPOSE_FILE" down
+fi
 
 # Check EVMOS source
 if [ -d "$EVMOS_SOURCE_DIR" ]; then
@@ -52,12 +63,57 @@ else
 fi
 
 # Remove previous image
+echo "Remove previous docker image $DOCKER_IMAGE_NAME"
 docker rmi "$DOCKER_IMAGE_NAME"
 
+# Create Dockerfile
+DOCKER_FILE="Dockerfile$CHAIN_NO"
+echo "Creating docker file: $DOCKER_FILE"
+cp template.DockerfileX "$DOCKER_FILE"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    sed -i '' "s,_p_src_dir_,$EVMOS_SOURCE_DIR,g" "$DOCKER_FILE"
+    sed -i '' "s/_p_daemon_binary_/$EVMOS_DAEMON/g" "$DOCKER_FILE"
+    sed -i '' "s/_p_home_prefix_/$VAL_HOME_PREFIX/g" "$DOCKER_FILE"
+else
+    sed -i "s,_p_src_dir_,$EVMOS_SOURCE_DIR,g" "$DOCKER_FILE"
+    sed -i "s/_p_daemon_binary_/$EVMOS_DAEMON/g" "$DOCKER_FILE"
+    sed -i "s/_p_home_prefix_/$VAL_HOME_PREFIX/g" "$DOCKER_FILE"
+fi
+
 # Docker build
-docker build -t "$DOCKER_IMAGE_NAME" -f "Dockerfile$CHAIN_NO" --build-arg "SRC_DIR=$EVMOS_SOURCE_DIR" .
+echo "Build new docker image $DOCKER_IMAGE_NAME"
+docker build -t "$DOCKER_IMAGE_NAME" -f "$DOCKER_FILE" .
 [ $? -eq 0 ] || { echo "Failed to build docker image"; exit 1; }
 
-echo "Docker image: $DOCKER_IMAGE_NAME"
+# Create docker-compose yml
+DOCKER_COMPOSE_FILE="network$CHAIN_NO.yml"
+echo "Creating docker compose file: $DOCKER_COMPOSE_FILE"
+cp template.networkX.yml "$DOCKER_COMPOSE_FILE"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    sed -i '' "s/_p_chain_no_/$CHAIN_NO/g" "$DOCKER_COMPOSE_FILE"
+    sed -i '' "s/_p_26657_/$PORT_26657/g" "$DOCKER_COMPOSE_FILE"
+    sed -i '' "s/_p_9090_/$PORT_9090/g" "$DOCKER_COMPOSE_FILE"
+    sed -i '' "s/_p_8545_/$PORT_8545/g" "$DOCKER_COMPOSE_FILE"
+    sed -i '' "s/_p_1317_/$PORT_1317/g" "$DOCKER_COMPOSE_FILE"
+    sed -i '' "s/_p_26656_/$PORT_26656/g" "$DOCKER_COMPOSE_FILE"
+    sed -i '' "s/_p_image_prefix_/$DOCKER_IMAGE_NAME_PREFIX/g" "$DOCKER_COMPOSE_FILE"
+else
+    sed -i "s/_p_chain_no_/$CHAIN_NO/g" "$DOCKER_COMPOSE_FILE"
+    sed -i "s/_p_26657_/$PORT_26657/g" "$DOCKER_COMPOSE_FILE"
+    sed -i "s/_p_9090_/$PORT_9090/g" "$DOCKER_COMPOSE_FILE"
+    sed -i "s/_p_8545_/$PORT_8545/g" "$DOCKER_COMPOSE_FILE"
+    sed -i "s/_p_1317_/$PORT_1317/g" "$DOCKER_COMPOSE_FILE"
+    sed -i "s/_p_26656_/$PORT_26656/g" "$DOCKER_COMPOSE_FILE"
+    sed -i "s/_p_image_prefix_/$DOCKER_IMAGE_NAME_PREFIX/g" "$DOCKER_COMPOSE_FILE"
+fi
+echo '- Expose ports:'
+echo "+ 26657 => $PORT_26657"
+echo "+ 9090 => $PORT_9090"
+echo "+ 8545 => $PORT_8545"
+echo "+ 1317 => $PORT_1317"
+echo "+ 26658 => $PORT_26656"
+
+# Finish
+echo 'Done'
 echo 'You can start them now'
-echo '$ docker-compose -f network'$CHAIN_NO'.yml up -d'
+echo "$ docker-compose -f $DOCKER_COMPOSE_FILE up -d"
