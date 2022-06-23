@@ -127,6 +127,7 @@ export BD_PG_HASURA_DB=hasura
 export BD_PG_HASURA_USER=hasura
 export BD_PG_HASURA_PASS=PX2RNvtZ4m7fntnbRrtySB4ROG5EKk4J
 export BD_CFG_PG_USR_PASS=6N4QtFYMt7h972uazrWTckmMvFZWIje # Password of default user postgres
+### Chain 1
 export BD_CFG_CHAIN_1_PG_PORT=5432
 export BD_CFG_CHAIN_1_ACCOUNT_PREFIX="$EVMOS_CHAIN_1_ACCOUNT_PREFIX"
 export BD_CFG_CHAIN_1_RPC_ADDR="127.0.0.1:$EVMOS_CHAIN_1_PORT_RPC"
@@ -137,6 +138,7 @@ export BD_CFG_CHAIN_1_HASURA_ACTIONBASE_PORT=3000
 export BD_CFG_CHAIN_1_DENOM_SYMBOL="$EVMOS_CHAIN_1_DENOM_SYMBOL" # evmos
 export BD_CFG_CHAIN_1_MIN_DENOM_SYMBOL="$EVMOS_CHAIN_1_MIN_DENOM_SYMBOL" # aevmos
 export BD_CFG_CHAIN_1_DENOM_EXPONENT=$EVMOS_CHAIN_1_DENOM_EXPONENT # no of digits (18)
+### Chain 2
 export BD_CFG_CHAIN_2_PG_PORT=15432
 export BD_CFG_CHAIN_2_ACCOUNT_PREFIX="$EVMOS_CHAIN_2_ACCOUNT_PREFIX"
 export BD_CFG_CHAIN_2_RPC_ADDR="127.0.0.1:$EVMOS_CHAIN_2_PORT_RPC"
@@ -147,6 +149,18 @@ export BD_CFG_CHAIN_2_HASURA_ACTIONBASE_PORT=3002
 export BD_CFG_CHAIN_2_DENOM_SYMBOL="$EVMOS_CHAIN_2_DENOM_SYMBOL" # evmos
 export BD_CFG_CHAIN_2_MIN_DENOM_SYMBOL="$EVMOS_CHAIN_2_MIN_DENOM_SYMBOL" # aevmos
 export BD_CFG_CHAIN_2_DENOM_EXPONENT=$EVMOS_CHAIN_2_DENOM_EXPONENT # no of digits (18)
+### Big Dipper 2.0 for Cosmos based chains
+export BD2_SOURCE_DIR_PREFIX="bd2-source-code" # do NOT modify
+### Chain 1
+export BD2_CHAIN_1_BRANCH="chains/evmos"
+export BD2_CFG_CHAIN_1_PORT=3800
+export BD2_CFG_CHAIN_1_PUBLIC_DOMAIN="evmos1.victortrusty.dev"
+export BD2_CFG_CHAIN_1_PUBLIC_RPC_26657="evmos1.victortrusty.dev:26657"
+### Chain 2
+export BD2_CHAIN_2_BRANCH="chains/evmos"
+export BD2_CFG_CHAIN_2_PORT=3802
+export BD2_CFG_CHAIN_2_PUBLIC_DOMAIN="evmos1.victortrusty.dev"
+export BD2_CFG_CHAIN_2_PUBLIC_RPC_26657="evmos1.victortrusty.dev:36657"
 
 ## Reflects by above config (edit at your own risk)
 export HERMES_SERVICE_NAME=$HERMES_BINARY'-svc'

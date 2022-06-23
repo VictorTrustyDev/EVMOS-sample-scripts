@@ -12,7 +12,7 @@ if [ -f "./_config.sh" ]; then
     source "./_config.sh"
 else
     echo "ERR: Wrong working directory"
-    echo "ERR: Scripts must be executed within [bdjuno] directory"
+    echo "ERR: Scripts must be executed within [big-dipper-as-block-explorer] directory"
     exit 1
 fi
 
