@@ -186,6 +186,6 @@ elif [ -f "../extra_func.lic" ]; then
 else
     export EXTRA_FUNC=0
 fi
-if [ -f "./override-env.sh" ]; then
-    source "./override-env.sh"
+if [ -f "../override-env.sh" ]; then
+    source "../override-env.sh"
 fi
