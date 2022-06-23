@@ -27,23 +27,25 @@ without any performance issue (CPU ~20-80% per core, ram ~50% via htop).
 
 - [Evmos v5.0.0](https://github.com/evmos/evmos/tree/v5.0.0)
 - [Hermes v0.15.0](https://github.com/informalsystems/ibc-rs/tree/v0.15.0)
+- [bdjuno branch evmos](https://github.com/forbole/bdjuno/tree/chains/evmos/mainnet)
+- [Big Dipper 2.0 for Cosmos chains branch evmos](https://github.com/forbole/big-dipper-2.0-cosmos/tree/chains/evmos)
 
-You can change version EVMOS and Hermes by updating file [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)
+You can change their version by updating file [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)
 - This sample is using keyring `test`, you may need to change to `file` for secure your test env if needed
-- You can create `override-env.sh` file and override values there (git ignores this file)
+- You can create `override-env.sh` file and override values there
 
 #### Default ports used in these samples
 
 | Sample name | Port No. for network 1 | Port No. for network 2 | Desc |
 | --- | --- | --- | --- |
-| EVMOS on docker | 26657 | 36657 | RPC |
-| EVMOS on docker | 8545 | 18545 | Json RPC |
-| EVMOS on docker | 1317 | 11317 | REST API |
+| EVMOS on docker | 26657 | 36657 | **RPC** |
+| EVMOS on docker | 8545 | 18545 | **Json RPC** |
+| EVMOS on docker | 1317 | 11317 | **REST API** |
 | EVMOS on docker | 9090 | 19090 | gRPC |
 | EVMOS on docker | 26656 | 36656 | P2P |
+| Big Dipper as Block Explorer | 3800 | 3802 | **Big Dipper front end** |
 | Big Dipper as Block Explorer | 8080 | 8082 | Hasura's graphql service |
 | Big Dipper as Block Explorer | 3000 | 3002 | bdjuno hasura action base |
-| Big Dipper as Block Explorer | 3800 | 3802 | Big Dipper front end |
 
 #### Default service name & container name used in these samples
 | Sample name | Name for network 1 | Name for network 2 | Desc |
