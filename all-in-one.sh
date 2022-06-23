@@ -15,7 +15,8 @@ command -v npm > /dev/null 2>&1 || { echo >&2 "npm is required"; exit 1; }
 echo "Run everything requires:"
 echo "- Your machine must have at least 4 Cores and 16 Gb of RAM"
 echo "- Required ports are available"
-read -p "Are you sure? (Y/n)" -n 1 -r
+echo "Running this script is not recommended, you better run the scripts separately by yourself to deeply understand"
+read -p "Are you sure want to run this? (Y/n)" -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
