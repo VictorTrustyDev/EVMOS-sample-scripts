@@ -120,7 +120,7 @@ sed -i "s/p_db_port/$PG_PORT/g" "$CONFIG_YAML"
 sed -i "s/p_db_pass/$BD_CFG_PG_USR_PASS/g" "$CONFIG_YAML"
 sed -i "s/p_token_denom/$DENOM_SYMBOL/g" "$CONFIG_YAML"
 sed -i "s/p_token_min_denom/$MIN_DENOM_SYMBOL/g" "$CONFIG_YAML"
-sed -i "s/p_denom_exponent/$EVMOS_DENOM_EXPONENT/g" "$CONFIG_YAML"
+sed -i "s/p_denom_exponent/$DENOM_EXPONENT/g" "$CONFIG_YAML"
 sed -i "s/p_action_port/$BD_HASURA_ACTIONBASE_PORT/g" "$CONFIG_YAML"
 
 echo "Step 1 done!"
