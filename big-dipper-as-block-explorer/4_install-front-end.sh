@@ -97,9 +97,9 @@ npm i -D @graphql-codegen/cli > /dev/null 2>&1
 echo 'Generating code'
 npm run graphql:codegen
 [ $? -eq 0 ] || { echo "Failed to run graphql:codegen"; exit 1; }
-echo 'Build'
-npm run build
-[ $? -eq 0 ] || { echo "Failed to build"; exit 1; }
+#echo 'Build'
+#npm run build
+#[ $? -eq 0 ] || { echo "Failed to build"; exit 1; }
 
 cd "$CUR_DIR"
 
