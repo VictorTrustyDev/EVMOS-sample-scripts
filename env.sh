@@ -154,13 +154,13 @@ export BD2_SOURCE_DIR_PREFIX="bd2-source-code" # do NOT modify
 ### Chain 1
 export BD2_CHAIN_1_BRANCH="chains/evmos"
 export BD2_CFG_CHAIN_1_PORT=3800
-export BD2_CFG_CHAIN_1_PUBLIC_DOMAIN="evmos1.victortrusty.dev"
-export BD2_CFG_CHAIN_1_PUBLIC_RPC_26657="evmos1.victortrusty.dev:26657"
+export BD2_CFG_CHAIN_1_PUBLIC_DOMAIN="127.0.0.1"
+export BD2_CFG_CHAIN_1_PUBLIC_RPC_26657="127.0.0.1:26657"
 ### Chain 2
 export BD2_CHAIN_2_BRANCH="chains/evmos"
 export BD2_CFG_CHAIN_2_PORT=3802
-export BD2_CFG_CHAIN_2_PUBLIC_DOMAIN="evmos1.victortrusty.dev"
-export BD2_CFG_CHAIN_2_PUBLIC_RPC_26657="evmos1.victortrusty.dev:36657"
+export BD2_CFG_CHAIN_2_PUBLIC_DOMAIN="127.0.0.1"
+export BD2_CFG_CHAIN_2_PUBLIC_RPC_26657="127.0.0.1:36657"
 
 ## Reflects by above config (edit at your own risk)
 export HERMES_SERVICE_NAME=$HERMES_BINARY'-svc'
