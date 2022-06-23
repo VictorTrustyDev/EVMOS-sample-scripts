@@ -14,7 +14,10 @@ export KEYRING="test" # change to file for cloud or production env (DANGER: keyr
 export NOTICE_DEV_ENV="This sample scripts was developed on an Ubuntu 22.04 LTS machine"
 
 ## EVMOS (network)
+export EVMOS_MONIKER='evmosAIO'
 ### Chain 1
+export CHAIN_1_ID="evmos_9006-1"
+export CHAIN_1_COINTYPE=60
 export EVMOS_CHAIN_1_REPO="https://github.com/evmos/evmos.git"
 export EVMOS_CHAIN_1_BRANCH="v5.0.0"
 export EVMOS_CHAIN_1_DAEMON="evmosd"
@@ -25,7 +28,14 @@ export EVMOS_CHAIN_1_DENOM_EXPONENT=18 # no of digits
 export EVMOS_CHAIN_1_GAS_DENOM_EXPONENT=9 # no of digits
 export EVMOS_CHAIN_1_ACCOUNT_PREFIX="evmos"
 export EVMOS_CHAIN_1_CLAIM_MODULE_ACCOUNT="evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz"
+export EVMOS_CHAIN_1_PORT_RPC=26657
+export EVMOS_CHAIN_1_PORT_GRPC=9090
+export EVMOS_CHAIN_1_PORT_JSON_RPC=8545
+export EVMOS_CHAIN_1_PORT_REST_API=1317
+export EVMOS_CHAIN_1_PORT_P2P=26656
 ### Chain 2
+export CHAIN_2_ID="evmos_9007-1"
+export CHAIN_2_COINTYPE=60
 export EVMOS_CHAIN_2_REPO="https://github.com/evmos/evmos.git"
 export EVMOS_CHAIN_2_BRANCH="v5.0.0"
 export EVMOS_CHAIN_2_DAEMON="evmosd"
@@ -36,6 +46,11 @@ export EVMOS_CHAIN_2_DENOM_EXPONENT=18 # no of digits
 export EVMOS_CHAIN_2_GAS_DENOM_EXPONENT=9 # no of digits
 export EVMOS_CHAIN_2_ACCOUNT_PREFIX="evmos"
 export EVMOS_CHAIN_2_CLAIM_MODULE_ACCOUNT="evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz"
+export EVMOS_CHAIN_2_PORT_RPC=36657
+export EVMOS_CHAIN_2_PORT_GRPC=19090
+export EVMOS_CHAIN_2_PORT_JSON_RPC=18545
+export EVMOS_CHAIN_2_PORT_REST_API=11317
+export EVMOS_CHAIN_2_PORT_P2P=36656
 
 ## Validators
 export VAL_KEYS_FILE_DECRYPT_PASSWORD="11111111"
@@ -66,19 +81,6 @@ export VAL_3_RAW_BALANCE=50000000 # Validator 3 init with this amount of coint i
 export VAL_3_RAW_STAKE=3000 # Validator 3 will stake this amount
 export VAL_3_RAW_CLAIM=1000 # Validator 3 can claim this amount
 
-## Custom chain (design for future script update)
-#export DENOM_SYMBOL="evmos"
-#export MIN_DENOM_SYMBOL="aevmos"
-#export GAS_DENOM_SYMBOL="nevmos"
-
-## Multichain config
-### Chain 1
-export CHAIN_1_ID="evmos_9006-1"
-export CHAIN_1_COINTYPE=60
-### Chain 2
-export CHAIN_2_ID="evmos_9007-1"
-export CHAIN_2_COINTYPE=60
-
 ## Hermes (IBC Relayer)
 export HERMES_VER="v0.15.0"
 export HERMES_BINARY="hermes"
@@ -86,15 +88,15 @@ export HERMES_SOURCE_DIR="Hermes-source-code" # do NOT modify
 export HERMES_HOME_DIR=".hermes"
 export HERMES_RESERVED_FEE=100 # will be transfered to relayer's account and reserved for relay purpose
 export HERMES_CFG_CHAIN_1_ID="$CHAIN_1_ID"
-export HERMES_CFG_CHAIN_1_RPC_ADDR="127.0.0.1:26657"
-export HERMES_CFG_CHAIN_1_GRPC_ADDR="127.0.0.1:9090"
+export HERMES_CFG_CHAIN_1_RPC_ADDR="127.0.0.1:$EVMOS_CHAIN_1_PORT_RPC"
+export HERMES_CFG_CHAIN_1_GRPC_ADDR="127.0.0.1:$EVMOS_CHAIN_1_PORT_GRPC"
 export HERMES_CFG_CHAIN_1_ACCOUNT_PREFIX="$EVMOS_CHAIN_1_ACCOUNT_PREFIX"
 export HERMES_CFG_CHAIN_1_KEY_NAME="evmoskey"
 export HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL="$EVMOS_CHAIN_1_MIN_DENOM_SYMBOL"
 export HERMES_CFG_CHAIN_1_DENOM_EXPONENT=$EVMOS_CHAIN_1_DENOM_EXPONENT # no of digits
 export HERMES_CFG_CHAIN_2_ID="$CHAIN_2_ID"
-export HERMES_CFG_CHAIN_2_RPC_ADDR="127.0.0.1:36657"
-export HERMES_CFG_CHAIN_2_GRPC_ADDR="127.0.0.1:19090"
+export HERMES_CFG_CHAIN_2_RPC_ADDR="127.0.0.1:$EVMOS_CHAIN_2_PORT_RPC"
+export HERMES_CFG_CHAIN_2_GRPC_ADDR="127.0.0.1:$EVMOS_CHAIN_2_PORT_GRPC"
 export HERMES_CFG_CHAIN_2_ACCOUNT_PREFIX="$EVMOS_CHAIN_2_ACCOUNT_PREFIX"
 export HERMES_CFG_CHAIN_2_KEY_NAME="evmoskey"
 export HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL="$EVMOS_CHAIN_2_MIN_DENOM_SYMBOL"
@@ -127,8 +129,8 @@ export BD_PG_HASURA_PASS=PX2RNvtZ4m7fntnbRrtySB4ROG5EKk4J
 export BD_CFG_PG_USR_PASS=6N4QtFYMt7h972uazrWTckmMvFZWIje # Password of default user postgres
 export BD_CFG_CHAIN_1_PG_PORT=5432
 export BD_CFG_CHAIN_1_ACCOUNT_PREFIX="$EVMOS_CHAIN_1_ACCOUNT_PREFIX"
-export BD_CFG_CHAIN_1_RPC_ADDR="127.0.0.1:26657"
-export BD_CFG_CHAIN_1_GRPC_ADDR="127.0.0.1:9090"
+export BD_CFG_CHAIN_1_RPC_ADDR="127.0.0.1:$EVMOS_CHAIN_1_PORT_RPC"
+export BD_CFG_CHAIN_1_GRPC_ADDR="127.0.0.1:$EVMOS_CHAIN_1_PORT_GRPC"
 export BD_CFG_CHAIN_1_ID="$CHAIN_1_ID"
 export BD_CFG_CHAIN_1_HASURA_PORT=8080
 export BD_CFG_CHAIN_1_HASURA_ACTIONBASE_PORT=3000
@@ -137,8 +139,8 @@ export BD_CFG_CHAIN_1_MIN_DENOM_SYMBOL="$EVMOS_CHAIN_1_MIN_DENOM_SYMBOL" # aevmo
 export BD_CFG_CHAIN_1_DENOM_EXPONENT=$EVMOS_CHAIN_1_DENOM_EXPONENT # no of digits (18)
 export BD_CFG_CHAIN_2_PG_PORT=15432
 export BD_CFG_CHAIN_2_ACCOUNT_PREFIX="$EVMOS_CHAIN_2_ACCOUNT_PREFIX"
-export BD_CFG_CHAIN_2_RPC_ADDR="127.0.0.1:36657"
-export BD_CFG_CHAIN_2_GRPC_ADDR="127.0.0.1:19090"
+export BD_CFG_CHAIN_2_RPC_ADDR="127.0.0.1:$EVMOS_CHAIN_2_PORT_RPC"
+export BD_CFG_CHAIN_2_GRPC_ADDR="127.0.0.1:$EVMOS_CHAIN_2_PORT_GRPC"
 export BD_CFG_CHAIN_2_ID="$CHAIN_2_ID"
 export BD_CFG_CHAIN_2_HASURA_PORT=8082
 export BD_CFG_CHAIN_2_HASURA_ACTIONBASE_PORT=3002
@@ -147,7 +149,6 @@ export BD_CFG_CHAIN_2_MIN_DENOM_SYMBOL="$EVMOS_CHAIN_2_MIN_DENOM_SYMBOL" # aevmo
 export BD_CFG_CHAIN_2_DENOM_EXPONENT=$EVMOS_CHAIN_2_DENOM_EXPONENT # no of digits (18)
 
 ## Reflects by above config (edit at your own risk)
-export EVMOS_MONIKER='evmosAIO'
 export HERMES_SERVICE_NAME=$HERMES_BINARY'-svc'
 ### Docker
 export DOCKER_IMAGE_NAME_PREFIX="evmos.victortrusty.dev:c"
@@ -164,12 +165,6 @@ if [ $? -eq 0 ]; then
 else
     export DISABLE_SYSTEMCTL=1
 fi
-command -v timeout > /dev/null 2>&1
-if [ $? -eq 0 ]; then
-    export SUPPORTS_TIMEOUT=1
-else
-    export SUPPORTS_TIMEOUT=0
-fi
 if [ -f "./extra_func.lic" ]; then
     export EXTRA_FUNC=1
 elif [ -f "../extra_func.lic" ]; then
@@ -177,8 +172,6 @@ elif [ -f "../extra_func.lic" ]; then
 else
     export EXTRA_FUNC=0
 fi
-export NETWORK_PORT_OFFSET_1=0
-export NETWORK_PORT_OFFSET_2=1000
 if [ -f "./override-env.sh" ]; then
     source "./override-env.sh"
 fi
