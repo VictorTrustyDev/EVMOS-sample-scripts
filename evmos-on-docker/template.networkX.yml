@@ -1,39 +1,39 @@
 version: "3"
 networks:
-  vtevmosnw[p_chain_no]:
+  vtevmosnw_p_chain_no_:
     driver: bridge
 services:
-  vtevmos[p_chain_no]0:
-    container_name: vtevmos[p_chain_no]0
+  vtevmos_p_chain_no_0:
+    container_name: vtevmos_p_chain_no_0
     ports:
-      - "[p_8545]:8545"
-      - "[p_26657]:26657"
-      - "[p_1317]:1317"
-      - "[p_9090]:9090"
-      - "[p_26656]:26656"
+      - "_p_8545_:8545"
+      - "_p_26657_:26657"
+      - "_p_1317_:1317"
+      - "_p_9090_:9090"
+      - "_p_26656_:26656"
     networks:
-      - vtevmosnw[p_chain_no]
+      - vtevmosnw_p_chain_no_
     environment:
       - NODE=0
     restart: always
-    image: [p_image_prefix][p_chain_no]
-  vtevmos[p_chain_no]1:
-    container_name: vtevmos[p_chain_no]1
+    image: _p_image_prefix__p_chain_no_
+  vtevmos_p_chain_no_1:
+    container_name: vtevmos_p_chain_no_1
     networks:
-      - vtevmosnw[p_chain_no]
+      - vtevmosnw_p_chain_no_
     environment:
       - NODE=1
     depends_on:
-      - vtevmos[p_chain_no]0
+      - vtevmos_p_chain_no_0
     restart: always
-    image: [p_image_prefix][p_chain_no]
-  vtevmos[p_chain_no]2:
-    container_name: vtevmos[p_chain_no]2
+    image: _p_image_prefix__p_chain_no_
+  vtevmos_p_chain_no_2:
+    container_name: vtevmos_p_chain_no_2
     networks:
-      - vtevmosnw[p_chain_no]
+      - vtevmosnw_p_chain_no_
     environment:
       - NODE=2
     depends_on:
-      - vtevmos[p_chain_no]0
+      - vtevmos_p_chain_no_0
     restart: always
-    image: [p_image_prefix][p_chain_no]
+    image: _p_image_prefix__p_chain_no_
