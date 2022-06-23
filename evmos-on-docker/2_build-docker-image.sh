@@ -51,11 +51,6 @@ else
     fi
 fi
 
-VAL_HOME_PREFIX='.'$DENOM_SYMBOL'd'$CHAIN_NO
-VAL_HOME_1=$VAL_HOME_PREFIX'0'
-VAL_HOME_2=$VAL_HOME_PREFIX'1'
-VAL_HOME_3=$VAL_HOME_PREFIX'2'
-
 # Remove previous image
 docker rmi "$DOCKER_IMAGE_NAME"
 
