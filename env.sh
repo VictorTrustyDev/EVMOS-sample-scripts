@@ -14,18 +14,24 @@ export KEYRING="test" # change to file for cloud or production env (DANGER: keyr
 export NOTICE_DEV_ENV="This sample scripts was developed on an Ubuntu 22.04 LTS machine"
 
 ## EVMOS (network)
-export EVMOS_BINARY="evmosd"
 export EVMOS_DENOM_EXPONENT=18 # no of digits
 export EVMOS_GAS_DENOM_EXPONENT=9 # no of digits
-export EVMOS_CLAIM_MODULE_ACCOUNT="evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz"
+### Chain 1
 export EVMOS_CHAIN_1_REPO="https://github.com/evmos/evmos.git"
 export EVMOS_CHAIN_1_BRANCH="v5.0.0"
-export EVMOS_CHAIN_1_REPO="https://github.com/evmos/evmos.git"
+export EVMOS_CHAIN_1_DAEMON="evmosd"
+export EVMOS_CHAIN_1_DENOM_EXPONENT=18 # no of digits
+export EVMOS_CHAIN_1_GAS_DENOM_EXPONENT=9 # no of digits
+export EVMOS_CHAIN_1_CLAIM_MODULE_ACCOUNT="evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz"
+### Chain 2
+export EVMOS_CHAIN_2_REPO="https://github.com/evmos/evmos.git"
 export EVMOS_CHAIN_2_BRANCH="v5.0.0"
+export EVMOS_CHAIN_2_DAEMON="evmosd"
+export EVMOS_CHAIN_2_DENOM_EXPONENT=18 # no of digits
+export EVMOS_CHAIN_2_GAS_DENOM_EXPONENT=9 # no of digits
+export EVMOS_CHAIN_2_CLAIM_MODULE_ACCOUNT="evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz"
 
 ## Validators
-export VAL_RAW_BALANCE=50000000 # Init with 50m EVMOS in balance for each validator
-export VAL_RAW_CLAIM=1000 # Each validator can claimn this amount
 export VAL_KEYS_FILE_DECRYPT_PASSWORD="11111111"
 export VAL_COMMISSION_RATE=0.05 # 5%
 export VAL_COMMISSION_RATE_MAX=0.20 # 20%
@@ -36,17 +42,23 @@ export VAL_GAS_LIMIT_CREATE_VALIDATOR=300000
 export VAL_1_KEY_NAME="val1"
 export VAL_1_SEED="spoil senior door access upset floor decorate shield high punch senior tape pigeon base slogan height clever buffalo cat report poem weapon labor satoshi"
 export VAL_1_ADDR="evmos1wuqvcpuunf7r5rg7xutqddhw55grfzc75qejyq"
-export VAL_1_RAW_STAKE=7000 # Validator 1 will stake 7k EVMOS
+export VAL_1_RAW_BALANCE=50000000 # Validator 1 init with this amount of coint in balance
+export VAL_1_RAW_STAKE=7000 # Validator 1 will stake this amount
+export VAL_1_RAW_CLAIM=1000 # Validator 1 can claim this amount
 ### Validator 2
 export VAL_2_KEY_NAME="val2"
 export VAL_2_SEED="width produce brush hour horse retreat play flag fresh broken measure culture scare broken erupt pilot buzz embody depend topic behind rigid fan battle"
 export VAL_2_ADDR="evmos1zxgt4pwzzsv02z24g80lc5rhtsp0prw0c5tk3d"
-export VAL_2_RAW_STAKE=3000 # Validator 2 will stake 3k EVMOS
+export VAL_2_RAW_BALANCE=50000000 # Validator 2 init with this amount of coint in balance
+export VAL_2_RAW_STAKE=3000 # Validator 2 will stake this amount
+export VAL_2_RAW_CLAIM=1000 # Validator 2 can claim this amount
 ### Validator 3
 export VAL_3_KEY_NAME="val3"
 export VAL_3_SEED="stage grid emotion thumb safe myth chair dizzy beyond casual select polar hover retire master neglect shift zero trigger section token replace truly father"
 export VAL_3_ADDR="evmos1vcy9v4jp0sd4hysqqcuwleytxre3ms4ckzmdnz"
-export VAL_3_RAW_STAKE=3000 # Validator 3 will stake 3k EVMOS
+export VAL_3_RAW_BALANCE=50000000 # Validator 3 init with this amount of coint in balance
+export VAL_3_RAW_STAKE=3000 # Validator 3 will stake this amount
+export VAL_3_RAW_CLAIM=1000 # Validator 3 can claim this amount
 
 ## Custom chain (design for future script update)
 export DENOM_SYMBOL="evmos"
@@ -73,12 +85,14 @@ export HERMES_CFG_CHAIN_1_GRPC_ADDR="127.0.0.1:9090"
 export HERMES_CFG_CHAIN_1_ACCOUNT_PREFIX="evmos"
 export HERMES_CFG_CHAIN_1_KEY_NAME="evmoskey"
 export HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL="$MIN_DENOM_SYMBOL"
+export HERMES_CFG_CHAIN_1_DENOM_EXPONENT=$EVMOS_CHAIN_1_DENOM_EXPONENT # no of digits
 export HERMES_CFG_CHAIN_2_ID="$CHAIN_2_ID"
 export HERMES_CFG_CHAIN_2_RPC_ADDR="127.0.0.1:36657"
 export HERMES_CFG_CHAIN_2_GRPC_ADDR="127.0.0.1:19090"
 export HERMES_CFG_CHAIN_2_ACCOUNT_PREFIX="evmos"
 export HERMES_CFG_CHAIN_2_KEY_NAME="evmoskey"
 export HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL="$MIN_DENOM_SYMBOL"
+export HERMES_CFG_CHAIN_2_DENOM_EXPONENT=$EVMOS_CHAIN_2_DENOM_EXPONENT # no of digits
 
 ## Relayer account
 export REL_KEY_NAME="default"
@@ -122,23 +136,11 @@ export BD_CFG_CHAIN_2_HASURA_ACTIONBASE_PORT=3002
 
 ## Reflects by above config (edit at your own risk)
 export EVMOS_CHAINNAME=$(echo $DENOM_SYMBOL | tr '[:lower:]' '[:upper:]')
+export EVMOS_CHAINNAME_L=$(echo $DENOM_SYMBOL | tr '[:upper:]' '[:lower:]')
 export EVMOS_MONIKER=$DENOM_SYMBOL'AIO'
 export HERMES_SERVICE_NAME=$HERMES_BINARY'-svc'
-### Validators
-#### Balance
-export VAL_1_BALANCE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_RAW_BALANCE")
-export VAL_2_BALANCE=$VAL_1_BALANCE
-export VAL_3_BALANCE=$VAL_1_BALANCE
-#### Stake
-export VAL_1_STAKE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_1_RAW_STAKE")
-export VAL_2_STAKE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_2_RAW_STAKE")
-export VAL_3_STAKE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_3_RAW_STAKE")
-#### Claim
-export VAL_1_CLAIM=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_RAW_CLAIM")
-export VAL_2_CLAIM=$VAL_1_CLAIM
-export VAL_3_CLAIM=$VAL_1_CLAIM
 ### Docker
-export DOCKER_IMAGE_NAME_PREFIX="$DENOM_SYMBOL.victortrusty.dev:c"
+export DOCKER_IMAGE_NAME_PREFIX="$EVMOS_CHAINNAME_L.victortrusty.dev:c"
 
 # Others
 echo $NOTICE_DEV_ENV

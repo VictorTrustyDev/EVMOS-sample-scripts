@@ -3,7 +3,7 @@
 EVMOS_SOURCE_DIR="./EVMOS-source-code-$EVMOS_VER"
 
 if [ -f "$BINARY" ]; then
-	echo "Nice! EVMOS binary $EVMOS_BINARY is already exists"
+	echo "Nice! EVMOS daemon $EVMOS_DAEMON is already exists"
 else
 	if [ -d "$EVMOS_SOURCE_DIR" ]; then
 		echo "EVMOS repo was downloaded"
@@ -19,14 +19,14 @@ else
 
     CUR_DIR=$(pwd)
 	cd "$EVMOS_SOURCE_DIR"
-	echo "Compiling $EVMOS_BINARY. If this is the first time you compile, it will take time, you can enjoy a cup of coffee and comeback later"
+	echo "Compiling $EVMOS_DAEMON. If this is the first time you compile, it will take time, you can enjoy a cup of coffee and comeback later"
     make install
     [ $? -eq 0 ] || { echo "Failed to compile EVMOS"; exit 1; }
     cd "$CUR_DIR"
 fi
 
 if [ ! -f "$BINARY" ]; then
-    echo "EVMOS source code was compiled but binary $EVMOS_BINARY could not be found"
+    echo "EVMOS source code was compiled but binary $EVMOS_DAEMON could not be found"
     echo "You must find it and put it into PATH environment variable"
     echo "(It usually compile and moved to $GOPATH/bin)"
     exit 1

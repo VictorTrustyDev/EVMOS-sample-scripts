@@ -33,11 +33,11 @@ else
 fi
 
 # Binary
-export BINARY="$GOPATH/bin/$EVMOS_BINARY"
+export BINARY="$GOPATH/bin/$EVMOS_DAEMON"
 
 # Check & Install evmosd binary if not exists
 ./_make_binary.sh
-[ $? -eq 0 ] || { echo "Failed to check & build $EVMOS_BINARY binary at $BINARY"; }
+[ $? -eq 0 ] || { echo "Failed to check & build $EVMOS_DAEMON binary at $BINARY"; }
 
 VAL_HOME_PREFIX='.'$DENOM_SYMBOL'd'$CHAIN_NO
 VAL_HOME_1=$VAL_HOME_PREFIX'0'
@@ -89,6 +89,19 @@ cp -r ../keys/keyring/ "$VAL_HOME_2/keyring-$KEYRING"
 echo "- Copying validator keys from ../keys/keyring to <node 2_home>/keyring-$KEYRING"
 cp -r ../keys/keyring/ "$VAL_HOME_3/keyring-$KEYRING"
 
+# Calculate balance & stake & claim info for validators
+## Balance
+export VAL_1_BALANCE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_1_RAW_BALANCE")
+export VAL_2_BALANCE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_2_RAW_BALANCE")
+export VAL_3_BALANCE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_3_RAW_BALANCE")
+## Stake
+export VAL_1_STAKE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_1_RAW_STAKE")
+export VAL_2_STAKE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_2_RAW_STAKE")
+export VAL_3_STAKE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_3_RAW_STAKE")
+## Claim
+export VAL_1_CLAIM=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_1_RAW_CLAIM")
+export VAL_2_CLAIM=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_2_RAW_CLAIM")
+export VAL_3_CLAIM=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_3_RAW_CLAIM")
 
 # Update genesis.json
 GENESIS_JSON="$VAL_HOME_1/config/genesis.json"

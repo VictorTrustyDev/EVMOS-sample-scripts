@@ -26,8 +26,8 @@ then
 else
     echo "Go prepare yourself"
     echo "Hint: you can do this"
-    echo " evmosd tx bank send $VAL_1_KEY_NAME $REL_1_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$EVMOS_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --node tcp://$HERMES_CFG_CHAIN_1_RPC_ADDR"
-    echo " evmosd tx bank send $VAL_1_KEY_NAME $REL_2_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$EVMOS_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --node tcp://$HERMES_CFG_CHAIN_2_RPC_ADDR"
+    echo " evmosd tx bank send $VAL_1_KEY_NAME $REL_1_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --node tcp://$HERMES_CFG_CHAIN_1_RPC_ADDR"
+    echo " evmosd tx bank send $VAL_1_KEY_NAME $REL_2_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --node tcp://$HERMES_CFG_CHAIN_2_RPC_ADDR"
     exit 1
 fi
 
