@@ -87,11 +87,65 @@ BD2_CODEGEN_YML_TMP="$BD2_SOURCE_DIR/tmp_codegen.yml"
 echo "Setting up file $BD2_CODEGEN_YML"
 cat "$BD2_CODEGEN_YML" | yq '.generates["./src/graphql/types/general_types.tsx"]["schema"]="http://'$BD2_PUBLIC_DOMAIN':'$BD_HASURA_PORT'/v1/graphql"' -Y > "$BD2_CODEGEN_YML_TMP" && mv "$BD2_CODEGEN_YML_TMP" "$BD2_CODEGEN_YML"
 
+CUR_DIR=$(pwd)
+cd "$BD2_SOURCE_DIR"
 # Build
 ## Install graphql-codegen 
-npm i -D @graphql-codegen/cli
+npm i -D @graphql-codegen/cli > /dev/null 2>&1
+[ $? -eq 0 ] || { echo "Failed to install @graphql-codegen/cli"; exit 1; }
 ## Gen code
 echo 'Generating code'
 npm run graphql:codegen
+[ $? -eq 0 ] || { echo "Failed to run graphql:codegen"; exit 1; }
 echo 'Build'
 npm run build
+[ $? -eq 0 ] || { echo "Failed to build"; exit 1; }
+
+cd "$CUR_DIR"
+
+# Re-Start service
+if [ $BD2_SERVICE_NAME -eq 0 ]; then
+    SERVICE_FILE="/etc/systemd/system/$BD2_SERVICE_NAME.service"
+	echo
+    if [ -f "$SERVICE_FILE" ]; then
+        echo "You are ready to restart $BD2_SERVICE_NAME service (sudo systemctl restart $BD2_SERVICE_NAME)"
+
+		[ $EXTRA_FUNC -eq 1 ] && sudo systemctl start $BD2_SERVICE_NAME
+    else
+        echo "You can paste the following content to $SERVICE_FILE file to create a daemon service"
+        echo "sudo vi $SERVICE_FILE"
+        echo
+
+        WORKING_DIR=$(pwd)
+        
+        SCRIPT_CONTENT="[Unit]
+\nDescription=Big Dipper 2.0 for $DENOM_SYMBOL chain (network $CHAIN_NO)
+\nAfter=network-online.target
+
+\n[Service]
+\nUser=$USER
+\nWorkingDirectory=$CUR_DIR
+\nExecStart=$(which npm) run dev
+\nRestart=always
+\nRestartSec=3
+\nLimitNOFILE=4096
+
+\n[Install]
+\nWantedBy=multi-user.target"
+		echo -e $SCRIPT_CONTENT
+        echo
+        echo "sudo systemctl enable $BD2_SERVICE_NAME"
+        echo "sudo systemctl start $BD2_SERVICE_NAME"
+
+        [ $EXTRA_FUNC -eq 1 ] && {
+            echo 'Creating service '$BD2_SERVICE_NAME;
+            echo -e $SCRIPT_CONTENT | sudo tee $SERVICE_FILE > /dev/null;
+            sudo systemctl daemon-reload;
+            sudo systemctl enable $BD2_SERVICE_NAME;
+			sudo systemctl start $BD2_SERVICE_NAME;
+        }
+    fi
+else
+    echo "OK, you can run it now"
+    echo "Hint: npm run dev"
+fi
