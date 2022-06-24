@@ -1,6 +1,6 @@
 #!/bin/bash
 
-EVMOS_SOURCE_DIR="./EVMOS-source-code-$SRC_VER"
+EVMOS_SOURCE_DIR="./source-code-$DENOM_SYMBOL-$SRC_VER"
 
 if [ -f "$BINARY" ]; then
 	echo "Nice! EVMOS daemon $EVMOS_DAEMON is already exists"
