@@ -142,7 +142,6 @@ if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
             sudo systemctl daemon-reload;
             sudo systemctl enable $BD2_SERVICE_NAME;
 			sudo systemctl start $BD2_SERVICE_NAME;
-            sudo journalctl -fu $BD2_SERVICE_NAME;
         }
     fi
 else

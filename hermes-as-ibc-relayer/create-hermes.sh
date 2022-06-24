@@ -8,29 +8,31 @@ if [ -f "./override-env.sh" ]; then
     source "./override-env.sh"
 fi
 
-echo "Hermes require an account on each chain with some coins reserved for broadcast tx purpose, so based on config"
-if [ "$REL_1_ADDR" = "$REL_2_ADDR" ]; then
-    echo "- Account $REL_1_ADDR will be used for both chains $HERMES_CFG_CHAIN_1_ID and $HERMES_CFG_CHAIN_1_ID"
-    echo "Are you sure the above account has coin balance on both chains?"
-else
-    echo "- Account $REL_1_ADDR will be used for chain $HERMES_CFG_CHAIN_1_ID"
-    echo "- Account $REL_2_ADDR will be used for chain $HERMES_CFG_CHAIN_2_ID"
-    echo "Are you sure the above accounts have coin balance on it's chain?"
-fi
+if [ $HERMES_NO_CONFIRM_BALANCE -ne 1 ]; then
+    echo "Hermes require an account on each chain with some coins reserved for broadcast tx purpose, so based on config"
+    if [ "$REL_1_ADDR" = "$REL_2_ADDR" ]; then
+        echo "- Account $REL_1_ADDR will be used for both chains $HERMES_CFG_CHAIN_1_ID and $HERMES_CFG_CHAIN_1_ID"
+        echo "Are you sure the above account has coin balance on both chains?"
+    else
+        echo "- Account $REL_1_ADDR will be used for chain $HERMES_CFG_CHAIN_1_ID"
+        echo "- Account $REL_2_ADDR will be used for chain $HERMES_CFG_CHAIN_2_ID"
+        echo "Are you sure the above accounts have coin balance on it's chain?"
+    fi
 
-read -p "(Y/n)" -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
-    echo " ! Good"
-else
-    echo "Go prepare yourself"
-    echo "Hint: you can do this"
-    echo " docker exec -it vtevmos10 bash"
-    echo " evmosd tx bank send $VAL_1_KEY_NAME $REL_1_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /evmosd10"
-    echo " docker exec -it vtevmos20 bash"
-    echo " evmosd tx bank send $VAL_1_KEY_NAME $REL_2_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /evmosd20"
-    exit 1
+    read -p "(Y/n)" -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        echo " ! Good"
+    else
+        echo "Go prepare yourself"
+        echo "Hint: you can do this"
+        echo " docker exec -it vtevmos10 bash"
+        echo " evmosd tx bank send $VAL_1_KEY_NAME $REL_1_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /evmosd10"
+        echo " docker exec -it vtevmos20 bash"
+        echo " evmosd tx bank send $VAL_1_KEY_NAME $REL_2_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /evmosd20"
+        exit 1
+    fi
 fi
 
 [ $DISABLE_SYSTEMCTL -eq 0 ] && {
