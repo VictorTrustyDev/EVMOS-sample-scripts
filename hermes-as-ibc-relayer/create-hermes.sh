@@ -8,6 +8,10 @@ if [ -f "./override-env.sh" ]; then
     source "./override-env.sh"
 fi
 
+if [ -f "../override-env.sh" ]; then
+    source "../override-env.sh"
+fi
+
 if [ "$HERMES_NO_CONFIRM_BALANCE" != "1" ]; then
     echo "Hermes require an account on each chain with some coins reserved for broadcast tx purpose, so based on config"
     if [ "$REL_1_ADDR" = "$REL_2_ADDR" ]; then
