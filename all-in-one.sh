@@ -50,7 +50,6 @@ command -v 'docker-compose' > /dev/null 2>&1 || { show_required_tools 'docker-co
 command -v cargo > /dev/null 2>&1 || { show_required_tools 'cargo'; exit 1; }
 command -v psql > /dev/null 2>&1 || { show_required_tools 'psql'; exit 1; }
 command -v npm > /dev/null 2>&1 || { show_required_tools 'npm'; exit 1; }
-command -v ascnsan > /dev/null 2>&1 || { show_required_tools 'npm'; exit 1; }
 
 source "./env.sh"
 if [ -f "$BD_HASURA_BINARY" ]; then
