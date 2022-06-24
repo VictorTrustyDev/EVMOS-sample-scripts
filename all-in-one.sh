@@ -40,30 +40,30 @@ fi
 export FORCE_EXTRA_FUNC=1 # Auto create services and start them (sudo systemctl enable * & sudo systemctl start *)
 export HERMES_NO_CONFIRM_BALANCE=1
 
-CUR_DIR=$(pwd)
-DIR_BD="./big-dipper-as-block-explorer"
-DIR_HERMES="./hermes-as-ibc-relayer"
-DIR_EVMOS="./evmos-on-docker"
+AIO_CUR_DIR=$(pwd)
+AIO_DIR_BD="./big-dipper-as-block-explorer"
+AIO_DIR_HERMES="./hermes-as-ibc-relayer"
+AIO_DIR_EVMOS="./evmos-on-docker"
 
 echo "[Clean up previous setup]"
 
 echo "> [Big Dipper]"
-cd "$DIR_BD"
+cd "$AIO_DIR_BD"
 ./cleanup.sh
-cd "$CUR_DIR"
+cd "$AIO_CUR_DIR"
 
 echo "> [Hermes]"
-cd "$DIR_HERMES"
+cd "$AIO_DIR_HERMES"
 ./cleanup.sh
-cd "$CUR_DIR"
+cd "$AIO_CUR_DIR"
 
 echo "> [EVMOS]"
-cd "$DIR_EVMOS"
+cd "$AIO_DIR_EVMOS"
 ./cleanup.sh
-cd "$CUR_DIR"
+cd "$AIO_CUR_DIR"
 
 echo "[Setup]"
-cd "$DIR_EVMOS"
+cd "$AIO_DIR_EVMOS"
 echo "> [EVMOS network 1]"
 ./1_prepare-genesis.sh 1
 [ $? -eq 0 ] || { echo "ERR AIO: Operation failed (genesis)"; }
@@ -82,8 +82,8 @@ sleep 2s
 docker-compose -f network2.yml up -d
 sleep 5s
 
-cd "$CUR_DIR"
-cd "$DIR_HERMES"
+cd "$AIO_CUR_DIR"
+cd "$AIO_DIR_HERMES"
 if [ -f "./override-env.sh" ]; then
     source "./override-env.sh"
 fi
@@ -97,9 +97,9 @@ docker exec -it vtevmos21 bash -c "evmosd tx bank send $VAL_2_KEY_NAME $REL_2_AD
 echo "> [Hermes]"
 ./create-hermes.sh
 [ $? -eq 0 ] || { echo "ERR AIO: Operation failed"; }
-cd "$CUR_DIR"
+cd "$AIO_CUR_DIR"
 
-cd "$DIR_BD"
+cd "$AIO_DIR_BD"
 echo "> [bdjuno for network 1]"
 ./1_install-bdjuno.sh 1
 [ $? -eq 0 ] || { echo "ERR AIO: Operation failed (step 1 bdjuno)"; }
