@@ -125,7 +125,6 @@ export HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL="$EVMOS_CHAIN_2_MIN_DENOM_SYMBO
 export HERMES_CFG_CHAIN_2_DENOM_EXPONENT=$EVMOS_CHAIN_2_DENOM_EXPONENT # no of digits
 
 ## Relayer account
-export REL_KEY_NAME="default"
 ### Chain 1
 export REL_1_SEED="raw course slim hockey salt crawl sick safe december during armed fragile"
 export REL_1_ADDR="evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp"

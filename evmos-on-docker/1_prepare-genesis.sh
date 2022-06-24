@@ -91,7 +91,7 @@ $BINARY init $MONIKER --chain-id $CHAIN_ID --home $VAL_HOME_3 > /dev/null 2>&1
 
 # Import validator keys
 echo 'Import validator keys'
-if [ $VALIDATOR_IMPORT_MODE -eq 1 ]; then
+if [ $VALIDATOR_IMPORT_MODE -eq 1 ]; then # mode private_key
     if [ "$KEYRING" = "test" ]; then
         echo "- Validator 1, key name '$VAL_1_KEY_NAME'"
         $BINARY keys unsafe-import-eth-key "$VAL_1_KEY_NAME" "$VAL_1_PRIVATE_KEY" --keyring-backend "test" --home "$VAL_HOME_1"
@@ -113,7 +113,7 @@ if [ $VALIDATOR_IMPORT_MODE -eq 1 ]; then
         (echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys unsafe-import-eth-key "$VAL_3_KEY_NAME" "$VAL_3_PRIVATE_KEY" --keyring-backend "file" --home "$VAL_HOME_1"
         [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
     fi
-elif [ $VALIDATOR_IMPORT_MODE -eq 2 ]; then
+elif [ $VALIDATOR_IMPORT_MODE -eq 2 ]; then # mode seed_phrase
     if [ "$KEYRING" = "test" ]; then
         echo "- Validator 1, key name '$VAL_1_KEY_NAME'"
         ( echo "$VAL_1_SEED"; ) | $BINARY keys add "$VAL_1_KEY_NAME" --recover --keyring-backend "test" --home "$VAL_HOME_1"
@@ -137,7 +137,7 @@ elif [ $VALIDATOR_IMPORT_MODE -eq 2 ]; then
     fi
 fi
 
-## Verify
+## Extract
 echo '- Get wallet address'
 if [ "$KEYRING" = "test" ]; then
     export VAL_1_ADDR="$($BINARY keys show $VAL_1_KEY_NAME --keyring-backend $KEYRING --home "$VAL_HOME_1" --address)"
@@ -154,6 +154,15 @@ echo " + $VAL_3_KEY_NAME: $VAL_3_ADDR"
 echo "- Clone keys to home of other validators"
 cp -r "$VAL_HOME_1/keyring-$KEYRING" "$VAL_HOME_2/"
 cp -r "$VAL_HOME_1/keyring-$KEYRING" "$VAL_HOME_3/"
+
+## Verify
+ADDR_PATTERN="$ACCOUNT_PREFIX[0-9][a-z0-9]+"
+if [[ $VAL_1_ADDR =~ $ADDR_PATTERN ]]; then
+    echo
+else
+    echo "ERR: Validator 1 '$VAL_1_KEY_NAME' wallet address '$VAL_1_ADDR' does not starts with '$ACCOUNT_PREFIX', did you forget to update the 'CHAIN_"$CHAIN_NO"_ACCOUNT_PREFIX' var"
+    exit 1
+fi
 
 # Calculate balance & stake & claim info for validators
 ## Balance

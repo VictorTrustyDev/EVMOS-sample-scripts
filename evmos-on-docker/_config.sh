@@ -2,8 +2,8 @@
 
 if [ "$CHAIN_NO" = "1" ]; then
     export CHAIN_ID="$CHAIN_1_ID"
+    export SRC_VER="$EVMOS_CHAIN_1_BRANCH"
     export EVMOS_REPO="$EVMOS_CHAIN_1_REPO"
-    export EVMOS_VER="$EVMOS_CHAIN_1_BRANCH"
     export EVMOS_DAEMON="$EVMOS_CHAIN_1_DAEMON"
     export EVMOS_CLAIM_MODULE_ACCOUNT="$EVMOS_CHAIN_1_CLAIM_MODULE_ACCOUNT"
     export EVMOS_DENOM_EXPONENT=$EVMOS_CHAIN_1_DENOM_EXPONENT
@@ -18,10 +18,11 @@ if [ "$CHAIN_NO" = "1" ]; then
     export VAL_3_SEED="$VAL_3_CHAIN_1_SEED"
     export VAL_3_PRIVATE_KEY="$VAL_3_CHAIN_1_PRIVATE_KEY"
     export VALIDATOR_IMPORT_TYPE="$CHAIN_1_VALIDATOR_IMPORT_TYPE"
+    export ACCOUNT_PREFIX="$CHAIN_1_ACCOUNT_PREFIX"
 elif [ "$CHAIN_NO" = "2" ]; then
     export CHAIN_ID="$CHAIN_2_ID"
+    export SRC_VER="$EVMOS_CHAIN_2_BRANCH"
     export EVMOS_REPO="$EVMOS_CHAIN_2_REPO"
-    export EVMOS_VER="$EVMOS_CHAIN_2_BRANCH"
     export EVMOS_DAEMON="$EVMOS_CHAIN_2_DAEMON"
     export EVMOS_CLAIM_MODULE_ACCOUNT="$EVMOS_CHAIN_2_CLAIM_MODULE_ACCOUNT"
     export EVMOS_DENOM_EXPONENT=$EVMOS_CHAIN_2_DENOM_EXPONENT
@@ -36,16 +37,18 @@ elif [ "$CHAIN_NO" = "2" ]; then
     export VAL_3_SEED="$VAL_3_CHAIN_2_SEED"
     export VAL_3_PRIVATE_KEY="$VAL_3_CHAIN_2_PRIVATE_KEY"
     export VALIDATOR_IMPORT_TYPE="$CHAIN_2_VALIDATOR_IMPORT_TYPE"
+    export ACCOUNT_PREFIX="$CHAIN_2_ACCOUNT_PREFIX"
 fi
 
-export EVMOS_SOURCE_DIR="./EVMOS-source-code-$EVMOS_VER"
+export EVMOS_SOURCE_DIR="./EVMOS-source-code-$SRC_VER"
 export EVMOS_CHAINNAME=$(echo $DENOM_SYMBOL | tr '[:lower:]' '[:upper:]')
-export VAL_HOME_PREFIX='.evmosd'$CHAIN_NO
+export VAL_HOME_PREFIX=".evmosd$CHAIN_NO"
 
-echo "Creating EVMOS network with chain id $CHAIN_ID"
+echo "Creating $ACCOUNT_PREFIX network with chain id $CHAIN_ID"
+echo "- Account prefix: $ACCOUNT_PREFIX"
 echo "- Denom symbol: $DENOM_SYMBOL ($EVMOS_DENOM_EXPONENT digits unit: $MIN_DENOM_SYMBOL, $EVMOS_GAS_DENOM_EXPONENT digits gas unit: $GAS_DENOM_SYMBOL)"
 echo "- Source code on repo: $EVMOS_REPO"
-echo "- Source code on branch: $EVMOS_VER"
+echo "- Source code on branch: $SRC_VER"
 echo "- Download source code to dir: $EVMOS_SOURCE_DIR"
 echo "- Expect deamon: $EVMOS_DAEMON"
 echo "- Claim module account: $EVMOS_CLAIM_MODULE_ACCOUNT"
