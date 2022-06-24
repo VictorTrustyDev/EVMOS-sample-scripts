@@ -30,9 +30,11 @@ without any performance issue (CPU ~20-80% per core, ram ~50% via htop).
 - [bdjuno branch evmos](https://github.com/forbole/bdjuno/tree/chains/evmos/mainnet)
 - [Big Dipper 2.0 for Cosmos chains branch evmos](https://github.com/forbole/big-dipper-2.0-cosmos/tree/chains/evmos)
 
-You can change their version by updating file [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)
-- This sample is using keyring `test`, you may need to change to `file` for secure your test env if needed
-- You can create `override-env.sh` file and override values there
+#### Customization
+- You can change their version by updating file [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)
+- This sample is using keyring `test`, you may need to change to `file` for secure your test env if needed in [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)
+- You can create `override-env.sh` file and override values of [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)
+- The [sample.cosmos-and-evmos.override-env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/sample.cosmos-and-evmos.override-env.sh) file contains example which tell you how to override variables of [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh) and make the network 1 use cosmos source, rename it to `override-env.sh` to make it effectives
 
 #### Default ports used in these samples
 

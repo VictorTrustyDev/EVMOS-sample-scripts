@@ -2,6 +2,7 @@
 data/
 extra_func.lic
 override-env.sh
+*.swp
 
 EVMOS-source-code*/
 Hermes-source-code/

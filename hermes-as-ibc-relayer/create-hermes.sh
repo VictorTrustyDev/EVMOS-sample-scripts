@@ -8,7 +8,7 @@ if [ -f "./override-env.sh" ]; then
     source "./override-env.sh"
 fi
 
-if [ $HERMES_NO_CONFIRM_BALANCE -ne 1 ]; then
+if [ "$HERMES_NO_CONFIRM_BALANCE" != "1" ]; then
     echo "Hermes require an account on each chain with some coins reserved for broadcast tx purpose, so based on config"
     if [ "$REL_1_ADDR" = "$REL_2_ADDR" ]; then
         echo "- Account $REL_1_ADDR will be used for both chains $HERMES_CFG_CHAIN_1_ID and $HERMES_CFG_CHAIN_1_ID"
