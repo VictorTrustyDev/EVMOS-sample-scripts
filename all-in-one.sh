@@ -137,11 +137,8 @@ fi
 echo "> [Load up token for IBC account on network 1]"
 echo "Keyring: $KEYRING"
 if [ "$KEYRING" = "test" ]; then
-    echo "TEST"
     docker exec -it vtevmos11 bash -c "evmosd tx bank send $VAL_2_KEY_NAME $REL_1_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /.evmosd11 --yes"
 else
-    echo "FILE"
-    echo "Encryption password is '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' (without quotes), fill it"
     docker exec -it vtevmos11 bash -c "echo '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' | evmosd tx bank send $VAL_2_KEY_NAME $REL_1_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /.evmosd11 --yes"
 fi
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed"; exit 1; }
@@ -149,7 +146,6 @@ echo "> [Load up token for IBC account on network 2]"
 if [ "$KEYRING" = "test" ]; then
     docker exec -it vtevmos21 bash -c "evmosd tx bank send $VAL_2_KEY_NAME $REL_2_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /.evmosd21 --yes"
 else
-    echo "Encryption password is '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' (without quotes), fill it"
     docker exec -it vtevmos21 bash -c "echo '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' | evmosd tx bank send $VAL_2_KEY_NAME $REL_2_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /.evmosd21 --yes"
 fi
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed"; exit 1; }
