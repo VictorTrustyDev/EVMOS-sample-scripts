@@ -102,6 +102,9 @@ cd "./$BD_SOURCE_DIR"
 echo
 echo 'Compiling bdjuno'
 make install
+[ $? -ne 0 ] && { echo "ERR: Failed to compile"; exit 1; }
+echo "Rename $BD_BINARY_ORIGIN into $BD_BINARY"
+mv "$BD_BINARY_ORIGIN" "$BD_BINARY"
 cd "$CUR_DIR"
 
 echo "Init bdjuno"

@@ -140,7 +140,7 @@ export REL_2_SEED="raw course slim hockey salt crawl sick safe december during a
 export REL_2_ADDR="evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp"
 
 ## Big Dipper (bdjuno)
-export BD_BINARY="$GOPATH/bin/bdjuno"
+export BD_BINARY_ORIGIN="$GOPATH/bin/bdjuno"
 export BD_PG_DB=bdjuno
 export BD_PG_USER=bdjuno
 export BD_PG_PASS=6N4QtFYMt7h972uazrWTckmMvFZWIje
