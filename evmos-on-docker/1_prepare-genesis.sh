@@ -137,7 +137,7 @@ elif [ $VALIDATOR_IMPORT_MODE -eq 2 ]; then
     fi
 fi
 
-## Verify
+## Extract
 echo '- Get wallet address'
 if [ "$KEYRING" = "test" ]; then
     export VAL_1_ADDR="$($BINARY keys show $VAL_1_KEY_NAME --keyring-backend $KEYRING --home "$VAL_HOME_1" --address)"
@@ -154,6 +154,14 @@ echo " + $VAL_3_KEY_NAME: $VAL_3_ADDR"
 echo "- Clone keys to home of other validators"
 cp -r "$VAL_HOME_1/keyring-$KEYRING" "$VAL_HOME_2/"
 cp -r "$VAL_HOME_1/keyring-$KEYRING" "$VAL_HOME_3/"
+
+## Verify
+if [[ "$VAL_1_ADDR" == "$ACCOUNT_PREFIX*" ]]; then
+    echo
+else
+    echo "ERR: Validator 1 '$VAL_1_KEY_NAME' wallet address '$VAL_1_ADDR' does not starts with '$ACCOUNT_PREFIX', did you forget to update the 'CHAIN_"$CHAIN_NO"_ACCOUNT_PREFIX' var"
+    exit 1
+fi
 
 # Calculate balance & stake & claim info for validators
 ## Balance

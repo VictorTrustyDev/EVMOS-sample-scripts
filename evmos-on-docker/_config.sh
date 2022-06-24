@@ -18,6 +18,7 @@ if [ "$CHAIN_NO" = "1" ]; then
     export VAL_3_SEED="$VAL_3_CHAIN_1_SEED"
     export VAL_3_PRIVATE_KEY="$VAL_3_CHAIN_1_PRIVATE_KEY"
     export VALIDATOR_IMPORT_TYPE="$CHAIN_1_VALIDATOR_IMPORT_TYPE"
+    export ACCOUNT_PREFIX="$CHAIN_1_ACCOUNT_PREFIX"
 elif [ "$CHAIN_NO" = "2" ]; then
     export CHAIN_ID="$CHAIN_2_ID"
     export EVMOS_REPO="$EVMOS_CHAIN_2_REPO"
@@ -36,6 +37,7 @@ elif [ "$CHAIN_NO" = "2" ]; then
     export VAL_3_SEED="$VAL_3_CHAIN_2_SEED"
     export VAL_3_PRIVATE_KEY="$VAL_3_CHAIN_2_PRIVATE_KEY"
     export VALIDATOR_IMPORT_TYPE="$CHAIN_2_VALIDATOR_IMPORT_TYPE"
+    export ACCOUNT_PREFIX="$CHAIN_2_ACCOUNT_PREFIX"
 fi
 
 export EVMOS_SOURCE_DIR="./EVMOS-source-code-$EVMOS_VER"
@@ -43,6 +45,7 @@ export EVMOS_CHAINNAME=$(echo $DENOM_SYMBOL | tr '[:lower:]' '[:upper:]')
 export VAL_HOME_PREFIX='.evmosd'$CHAIN_NO
 
 echo "Creating EVMOS network with chain id $CHAIN_ID"
+echo "- Account prefix: $ACCOUNT_PREFIX"
 echo "- Denom symbol: $DENOM_SYMBOL ($EVMOS_DENOM_EXPONENT digits unit: $MIN_DENOM_SYMBOL, $EVMOS_GAS_DENOM_EXPONENT digits gas unit: $GAS_DENOM_SYMBOL)"
 echo "- Source code on repo: $EVMOS_REPO"
 echo "- Source code on branch: $EVMOS_VER"
