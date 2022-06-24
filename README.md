@@ -58,3 +58,6 @@ You can change their version by updating file [env.sh](https://github.com/Victor
 | Big Dipper as Block Explorer | bdjdb1 | bdjdb2 | bdjuno & hasura database (docker) |
 | Big Dipper as Block Explorer | bdjhasura1 | bdjhasura2 | Hasura graphql service (docker) |
 | Big Dipper as Block Explorer | bd2-svc1 | bd2-svc2 | Big Dipper front end (Debian* daemon service) |
+
+##### Advanced feature:
+There is script named [all-in-one.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/all-in-one.sh), if you are using an OS which supports `systemd` and some required tools, you can create everything just by running this script (EVMOS x2 + Big Dipper x2 + Hermes)
