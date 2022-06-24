@@ -276,7 +276,7 @@ if [ "$KEYRING" = "test" ]; then
         --min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
         --keyring-backend $KEYRING \
         --chain-id $CHAIN_ID \
-        --home $VAL_HOME_1 # > /dev/null 2>&1
+        --home $VAL_HOME_1 > /dev/null 2>&1
 else
     echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD" | $BINARY gentx $VAL_1_KEY_NAME "$VAL_1_STAKE"$MIN_DENOM_SYMBOL \
         --commission-rate="$VAL_COMMISSION_RATE" \
@@ -285,7 +285,7 @@ else
         --min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
         --keyring-backend $KEYRING \
         --chain-id $CHAIN_ID \
-        --home $VAL_HOME_1 # > /dev/null 2>&1
+        --home $VAL_HOME_1 > /dev/null 2>&1
 fi
 [ $? -eq 0 ] || { echo "Failed to create genesis tx for validator 1"; exit 1; }
 
@@ -298,7 +298,7 @@ if [ "$KEYRING" = "test" ]; then
         --min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
         --keyring-backend $KEYRING \
         --chain-id $CHAIN_ID \
-        --home $VAL_HOME_2 # > /dev/null 2>&1
+        --home $VAL_HOME_2 > /dev/null 2>&1
 else
     echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD" | $BINARY gentx $VAL_2_KEY_NAME "$VAL_2_STAKE"$MIN_DENOM_SYMBOL \
         --commission-rate="$VAL_COMMISSION_RATE" \
@@ -307,7 +307,7 @@ else
         --min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
         --keyring-backend $KEYRING \
         --chain-id $CHAIN_ID \
-        --home $VAL_HOME_2 # > /dev/null 2>&1
+        --home $VAL_HOME_2 > /dev/null 2>&1
 fi
 [ $? -eq 0 ] || { echo "Failed to create genesis tx for validator 2"; exit 1; }
 echo "Copy generated tx to $VAL_HOME_1/config/gentx"
@@ -322,7 +322,7 @@ if [ "$KEYRING" = "test" ]; then
         --min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
         --keyring-backend $KEYRING \
         --chain-id $CHAIN_ID \
-        --home $VAL_HOME_3 # > /dev/null 2>&1
+        --home $VAL_HOME_3 > /dev/null 2>&1
 else
     echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD" | $BINARY gentx $VAL_3_KEY_NAME "$VAL_3_STAKE"$MIN_DENOM_SYMBOL \
         --commission-rate="$VAL_COMMISSION_RATE" \
@@ -331,7 +331,7 @@ else
         --min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
         --keyring-backend $KEYRING \
         --chain-id $CHAIN_ID \
-        --home $VAL_HOME_3 # > /dev/null 2>&1
+        --home $VAL_HOME_3 > /dev/null 2>&1
 fi
 [ $? -eq 0 ] || { echo "Failed to create genesis tx for validator 3"; exit 1; }
 echo "Copy generated tx to $VAL_HOME_1/config/gentx"
