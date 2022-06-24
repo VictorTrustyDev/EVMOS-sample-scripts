@@ -166,3 +166,9 @@ echo "> [Big Dipper UI for network 2]"
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed"; exit 1; }
 
 echo "Finished"
+echo "Alright, all the services are Expected to be started, no need to do anything else"
+echo "To make sure everything working well, you need to"
+echo "1. Check 3 validator containers & make sure they are proceducing block"
+echo "2. Make sure bdjuno & hasura services are ok"
+echo "3. Go to block explorer UI and check things there"
+echo "4. Check Hermes is working well"
