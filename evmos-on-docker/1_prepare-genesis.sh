@@ -156,7 +156,8 @@ cp -r "$VAL_HOME_1/keyring-$KEYRING" "$VAL_HOME_2/"
 cp -r "$VAL_HOME_1/keyring-$KEYRING" "$VAL_HOME_3/"
 
 ## Verify
-if [[ "$VAL_1_ADDR" == "$ACCOUNT_PREFIX*" ]]; then
+ADDR_PATTERN="$ACCOUNT_PREFIX[0-9][a-z0-9]+"
+if [[ $VAL_1_ADDR =~ $ADDR_PATTERN ]]; then
     echo
 else
     echo "ERR: Validator 1 '$VAL_1_KEY_NAME' wallet address '$VAL_1_ADDR' does not starts with '$ACCOUNT_PREFIX', did you forget to update the 'CHAIN_"$CHAIN_NO"_ACCOUNT_PREFIX' var"
