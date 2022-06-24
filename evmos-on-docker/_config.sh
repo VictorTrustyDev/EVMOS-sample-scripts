@@ -11,6 +11,12 @@ if [ "$CHAIN_NO" = "1" ]; then
     export DENOM_SYMBOL="$EVMOS_CHAIN_1_DENOM_SYMBOL"
     export MIN_DENOM_SYMBOL="$EVMOS_CHAIN_1_MIN_DENOM_SYMBOL"
     export GAS_DENOM_SYMBOL="$EVMOS_CHAIN_1_GAS_DENOM_SYMBOL"
+    export VAL_1_SEED="$VAL_1_CHAIN_1_SEED"
+    export VAL_1_ADDR="$VAL_1_CHAIN_1_ADDR"
+    export VAL_2_SEED="$VAL_2_CHAIN_1_SEED"
+    export VAL_2_ADDR="$VAL_2_CHAIN_1_ADDR"
+    export VAL_3_SEED="$VAL_3_CHAIN_1_SEED"
+    export VAL_3_ADDR="$VAL_3_CHAIN_1_ADDR"
 elif [ "$CHAIN_NO" = "2" ]; then
     export CHAIN_ID="$CHAIN_2_ID"
     export EVMOS_REPO="$EVMOS_CHAIN_2_REPO"
@@ -22,6 +28,12 @@ elif [ "$CHAIN_NO" = "2" ]; then
     export DENOM_SYMBOL="$EVMOS_CHAIN_2_DENOM_SYMBOL"
     export MIN_DENOM_SYMBOL="$EVMOS_CHAIN_2_MIN_DENOM_SYMBOL"
     export GAS_DENOM_SYMBOL="$EVMOS_CHAIN_2_GAS_DENOM_SYMBOL"
+    export VAL_1_SEED="$VAL_1_CHAIN_2_SEED"
+    export VAL_1_ADDR="$VAL_1_CHAIN_2_ADDR"
+    export VAL_2_SEED="$VAL_2_CHAIN_2_SEED"
+    export VAL_2_ADDR="$VAL_2_CHAIN_2_ADDR"
+    export VAL_3_SEED="$VAL_3_CHAIN_2_SEED"
+    export VAL_3_ADDR="$VAL_3_CHAIN_2_ADDR"
 fi
 
 export EVMOS_SOURCE_DIR="./EVMOS-source-code-$EVMOS_VER"

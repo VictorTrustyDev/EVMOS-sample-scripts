@@ -12,17 +12,44 @@ if [ ! -f "./env.sh" ]; then
     exit 1
 fi
 
-command -v jq > /dev/null 2>&1 || { echo >&2 "jq not installed. More info: https://stedolan.github.io/jq/download/ (Hint: sudo apt install jq -y)"; exit 1; }
-command -v yq > /dev/null 2>&1 || { echo >&2 "yq not installed. More info: https://github.com/kislyuk/yq/ (Hint: sudo apt install python3-pip -y && pip3 install yq)"; exit 1; }
-command -v tomlq > /dev/null 2>&1 || { echo >&2 "tomlq not installed, it is expected to be delivered within yq package"; exit 1; }
-command -v bc > /dev/null 2>&1 || { echo >&2 "bc command could not be found"; exit 1; }
-command -v make > /dev/null 2>&1 || { echo >&2 "make command could not be found"; exit 1; }
-command -v go > /dev/null 2>&1 || { echo >&2 "go was not installed. More info: https://go.dev/doc/install"; exit 1; }
-command -v docker > /dev/null 2>&1 || { echo >&2 "docker is required"; exit 1; }
-command -v 'docker-compose' > /dev/null 2>&1 || { echo >&2 "docker-compose is required"; exit 1; }
-command -v cargo > /dev/null 2>&1 || { echo >&2 "Rust & Cargo was not installed. More info: https://www.rust-lang.org/tools/install . Hint: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"; exit 1; }
-command -v psql > /dev/null 2>&1 || { echo >&2 "psql is required, you first need to install psql client. Hint: sudo apt install postgresql-client"; exit 1; }
-command -v npm > /dev/null 2>&1 || { echo >&2 "npm is required"; exit 1; }
+show_required_tools() {
+    MSG="'$1' tool is required"
+    echo >&2 "$MSG"
+    echo >&2 "______"
+    echo >&2 "The app requires following tools:"
+    echo >&2 "- jq"
+    echo >&2 " + https://stedolan.github.io/jq/download/"
+    echo >&2 " + Hint: sudo apt install jq -y"
+    echo >&2 "- yq & tomlq"
+    echo >&2 " + https://github.com/kislyuk/yq/"
+    echo >&2 " + Hint: sudo apt install python3-pip -y && pip3 install yq"
+    echo >&2 "- go"
+    echo >&2 " + https://go.dev/doc/install"
+    echo >&2 "- docker & docker-compose"
+    echo >&2 "- Rust & cargo"
+    echo >&2 " + https://www.rust-lang.org/tools/install"
+    echo >&2 " + Hint: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
+    echo >&2 "- psql (PostgreSQL client)"
+    echo >&2 " + Hint: sudo apt install postgresql-client"
+    echo >&2 "- npm"
+    echo >&2 "- hasura-cli"
+    echo >&2 " + https://hasura.io/docs/latest/graphql/core/hasura-cli/install-hasura-cli/"
+    echo >&2 " + Hint: curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash"
+    echo >&2 "______"
+    echo >&2 "$MSG"
+}
+
+command -v jq > /dev/null 2>&1 || { show_required_tools 'jq'; exit 1; }
+command -v yq > /dev/null 2>&1 || { show_required_tools 'yq'; exit 1; }
+command -v tomlq > /dev/null 2>&1 || { show_required_tools 'tomlq'; exit 1; }
+command -v bc > /dev/null 2>&1 || { show_required_tools 'bc'; exit 1; }
+command -v make > /dev/null 2>&1 || { show_required_tools 'make'; exit 1; }
+command -v go > /dev/null 2>&1 || { show_required_tools 'go'; exit 1; }
+command -v docker > /dev/null 2>&1 || { show_required_tools 'docker'; exit 1; }
+command -v 'docker-compose' > /dev/null 2>&1 || { show_required_tools 'docker-compose'; exit 1; }
+command -v cargo > /dev/null 2>&1 || { show_required_tools 'cargo'; exit 1; }
+command -v psql > /dev/null 2>&1 || { show_required_tools 'psql'; exit 1; }
+command -v npm > /dev/null 2>&1 || { show_required_tools 'npm'; exit 1; }
 
 source "./env.sh"
 if [ -f "$BD_HASURA_BINARY" ]; then
@@ -30,7 +57,7 @@ if [ -f "$BD_HASURA_BINARY" ]; then
 elif [ command -v hasura > /dev/null 2>&1 ]; then
     echo
 else
-    echo >&2 "hasura-cli is required, more info: https://hasura.io/docs/latest/graphql/core/hasura-cli/install-hasura-cli/ . Hint: curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash"
+    show_required_tools 'hasura-cli'
     exit 1
 fi
 
@@ -139,3 +166,9 @@ echo "> [Big Dipper UI for network 2]"
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed"; exit 1; }
 
 echo "Finished"
+echo "Alright, all the services are Expected to be started, no need to do anything else"
+echo "To make sure everything working well, you need to"
+echo "1. Check 3 validator containers & make sure they are proceducing block"
+echo "2. Make sure bdjuno & hasura services are ok"
+echo "3. Go to block explorer UI and check things there"
+echo "4. Check Hermes is working well"
