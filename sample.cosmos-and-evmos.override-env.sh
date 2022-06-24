@@ -18,15 +18,6 @@ export EVMOS_CHAIN_1_GAS_DENOM_EXPONENT=3
 export EVMOS_CHAIN_1_ACCOUNT_PREFIX="cosmos"
 export EVMOS_CHAIN_1_CLAIM_MODULE_ACCOUNT="cosmos14eadktsf4zzah6har7h7a46tunnj7rq7lmppy5" # whatever, as long as it is different than 3 validators and the relayer account
 
-export VAL_1_CHAIN_1_ADDR="cosmos1r0ku6275wrtud9vtvzulvgrk8vznan7xzeuepz"
-export VAL_1_CHAIN_1_SEED="spoil senior door access upset floor decorate shield high punch senior tape pigeon base slogan height clever buffalo cat report poem weapon labor satoshi"
-
-export VAL_2_CHAIN_1_ADDR="cosmos1fwqsdptgfvtjvhxu2eem3pgvjwn3yup24n75kh"
-export VAL_2_CHAIN_1_SEED="width produce brush hour horse retreat play flag fresh broken measure culture scare broken erupt pilot buzz embody depend topic behind rigid fan battle"
-
-export VAL_3_CHAIN_1_ADDR="cosmos1czg02jwz4rvu405mzxnw7h9zkzu7pm39wl6h5e"
-export VAL_3_CHAIN_1_SEED="stage grid emotion thumb safe myth chair dizzy beyond casual select polar hover retire master neglect shift zero trigger section token replace truly father"
-
 export REL_1_SEED="raw course slim hockey salt crawl sick safe december during armed fragile"
 export REL_1_ADDR="cosmos16euecy8mnkhdpnr4y3346h44v0gqj67zwc4laf"
 

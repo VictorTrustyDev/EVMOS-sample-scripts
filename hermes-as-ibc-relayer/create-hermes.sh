@@ -47,6 +47,23 @@ rm -rf "$HERMES_HOME_DIR"
 echo "Init new home dir"
 mkdir -p "$HERMES_HOME_DIR"
 
+# Binary
+export BINARY=$(pwd)'/'$HERMES_SOURCE_DIR'/target/release/'$HERMES_BINARY
+
+# Check & Install hermes binary if not exists
+./_make_binary.sh
+[ $? -eq 0 ] || { echo "Failed to check & build $HERMES_BINARY binary at $BINARY"; }
+
+# Restore relayer account
+echo "Importing seed"
+echo " [$REL_1_SEED]"
+echo " as relayer account for chain $HERMES_CFG_CHAIN_1_ID"
+$BINARY -c $CONFIG_TOML keys restore --mnemonic "$REL_1_SEED" --hd-path "m/44'/$CHAIN_1_COINTYPE'/0'/0/0" $HERMES_CFG_CHAIN_1_ID
+echo "Importing seed"
+echo " [$REL_2_SEED]"
+echo " as relayer account for chain $HERMES_CFG_CHAIN_2_ID"
+$BINARY -c $CONFIG_TOML keys restore --mnemonic "$REL_2_SEED" --hd-path "m/44'/$CHAIN_2_COINTYPE'/0'/0/0" $HERMES_CFG_CHAIN_2_ID
+
 echo 'You can custom config by editing keys with prefix [HERMES_CFG_CHAIN_*] in [env.sh] file'
 sleep 3s
 
@@ -115,23 +132,6 @@ else
         sed -i "s#chain2_address_type#{ derivation = 'cosmos' }#g" $CONFIG_TOML
     fi
 fi
-
-# Binary
-export BINARY=$(pwd)'/'$HERMES_SOURCE_DIR'/target/release/'$HERMES_BINARY
-
-# Check & Install hermes binary if not exists
-./_make_binary.sh
-[ $? -eq 0 ] || { echo "Failed to check & build $HERMES_BINARY binary at $BINARY"; }
-
-# Restore relayer account
-echo "Importing seed"
-echo " [$REL_1_SEED]"
-echo " as relayer account for chain $HERMES_CFG_CHAIN_1_ID"
-$BINARY -c $CONFIG_TOML keys restore --mnemonic "$REL_1_SEED" --hd-path "m/44'/$CHAIN_1_COINTYPE'/0'/0/0" $HERMES_CFG_CHAIN_1_ID
-echo "Importing seed"
-echo " [$REL_2_SEED]"
-echo " as relayer account for chain $HERMES_CFG_CHAIN_2_ID"
-$BINARY -c $CONFIG_TOML keys restore --mnemonic "$REL_2_SEED" --hd-path "m/44'/$CHAIN_2_COINTYPE'/0'/0/0" $HERMES_CFG_CHAIN_2_ID
 
 echo "Creating client, connection and channels"
 echo '- Creating client'
