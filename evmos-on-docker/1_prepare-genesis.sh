@@ -32,6 +32,15 @@ else
     exit 1
 fi
 
+if [ "$KEYRING" = "file" ]; then
+    echo "Keyring: file"
+elif [ "$KEYRING" = "test" ]; then
+    echo "Keyring: test **WARNING** only use keyring-backend=test for development purpose"
+else
+    echo "Non supported keyring mode = $KEYRING, only support 'file' & 'test'"
+    exit 1
+fi
+
 # Binary
 export BINARY="$GOPATH/bin/$EVMOS_DAEMON"
 
@@ -73,19 +82,40 @@ $BINARY init $MONIKER --chain-id $CHAIN_ID --home $VAL_HOME_3 > /dev/null 2>&1
 
 # Import validator keys
 echo 'Import validator keys'
-echo "- Copying validator keys from ../keys/keyring to <node 0_home>/keyring-$KEYRING"
-cp -r ../keys/keyring/ "$VAL_HOME_1/keyring-$KEYRING"
+if [ "$KEYRING" = "test" ]; then
+    echo "- Validator 1, key name '$VAL_1_KEY_NAME'"
+    $BINARY keys unsafe-import-eth-key "$VAL_1_KEY_NAME" "$VAL_1_PRIVATE_KEY" --keyring-backend "test" --home "$VAL_HOME_1"
+    echo "- Validator 2, key name '$VAL_2_KEY_NAME'"
+    $BINARY keys unsafe-import-eth-key "$VAL_2_KEY_NAME" "$VAL_2_PRIVATE_KEY" --keyring-backend "test" --home "$VAL_HOME_1"
+    echo "- Validator 3, key name '$VAL_3_KEY_NAME'"
+    $BINARY keys unsafe-import-eth-key "$VAL_3_KEY_NAME" "$VAL_3_PRIVATE_KEY" --keyring-backend "test" --home "$VAL_HOME_1"
+else
+    echo "- Validator 1, key name '$VAL_1_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD'"
+    (echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys unsafe-import-eth-key "$VAL_1_KEY_NAME" "$VAL_1_PRIVATE_KEY" --keyring-backend "file" --home "$VAL_HOME_1"
+    echo "- Validator 2, key name '$VAL_2_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD'"
+    (echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys unsafe-import-eth-key "$VAL_2_KEY_NAME" "$VAL_2_PRIVATE_KEY" --keyring-backend "file" --home "$VAL_HOME_1"
+    echo "- Validator 3, key name '$VAL_3_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD'"
+    (echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys unsafe-import-eth-key "$VAL_3_KEY_NAME" "$VAL_3_PRIVATE_KEY" --keyring-backend "file" --home "$VAL_HOME_1"
+fi
 ## Verify
 echo '- Verifing keys'
-[ "$VAL_1_ADDR" == $($BINARY keys show $VAL_1_KEY_NAME --keyring-backend $KEYRING --home $VAL_HOME_1 --address) ] || { echo "Expect validator name $VAL_1_KEY_NAME has address $VAL_1_ADDR"; exit 1; }
-echo " + OK: $VAL_1_KEY_NAME addr $VAL_1_ADDR seed '$VAL_1_SEED'"
-[ "$VAL_2_ADDR" == $($BINARY keys show $VAL_2_KEY_NAME --keyring-backend $KEYRING --home $VAL_HOME_1 --address) ] || { echo "Expect validator name $VAL_2_KEY_NAME has address $VAL_2_ADDR"; exit 1; }
-echo " + OK: $VAL_2_KEY_NAME addr $VAL_2_ADDR seed '$VAL_2_SEED'"
-[ "$VAL_3_ADDR" == $($BINARY keys show $VAL_3_KEY_NAME --keyring-backend $KEYRING --home $VAL_HOME_1 --address) ] || { echo "Expect validator name $VAL_3_KEY_NAME has address $VAL_3_ADDR"; exit 1; }
-echo " + OK: $VAL_3_KEY_NAME addr $VAL_3_ADDR seed '$VAL_3_SEED'"
-echo "- Copying validator keys from ../keys/keyring to <node 1_home>/keyring-$KEYRING"
+if [ "$KEYRING" = "test" ]; then
+    [ "$VAL_1_ADDR" == "$($BINARY keys show $VAL_1_KEY_NAME --keyring-backend $KEYRING --home "$VAL_HOME_1" --address)" ] || { echo "Expect validator name $VAL_1_KEY_NAME has address $VAL_1_ADDR! You forgot update the address in 'env.sh' file?"; exit 1; }
+    echo " + OK: $VAL_1_KEY_NAME addr $VAL_1_ADDR private key '$VAL_1_PRIVATE_KEY'"
+    [ "$VAL_2_ADDR" == "$($BINARY keys show $VAL_2_KEY_NAME --keyring-backend $KEYRING --home "$VAL_HOME_1" --address)" ] || { echo "Expect validator name $VAL_2_KEY_NAME has address $VAL_2_ADDR! You forgot update the address in 'env.sh' file?"; exit 1; }
+    echo " + OK: $VAL_2_KEY_NAME addr $VAL_2_ADDR private key '$VAL_2_PRIVATE_KEY'"
+    [ "$VAL_3_ADDR" == "$($BINARY keys show $VAL_3_KEY_NAME --keyring-backend $KEYRING --home "$VAL_HOME_1" --address)" ] || { echo "Expect validator name $VAL_3_KEY_NAME has address $VAL_3_ADDR! You forgot update the address in 'env.sh' file?"; exit 1; }
+    echo " + OK: $VAL_3_KEY_NAME addr $VAL_3_ADDR private key '$VAL_3_PRIVATE_KEY'"
+else
+    [ "$VAL_1_ADDR" == "$(echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD" | $BINARY keys show $VAL_1_KEY_NAME --keyring-backend $KEYRING --home "$VAL_HOME_1" --address)" ] || { echo "Expect validator name $VAL_1_KEY_NAME has address $VAL_1_ADDR! You forgot update the address in 'env.sh' file?"; exit 1; }
+    echo " + OK: $VAL_1_KEY_NAME addr $VAL_1_ADDR private key '$VAL_1_PRIVATE_KEY'"
+    [ "$VAL_2_ADDR" == "$(echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD" | $BINARY keys show $VAL_2_KEY_NAME --keyring-backend $KEYRING --home "$VAL_HOME_1" --address)" ] || { echo "Expect validator name $VAL_2_KEY_NAME has address $VAL_2_ADDR! You forgot update the address in 'env.sh' file?"; exit 1; }
+    echo " + OK: $VAL_2_KEY_NAME addr $VAL_2_ADDR private key '$VAL_2_PRIVATE_KEY'"
+    [ "$VAL_3_ADDR" == "$(echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD" | $BINARY keys show $VAL_3_KEY_NAME --keyring-backend $KEYRING --home "$VAL_HOME_1" --address)" ] || { echo "Expect validator name $VAL_3_KEY_NAME has address $VAL_3_ADDR! You forgot update the address in 'env.sh' file?"; exit 1; }
+    echo " + OK: $VAL_3_KEY_NAME addr $VAL_3_ADDR private key '$VAL_3_PRIVATE_KEY'"
+fi
+echo "- Clone keys to home of other validators"
 cp -r "$VAL_HOME_1/keyring-$KEYRING" "$VAL_HOME_2/"
-echo "- Copying validator keys from ../keys/keyring to <node 2_home>/keyring-$KEYRING"
 cp -r "$VAL_HOME_1/keyring-$KEYRING" "$VAL_HOME_3/"
 
 # Calculate balance & stake & claim info for validators
@@ -174,12 +204,22 @@ update_app $VAL_HOME_2
 update_app $VAL_HOME_3
 
 # Allocate genesis accounts
-$BINARY add-genesis-account $VAL_1_KEY_NAME "$VAL_1_BALANCE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --home $VAL_HOME_1
-$BINARY add-genesis-account $VAL_2_KEY_NAME "$VAL_2_BALANCE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --home $VAL_HOME_1
-$BINARY add-genesis-account $VAL_3_KEY_NAME "$VAL_3_BALANCE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --home $VAL_HOME_1
-# To generate create validator tx for validator 2 & 3
-$BINARY add-genesis-account $VAL_2_KEY_NAME "$VAL_2_BALANCE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --home $VAL_HOME_2
-$BINARY add-genesis-account $VAL_3_KEY_NAME "$VAL_3_BALANCE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --home $VAL_HOME_3
+echo 'Allocating genesis accounts'
+if [ "$KEYRING" = "test" ]; then
+    $BINARY add-genesis-account "$VAL_1_KEY_NAME" "$VAL_1_BALANCE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --home "$VAL_HOME_1"
+    $BINARY add-genesis-account "$VAL_2_KEY_NAME" "$VAL_2_BALANCE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --home "$VAL_HOME_1"
+    $BINARY add-genesis-account "$VAL_3_KEY_NAME" "$VAL_3_BALANCE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --home "$VAL_HOME_1"
+    # To generate create validator tx for validator 2 & 3
+    $BINARY add-genesis-account "$VAL_2_KEY_NAME" "$VAL_2_BALANCE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --home "$VAL_HOME_2"
+    $BINARY add-genesis-account "$VAL_3_KEY_NAME" "$VAL_3_BALANCE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --home "$VAL_HOME_3"
+else
+    echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD" | $BINARY add-genesis-account "$VAL_1_KEY_NAME" "$VAL_1_BALANCE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --home "$VAL_HOME_1"
+    echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD" | $BINARY add-genesis-account "$VAL_2_KEY_NAME" "$VAL_2_BALANCE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --home "$VAL_HOME_1"
+    echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD" | $BINARY add-genesis-account "$VAL_3_KEY_NAME" "$VAL_3_BALANCE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --home "$VAL_HOME_1"
+    # To generate create validator tx for validator 2 & 3
+    echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD" | $BINARY add-genesis-account "$VAL_2_KEY_NAME" "$VAL_2_BALANCE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --home "$VAL_HOME_2"
+    echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD" | $BINARY add-genesis-account "$VAL_3_KEY_NAME" "$VAL_3_BALANCE"$MIN_DENOM_SYMBOL --keyring-backend $KEYRING --home "$VAL_HOME_3"
+fi
 
 # Update total supply + claim values in genesis.json
 total_supply=$(bc <<< "$VAL_1_BALANCE + $VAL_2_BALANCE + $VAL_3_BALANCE + $VAL_1_CLAIM + $VAL_2_CLAIM + $VAL_3_CLAIM")
@@ -188,38 +228,71 @@ cat $GENESIS_JSON | jq '.app_state["bank"]["supply"][0]["amount"]="'$total_suppl
 
 # Sign genesis transaction
 echo 'Generate genesis staking transaction '$(bc <<< "$VAL_1_STAKE / (10^$EVMOS_DENOM_EXPONENT)")' '$DENOM_SYMBOL' for validator '$VAL_1_KEY_NAME
-$BINARY gentx $VAL_1_KEY_NAME "$VAL_1_STAKE"$MIN_DENOM_SYMBOL \
-    --commission-rate="$VAL_COMMISSION_RATE" \
-    --commission-max-rate="$VAL_COMMISSION_RATE_MAX" \
-    --commission-max-change-rate="$VAL_COMMISSION_CHANGE_RATE_MAX" \
-    --min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
-    --keyring-backend $KEYRING \
-    --chain-id $CHAIN_ID \
-    --home $VAL_HOME_1 > /dev/null 2>&1
+if [ "$KEYRING" = "test" ]; then
+    $BINARY gentx $VAL_1_KEY_NAME "$VAL_1_STAKE"$MIN_DENOM_SYMBOL \
+        --commission-rate="$VAL_COMMISSION_RATE" \
+        --commission-max-rate="$VAL_COMMISSION_RATE_MAX" \
+        --commission-max-change-rate="$VAL_COMMISSION_CHANGE_RATE_MAX" \
+        --min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
+        --keyring-backend $KEYRING \
+        --chain-id $CHAIN_ID \
+        --home $VAL_HOME_1 > /dev/null 2>&1
+else
+    echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD" | $BINARY gentx $VAL_1_KEY_NAME "$VAL_1_STAKE"$MIN_DENOM_SYMBOL \
+        --commission-rate="$VAL_COMMISSION_RATE" \
+        --commission-max-rate="$VAL_COMMISSION_RATE_MAX" \
+        --commission-max-change-rate="$VAL_COMMISSION_CHANGE_RATE_MAX" \
+        --min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
+        --keyring-backend $KEYRING \
+        --chain-id $CHAIN_ID \
+        --home $VAL_HOME_1 > /dev/null 2>&1
+fi
 [ $? -eq 0 ] || { echo "Failed to create genesis tx for validator 1"; exit 1; }
 
 echo 'Generate genesis staking transaction '$(bc <<< "$VAL_2_STAKE / (10^$EVMOS_DENOM_EXPONENT)")' '$DENOM_SYMBOL' for validator '$VAL_2_KEY_NAME
-$BINARY gentx $VAL_2_KEY_NAME "$VAL_2_STAKE"$MIN_DENOM_SYMBOL \
-    --commission-rate="$VAL_COMMISSION_RATE" \
-    --commission-max-rate="$VAL_COMMISSION_RATE_MAX" \
-    --commission-max-change-rate="$VAL_COMMISSION_CHANGE_RATE_MAX" \
-    --min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
-    --keyring-backend $KEYRING \
-    --chain-id $CHAIN_ID \
-    --home $VAL_HOME_2 > /dev/null 2>&1
+if [ "$KEYRING" = "test" ]; then
+    $BINARY gentx $VAL_2_KEY_NAME "$VAL_2_STAKE"$MIN_DENOM_SYMBOL \
+        --commission-rate="$VAL_COMMISSION_RATE" \
+        --commission-max-rate="$VAL_COMMISSION_RATE_MAX" \
+        --commission-max-change-rate="$VAL_COMMISSION_CHANGE_RATE_MAX" \
+        --min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
+        --keyring-backend $KEYRING \
+        --chain-id $CHAIN_ID \
+        --home $VAL_HOME_2 > /dev/null 2>&1
+else
+    echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD" | $BINARY gentx $VAL_2_KEY_NAME "$VAL_2_STAKE"$MIN_DENOM_SYMBOL \
+        --commission-rate="$VAL_COMMISSION_RATE" \
+        --commission-max-rate="$VAL_COMMISSION_RATE_MAX" \
+        --commission-max-change-rate="$VAL_COMMISSION_CHANGE_RATE_MAX" \
+        --min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
+        --keyring-backend $KEYRING \
+        --chain-id $CHAIN_ID \
+        --home $VAL_HOME_2 > /dev/null 2>&1
+fi
 [ $? -eq 0 ] || { echo "Failed to create genesis tx for validator 2"; exit 1; }
 echo "Copy generated tx to $VAL_HOME_1/config/gentx"
 cp $VAL_HOME_2/config/gentx/gentx-* $VAL_HOME_1/config/gentx/
 
 echo 'Generate genesis staking transaction '$(bc <<< "$VAL_3_STAKE / (10^$EVMOS_DENOM_EXPONENT)")' '$DENOM_SYMBOL' for validator '$VAL_3_KEY_NAME
-$BINARY gentx $VAL_3_KEY_NAME "$VAL_3_STAKE"$MIN_DENOM_SYMBOL \
-    --commission-rate="$VAL_COMMISSION_RATE" \
-    --commission-max-rate="$VAL_COMMISSION_RATE_MAX" \
-    --commission-max-change-rate="$VAL_COMMISSION_CHANGE_RATE_MAX" \
-    --min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
-    --keyring-backend $KEYRING \
-    --chain-id $CHAIN_ID \
-    --home $VAL_HOME_3 > /dev/null 2>&1
+if [ "$KEYRING" = "test" ]; then
+    $BINARY gentx $VAL_3_KEY_NAME "$VAL_3_STAKE"$MIN_DENOM_SYMBOL \
+        --commission-rate="$VAL_COMMISSION_RATE" \
+        --commission-max-rate="$VAL_COMMISSION_RATE_MAX" \
+        --commission-max-change-rate="$VAL_COMMISSION_CHANGE_RATE_MAX" \
+        --min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
+        --keyring-backend $KEYRING \
+        --chain-id $CHAIN_ID \
+        --home $VAL_HOME_3 > /dev/null 2>&1
+else
+    echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD" | $BINARY gentx $VAL_3_KEY_NAME "$VAL_3_STAKE"$MIN_DENOM_SYMBOL \
+        --commission-rate="$VAL_COMMISSION_RATE" \
+        --commission-max-rate="$VAL_COMMISSION_RATE_MAX" \
+        --commission-max-change-rate="$VAL_COMMISSION_CHANGE_RATE_MAX" \
+        --min-self-delegation="$VAL_MIN_SELF_DELEGATION" \
+        --keyring-backend $KEYRING \
+        --chain-id $CHAIN_ID \
+        --home $VAL_HOME_3 > /dev/null 2>&1
+fi
 [ $? -eq 0 ] || { echo "Failed to create genesis tx for validator 3"; exit 1; }
 echo "Copy generated tx to $VAL_HOME_1/config/gentx"
 cp $VAL_HOME_3/config/gentx/gentx-* $VAL_HOME_1/config/gentx/
