@@ -8,29 +8,31 @@ if [ -f "./override-env.sh" ]; then
     source "./override-env.sh"
 fi
 
-echo "Hermes require an account on each chain with some coins reserved for broadcast tx purpose, so based on config"
-if [ "$REL_1_ADDR" = "$REL_2_ADDR" ]; then
-    echo "- Account $REL_1_ADDR will be used for both chains $HERMES_CFG_CHAIN_1_ID and $HERMES_CFG_CHAIN_1_ID"
-    echo "Are you sure the above account has coin balance on both chains?"
-else
-    echo "- Account $REL_1_ADDR will be used for chain $HERMES_CFG_CHAIN_1_ID"
-    echo "- Account $REL_2_ADDR will be used for chain $HERMES_CFG_CHAIN_2_ID"
-    echo "Are you sure the above accounts have coin balance on it's chain?"
-fi
+if [ $HERMES_NO_CONFIRM_BALANCE -ne 1 ]; then
+    echo "Hermes require an account on each chain with some coins reserved for broadcast tx purpose, so based on config"
+    if [ "$REL_1_ADDR" = "$REL_2_ADDR" ]; then
+        echo "- Account $REL_1_ADDR will be used for both chains $HERMES_CFG_CHAIN_1_ID and $HERMES_CFG_CHAIN_1_ID"
+        echo "Are you sure the above account has coin balance on both chains?"
+    else
+        echo "- Account $REL_1_ADDR will be used for chain $HERMES_CFG_CHAIN_1_ID"
+        echo "- Account $REL_2_ADDR will be used for chain $HERMES_CFG_CHAIN_2_ID"
+        echo "Are you sure the above accounts have coin balance on it's chain?"
+    fi
 
-read -p "(Y/n)" -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
-    echo " ! Good"
-else
-    echo "Go prepare yourself"
-    echo "Hint: you can do this"
-    echo " docker exec -it vtevmos10 bash"
-    echo " evmosd tx bank send $VAL_1_KEY_NAME $REL_1_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /evmosd10"
-    echo " docker exec -it vtevmos20 bash"
-    echo " evmosd tx bank send $VAL_1_KEY_NAME $REL_2_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /evmosd20"
-    exit 1
+    read -p "(Y/n)" -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        echo " ! Good"
+    else
+        echo "Go prepare yourself"
+        echo "Hint: you can do this"
+        echo " docker exec -it vtevmos10 bash"
+        echo " evmosd tx bank send $VAL_1_KEY_NAME $REL_1_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /evmosd10"
+        echo " docker exec -it vtevmos20 bash"
+        echo " evmosd tx bank send $VAL_1_KEY_NAME $REL_2_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /evmosd20"
+        exit 1
+    fi
 fi
 
 [ $DISABLE_SYSTEMCTL -eq 0 ] && {
@@ -73,12 +75,22 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i '' "s/chain1_account_prefix/$HERMES_CFG_CHAIN_1_ACCOUNT_PREFIX/g" $CONFIG_TOML
     sed -i '' "s/chain1_key_name/$HERMES_CFG_CHAIN_1_KEY_NAME/g" $CONFIG_TOML
     sed -i '' "s/chain1_gas_price_denom/$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL/g" $CONFIG_TOML
+    if [ $CHAIN_1_COINTYPE -eq 60 ]; then
+        sed -i '' "s#chain1_address_type#{ derivation = 'ethermint', proto_type = { pk_type = '/ethermint.crypto.v1.ethsecp256k1.PubKey' } }#g" $CONFIG_TOML
+    else
+        sed -i '' "s#chain1_address_type#{ derivation = 'cosmos' }#g" $CONFIG_TOML
+    fi
     sed -i '' "s/chain2_id/$HERMES_CFG_CHAIN_2_ID/g" $CONFIG_TOML
     sed -i '' "s,chain2_rpc_addr,$HERMES_CFG_CHAIN_2_RPC_ADDR,g" $CONFIG_TOML
     sed -i '' "s,chain2_grpc_addr,$HERMES_CFG_CHAIN_2_GRPC_ADDR,g" $CONFIG_TOML
     sed -i '' "s/chain2_account_prefix/$HERMES_CFG_CHAIN_2_ACCOUNT_PREFIX/g" $CONFIG_TOML
     sed -i '' "s/chain2_key_name/$HERMES_CFG_CHAIN_2_KEY_NAME/g" $CONFIG_TOML
     sed -i '' "s/chain2_gas_price_denom/$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL/g" $CONFIG_TOML
+    if [ $CHAIN_2_COINTYPE -eq 60 ]; then
+        sed -i '' "s#chain2_address_type#{ derivation = 'ethermint', proto_type = { pk_type = '/ethermint.crypto.v1.ethsecp256k1.PubKey' } }#g" $CONFIG_TOML
+    else
+        sed -i '' "s#chain2_address_type#{ derivation = 'cosmos' }#g" $CONFIG_TOML
+    fi
 else
     sed -i "s/chain1_id/$HERMES_CFG_CHAIN_1_ID/g" $CONFIG_TOML
     sed -i "s,chain1_rpc_addr,$HERMES_CFG_CHAIN_1_RPC_ADDR,g" $CONFIG_TOML
@@ -86,12 +98,22 @@ else
     sed -i "s/chain1_account_prefix/$HERMES_CFG_CHAIN_1_ACCOUNT_PREFIX/g" $CONFIG_TOML
     sed -i "s/chain1_key_name/$HERMES_CFG_CHAIN_1_KEY_NAME/g" $CONFIG_TOML
     sed -i "s/chain1_gas_price_denom/$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL/g" $CONFIG_TOML
+    if [ $CHAIN_1_COINTYPE -eq 60 ]; then
+        sed -i "s#chain1_address_type#{ derivation = 'ethermint', proto_type = { pk_type = '/ethermint.crypto.v1.ethsecp256k1.PubKey' } }#g" $CONFIG_TOML
+    else
+        sed -i "s#chain1_address_type#{ derivation = 'cosmos' }#g" $CONFIG_TOML
+    fi
     sed -i "s/chain2_id/$HERMES_CFG_CHAIN_2_ID/g" $CONFIG_TOML
     sed -i "s,chain2_rpc_addr,$HERMES_CFG_CHAIN_2_RPC_ADDR,g" $CONFIG_TOML
     sed -i "s,chain2_grpc_addr,$HERMES_CFG_CHAIN_2_GRPC_ADDR,g" $CONFIG_TOML
     sed -i "s/chain2_account_prefix/$HERMES_CFG_CHAIN_2_ACCOUNT_PREFIX/g" $CONFIG_TOML
     sed -i "s/chain2_key_name/$HERMES_CFG_CHAIN_2_KEY_NAME/g" $CONFIG_TOML
     sed -i "s/chain2_gas_price_denom/$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL/g" $CONFIG_TOML
+    if [ $CHAIN_2_COINTYPE -eq 60 ]; then
+        sed -i "s#chain2_address_type#{ derivation = 'ethermint', proto_type = { pk_type = '/ethermint.crypto.v1.ethsecp256k1.PubKey' } }#g" $CONFIG_TOML
+    else
+        sed -i "s#chain2_address_type#{ derivation = 'cosmos' }#g" $CONFIG_TOML
+    fi
 fi
 
 # Binary
