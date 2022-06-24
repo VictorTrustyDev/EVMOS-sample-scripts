@@ -133,8 +133,6 @@ export REL_2_SEED="raw course slim hockey salt crawl sick safe december during a
 export REL_2_ADDR="evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp"
 
 ## Big Dipper (bdjuno)
-export BD_BRANCH="chains/evmos/mainnet"
-export BD_SOURCE_DIR="bdjuno-source-code" # do NOT modify
 export BD_BINARY="$GOPATH/bin/bdjuno"
 export BD_PG_DB=bdjuno
 export BD_PG_USER=bdjuno
@@ -147,6 +145,7 @@ export BD_PG_HASURA_USER=hasura
 export BD_PG_HASURA_PASS=PX2RNvtZ4m7fntnbRrtySB4ROG5EKk4J
 export BD_CFG_PG_USR_PASS=6N4QtFYMt7h972uazrWTckmMvFZWIje # Password of default user postgres
 ### Chain 1
+export BD_CFG_CHAIN_1_BRANCH="chains/evmos/mainnet"
 export BD_CFG_CHAIN_1_PG_PORT=5432
 export BD_CFG_CHAIN_1_ACCOUNT_PREFIX="$EVMOS_CHAIN_1_ACCOUNT_PREFIX"
 export BD_CFG_CHAIN_1_RPC_ADDR="127.0.0.1:$EVMOS_CHAIN_1_PORT_RPC"
@@ -158,6 +157,7 @@ export BD_CFG_CHAIN_1_DENOM_SYMBOL="$EVMOS_CHAIN_1_DENOM_SYMBOL" # evmos
 export BD_CFG_CHAIN_1_MIN_DENOM_SYMBOL="$EVMOS_CHAIN_1_MIN_DENOM_SYMBOL" # aevmos
 export BD_CFG_CHAIN_1_DENOM_EXPONENT=$EVMOS_CHAIN_1_DENOM_EXPONENT # no of digits (18)
 ### Chain 2
+export BD_CFG_CHAIN_2_BRANCH="chains/evmos/mainnet"
 export BD_CFG_CHAIN_2_PG_PORT=15432
 export BD_CFG_CHAIN_2_ACCOUNT_PREFIX="$EVMOS_CHAIN_2_ACCOUNT_PREFIX"
 export BD_CFG_CHAIN_2_RPC_ADDR="127.0.0.1:$EVMOS_CHAIN_2_PORT_RPC"
