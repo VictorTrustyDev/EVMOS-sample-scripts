@@ -141,18 +141,18 @@ fi
 echo '- Verifing keys'
 if [ "$KEYRING" = "test" ]; then
     [ "$VAL_1_ADDR" == "$($BINARY keys show $VAL_1_KEY_NAME --keyring-backend $KEYRING --home "$VAL_HOME_1" --address)" ] || { echo "Expect validator name $VAL_1_KEY_NAME has address $VAL_1_ADDR! You forgot update the address in 'env.sh' file?"; exit 1; }
-    echo " + OK: $VAL_1_KEY_NAME addr $VAL_1_ADDR private key '$VAL_1_PRIVATE_KEY'"
+    echo " + OK: $VAL_1_KEY_NAME addr $VAL_1_ADDR"
     [ "$VAL_2_ADDR" == "$($BINARY keys show $VAL_2_KEY_NAME --keyring-backend $KEYRING --home "$VAL_HOME_1" --address)" ] || { echo "Expect validator name $VAL_2_KEY_NAME has address $VAL_2_ADDR! You forgot update the address in 'env.sh' file?"; exit 1; }
-    echo " + OK: $VAL_2_KEY_NAME addr $VAL_2_ADDR private key '$VAL_2_PRIVATE_KEY'"
+    echo " + OK: $VAL_2_KEY_NAME addr $VAL_2_ADDR"
     [ "$VAL_3_ADDR" == "$($BINARY keys show $VAL_3_KEY_NAME --keyring-backend $KEYRING --home "$VAL_HOME_1" --address)" ] || { echo "Expect validator name $VAL_3_KEY_NAME has address $VAL_3_ADDR! You forgot update the address in 'env.sh' file?"; exit 1; }
-    echo " + OK: $VAL_3_KEY_NAME addr $VAL_3_ADDR private key '$VAL_3_PRIVATE_KEY'"
+    echo " + OK: $VAL_3_KEY_NAME addr $VAL_3_ADDR"
 else
     [ "$VAL_1_ADDR" == "$(echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD" | $BINARY keys show $VAL_1_KEY_NAME --keyring-backend $KEYRING --home "$VAL_HOME_1" --address)" ] || { echo "Expect validator name $VAL_1_KEY_NAME has address $VAL_1_ADDR! You forgot update the address in 'env.sh' file?"; exit 1; }
-    echo " + OK: $VAL_1_KEY_NAME addr $VAL_1_ADDR private key '$VAL_1_PRIVATE_KEY'"
+    echo " + OK: $VAL_1_KEY_NAME addr $VAL_1_ADDR"
     [ "$VAL_2_ADDR" == "$(echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD" | $BINARY keys show $VAL_2_KEY_NAME --keyring-backend $KEYRING --home "$VAL_HOME_1" --address)" ] || { echo "Expect validator name $VAL_2_KEY_NAME has address $VAL_2_ADDR! You forgot update the address in 'env.sh' file?"; exit 1; }
-    echo " + OK: $VAL_2_KEY_NAME addr $VAL_2_ADDR private key '$VAL_2_PRIVATE_KEY'"
+    echo " + OK: $VAL_2_KEY_NAME addr $VAL_2_ADDR"
     [ "$VAL_3_ADDR" == "$(echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD" | $BINARY keys show $VAL_3_KEY_NAME --keyring-backend $KEYRING --home "$VAL_HOME_1" --address)" ] || { echo "Expect validator name $VAL_3_KEY_NAME has address $VAL_3_ADDR! You forgot update the address in 'env.sh' file?"; exit 1; }
-    echo " + OK: $VAL_3_KEY_NAME addr $VAL_3_ADDR private key '$VAL_3_PRIVATE_KEY'"
+    echo " + OK: $VAL_3_KEY_NAME addr $VAL_3_ADDR"
 fi
 echo "- Clone keys to home of other validators"
 cp -r "$VAL_HOME_1/keyring-$KEYRING" "$VAL_HOME_2/"
