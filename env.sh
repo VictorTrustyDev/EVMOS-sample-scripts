@@ -17,12 +17,18 @@ export KEYRING="test" # change to file for cloud or production env (DANGER: keyr
 ##
 export NOTICE_DEV_ENV="This sample scripts was developed on an Ubuntu 22.04 LTS machine"
 
-## EVMOS (network)
+## Network
 export EVMOS_MONIKER='evmosAIO'
 ### Chain 1
 export CHAIN_1_ID="evmos_9006-1"
 export CHAIN_1_COINTYPE=60
 export CHAIN_1_VALIDATOR_IMPORT_TYPE="private_key" # valid values are ('private_key' or 'pk') and ('seed' or 'seed_phrase' or 'sp')
+export CHAIN_1_ACCOUNT_PREFIX="evmos"
+### Chain 2
+export CHAIN_2_ID="evmos_9007-1"
+export CHAIN_2_COINTYPE=60
+export CHAIN_2_VALIDATOR_IMPORT_TYPE="private_key" # valid values are ('private_key' or 'pk') and ('seed' or 'seed_phrase' or 'sp')
+export CHAIN_2_ACCOUNT_PREFIX="evmos"
 # For EVMOS, it must be 'private_key', for other cosmos chains, it must be 'seed_phrase'
 export EVMOS_CHAIN_1_REPO="https://github.com/evmos/evmos.git"
 export EVMOS_CHAIN_1_BRANCH="v5.0.0"
@@ -32,17 +38,12 @@ export EVMOS_CHAIN_1_MIN_DENOM_SYMBOL="aevmos"
 export EVMOS_CHAIN_1_GAS_DENOM_SYMBOL="nevmos"
 export EVMOS_CHAIN_1_DENOM_EXPONENT=18 # no of digits
 export EVMOS_CHAIN_1_GAS_DENOM_EXPONENT=9 # no of digits
-export EVMOS_CHAIN_1_ACCOUNT_PREFIX="evmos"
 export EVMOS_CHAIN_1_CLAIM_MODULE_ACCOUNT="evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz"
 export EVMOS_CHAIN_1_PORT_RPC=26657
 export EVMOS_CHAIN_1_PORT_GRPC=9090
 export EVMOS_CHAIN_1_PORT_JSON_RPC=8545
 export EVMOS_CHAIN_1_PORT_REST_API=1317
 export EVMOS_CHAIN_1_PORT_P2P=26656
-### Chain 2
-export CHAIN_2_ID="evmos_9007-1"
-export CHAIN_2_COINTYPE=60
-export CHAIN_2_VALIDATOR_IMPORT_TYPE="private_key" # valid values are ('private_key' or 'pk') and ('seed' or 'seed_phrase' or 'sp')
 # For EVMOS, it must be 'private_key', for other cosmos chains, it must be 'seed_phrase'
 export EVMOS_CHAIN_2_REPO="https://github.com/evmos/evmos.git"
 export EVMOS_CHAIN_2_BRANCH="v5.0.0"
@@ -52,7 +53,6 @@ export EVMOS_CHAIN_2_MIN_DENOM_SYMBOL="aevmos"
 export EVMOS_CHAIN_2_GAS_DENOM_SYMBOL="nevmos"
 export EVMOS_CHAIN_2_DENOM_EXPONENT=18 # no of digits
 export EVMOS_CHAIN_2_GAS_DENOM_EXPONENT=9 # no of digits
-export EVMOS_CHAIN_2_ACCOUNT_PREFIX="evmos"
 export EVMOS_CHAIN_2_CLAIM_MODULE_ACCOUNT="evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz"
 export EVMOS_CHAIN_2_PORT_RPC=36657
 export EVMOS_CHAIN_2_PORT_GRPC=19090
@@ -73,11 +73,9 @@ export VAL_1_RAW_BALANCE=50000000 # Validator 1 init with this amount of coint i
 export VAL_1_RAW_STAKE=7000 # Validator 1 will stake this amount
 export VAL_1_RAW_CLAIM=1000 # Validator 1 can claim this amount
 #### Chain 1
-export VAL_1_CHAIN_1_ADDR="evmos1wuqvcpuunf7r5rg7xutqddhw55grfzc75qejyq"
 export VAL_1_CHAIN_1_SEED="spoil senior door access upset floor decorate shield high punch senior tape pigeon base slogan height clever buffalo cat report poem weapon labor satoshi"
 export VAL_1_CHAIN_1_PRIVATE_KEY="FC3F58B007A017166DE5A340C7A2641EB37CF37081D6F9013636CEBFBAF7B1FE"
 #### Chain 2
-export VAL_1_CHAIN_2_ADDR="evmos1wuqvcpuunf7r5rg7xutqddhw55grfzc75qejyq"
 export VAL_1_CHAIN_2_SEED="spoil senior door access upset floor decorate shield high punch senior tape pigeon base slogan height clever buffalo cat report poem weapon labor satoshi"
 export VAL_1_CHAIN_2_PRIVATE_KEY="FC3F58B007A017166DE5A340C7A2641EB37CF37081D6F9013636CEBFBAF7B1FE"
 ### Validator 2
@@ -86,11 +84,9 @@ export VAL_2_RAW_BALANCE=50000000 # Validator 2 init with this amount of coint i
 export VAL_2_RAW_STAKE=3000 # Validator 2 will stake this amount
 export VAL_2_RAW_CLAIM=1000 # Validator 2 can claim this amount
 #### Chain 1
-export VAL_2_CHAIN_1_ADDR="evmos1zxgt4pwzzsv02z24g80lc5rhtsp0prw0c5tk3d"
 export VAL_2_CHAIN_1_SEED="width produce brush hour horse retreat play flag fresh broken measure culture scare broken erupt pilot buzz embody depend topic behind rigid fan battle"
 export VAL_2_CHAIN_1_PRIVATE_KEY="0172DC491B5ACD04DD378D3FD8FD9F41A0D701E070941474FADECD72E1E085B9"
 #### Chain 2
-export VAL_2_CHAIN_2_ADDR="evmos1zxgt4pwzzsv02z24g80lc5rhtsp0prw0c5tk3d"
 export VAL_2_CHAIN_2_SEED="width produce brush hour horse retreat play flag fresh broken measure culture scare broken erupt pilot buzz embody depend topic behind rigid fan battle"
 export VAL_2_CHAIN_2_PRIVATE_KEY="0172DC491B5ACD04DD378D3FD8FD9F41A0D701E070941474FADECD72E1E085B9"
 ### Validator 3
@@ -99,11 +95,9 @@ export VAL_3_RAW_BALANCE=50000000 # Validator 3 init with this amount of coint i
 export VAL_3_RAW_STAKE=3000 # Validator 3 will stake this amount
 export VAL_3_RAW_CLAIM=1000 # Validator 3 can claim this amount
 #### Chain 1
-export VAL_3_CHAIN_1_ADDR="evmos1vcy9v4jp0sd4hysqqcuwleytxre3ms4ckzmdnz"
 export VAL_3_CHAIN_1_SEED="stage grid emotion thumb safe myth chair dizzy beyond casual select polar hover retire master neglect shift zero trigger section token replace truly father"
 export VAL_3_CHAIN_1_PRIVATE_KEY="E0D83C6054597638469CC91A46F14B7F62705297912524059629E4674302928F"
 #### Chain 2
-export VAL_3_CHAIN_2_ADDR="evmos1vcy9v4jp0sd4hysqqcuwleytxre3ms4ckzmdnz"
 export VAL_3_CHAIN_2_SEED="stage grid emotion thumb safe myth chair dizzy beyond casual select polar hover retire master neglect shift zero trigger section token replace truly father"
 export VAL_3_CHAIN_2_PRIVATE_KEY="E0D83C6054597638469CC91A46F14B7F62705297912524059629E4674302928F"
 
@@ -113,17 +107,19 @@ export HERMES_BINARY="hermes"
 export HERMES_SOURCE_DIR="Hermes-source-code" # do NOT modify
 export HERMES_HOME_DIR=".hermes"
 export HERMES_RESERVED_FEE=100 # will be transfered to relayer's account and reserved for relay purpose
+### Chain 1
 export HERMES_CFG_CHAIN_1_ID="$CHAIN_1_ID"
 export HERMES_CFG_CHAIN_1_RPC_ADDR="127.0.0.1:$EVMOS_CHAIN_1_PORT_RPC"
 export HERMES_CFG_CHAIN_1_GRPC_ADDR="127.0.0.1:$EVMOS_CHAIN_1_PORT_GRPC"
-export HERMES_CFG_CHAIN_1_ACCOUNT_PREFIX="$EVMOS_CHAIN_1_ACCOUNT_PREFIX"
+export HERMES_CFG_CHAIN_1_ACCOUNT_PREFIX="$CHAIN_1_ACCOUNT_PREFIX"
 export HERMES_CFG_CHAIN_1_KEY_NAME="evmoskey"
 export HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL="$EVMOS_CHAIN_1_MIN_DENOM_SYMBOL"
 export HERMES_CFG_CHAIN_1_DENOM_EXPONENT=$EVMOS_CHAIN_1_DENOM_EXPONENT # no of digits
+### Chain 2
 export HERMES_CFG_CHAIN_2_ID="$CHAIN_2_ID"
 export HERMES_CFG_CHAIN_2_RPC_ADDR="127.0.0.1:$EVMOS_CHAIN_2_PORT_RPC"
 export HERMES_CFG_CHAIN_2_GRPC_ADDR="127.0.0.1:$EVMOS_CHAIN_2_PORT_GRPC"
-export HERMES_CFG_CHAIN_2_ACCOUNT_PREFIX="$EVMOS_CHAIN_2_ACCOUNT_PREFIX"
+export HERMES_CFG_CHAIN_2_ACCOUNT_PREFIX="$CHAIN_2_ACCOUNT_PREFIX"
 export HERMES_CFG_CHAIN_2_KEY_NAME="evmoskey"
 export HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL="$EVMOS_CHAIN_2_MIN_DENOM_SYMBOL"
 export HERMES_CFG_CHAIN_2_DENOM_EXPONENT=$EVMOS_CHAIN_2_DENOM_EXPONENT # no of digits
@@ -141,20 +137,20 @@ export REL_2_ADDR="evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp"
 
 ## Big Dipper (bdjuno)
 export BD_BINARY_ORIGIN="$GOPATH/bin/bdjuno"
-export BD_PG_DB=bdjuno
-export BD_PG_USER=bdjuno
-export BD_PG_PASS=6N4QtFYMt7h972uazrWTckmMvFZWIje
+export BD_PG_DB="bdjuno"
+export BD_PG_USER="bdjuno"
+export BD_PG_PASS="6N4QtFYMt7h972uazrWTckmMvFZWIje"
 export BD_HASURA_BINARY=/usr/local/bin/hasura
-export BD_HASURA_SECRET=myadminsecretkey
-export BD_PG_HASURA_META_DB=hasurameta
-export BD_PG_HASURA_DB=hasura
-export BD_PG_HASURA_USER=hasura
-export BD_PG_HASURA_PASS=PX2RNvtZ4m7fntnbRrtySB4ROG5EKk4J
-export BD_CFG_PG_USR_PASS=6N4QtFYMt7h972uazrWTckmMvFZWIje # Password of default user postgres
+export BD_HASURA_SECRET="myadminsecretkey"
+export BD_PG_HASURA_META_DB="hasurameta"
+export BD_PG_HASURA_DB="hasura"
+export BD_PG_HASURA_USER="hasura"
+export BD_PG_HASURA_PASS="PX2RNvtZ4m7fntnbRrtySB4ROG5EKk4J"
+export BD_CFG_PG_USR_PASS="6N4QtFYMt7h972uazrWTckmMvFZWIje" # Password of default user postgres
 ### Chain 1
 export BD_CFG_CHAIN_1_BRANCH="chains/evmos/mainnet"
 export BD_CFG_CHAIN_1_PG_PORT=5432
-export BD_CFG_CHAIN_1_ACCOUNT_PREFIX="$EVMOS_CHAIN_1_ACCOUNT_PREFIX"
+export BD_CFG_CHAIN_1_ACCOUNT_PREFIX="$CHAIN_1_ACCOUNT_PREFIX"
 export BD_CFG_CHAIN_1_RPC_ADDR="127.0.0.1:$EVMOS_CHAIN_1_PORT_RPC"
 export BD_CFG_CHAIN_1_GRPC_ADDR="127.0.0.1:$EVMOS_CHAIN_1_PORT_GRPC"
 export BD_CFG_CHAIN_1_ID="$CHAIN_1_ID"
@@ -166,7 +162,7 @@ export BD_CFG_CHAIN_1_DENOM_EXPONENT=$EVMOS_CHAIN_1_DENOM_EXPONENT # no of digit
 ### Chain 2
 export BD_CFG_CHAIN_2_BRANCH="chains/evmos/mainnet"
 export BD_CFG_CHAIN_2_PG_PORT=15432
-export BD_CFG_CHAIN_2_ACCOUNT_PREFIX="$EVMOS_CHAIN_2_ACCOUNT_PREFIX"
+export BD_CFG_CHAIN_2_ACCOUNT_PREFIX="$CHAIN_2_ACCOUNT_PREFIX"
 export BD_CFG_CHAIN_2_RPC_ADDR="127.0.0.1:$EVMOS_CHAIN_2_PORT_RPC"
 export BD_CFG_CHAIN_2_GRPC_ADDR="127.0.0.1:$EVMOS_CHAIN_2_PORT_GRPC"
 export BD_CFG_CHAIN_2_ID="$CHAIN_2_ID"
@@ -193,7 +189,7 @@ export HERMES_SERVICE_NAME=$HERMES_BINARY'-svc'
 ### Docker
 export DOCKER_IMAGE_NAME_PREFIX="evmos.victortrusty.dev:c"
 
-# Others
+# Others # Just skip this part, don't read, no more custom-able here
 echo $NOTICE_DEV_ENV
 if [ -z "$GOPATH" ]; then
     echo "Missing GOPATH environment variable, should be '$HOME/go'"

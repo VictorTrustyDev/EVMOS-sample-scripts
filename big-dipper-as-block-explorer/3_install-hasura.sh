@@ -91,4 +91,4 @@ $BD_HASURA_BINARY metadata apply --endpoint http://localhost:$BD_HASURA_PORT --a
 echo "Done"
 echo "- Hasura graphql was exposed on port $BD_HASURA_PORT which use data from action base at port $BD_HASURA_ACTIONBASE_PORT"
 echo "Run the following command to test"
-echo "curl http://localhost:$BD_HASURA_ACTIONBASE_PORT/account_balance --data '{ \"input\": { \"address\": \"'$VAL_1_ADDR'\"} }'"
+echo "curl http://localhost:$BD_HASURA_ACTIONBASE_PORT/account_balance --data '{ \"input\": { \"address\": \"'<wallet_address>'\"} }'"

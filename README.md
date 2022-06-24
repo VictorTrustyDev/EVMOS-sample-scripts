@@ -2,6 +2,8 @@
 
 I wrote hundred lines of comments which explains every steps in each script file and each readme file, hope that helps you guys in exploring Evmos & Cosmos Ecosystem
 
+Not only EVMOS, you can use this script to build for other chains like cosmos,... Look at [this](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/sample.cosmos-and-evmos.override-env.sh) to know how to do it
+
 #### Pre-requisites
 - [Go 1.17.5+](https://go.dev/doc/install)
 - [jq](https://stedolan.github.io/jq/download)
