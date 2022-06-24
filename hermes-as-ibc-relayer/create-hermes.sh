@@ -134,10 +134,30 @@ echo " [$REL_2_SEED]"
 echo " as relayer account for chain $HERMES_CFG_CHAIN_2_ID"
 $BINARY -c "$CONFIG_TOML" keys restore --mnemonic "$REL_2_SEED" --hd-path "m/44'/$CHAIN_2_COINTYPE'/0'/0/0" "$HERMES_CFG_CHAIN_2_ID" --name "$HERMES_CFG_CHAIN_2_KEY_NAME"
 ## Extract addr
-export REL_1_ADDR="$($BINARY -c "$CONFIG_TOML" keys list "$HERMES_CFG_CHAIN_1_ID" | grep "$HERMES_CFG_CHAIN_1_KEY_NAME" | sed 's/.*\('$CHAIN_1_ACCOUNT_PREFIX'[a-z0-9]*\).*/\1/')"
-echo "- Relayer 1 wallet addr: $REL_1_ADDR"
-export REL_2_ADDR="$($BINARY -c "$CONFIG_TOML" keys list "$HERMES_CFG_CHAIN_2_ID" | grep "$HERMES_CFG_CHAIN_2_KEY_NAME" | sed 's/.*\('$CHAIN_2_ACCOUNT_PREFIX'[a-z0-9]*\).*/\1/')"
-echo "- Relayer 2 wallet addr: $REL_2_ADDR"
+export CHECK_REL_1_ADDR="$($BINARY -c "$CONFIG_TOML" keys list "$HERMES_CFG_CHAIN_1_ID" | grep "$HERMES_CFG_CHAIN_1_KEY_NAME" | sed 's/.*\('$CHAIN_1_ACCOUNT_PREFIX'[a-z0-9]*\).*/\1/')"
+if [ -z "$CHECK_REL_1_ADDR" ]; then
+    echo "- Relayer account on $HERMES_CFG_CHAIN_1_ID was imported but could not befound! Did you set the following variables correctly?"
+    echo " + HERMES_CFG_CHAIN_1_KEY_NAME=$HERMES_CFG_CHAIN_1_KEY_NAME"
+    echo " + CHAIN_1_ACCOUNT_PREFIX=$CHAIN_1_ACCOUNT_PREFIX"
+    exit 1
+elif [ "$CHECK_REL_1_ADDR" == "$REL_1_ADDR" ]; then
+    echo "- Relayer wallet addr on $HERMES_CFG_CHAIN_1_ID is $REL_1_ADDR"
+else
+    echo "- Relayer account on $HERMES_CFG_CHAIN_1_ID after import has wallet address is '$CHECK_REL_1_ADDR', it is different with configuration variable 'REL_1_ADDR'=$REL_1_ADDR"
+    exit 1
+fi
+export CHECK_REL_2_ADDR="$($BINARY -c "$CONFIG_TOML" keys list "$HERMES_CFG_CHAIN_2_ID" | grep "$HERMES_CFG_CHAIN_2_KEY_NAME" | sed 's/.*\('$CHAIN_2_ACCOUNT_PREFIX'[a-z0-9]*\).*/\1/')"
+if [ -z "$CHECK_REL_2_ADDR" ]; then
+    echo "- Relayer account on $HERMES_CFG_CHAIN_2_ID was imported but could not befound! Did you set the following variables correctly?"
+    echo " + HERMES_CFG_CHAIN_2_KEY_NAME=$HERMES_CFG_CHAIN_2_KEY_NAME"
+    echo " + CHAIN_2_ACCOUNT_PREFIX=$CHAIN_2_ACCOUNT_PREFIX"
+    exit 1
+elif [ "$CHECK_REL_2_ADDR" == "$REL_2_ADDR" ]; then
+    echo "- Relayer wallet addr on $HERMES_CFG_CHAIN_2_ID is $REL_2_ADDR"
+else
+    echo "- Relayer account on $HERMES_CFG_CHAIN_2_ID after import has wallet address is '$CHECK_REL_2_ADDR', it is different with configuration variable 'REL_2_ADDR'=$REL_2_ADDR"
+    exit 1
+fi
 
 echo "Creating client, connection and channels"
 echo '- Creating client'
