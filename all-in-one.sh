@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# This script will setup
+# - 2 EVMOS networks
+# - 1 Hermes as IBC relayer
+# - 2 Big Dipper as Block Explorer
+# In a single command!
+# It is not recommended to use this script
+
 if [ ! -f "./env.sh" ]; then
     echo "Wrong working directory"
     exit 1
@@ -22,7 +29,7 @@ echo "- Your machine must have at least 4 Cores and 16 Gb of RAM"
 echo "- Required ports are available"
 echo "- OS supports systemd"
 echo "Running this script is NOT recommended, you better run the scripts separately by yourself to deeply understand"
-read -p "Are you sure want to run this? (Y/n)" -n 1 -r
+read -p "ARE YOU SURE still want to run this script? (Y/n)" -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
@@ -31,7 +38,7 @@ then
         echo "`systemd` is required!!! You better prepare an Ubuntu machine and try this later.."
         exit 1
     fi
-    echo " ! Good, let's go"
+    echo " ! OK, let's go"
 else
     echo "Give up!"
     exit 0
