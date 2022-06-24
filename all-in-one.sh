@@ -66,59 +66,60 @@ echo "[Setup]"
 cd "$AIO_DIR_EVMOS"
 echo "> [EVMOS network 1]"
 ./1_prepare-genesis.sh 1
-[ $? -eq 0 ] || { echo "ERR AIO: Operation failed (genesis)"; }
+[ $? -eq 0 ] || { echo "ERR AIO: Operation failed (genesis)"; exit 1; }
 sleep 2s
 ./2_build-docker-image.sh 1
-[ $? -eq 0 ] || { echo "ERR AIO: Operation failed (build docker image)"; }
+[ $? -eq 0 ] || { echo "ERR AIO: Operation failed (build docker image)"; exit 1; }
 sleep 2s
 docker-compose -f network1.yml up -d
 echo "> [EVMOS network 2]"
 ./1_prepare-genesis.sh 2
-[ $? -eq 0 ] || { echo "ERR AIO: Operation failed (genesis)"; }
+[ $? -eq 0 ] || { echo "ERR AIO: Operation failed (genesis)"; exit 1; }
 sleep 2s
 ./2_build-docker-image.sh 2
-[ $? -eq 0 ] || { echo "ERR AIO: Operation failed (build docker image)"; }
+[ $? -eq 0 ] || { echo "ERR AIO: Operation failed (build docker image)"; exit 1; }
 sleep 2s
 docker-compose -f network2.yml up -d
 sleep 5s
 
 cd "$AIO_CUR_DIR"
 cd "$AIO_DIR_HERMES"
+source "../env.sh"
 if [ -f "./override-env.sh" ]; then
     source "./override-env.sh"
 fi
 echo "> [Load up token for IBC account on network 1]"
 docker exec -it vtevmos11 bash -c "evmosd tx bank send $VAL_2_KEY_NAME $REL_1_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /.evmosd11 --yes"
-[ $? -eq 0 ] || { echo "ERR AIO: Operation failed"; }
+[ $? -eq 0 ] || { echo "ERR AIO: Operation failed"; exit 1; }
 echo "> [Load up token for IBC account on network 2]"
 docker exec -it vtevmos21 bash -c "evmosd tx bank send $VAL_2_KEY_NAME $REL_2_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /.evmosd21 --yes"
-[ $? -eq 0 ] || { echo "ERR AIO: Operation failed"; }
+[ $? -eq 0 ] || { echo "ERR AIO: Operation failed"; exit 1; }
 
 echo "> [Hermes]"
 ./create-hermes.sh
-[ $? -eq 0 ] || { echo "ERR AIO: Operation failed"; }
+[ $? -eq 0 ] || { echo "ERR AIO: Operation failed"; exit 1; }
 cd "$AIO_CUR_DIR"
 
 cd "$AIO_DIR_BD"
 echo "> [bdjuno for network 1]"
 ./1_install-bdjuno.sh 1
-[ $? -eq 0 ] || { echo "ERR AIO: Operation failed (step 1 bdjuno)"; }
+[ $? -eq 0 ] || { echo "ERR AIO: Operation failed (step 1 bdjuno)"; exit 1; }
 ./2_install-bdjuno.sh 1
-[ $? -eq 0 ] || { echo "ERR AIO: Operation failed (step 2 bdjuno)"; }
+[ $? -eq 0 ] || { echo "ERR AIO: Operation failed (step 2 bdjuno)"; exit 1; }
 ./3_install-hasura.sh 1
-[ $? -eq 0 ] || { echo "ERR AIO: Operation failed (hasura)"; }
+[ $? -eq 0 ] || { echo "ERR AIO: Operation failed (hasura)"; exit 1; }
 echo "> [bdjuno for network 2]"
 ./1_install-bdjuno.sh 2
-[ $? -eq 0 ] || { echo "ERR AIO: Operation failed (step 1 bdjuno)"; }
+[ $? -eq 0 ] || { echo "ERR AIO: Operation failed (step 1 bdjuno)"; exit 1; }
 ./2_install-bdjuno.sh 2
-[ $? -eq 0 ] || { echo "ERR AIO: Operation failed (step 2 bdjuno)"; }
+[ $? -eq 0 ] || { echo "ERR AIO: Operation failed (step 2 bdjuno)"; exit 1; }
 ./3_install-hasura.sh 2
-[ $? -eq 0 ] || { echo "ERR AIO: Operation failed (hasura)"; }
+[ $? -eq 0 ] || { echo "ERR AIO: Operation failed (hasura)"; exit 1; }
 echo "> [Big Dipper UI for network 1]"
 ./4_install-front-end.sh 1
-[ $? -eq 0 ] || { echo "ERR AIO: Operation failed"; }
+[ $? -eq 0 ] || { echo "ERR AIO: Operation failed"; exit 1; }
 echo "> [Big Dipper UI for network 2]"
 ./4_install-front-end.sh 2
-[ $? -eq 0 ] || { echo "ERR AIO: Operation failed"; }
+[ $? -eq 0 ] || { echo "ERR AIO: Operation failed"; exit 1; }
 
 echo "Finished"
