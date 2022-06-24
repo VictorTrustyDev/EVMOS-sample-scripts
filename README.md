@@ -37,6 +37,7 @@ without any performance issue (CPU ~20-80% per core, ram ~50% via htop).
 - This sample is using keyring `test`, you may need to change to `file` for secure your test env if needed in [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)
 - You can create `override-env.sh` file and override values of [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)
 - The [sample.cosmos-and-evmos.override-env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/sample.cosmos-and-evmos.override-env.sh) file contains example which tell you how to override variables of [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh) and make the network 1 use cosmos source, rename it to `override-env.sh` to make it effectives
+- The [sample.expose-big-dipper-ui.override-env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/sample.expose-big-dipper-ui.override-env.sh) file contains example which tell you how to override variables of [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh) and make the block explorer UI (Big Dipper 2.0) accessible from outside world, rename it to `override-env.sh` to make it effectives
 
 #### Default ports used in these samples
 
