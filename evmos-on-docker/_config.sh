@@ -42,9 +42,9 @@ fi
 
 export EVMOS_SOURCE_DIR="./EVMOS-source-code-$EVMOS_VER"
 export EVMOS_CHAINNAME=$(echo $DENOM_SYMBOL | tr '[:lower:]' '[:upper:]')
-export VAL_HOME_PREFIX='.evmosd'$CHAIN_NO
+export VAL_HOME_PREFIX=".evmosd$CHAIN_NO"
 
-echo "Creating EVMOS network with chain id $CHAIN_ID"
+echo "Creating $ACCOUNT_PREFIX network with chain id $CHAIN_ID"
 echo "- Account prefix: $ACCOUNT_PREFIX"
 echo "- Denom symbol: $DENOM_SYMBOL ($EVMOS_DENOM_EXPONENT digits unit: $MIN_DENOM_SYMBOL, $EVMOS_GAS_DENOM_EXPONENT digits gas unit: $GAS_DENOM_SYMBOL)"
 echo "- Source code on repo: $EVMOS_REPO"
