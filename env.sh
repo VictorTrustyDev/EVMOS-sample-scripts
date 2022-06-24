@@ -171,7 +171,6 @@ export BD_CFG_CHAIN_2_DENOM_SYMBOL="$EVMOS_CHAIN_2_DENOM_SYMBOL" # evmos
 export BD_CFG_CHAIN_2_MIN_DENOM_SYMBOL="$EVMOS_CHAIN_2_MIN_DENOM_SYMBOL" # aevmos
 export BD_CFG_CHAIN_2_DENOM_EXPONENT=$EVMOS_CHAIN_2_DENOM_EXPONENT # no of digits (18)
 ### Big Dipper 2.0 for Cosmos based chains
-export BD2_SOURCE_DIR_PREFIX="bd2-source-code" # do NOT modify
 ### Chain 1
 export BD2_CHAIN_1_BRANCH="chains/evmos"
 export BD2_CFG_CHAIN_1_PORT=3800
