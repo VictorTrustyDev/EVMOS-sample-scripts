@@ -17,12 +17,16 @@ export KEYRING="test" # change to file for cloud or production env (DANGER: keyr
 ##
 export NOTICE_DEV_ENV="This sample scripts was developed on an Ubuntu 22.04 LTS machine"
 
-## EVMOS (network)
+## Network
 export EVMOS_MONIKER='evmosAIO'
 ### Chain 1
 export CHAIN_1_ID="evmos_9006-1"
 export CHAIN_1_COINTYPE=60
 export CHAIN_1_VALIDATOR_IMPORT_TYPE="private_key" # valid values are ('private_key' or 'pk') and ('seed' or 'seed_phrase' or 'sp')
+### Chain 2
+export CHAIN_2_ID="evmos_9007-1"
+export CHAIN_2_COINTYPE=60
+export CHAIN_2_VALIDATOR_IMPORT_TYPE="private_key" # valid values are ('private_key' or 'pk') and ('seed' or 'seed_phrase' or 'sp')
 # For EVMOS, it must be 'private_key', for other cosmos chains, it must be 'seed_phrase'
 export EVMOS_CHAIN_1_REPO="https://github.com/evmos/evmos.git"
 export EVMOS_CHAIN_1_BRANCH="v5.0.0"
@@ -39,10 +43,6 @@ export EVMOS_CHAIN_1_PORT_GRPC=9090
 export EVMOS_CHAIN_1_PORT_JSON_RPC=8545
 export EVMOS_CHAIN_1_PORT_REST_API=1317
 export EVMOS_CHAIN_1_PORT_P2P=26656
-### Chain 2
-export CHAIN_2_ID="evmos_9007-1"
-export CHAIN_2_COINTYPE=60
-export CHAIN_2_VALIDATOR_IMPORT_TYPE="private_key" # valid values are ('private_key' or 'pk') and ('seed' or 'seed_phrase' or 'sp')
 # For EVMOS, it must be 'private_key', for other cosmos chains, it must be 'seed_phrase'
 export EVMOS_CHAIN_2_REPO="https://github.com/evmos/evmos.git"
 export EVMOS_CHAIN_2_BRANCH="v5.0.0"
