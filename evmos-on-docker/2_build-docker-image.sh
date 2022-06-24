@@ -53,11 +53,11 @@ fi
 if [ -d "$EVMOS_SOURCE_DIR" ]; then
     echo "EVMOS repo was downloaded"
 else
-    echo "Downloading EVMOS source code $EVMOS_VER"
-    git clone "$EVMOS_REPO" --branch "$EVMOS_VER" --single-branch "$EVMOS_SOURCE_DIR"
+    echo "Downloading EVMOS source code $SRC_VER"
+    git clone "$EVMOS_REPO" --branch "$SRC_VER" --single-branch "$EVMOS_SOURCE_DIR"
 
     if [ $? -ne 0 ]; then
-        echo "Git clone EVMOS $EVMOS_VER failed"
+        echo "Git clone EVMOS $SRC_VER failed"
         exit 1
     fi
 fi
