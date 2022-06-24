@@ -30,6 +30,7 @@ without any performance issue (CPU ~20-80% per core, ram ~50% via htop).
 - [bdjuno branch evmos](https://github.com/forbole/bdjuno/tree/chains/evmos/mainnet)
 - [Big Dipper 2.0 for Cosmos chains branch evmos](https://github.com/forbole/big-dipper-2.0-cosmos/tree/chains/evmos)
 
+#### Customization
 - You can change their version by updating file [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)
 - This sample is using keyring `test`, you may need to change to `file` for secure your test env if needed in [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)
 - You can create `override-env.sh` file and override values of [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)
