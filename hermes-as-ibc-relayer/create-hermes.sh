@@ -123,15 +123,21 @@ else
     fi
 fi
 
-# Restore relayer account
-echo "Importing seed"
+#
+echo "Restore replayer account"
+echo "-Importing seed"
 echo " [$REL_1_SEED]"
 echo " as relayer account for chain $HERMES_CFG_CHAIN_1_ID"
-$BINARY -c $CONFIG_TOML keys restore --mnemonic "$REL_1_SEED" --hd-path "m/44'/$CHAIN_1_COINTYPE'/0'/0/0" $HERMES_CFG_CHAIN_1_ID
-echo "Importing seed"
+$BINARY -c "$CONFIG_TOML" keys restore --mnemonic "$REL_1_SEED" --hd-path "m/44'/$CHAIN_1_COINTYPE'/0'/0/0" "$HERMES_CFG_CHAIN_1_ID" --name "$HERMES_CFG_CHAIN_1_KEY_NAME"
+echo "-Importing seed"
 echo " [$REL_2_SEED]"
 echo " as relayer account for chain $HERMES_CFG_CHAIN_2_ID"
-$BINARY -c $CONFIG_TOML keys restore --mnemonic "$REL_2_SEED" --hd-path "m/44'/$CHAIN_2_COINTYPE'/0'/0/0" $HERMES_CFG_CHAIN_2_ID
+$BINARY -c "$CONFIG_TOML" keys restore --mnemonic "$REL_2_SEED" --hd-path "m/44'/$CHAIN_2_COINTYPE'/0'/0/0" "$HERMES_CFG_CHAIN_2_ID" --name "$HERMES_CFG_CHAIN_2_KEY_NAME"
+## Extract addr
+export REL_1_ADDR="$($BINARY -c "$CONFIG_TOML" keys list "$HERMES_CFG_CHAIN_1_ID" | grep "$HERMES_CFG_CHAIN_1_KEY_NAME" | sed 's/.*\('$CHAIN_1_ACCOUNT_PREFIX'[a-z0-9]*\).*/\1/')"
+echo "- Relayer 1 wallet addr: $REL_1_ADDR"
+export REL_2_ADDR="$($BINARY -c "$CONFIG_TOML" keys list "$HERMES_CFG_CHAIN_2_ID" | grep "$HERMES_CFG_CHAIN_2_KEY_NAME" | sed 's/.*\('$CHAIN_2_ACCOUNT_PREFIX'[a-z0-9]*\).*/\1/')"
+echo "- Relayer 2 wallet addr: $REL_2_ADDR"
 
 echo "Creating client, connection and channels"
 echo '- Creating client'
