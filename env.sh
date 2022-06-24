@@ -189,7 +189,7 @@ export HERMES_SERVICE_NAME=$HERMES_BINARY'-svc'
 ### Docker
 export DOCKER_IMAGE_NAME_PREFIX="evmos.victortrusty.dev:c"
 
-# Others
+# Others # Just skip this part, don't read, no more custom-able here
 echo $NOTICE_DEV_ENV
 if [ -z "$GOPATH" ]; then
     echo "Missing GOPATH environment variable, should be '$HOME/go'"
