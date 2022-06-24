@@ -137,16 +137,16 @@ export REL_2_ADDR="evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp"
 
 ## Big Dipper (bdjuno)
 export BD_BINARY_ORIGIN="$GOPATH/bin/bdjuno"
-export BD_PG_DB=bdjuno
-export BD_PG_USER=bdjuno
-export BD_PG_PASS=6N4QtFYMt7h972uazrWTckmMvFZWIje
+export BD_PG_DB="bdjuno"
+export BD_PG_USER="bdjuno"
+export BD_PG_PASS="6N4QtFYMt7h972uazrWTckmMvFZWIje"
 export BD_HASURA_BINARY=/usr/local/bin/hasura
-export BD_HASURA_SECRET=myadminsecretkey
-export BD_PG_HASURA_META_DB=hasurameta
-export BD_PG_HASURA_DB=hasura
-export BD_PG_HASURA_USER=hasura
-export BD_PG_HASURA_PASS=PX2RNvtZ4m7fntnbRrtySB4ROG5EKk4J
-export BD_CFG_PG_USR_PASS=6N4QtFYMt7h972uazrWTckmMvFZWIje # Password of default user postgres
+export BD_HASURA_SECRET="myadminsecretkey"
+export BD_PG_HASURA_META_DB="hasurameta"
+export BD_PG_HASURA_DB="hasura"
+export BD_PG_HASURA_USER="hasura"
+export BD_PG_HASURA_PASS="PX2RNvtZ4m7fntnbRrtySB4ROG5EKk4J"
+export BD_CFG_PG_USR_PASS="6N4QtFYMt7h972uazrWTckmMvFZWIje" # Password of default user postgres
 ### Chain 1
 export BD_CFG_CHAIN_1_BRANCH="chains/evmos/mainnet"
 export BD_CFG_CHAIN_1_PG_PORT=5432
