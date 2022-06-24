@@ -72,30 +72,36 @@ $BINARY config chain-id $CHAIN_ID --home $VAL_HOME_3
 ## Genesis
 MONIKER=$EVMOS_MONIKER'-'$VAL_1_KEY_NAME
 $BINARY init $MONIKER --chain-id $CHAIN_ID --home $VAL_HOME_1 > /dev/null 2>&1
-[ $? -eq 0 ] || { echo "Failed to init chain on node 0"; exit 1; }
+[ $? -eq 0 ] || { echo "Err: Failed to init chain on node 0"; exit 1; }
 MONIKER=$EVMOS_MONIKER'-'$VAL_2_KEY_NAME
 $BINARY init $MONIKER --chain-id $CHAIN_ID --home $VAL_HOME_2 > /dev/null 2>&1
-[ $? -eq 0 ] || { echo "Failed to init pseudo chain for node 1"; exit 1; }
+[ $? -eq 0 ] || { echo "Err: Failed to init pseudo chain for node 1"; exit 1; }
 MONIKER=$EVMOS_MONIKER'-'$VAL_3_KEY_NAME
 $BINARY init $MONIKER --chain-id $CHAIN_ID --home $VAL_HOME_3 > /dev/null 2>&1
-[ $? -eq 0 ] || { echo "Failed to init pseudo chain for node 2"; exit 1; }
+[ $? -eq 0 ] || { echo "Err: Failed to init pseudo chain for node 2"; exit 1; }
 
 # Import validator keys
 echo 'Import validator keys'
 if [ "$KEYRING" = "test" ]; then
     echo "- Validator 1, key name '$VAL_1_KEY_NAME'"
     $BINARY keys unsafe-import-eth-key "$VAL_1_KEY_NAME" "$VAL_1_PRIVATE_KEY" --keyring-backend "test" --home "$VAL_HOME_1"
+    [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
     echo "- Validator 2, key name '$VAL_2_KEY_NAME'"
     $BINARY keys unsafe-import-eth-key "$VAL_2_KEY_NAME" "$VAL_2_PRIVATE_KEY" --keyring-backend "test" --home "$VAL_HOME_1"
+    [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
     echo "- Validator 3, key name '$VAL_3_KEY_NAME'"
     $BINARY keys unsafe-import-eth-key "$VAL_3_KEY_NAME" "$VAL_3_PRIVATE_KEY" --keyring-backend "test" --home "$VAL_HOME_1"
+    [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
 else
     echo "- Validator 1, key name '$VAL_1_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD'"
     (echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys unsafe-import-eth-key "$VAL_1_KEY_NAME" "$VAL_1_PRIVATE_KEY" --keyring-backend "file" --home "$VAL_HOME_1"
+    [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
     echo "- Validator 2, key name '$VAL_2_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD'"
     (echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys unsafe-import-eth-key "$VAL_2_KEY_NAME" "$VAL_2_PRIVATE_KEY" --keyring-backend "file" --home "$VAL_HOME_1"
+    [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
     echo "- Validator 3, key name '$VAL_3_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD'"
     (echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys unsafe-import-eth-key "$VAL_3_KEY_NAME" "$VAL_3_PRIVATE_KEY" --keyring-backend "file" --home "$VAL_HOME_1"
+    [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
 fi
 ## Verify
 echo '- Verifing keys'
