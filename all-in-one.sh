@@ -88,10 +88,10 @@ if [ -f "./override-env.sh" ]; then
     source "./override-env.sh"
 fi
 echo "> [Load up token for IBC account on network 1]"
-docker exec -it vtevmos11 bash -c "evmosd tx bank send $VAL_2_KEY_NAME $REL_1_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /.evmosd11 --yes"
+docker exec -it vtevmos11 bash -c "evmosd tx bank send $VAL_2_KEY_NAME $REL_1_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /.evmosd11 --yes"
 [ $? -eq 0 ] || { echo "ERR AIO: Operation failed"; }
 echo "> [Load up token for IBC account on network 2]"
-docker exec -it vtevmos21 bash -c "evmosd tx bank send $VAL_2_KEY_NAME $REL_2_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /.evmosd21 --yes"
+docker exec -it vtevmos21 bash -c "evmosd tx bank send $VAL_2_KEY_NAME $REL_2_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /.evmosd21 --yes"
 [ $? -eq 0 ] || { echo "ERR AIO: Operation failed"; }
 
 echo "> [Hermes]"
