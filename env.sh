@@ -104,7 +104,7 @@ export VAL_3_CHAIN_2_PRIVATE_KEY="E0D83C6054597638469CC91A46F14B7F62705297912524
 ## Hermes (IBC Relayer)
 export HERMES_VER="v0.15.0"
 export HERMES_BINARY="hermes"
-export HERMES_SOURCE_DIR="Hermes-source-code" # do NOT modify
+export HERMES_SOURCE_DIR_PREFIX="source-code" # do NOT modify
 export HERMES_HOME_DIR=".hermes"
 export HERMES_RESERVED_FEE=100 # will be transfered to relayer's account and reserved for relay purpose
 ### Chain 1

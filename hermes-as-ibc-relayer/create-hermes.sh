@@ -48,6 +48,7 @@ echo "Init new home dir"
 mkdir -p "$HERMES_HOME_DIR"
 
 # Binary
+export HERMES_SOURCE_DIR="$HERMES_SOURCE_DIR_PREFIX-$HERMES_VER"
 export BINARY=$(pwd)'/'$HERMES_SOURCE_DIR'/target/release/'$HERMES_BINARY
 
 # Check & Install hermes binary if not exists

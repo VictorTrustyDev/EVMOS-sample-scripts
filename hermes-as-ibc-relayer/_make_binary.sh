@@ -1,5 +1,6 @@
 #!/bin/bash
 
+export HERMES_SOURCE_DIR="$HERMES_SOURCE_DIR_PREFIX-$HERMES_VER"
 if [ -f "$BINARY" ]; then
 	echo "Nice! Hermes binary [$HERMES_BINARY] is already exists"
 else
