@@ -179,7 +179,7 @@ if [ $? -eq 0 ]; then
 else
     export DISABLE_SYSTEMCTL=1
 fi
-if [ $FORCE_EXTRA_FUNC -eq 1 ]; then
+if [ "$FORCE_EXTRA_FUNC" = "1" ]; then
     export EXTRA_FUNC=1
 elif [ -f "./extra_func.lic" ]; then
     export EXTRA_FUNC=1
