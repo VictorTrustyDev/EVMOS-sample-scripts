@@ -84,9 +84,9 @@ echo " + OK: $VAL_2_KEY_NAME addr $VAL_2_ADDR seed '$VAL_2_SEED'"
 [ "$VAL_3_ADDR" == $($BINARY keys show $VAL_3_KEY_NAME --keyring-backend $KEYRING --home $VAL_HOME_1 --address) ] || { echo "Expect validator name $VAL_3_KEY_NAME has address $VAL_3_ADDR"; exit 1; }
 echo " + OK: $VAL_3_KEY_NAME addr $VAL_3_ADDR seed '$VAL_3_SEED'"
 echo "- Copying validator keys from ../keys/keyring to <node 1_home>/keyring-$KEYRING"
-cp -r ../keys/keyring/ "$VAL_HOME_2/keyring-$KEYRING"
+cp -r "$VAL_HOME_1/keyring-$KEYRING" "$VAL_HOME_2/"
 echo "- Copying validator keys from ../keys/keyring to <node 2_home>/keyring-$KEYRING"
-cp -r ../keys/keyring/ "$VAL_HOME_3/keyring-$KEYRING"
+cp -r "$VAL_HOME_1/keyring-$KEYRING" "$VAL_HOME_3/"
 
 # Calculate balance & stake & claim info for validators
 ## Balance
