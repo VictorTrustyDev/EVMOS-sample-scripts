@@ -23,10 +23,12 @@ export EVMOS_MONIKER='evmosAIO'
 export CHAIN_1_ID="evmos_9006-1"
 export CHAIN_1_COINTYPE=60
 export CHAIN_1_VALIDATOR_IMPORT_TYPE="private_key" # valid values are ('private_key' or 'pk') and ('seed' or 'seed_phrase' or 'sp')
+export CHAIN_1_ACCOUNT_PREFIX="evmos"
 ### Chain 2
 export CHAIN_2_ID="evmos_9007-1"
 export CHAIN_2_COINTYPE=60
 export CHAIN_2_VALIDATOR_IMPORT_TYPE="private_key" # valid values are ('private_key' or 'pk') and ('seed' or 'seed_phrase' or 'sp')
+export CHAIN_2_ACCOUNT_PREFIX="evmos"
 # For EVMOS, it must be 'private_key', for other cosmos chains, it must be 'seed_phrase'
 export EVMOS_CHAIN_1_REPO="https://github.com/evmos/evmos.git"
 export EVMOS_CHAIN_1_BRANCH="v5.0.0"

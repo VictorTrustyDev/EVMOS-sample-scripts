@@ -7,6 +7,7 @@ export KEYRING="file" # Secure it
 export CHAIN_1_ID="cosmos-8"
 export CHAIN_1_COINTYPE=118
 export CHAIN_1_VALIDATOR_IMPORT_TYPE="seed_phrase"
+export CHAIN_1_ACCOUNT_PREFIX="cosmos"
 export EVMOS_CHAIN_1_REPO="https://github.com/cosmos/gaia"
 export EVMOS_CHAIN_1_BRANCH="v7.0.2"
 export EVMOS_CHAIN_1_DAEMON="gaiad"
