@@ -138,7 +138,7 @@ key_name = 'chain1_key_name'
 #
 # Default: { derivation = 'cosmos' }, i.e. address derivation as in Cosmos SDK.
 # Warning: This is an advanced feature! Modify with caution.
-address_type = { derivation = 'ethermint', proto_type = { pk_type = '/ethermint.crypto.v1.ethsecp256k1.PubKey' } }
+address_type = chain1_address_type
 
 # Specify the store prefix used by the on-chain IBC modules. Required
 # Recommended value for Cosmos SDK: 'ibc'
@@ -255,7 +255,7 @@ clock_drift = '5s'
 max_block_time = '30s'
 trusting_period = '9days'
 trust_threshold = { numerator = '1', denominator = '3' }
-address_type = { derivation = 'ethermint', proto_type = { pk_type = '/ethermint.crypto.v1.ethsecp256k1.PubKey' } }
+address_type = chain2_address_type
 
 # [chains.packet_filter]
 # policy = 'allow'
