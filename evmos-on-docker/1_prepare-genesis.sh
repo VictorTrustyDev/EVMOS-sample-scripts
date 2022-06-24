@@ -41,6 +41,15 @@ else
     exit 1
 fi
 
+if [ "$VALIDATOR_IMPORT_TYPE" = "private_key" ] || [ "$VALIDATOR_IMPORT_TYPE" = "pk" ]; then
+    export VALIDATOR_IMPORT_MODE=1
+elif [ "$VALIDATOR_IMPORT_TYPE" = "seed" ] || [ "$VALIDATOR_IMPORT_TYPE" = "seed_phrase" ] || [ "$VALIDATOR_IMPORT_TYPE" = "sp" ]; then
+    export VALIDATOR_IMPORT_MODE=2
+else
+    echo "Non supported validator import type = $VALIDATOR_IMPORT_TYPE, only support ('private_key' or 'pk') & ('seed' or 'seed_phrase' or 'sp')"
+    exit 1
+fi
+
 # Binary
 export BINARY="$GOPATH/bin/$EVMOS_DAEMON"
 
@@ -82,27 +91,52 @@ $BINARY init $MONIKER --chain-id $CHAIN_ID --home $VAL_HOME_3 > /dev/null 2>&1
 
 # Import validator keys
 echo 'Import validator keys'
-if [ "$KEYRING" = "test" ]; then
-    echo "- Validator 1, key name '$VAL_1_KEY_NAME'"
-    ( echo "$VAL_1_SEED"; ) | $BINARY keys add "$VAL_1_KEY_NAME" --recover --keyring-backend "test" --home "$VAL_HOME_1"
-    [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
-    echo "- Validator 2, key name '$VAL_2_KEY_NAME'"
-    ( echo "$VAL_2_SEED"; ) | $BINARY keys add "$VAL_2_KEY_NAME" --recover --keyring-backend "test" --home "$VAL_HOME_1"
-    [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
-    echo "- Validator 3, key name '$VAL_3_KEY_NAME'"
-    ( echo "$VAL_3_SEED"; ) | $BINARY keys add "$VAL_3_KEY_NAME" --recover --keyring-backend "test" --home "$VAL_HOME_1"
-    [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
-else
-    echo "- Validator 1, key name '$VAL_1_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD', seed phase '$VAL_1_SEED'"
-    ( echo "$VAL_1_SEED"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys add "$VAL_1_KEY_NAME" --recover --keyring-backend "file" --home "$VAL_HOME_1"
-    [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
-    echo "- Validator 2, key name '$VAL_2_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD'"
-    ( echo "$VAL_2_SEED"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys add "$VAL_2_KEY_NAME" --recover --keyring-backend "file" --home "$VAL_HOME_1"
-    [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
-    echo "- Validator 3, key name '$VAL_3_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD'"
-    ( echo "$VAL_3_SEED"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys add "$VAL_3_KEY_NAME" --recover --keyring-backend "file" --home "$VAL_HOME_1"
-    [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+if [ $VALIDATOR_IMPORT_MODE -eq 1 ]; then
+    if [ "$KEYRING" = "test" ]; then
+        echo "- Validator 1, key name '$VAL_1_KEY_NAME'"
+        $BINARY keys unsafe-import-eth-key "$VAL_1_KEY_NAME" "$VAL_1_PRIVATE_KEY" --keyring-backend "test" --home "$VAL_HOME_1"
+        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+        echo "- Validator 2, key name '$VAL_2_KEY_NAME'"
+        $BINARY keys unsafe-import-eth-key "$VAL_2_KEY_NAME" "$VAL_2_PRIVATE_KEY" --keyring-backend "test" --home "$VAL_HOME_1"
+        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+        echo "- Validator 3, key name '$VAL_3_KEY_NAME'"
+        $BINARY keys unsafe-import-eth-key "$VAL_3_KEY_NAME" "$VAL_3_PRIVATE_KEY" --keyring-backend "test" --home "$VAL_HOME_1"
+        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+    else
+        echo "- Validator 1, key name '$VAL_1_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD'"
+        (echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys unsafe-import-eth-key "$VAL_1_KEY_NAME" "$VAL_1_PRIVATE_KEY" --keyring-backend "file" --home "$VAL_HOME_1"
+        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+        echo "- Validator 2, key name '$VAL_2_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD'"
+        (echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys unsafe-import-eth-key "$VAL_2_KEY_NAME" "$VAL_2_PRIVATE_KEY" --keyring-backend "file" --home "$VAL_HOME_1"
+        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+        echo "- Validator 3, key name '$VAL_3_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD'"
+        (echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys unsafe-import-eth-key "$VAL_3_KEY_NAME" "$VAL_3_PRIVATE_KEY" --keyring-backend "file" --home "$VAL_HOME_1"
+        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+    fi
+elif [ $VALIDATOR_IMPORT_MODE -eq 2 ]; then
+    if [ "$KEYRING" = "test" ]; then
+        echo "- Validator 1, key name '$VAL_1_KEY_NAME'"
+        ( echo "$VAL_1_SEED"; ) | $BINARY keys add "$VAL_1_KEY_NAME" --recover --keyring-backend "test" --home "$VAL_HOME_1"
+        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+        echo "- Validator 2, key name '$VAL_2_KEY_NAME'"
+        ( echo "$VAL_2_SEED"; ) | $BINARY keys add "$VAL_2_KEY_NAME" --recover --keyring-backend "test" --home "$VAL_HOME_1"
+        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+        echo "- Validator 3, key name '$VAL_3_KEY_NAME'"
+        ( echo "$VAL_3_SEED"; ) | $BINARY keys add "$VAL_3_KEY_NAME" --recover --keyring-backend "test" --home "$VAL_HOME_1"
+        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+    else
+        echo "- Validator 1, key name '$VAL_1_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD', seed phase '$VAL_1_SEED'"
+        ( echo "$VAL_1_SEED"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys add "$VAL_1_KEY_NAME" --recover --keyring-backend "file" --home "$VAL_HOME_1"
+        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+        echo "- Validator 2, key name '$VAL_2_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD'"
+        ( echo "$VAL_2_SEED"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys add "$VAL_2_KEY_NAME" --recover --keyring-backend "file" --home "$VAL_HOME_1"
+        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+        echo "- Validator 3, key name '$VAL_3_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD'"
+        ( echo "$VAL_3_SEED"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys add "$VAL_3_KEY_NAME" --recover --keyring-backend "file" --home "$VAL_HOME_1"
+        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+    fi
 fi
+
 ## Verify
 echo '- Verifing keys'
 if [ "$KEYRING" = "test" ]; then

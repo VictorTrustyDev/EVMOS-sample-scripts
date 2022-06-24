@@ -22,6 +22,7 @@ export EVMOS_MONIKER='evmosAIO'
 ### Chain 1
 export CHAIN_1_ID="evmos_9006-1"
 export CHAIN_1_COINTYPE=60
+export CHAIN_1_VALIDATOR_IMPORT_TYPE="private_key" # valid values are ('private_key' or 'pk') and ('seed' or 'seed_phrase' or 'sp')
 export EVMOS_CHAIN_1_REPO="https://github.com/evmos/evmos.git"
 export EVMOS_CHAIN_1_BRANCH="v5.0.0"
 export EVMOS_CHAIN_1_DAEMON="evmosd"
@@ -40,6 +41,7 @@ export EVMOS_CHAIN_1_PORT_P2P=26656
 ### Chain 2
 export CHAIN_2_ID="evmos_9007-1"
 export CHAIN_2_COINTYPE=60
+export CHAIN_2_VALIDATOR_IMPORT_TYPE="private_key" # valid values are ('private_key' or 'pk') and ('seed' or 'seed_phrase' or 'sp')
 export EVMOS_CHAIN_2_REPO="https://github.com/evmos/evmos.git"
 export EVMOS_CHAIN_2_BRANCH="v5.0.0"
 export EVMOS_CHAIN_2_DAEMON="evmosd"
@@ -69,39 +71,39 @@ export VAL_1_RAW_BALANCE=50000000 # Validator 1 init with this amount of coint i
 export VAL_1_RAW_STAKE=7000 # Validator 1 will stake this amount
 export VAL_1_RAW_CLAIM=1000 # Validator 1 can claim this amount
 #### Chain 1
-export VAL_1_CHAIN_1_SEED="spoil senior door access upset floor decorate shield high punch senior tape pigeon base slogan height clever buffalo cat report poem weapon labor satoshi"
-#export VAL_1_CHAIN_1_PRIVATE_KEY="FC3F58B007A017166DE5A340C7A2641EB37CF37081D6F9013636CEBFBAF7B1FE"
 export VAL_1_CHAIN_1_ADDR="evmos1wuqvcpuunf7r5rg7xutqddhw55grfzc75qejyq"
+export VAL_1_CHAIN_1_SEED="spoil senior door access upset floor decorate shield high punch senior tape pigeon base slogan height clever buffalo cat report poem weapon labor satoshi"
+export VAL_1_CHAIN_1_PRIVATE_KEY="FC3F58B007A017166DE5A340C7A2641EB37CF37081D6F9013636CEBFBAF7B1FE"
 #### Chain 2
-export VAL_1_CHAIN_2_SEED="spoil senior door access upset floor decorate shield high punch senior tape pigeon base slogan height clever buffalo cat report poem weapon labor satoshi"
-#export VAL_1_CHAIN_2_PRIVATE_KEY="FC3F58B007A017166DE5A340C7A2641EB37CF37081D6F9013636CEBFBAF7B1FE"
 export VAL_1_CHAIN_2_ADDR="evmos1wuqvcpuunf7r5rg7xutqddhw55grfzc75qejyq"
+export VAL_1_CHAIN_2_SEED="spoil senior door access upset floor decorate shield high punch senior tape pigeon base slogan height clever buffalo cat report poem weapon labor satoshi"
+export VAL_1_CHAIN_2_PRIVATE_KEY="FC3F58B007A017166DE5A340C7A2641EB37CF37081D6F9013636CEBFBAF7B1FE"
 ### Validator 2
 export VAL_2_KEY_NAME="val2"
 export VAL_2_RAW_BALANCE=50000000 # Validator 2 init with this amount of coint in balance
 export VAL_2_RAW_STAKE=3000 # Validator 2 will stake this amount
 export VAL_2_RAW_CLAIM=1000 # Validator 2 can claim this amount
 #### Chain 1
-export VAL_2_CHAIN_1_SEED="width produce brush hour horse retreat play flag fresh broken measure culture scare broken erupt pilot buzz embody depend topic behind rigid fan battle"
-#export VAL_2_CHAIN_1_PRIVATE_KEY="0172DC491B5ACD04DD378D3FD8FD9F41A0D701E070941474FADECD72E1E085B9"
 export VAL_2_CHAIN_1_ADDR="evmos1zxgt4pwzzsv02z24g80lc5rhtsp0prw0c5tk3d"
+export VAL_2_CHAIN_1_SEED="width produce brush hour horse retreat play flag fresh broken measure culture scare broken erupt pilot buzz embody depend topic behind rigid fan battle"
+export VAL_2_CHAIN_1_PRIVATE_KEY="0172DC491B5ACD04DD378D3FD8FD9F41A0D701E070941474FADECD72E1E085B9"
 #### Chain 2
-export VAL_2_CHAIN_2_SEED="width produce brush hour horse retreat play flag fresh broken measure culture scare broken erupt pilot buzz embody depend topic behind rigid fan battle"
-#export VAL_2_CHAIN_2_PRIVATE_KEY="0172DC491B5ACD04DD378D3FD8FD9F41A0D701E070941474FADECD72E1E085B9"
 export VAL_2_CHAIN_2_ADDR="evmos1zxgt4pwzzsv02z24g80lc5rhtsp0prw0c5tk3d"
+export VAL_2_CHAIN_2_SEED="width produce brush hour horse retreat play flag fresh broken measure culture scare broken erupt pilot buzz embody depend topic behind rigid fan battle"
+export VAL_2_CHAIN_2_PRIVATE_KEY="0172DC491B5ACD04DD378D3FD8FD9F41A0D701E070941474FADECD72E1E085B9"
 ### Validator 3
 export VAL_3_KEY_NAME="val3"
 export VAL_3_RAW_BALANCE=50000000 # Validator 3 init with this amount of coint in balance
 export VAL_3_RAW_STAKE=3000 # Validator 3 will stake this amount
 export VAL_3_RAW_CLAIM=1000 # Validator 3 can claim this amount
 #### Chain 1
-export VAL_3_CHAIN_1_SEED="stage grid emotion thumb safe myth chair dizzy beyond casual select polar hover retire master neglect shift zero trigger section token replace truly father"
-#export VAL_3_CHAIN_1_PRIVATE_KEY="E0D83C6054597638469CC91A46F14B7F62705297912524059629E4674302928F"
 export VAL_3_CHAIN_1_ADDR="evmos1vcy9v4jp0sd4hysqqcuwleytxre3ms4ckzmdnz"
+export VAL_3_CHAIN_1_SEED="stage grid emotion thumb safe myth chair dizzy beyond casual select polar hover retire master neglect shift zero trigger section token replace truly father"
+export VAL_3_CHAIN_1_PRIVATE_KEY="E0D83C6054597638469CC91A46F14B7F62705297912524059629E4674302928F"
 #### Chain 2
-export VAL_3_CHAIN_2_SEED="stage grid emotion thumb safe myth chair dizzy beyond casual select polar hover retire master neglect shift zero trigger section token replace truly father"
-#export VAL_3_CHAIN_2_PRIVATE_KEY="E0D83C6054597638469CC91A46F14B7F62705297912524059629E4674302928F"
 export VAL_3_CHAIN_2_ADDR="evmos1vcy9v4jp0sd4hysqqcuwleytxre3ms4ckzmdnz"
+export VAL_3_CHAIN_2_SEED="stage grid emotion thumb safe myth chair dizzy beyond casual select polar hover retire master neglect shift zero trigger section token replace truly father"
+export VAL_3_CHAIN_2_PRIVATE_KEY="E0D83C6054597638469CC91A46F14B7F62705297912524059629E4674302928F"
 
 ## Hermes (IBC Relayer)
 export HERMES_VER="v0.15.0"
