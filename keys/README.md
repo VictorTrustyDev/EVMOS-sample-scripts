@@ -12,3 +12,7 @@
     + Addr: evmos1vcy9v4jp0sd4hysqqcuwleytxre3ms4ckzmdnz
     + Private key: E0D83C6054597638469CC91A46F14B7F62705297912524059629E4674302928F
     + Mnemonic: stage grid emotion thumb safe myth chair dizzy beyond casual select polar hover retire master neglect shift zero trigger section token replace truly father
+
+#### The following is being used to create reserved account for paying IBC fee on both networks
+- evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp (for both networks)
+    + Mnemonic: raw course slim hockey salt crawl sick safe december during armed fragile
