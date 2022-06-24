@@ -40,7 +40,7 @@ elif [ "$CHAIN_NO" = "2" ]; then
     export ACCOUNT_PREFIX="$CHAIN_2_ACCOUNT_PREFIX"
 fi
 
-export EVMOS_SOURCE_DIR="./EVMOS-source-code-$SRC_VER"
+export EVMOS_SOURCE_DIR="./source-code-$DENOM_SYMBOL-$SRC_VER"
 export EVMOS_CHAINNAME=$(echo $DENOM_SYMBOL | tr '[:lower:]' '[:upper:]')
 export VAL_HOME_PREFIX=".evmosd$CHAIN_NO"
 

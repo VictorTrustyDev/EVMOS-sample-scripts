@@ -104,7 +104,7 @@ export VAL_3_CHAIN_2_PRIVATE_KEY="E0D83C6054597638469CC91A46F14B7F62705297912524
 ## Hermes (IBC Relayer)
 export HERMES_VER="v0.15.0"
 export HERMES_BINARY="hermes"
-export HERMES_SOURCE_DIR="Hermes-source-code" # do NOT modify
+export HERMES_SOURCE_DIR_PREFIX="source-code" # do NOT modify
 export HERMES_HOME_DIR=".hermes"
 export HERMES_RESERVED_FEE=100 # will be transfered to relayer's account and reserved for relay purpose
 ### Chain 1
@@ -171,7 +171,6 @@ export BD_CFG_CHAIN_2_DENOM_SYMBOL="$EVMOS_CHAIN_2_DENOM_SYMBOL" # evmos
 export BD_CFG_CHAIN_2_MIN_DENOM_SYMBOL="$EVMOS_CHAIN_2_MIN_DENOM_SYMBOL" # aevmos
 export BD_CFG_CHAIN_2_DENOM_EXPONENT=$EVMOS_CHAIN_2_DENOM_EXPONENT # no of digits (18)
 ### Big Dipper 2.0 for Cosmos based chains
-export BD2_SOURCE_DIR_PREFIX="bd2-source-code" # do NOT modify
 ### Chain 1
 export BD2_CHAIN_1_BRANCH="chains/evmos"
 export BD2_CFG_CHAIN_1_PORT=3800
