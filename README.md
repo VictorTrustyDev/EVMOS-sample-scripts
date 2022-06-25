@@ -12,6 +12,7 @@ Not only EVMOS, you can use this script to build for other chains like cosmos,..
 - [docker](https://docs.docker.com/engine/install/) & [docker compose](https://docs.docker.com/compose/install/)
 - Node JS to build & run Big Dipper 2.0 for Cosmos based chains
 - PostgreSQL client (psql) for postgres 12.5 to setup Big Dipper
+- [Hasura cli](https://hasura.io/docs/latest/graphql/core/hasura-cli/install-hasura-cli/) for bdjuno
 
 You can find commands to install the above tools [here](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/Install-Required-Tools-on-Ubuntu.md)
 

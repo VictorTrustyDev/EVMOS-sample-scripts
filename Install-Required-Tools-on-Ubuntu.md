@@ -59,3 +59,6 @@ Update system first `sudo apt-get update -y`
     > sudo bash /tmp/nodesource_setup.sh
 
     > sudo apt-get install -y nodejs
+
+- hasura-cli
+    > curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash
