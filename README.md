@@ -13,6 +13,8 @@ Not only EVMOS, you can use this script to build for other chains like cosmos,..
 - Node JS to build & run Big Dipper 2.0 for Cosmos based chains
 - PostgreSQL client (psql) for postgres 12.5 to setup Big Dipper
 
+You can find commands to install the above tools [here](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/Install-Required-Tools-on-Ubuntu.md)
+
 I created all of the following samples on an Ubuntu 22.04 LTS machine with 4 CPU 16 GB RAM. It can run
 - 2 [EVMOS](https://github.com/evmos/evmos/tree/v5.0.0) chains
 - 1 [Hermes](https://github.com/informalsystems/ibc-rs/tree/v0.15.0) as IBC relayer to connect those chains
