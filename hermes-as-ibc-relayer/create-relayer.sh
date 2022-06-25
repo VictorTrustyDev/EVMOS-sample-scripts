@@ -83,7 +83,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i '' "s/chain1_account_prefix/$HERMES_CFG_CHAIN_1_ACCOUNT_PREFIX/g" $CONFIG_TOML
     sed -i '' "s/chain1_key_name/$HERMES_CFG_CHAIN_1_KEY_NAME/g" $CONFIG_TOML
     sed -i '' "s/chain1_gas_price_denom/$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL/g" $CONFIG_TOML
-    if [ $CHAIN_1_COINTYPE -eq 60 ]; then
+    if [ $CHAIN_1_COINTYPE -eq 60 ] || [ "$CHAIN_1_TYPE" = "evmos" ]; then
         sed -i '' "s#chain1_address_type#{ derivation = 'ethermint', proto_type = { pk_type = '/ethermint.crypto.v1.ethsecp256k1.PubKey' } }#g" $CONFIG_TOML
     else
         sed -i '' "s#chain1_address_type#{ derivation = 'cosmos' }#g" $CONFIG_TOML
@@ -94,7 +94,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i '' "s/chain2_account_prefix/$HERMES_CFG_CHAIN_2_ACCOUNT_PREFIX/g" $CONFIG_TOML
     sed -i '' "s/chain2_key_name/$HERMES_CFG_CHAIN_2_KEY_NAME/g" $CONFIG_TOML
     sed -i '' "s/chain2_gas_price_denom/$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL/g" $CONFIG_TOML
-    if [ $CHAIN_2_COINTYPE -eq 60 ]; then
+    if [ $CHAIN_2_COINTYPE -eq 60 ] || [ "$CHAIN_2_TYPE" = "evmos" ]; then
         sed -i '' "s#chain2_address_type#{ derivation = 'ethermint', proto_type = { pk_type = '/ethermint.crypto.v1.ethsecp256k1.PubKey' } }#g" $CONFIG_TOML
     else
         sed -i '' "s#chain2_address_type#{ derivation = 'cosmos' }#g" $CONFIG_TOML
