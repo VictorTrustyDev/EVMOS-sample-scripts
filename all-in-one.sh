@@ -65,7 +65,7 @@ if [ -f "./override-env.sh" ]; then
 fi
 
 echo "Run everything requires:"
-echo "- Your machine must have at least 4 Cores and 16 Gb of RAM"
+echo "- Your machine should have 4 Cores and 16 Gb of RAM (usage: ~20%-80% per core and 50% ram)"
 echo "- Required ports are available"
 echo "- OS supports systemd"
 echo "Running this script is NOT recommended, you better run the scripts separately by yourself to deeply understand"
