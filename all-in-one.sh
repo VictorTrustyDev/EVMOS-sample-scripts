@@ -90,7 +90,7 @@ export HERMES_NO_CONFIRM_BALANCE=1
 AIO_CUR_DIR=$(pwd)
 AIO_DIR_BD="./big-dipper-as-block-explorer"
 AIO_DIR_HERMES="./hermes-as-ibc-relayer"
-AIO_DIR_EVMOS="./evmos-on-docker"
+AIO_DIR_CHAIN="./blockchain-in-docker"
 
 echo "[Clean up previous setup]"
 
@@ -105,12 +105,12 @@ cd "$AIO_DIR_HERMES"
 cd "$AIO_CUR_DIR"
 
 echo "> [Chains]"
-cd "$AIO_DIR_EVMOS"
+cd "$AIO_DIR_CHAIN"
 ./cleanup.sh
 cd "$AIO_CUR_DIR"
 
 echo "[Setup]"
-cd "$AIO_DIR_EVMOS"
+cd "$AIO_DIR_CHAIN"
 echo "> [Chain 1]"
 ./1_prepare-genesis.sh 1
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed (genesis)"; exit 1; }

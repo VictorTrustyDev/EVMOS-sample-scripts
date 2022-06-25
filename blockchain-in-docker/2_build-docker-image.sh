@@ -15,7 +15,7 @@ if [ -f "./_config.sh" ]; then
     source "./_config.sh"
 else
     echo "ERR: Wrong working directory"
-    echo "ERR: Scripts must be executed within [evmos-on-docker] directory"
+    echo "ERR: Scripts must be executed within [blockchain-in-docker] directory"
     exit 1
 fi
 

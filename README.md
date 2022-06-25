@@ -1,4 +1,4 @@
-### Here you can find sample scripts and notes of how to [setup multiple EVMOS chains](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/tree/main/evmos-on-docker) and [connect them via an IBC (using Hermes as relayer)](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/tree/main/hermes-as-ibc-relayer) to transfer tokens & coin cross chain
+### Here you can find sample scripts and notes of how to [setup multiple EVMOS chains](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/tree/main/blockchain-in-docker) and [connect them via an IBC (using Hermes as relayer)](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/tree/main/hermes-as-ibc-relayer) to transfer tokens & coin cross chain
 
 I wrote hundred lines of comments which explains every steps in each script file and each readme file, hope that helps you guys in exploring Evmos & Cosmos Ecosystem
 
@@ -21,7 +21,7 @@ I created all of the following samples on an Ubuntu 22.04 LTS machine with 4 CPU
 without any performance issue (CPU ~20-80% per core, ram ~50% via htop).
 
 ### List of samples:
-- [Script to build EVMOS chains and run with docker compose](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/evmos-on-docker)
+- [Script to build EVMOS chains and run with docker compose](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/blockchain-in-docker)
 - [Script to build & setup Hermes as an IBC relayer](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/hermes-as-ibc-relayer)
 - [Script to setup Big Dipper (backend bdjuno with hasura as graphql service & frontend Big Dipper 2.0 for Cosmos based chains)](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/big-dipper-as-block-explorer)
 
