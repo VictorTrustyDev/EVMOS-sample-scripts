@@ -1,17 +1,17 @@
 #!/bin/bash
 
-export HERMES_SOURCE_DIR="$HERMES_SOURCE_DIR_PREFIX-$HERMES_VER"
+export HERMES_SOURCE_DIR="$HERMES_SOURCE_DIR_PREFIX-$HERMES_GIT_REPO_BRANCH"
 if [ -f "$BINARY" ]; then
 	echo "Nice! Hermes binary [$HERMES_BINARY] is already exists"
 else
 	if [ -d "$HERMES_SOURCE_DIR" ]; then
 		echo "Hermes repo was downloaded"
 	else
-		echo "Downloading Hermes source code $HERMES_VER"
-		git clone https://github.com/informalsystems/ibc-rs.git --branch $HERMES_VER --single-branch $HERMES_SOURCE_DIR
+		echo "Downloading Hermes source code $HERMES_GIT_REPO_BRANCH"
+		git clone "$HERMES_GIT_REPO" --branch "$HERMES_GIT_REPO_BRANCH" --single-branch "$HERMES_SOURCE_DIR"
 
 		if [ $? -ne 0 ]; then
-            echo "Git clone Hermes $HERMES_VER failed"
+            echo "Git clone Hermes $HERMES_GIT_REPO_BRANCH failed"
             exit 1
         fi
 	fi

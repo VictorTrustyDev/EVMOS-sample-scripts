@@ -43,7 +43,7 @@ if [ -d "$BD2_SOURCE_DIR" ]; then
     echo "Big Dipper 2.0 repo was downloaded"
 else
     echo "Downloading Big Dipper 2.0 source code from branch $BD2_BRANCH"
-    git clone "https://github.com/forbole/big-dipper-2.0-cosmos.git" --branch "$BD2_BRANCH" --single-branch "$BD2_SOURCE_DIR"
+    git clone "$BD2_GIT_REPO" --branch "$BD2_BRANCH" --single-branch "$BD2_SOURCE_DIR"
 
     if [ $? -ne 0 ]; then
         echo "Git clone Big Dipper 2.0 from branch $BD2_BRANCH was failed"
