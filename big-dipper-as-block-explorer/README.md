@@ -2,31 +2,27 @@
 - **IMPORTANT** Open file `env.sh`, locate the variables with prefix `BD_CFG_CHAIN_*` and updated based on your need
 
 ### II. Create the BDJUNO & Big Dipper 2.0 UI
-- Create chain 1
-    - This create & setup PG database, init bdjuno home `.bdjuno1`, update `.bdjuno1/config.yaml` file
+- Create for chain 1
     > $ ./1_install-bdjuno.sh 1
 
-    - Copy `genesis.json` file into bdjuno home at `.bdjuno1` & parse it
     > $ ./2_install-bdjuno.sh 1
 
-    - This runs `hasura` graphql service and expose port `8080`
     > $ ./3_install-hasura.sh 1
 
-    - This runs Big Dipper 2.0 (UI) and expose via port `3800`
     > $ ./4_install-front-end.sh 1
 
-- Create chain 2
-    - This create & setup PG database, init bdjuno home `.bdjuno2`, update `.bdjuno2/config.yaml` file
+    Frontend port: `3800`
+
+- Create for chain 2
     > $ ./1_install-bdjuno.sh 2
 
-    - Copy `genesis.json` file into bdjuno home at `.bdjuno2` & parse it
     > $ ./2_install-bdjuno.sh 2
 
-    - This runs `hasura` graphql service and expose port `8082`
     > $ ./3_install-hasura.sh 2
 
-    - This runs Big Dipper 2.0 (UI) and expose via port `3802`
     > $ ./4_install-front-end.sh 2
+
+    Frontend port: `3802`
 
 ### III. Customization
 You can custom things just by editting keys in the [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh) file
