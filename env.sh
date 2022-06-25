@@ -13,7 +13,7 @@ command -v go > /dev/null 2>&1 || { echo >&2 "go was not installed. More info: h
 ### Valid values are 'file' or 'test'
 ### Must be lowercase
 ### change to file for cloud or production env (DANGER: keyring test will allow transfer token from validator without key)
-export KEYRING="file" # must be 'file' for cloud or production env (DANGER: keyring test will allow transfer token from validator without key)
+export KEYRING="test" # must be 'file' for cloud or production env (DANGER: keyring test will allow transfer token from validator without key)
 ##
 export NOTICE_DEV_ENV="This sample scripts was developed on an Ubuntu 22.04 LTS machine"
 
