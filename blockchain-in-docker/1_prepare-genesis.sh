@@ -33,40 +33,17 @@ else
 fi
 
 if [ "$CHAIN_TYPE" = "evmos" ]; then
-    if [ "$VALIDATOR_IMPORT_TYPE" = "private_key" ] || [ "$VALIDATOR_IMPORT_TYPE" = "pk" ]; then
-        echo
-    else
-        echo "Chain type 'evmos' only supports validator import type = 'private_key' (check variable 'CHAIN_${CHAIN_NO}_VALIDATOR_IMPORT_TYPE') due to bug of daemon can not import seed phrase programatically via command line"
-        exit 1
-    fi
-
     if [ "$HD_COINTYPE" -ne "60" ]; then
         echo "Chain type 'evmos' requires coin type 60 (check variable 'CHAIN_${CHAIN_NO}_COINTYPE')"
-    fi
-else
-    if [ "$VALIDATOR_IMPORT_TYPE" = "seed" ] || [ "$VALIDATOR_IMPORT_TYPE" = "seed_phrase" ] || [ "$VALIDATOR_IMPORT_TYPE" = "sp" ]; then
-        echo
-    else
-        echo "Chain type 'cosmos' only supports validator import type = 'seed_phrase' (check variable 'CHAIN_${CHAIN_NO}_VALIDATOR_IMPORT_TYPE') because the daemon does not support 'unsafe-import-eth-key' command"
-        exit 1
     fi
 fi
 
 if [ "$KEYRING" = "file" ]; then
     echo "Keyring: file"
 elif [ "$KEYRING" = "test" ]; then
-    echo "Keyring: test **WARNING** only use keyring-backend=test for development purpose"
+    echo "Keyring: test **WARNING** only use keyring-backend=test for development purpose on local machine or you must secure your cloud env by whitelist some IP addresses, otherwise someone will take all your token, even tho it's only a test env"
 else
     echo "Non supported keyring mode = $KEYRING, only support 'file' & 'test'"
-    exit 1
-fi
-
-if [ "$VALIDATOR_IMPORT_TYPE" = "private_key" ] || [ "$VALIDATOR_IMPORT_TYPE" = "pk" ]; then
-    export VALIDATOR_IMPORT_MODE=1
-elif [ "$VALIDATOR_IMPORT_TYPE" = "seed" ] || [ "$VALIDATOR_IMPORT_TYPE" = "seed_phrase" ] || [ "$VALIDATOR_IMPORT_TYPE" = "sp" ]; then
-    export VALIDATOR_IMPORT_MODE=2
-else
-    echo "Non supported validator import type = $VALIDATOR_IMPORT_TYPE, only support ('private_key' or 'pk') & ('seed' or 'seed_phrase' or 'sp')"
     exit 1
 fi
 
@@ -110,48 +87,54 @@ $BINARY init $MONIKER --chain-id $CHAIN_ID --home $VAL_HOME_3 > /dev/null 2>&1
 [ $? -eq 0 ] || { echo "Err: Failed to init pseudo chain for node 2"; exit 1; }
 
 # Import validator keys
-echo 'Import validator keys'
-if [ $VALIDATOR_IMPORT_MODE -eq 1 ]; then # mode private_key
-    if [ "$KEYRING" = "test" ]; then
+echo "Import validator keys for chain no $CHAIN_NO id $CHAIN_ID"
+if [ "$KEYRING" = "test" ]; then
+    echo "- Validator 1, key name '$VAL_1_KEY_NAME'"
+    ( echo "$VAL_1_SEED"; ) | $BINARY keys add "$VAL_1_KEY_NAME" --recover --keyring-backend "test" --home "$VAL_HOME_1"
+    [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+    echo "- Validator 2, key name '$VAL_2_KEY_NAME'"
+    ( echo "$VAL_2_SEED"; ) | $BINARY keys add "$VAL_2_KEY_NAME" --recover --keyring-backend "test" --home "$VAL_HOME_1"
+    [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+    echo "- Validator 3, key name '$VAL_3_KEY_NAME'"
+    ( echo "$VAL_3_SEED"; ) | $BINARY keys add "$VAL_3_KEY_NAME" --recover --keyring-backend "test" --home "$VAL_HOME_1"
+    [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+else
+    if [ "$CHAIN_TYPE" = "evmos" ]; then
         echo "- Validator 1, key name '$VAL_1_KEY_NAME'"
-        $BINARY keys unsafe-import-eth-key "$VAL_1_KEY_NAME" "$VAL_1_PRIVATE_KEY" --keyring-backend "test" --home "$VAL_HOME_1"
+        echo "** Due to evmos daemon bug, it is not possible to import seed & encryption password automatically at the same time, please copy & paste the following seed:"
+        echo "___"
+        echo "$VAL_1_SEED"
+        echo "___"
+        echo "and encryption password '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' to encrypt seed phrase"
+        echo "of validator 1"
+        $BINARY keys add "$VAL_1_KEY_NAME" --recover --keyring-backend "file" --home "$VAL_HOME_1"
         [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
         echo "- Validator 2, key name '$VAL_2_KEY_NAME'"
-        $BINARY keys unsafe-import-eth-key "$VAL_2_KEY_NAME" "$VAL_2_PRIVATE_KEY" --keyring-backend "test" --home "$VAL_HOME_1"
+        echo "** Due to evmos daemon bug, it is not possible to import seed & encryption password automatically at the same time, please copy & paste the following seed:"
+        echo "___"
+        echo "$VAL_2_SEED"
+        echo "___"
+        echo "and encryption password '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' to encrypt seed phrase"
+        echo "of validator 2"
+        $BINARY keys add "$VAL_2_KEY_NAME" --recover --keyring-backend "file" --home "$VAL_HOME_1"
         [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
         echo "- Validator 3, key name '$VAL_3_KEY_NAME'"
-        $BINARY keys unsafe-import-eth-key "$VAL_3_KEY_NAME" "$VAL_3_PRIVATE_KEY" --keyring-backend "test" --home "$VAL_HOME_1"
-        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
-    else
-        echo "- Validator 1, key name '$VAL_1_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD'"
-        (echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys unsafe-import-eth-key "$VAL_1_KEY_NAME" "$VAL_1_PRIVATE_KEY" --keyring-backend "file" --home "$VAL_HOME_1"
-        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
-        echo "- Validator 2, key name '$VAL_2_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD'"
-        (echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys unsafe-import-eth-key "$VAL_2_KEY_NAME" "$VAL_2_PRIVATE_KEY" --keyring-backend "file" --home "$VAL_HOME_1"
-        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
-        echo "- Validator 3, key name '$VAL_3_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD'"
-        (echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys unsafe-import-eth-key "$VAL_3_KEY_NAME" "$VAL_3_PRIVATE_KEY" --keyring-backend "file" --home "$VAL_HOME_1"
-        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
-    fi
-elif [ $VALIDATOR_IMPORT_MODE -eq 2 ]; then # mode seed_phrase
-    if [ "$KEYRING" = "test" ]; then
-        echo "- Validator 1, key name '$VAL_1_KEY_NAME'"
-        ( echo "$VAL_1_SEED"; ) | $BINARY keys add "$VAL_1_KEY_NAME" --recover --keyring-backend "test" --home "$VAL_HOME_1"
-        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
-        echo "- Validator 2, key name '$VAL_2_KEY_NAME'"
-        ( echo "$VAL_2_SEED"; ) | $BINARY keys add "$VAL_2_KEY_NAME" --recover --keyring-backend "test" --home "$VAL_HOME_1"
-        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
-        echo "- Validator 3, key name '$VAL_3_KEY_NAME'"
-        ( echo "$VAL_3_SEED"; ) | $BINARY keys add "$VAL_3_KEY_NAME" --recover --keyring-backend "test" --home "$VAL_HOME_1"
+        echo "** Due to evmos daemon bug, it is not possible to import seed & encryption password automatically at the same time, please copy & paste the following seed:"
+        echo "___"
+        echo "$VAL_3_SEED"
+        echo "___"
+        echo "and encryption password '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' to encrypt seed phrase"
+        echo "of validator 3"
+        $BINARY keys add "$VAL_3_KEY_NAME" --recover --keyring-backend "file" --home "$VAL_HOME_1"
         [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
     else
         echo "- Validator 1, key name '$VAL_1_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD', seed phase '$VAL_1_SEED'"
         ( echo "$VAL_1_SEED"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys add "$VAL_1_KEY_NAME" --recover --keyring-backend "file" --home "$VAL_HOME_1"
         [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
-        echo "- Validator 2, key name '$VAL_2_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD'"
+        echo "- Validator 2, key name '$VAL_2_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD', seed phase '$VAL_2_SEED'"
         ( echo "$VAL_2_SEED"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys add "$VAL_2_KEY_NAME" --recover --keyring-backend "file" --home "$VAL_HOME_1"
         [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
-        echo "- Validator 3, key name '$VAL_3_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD'"
+        echo "- Validator 3, key name '$VAL_3_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD', seed phase '$VAL_3_SEED'"
         ( echo "$VAL_3_SEED"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys add "$VAL_3_KEY_NAME" --recover --keyring-backend "file" --home "$VAL_HOME_1"
         [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
     fi

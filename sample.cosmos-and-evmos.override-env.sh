@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# You can rename this file into `override-env.sh` to make the first network become cosmos
+# You can rename this file into `override-env.sh` to make the first network become Cosmos (gaia)
 
 export KEYRING="file" # Secure your chain, someone will absolutely transfer your token without your permission
 export VAL_KEYRING_FILE_ENCRYPTION_PASSWORD="11111111"
@@ -8,7 +8,6 @@ export VAL_KEYRING_FILE_ENCRYPTION_PASSWORD="11111111"
 export CHAIN_1_TYPE="cosmos" # valid values are 'evmos' or 'cosmos' only, must be 'evmos' for evmos chain, otherwise 'cosmos' for other chains
 export CHAIN_1_ID="cosmos-8"
 export CHAIN_1_COINTYPE=118 # 60 for EVMOS, 118 for Cosmos
-export CHAIN_1_VALIDATOR_IMPORT_TYPE="seed_phrase" # 'private_key' for EVMOS, 'seed_phrase' for Cosmos. Aliases: ('private_key' or 'pk') and ('seed_phrase' or 'seed' or 'sp')
 export CHAIN_1_ACCOUNT_PREFIX="cosmos"
 export CHAIN_1_GIT_REPO="https://github.com/cosmos/gaia"
 export CHAIN_1_GIT_REPO_BRANCH="v7.0.2"

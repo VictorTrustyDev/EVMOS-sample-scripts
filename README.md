@@ -12,6 +12,9 @@ Not only EVMOS, you can use this script to build for other chains like cosmos,..
 - [docker](https://docs.docker.com/engine/install/) & [docker compose](https://docs.docker.com/compose/install/)
 - Node JS to build & run Big Dipper 2.0 for Cosmos based chains
 - PostgreSQL client (psql) for postgres 12.5 to setup Big Dipper
+- [Hasura cli](https://hasura.io/docs/latest/graphql/core/hasura-cli/install-hasura-cli/) for bdjuno
+
+You can find commands to install the above tools [here](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/Install-Required-Tools-on-Ubuntu.md)
 
 I created all of the following samples on an Ubuntu 22.04 LTS machine with 4 CPU 16 GB RAM. It can run
 - 2 [EVMOS](https://github.com/evmos/evmos/tree/v5.0.0) chains
@@ -37,7 +40,7 @@ without any performance issue (CPU ~20-80% per core, ram ~50% via htop)
 - You can change their version by updating file [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)
 - This sample is using keyring `test`, you may need to change to `file` for secure your test env if needed in [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)
 - You can create `override-env.sh` file and override values of [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)
-- The [sample.cosmos-and-evmos.override-env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/sample.cosmos-and-evmos.override-env.sh) file contains example which tell you how to override variables of [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh) and make the chain 1 use cosmos source, rename it to `override-env.sh` to make it effectives
+- The [sample.cosmos-and-evmos.override-env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/sample.cosmos-and-evmos.override-env.sh) file contains example which tell you how to override variables of [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh) and make the chain 1 use Cosmos (gaia) source, rename it to `override-env.sh` to make it effectives
 - The [sample.expose-big-dipper-ui.override-env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/sample.expose-big-dipper-ui.override-env.sh) file contains example which tell you how to override variables of [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh) and make the block explorer UI (Big Dipper 2.0) accessible from outside world, rename it to `override-env.sh` to make it effectives
 
 #### Default ports used in these samples
