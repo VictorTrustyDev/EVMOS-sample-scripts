@@ -9,5 +9,5 @@ I use Ubuntu machine for development purpose so I will provide some command line
 
     > mkdir ~/go
 
-    > echo -e "\nexport GOPATH=\$HOME/go\nexport PATH=\$PATH:/usr/local/go/bin:\$GOPATH/bin" >> ~/.bashrc
+    > echo -e "\nexport GOPATH=\\$HOME/go\nexport PATH=\\$PATH:/usr/local/go/bin:\\$GOPATH/bin" >> ~/.bashrc
 
