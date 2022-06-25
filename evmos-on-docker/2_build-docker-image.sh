@@ -21,14 +21,14 @@ fi
 
 # Validate input
 if [ "$CHAIN_NO" = "1" ]; then
-    echo "Network 1"
+    echo "Chain 1"
     export PORT_26657="$CHAIN_1_EXPOSE_RPC_TO_PORT"
     export PORT_9090="$CHAIN_1_EXPOSE_GRPC_TO_PORT"
     export PORT_8545="$CHAIN_1_EXPOSE_JSON_RPC_TO_PORT"
     export PORT_1317="$CHAIN_1_EXPOSE_REST_API_TO_PORT"
     export PORT_26656="$CHAIN_1_EXPOSE_P2P_TO_PORT"
 elif [ "$CHAIN_NO" = "2" ]; then
-    echo "Network 2"
+    echo "Chain 2"
     export PORT_26657="$CHAIN_2_EXPOSE_RPC_TO_PORT"
     export PORT_9090="$CHAIN_2_EXPOSE_GRPC_TO_PORT"
     export PORT_8545="$CHAIN_2_EXPOSE_JSON_RPC_TO_PORT"

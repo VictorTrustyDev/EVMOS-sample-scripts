@@ -156,24 +156,24 @@ echo "> [Hermes as IBC relayer]"
 cd "$AIO_CUR_DIR"
 
 cd "$AIO_DIR_BD"
-echo "> [bdjuno for network 1]"
+echo "> [bdjuno for chain 1]"
 ./1_install-bdjuno.sh 1
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed (step 1 bdjuno)"; exit 1; }
 ./2_install-bdjuno.sh 1
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed (step 2 bdjuno)"; exit 1; }
 ./3_install-hasura.sh 1
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed (hasura)"; exit 1; }
-echo "> [bdjuno for network 2]"
+echo "> [bdjuno for chain 2]"
 ./1_install-bdjuno.sh 2
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed (step 1 bdjuno)"; exit 1; }
 ./2_install-bdjuno.sh 2
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed (step 2 bdjuno)"; exit 1; }
 ./3_install-hasura.sh 2
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed (hasura)"; exit 1; }
-echo "> [Big Dipper UI for network 1]"
+echo "> [Big Dipper UI for chain 1]"
 ./4_install-front-end.sh 1
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed"; exit 1; }
-echo "> [Big Dipper UI for network 2]"
+echo "> [Big Dipper UI for chain 2]"
 ./4_install-front-end.sh 2
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed"; exit 1; }
 
