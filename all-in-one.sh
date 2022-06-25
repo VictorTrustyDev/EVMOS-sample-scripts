@@ -150,8 +150,8 @@ else
 fi
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed"; exit 1; }
 
-echo "> [Hermes]"
-./create-hermes.sh
+echo "> [Hermes as IBC relayer]"
+./create-relayer.sh
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed"; exit 1; }
 cd "$AIO_CUR_DIR"
 

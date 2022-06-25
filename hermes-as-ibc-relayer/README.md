@@ -10,7 +10,7 @@
         > Sample command: `$ evmosd tx bank send val1 evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp 100000000000000000000aevmos --node tcp://127.0.0.1:26657`
 
 ### II. Create the IBC relayer
-> $ ./create-hermes.sh
+> $ ./create-relayer.sh
 
 You can check the IBC token hash created by the following command:
 > $ evmosd q bank balances evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp --node tcp://127.0.0.1:26657 | grep denom | grep ibc

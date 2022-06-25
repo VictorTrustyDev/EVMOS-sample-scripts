@@ -2,7 +2,7 @@
 
 # You can rename this file into `override-env.sh` to make the first network become cosmos
 
-export KEYRING="file" # Secure it
+export KEYRING="file" # Secure your chain, someone will absolutely transfer your token without your permission
 
 export CHAIN_1_ID="cosmos-8"
 export CHAIN_1_COINTYPE=118
