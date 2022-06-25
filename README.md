@@ -11,6 +11,7 @@ Not only EVMOS, you can use this script to build for other chains like cosmos,..
 - [Rust 1.60+](https://www.rust-lang.org/tools/install) (for Hermes - IBC relayer)
 - [docker](https://docs.docker.com/engine/install/) & [docker compose](https://docs.docker.com/compose/install/)
 - Node JS (for Big Dipper 2.0 Cosmos)
+- PostgreSQL client (psql) for postgres 12.5
 
 I created all of the following samples on an Ubuntu 22.04 LTS machine with 4 CPU 16 GB RAM. It can run 
 - 2 [EVMOS](https://github.com/evmos/evmos/tree/v5.0.0) chains
