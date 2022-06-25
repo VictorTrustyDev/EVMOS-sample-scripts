@@ -32,6 +32,26 @@ else
     exit 1
 fi
 
+if [ "$CHAIN_TYPE" = "evmos" ]; then
+    if [ "$VALIDATOR_IMPORT_TYPE" = "private_key" ] || [ "$VALIDATOR_IMPORT_TYPE" = "pk" ]; then
+        echo
+    else
+        echo "Chain type 'evmos' only supports validator import type = 'private_key' (check variable 'CHAIN_${CHAIN_NO}_VALIDATOR_IMPORT_TYPE') due to bug of daemon can not import seed phrase programatically via command line"
+        exit 1
+    fi
+
+    if [ "$HD_COINTYPE" -ne "60" ]; then
+        echo "Chain type 'evmos' requires coin type 60 (check variable 'CHAIN_${CHAIN_NO}_COINTYPE')"
+    fi
+else
+    if [ "$VALIDATOR_IMPORT_TYPE" = "seed" ] || [ "$VALIDATOR_IMPORT_TYPE" = "seed_phrase" ] || [ "$VALIDATOR_IMPORT_TYPE" = "sp" ]; then
+        echo
+    else
+        echo "Chain type 'cosmos' only supports validator import type = 'seed_phrase' (check variable 'CHAIN_${CHAIN_NO}_VALIDATOR_IMPORT_TYPE') because the daemon does not support 'unsafe-import-eth-key' command"
+        exit 1
+    fi
+fi
+
 if [ "$KEYRING" = "file" ]; then
     echo "Keyring: file"
 elif [ "$KEYRING" = "test" ]; then
