@@ -41,7 +41,7 @@ fi
 if [ "$KEYRING" = "file" ]; then
     echo "Keyring: file"
 elif [ "$KEYRING" = "test" ]; then
-    echo "Keyring: test **WARNING** only use keyring-backend=test for development purpose"
+    echo "Keyring: test **WARNING** only use keyring-backend=test for development purpose on local machine or you must secure your cloud env by whitelist some IP addresses, otherwise someone will take all your token, even tho it's only a test env"
 else
     echo "Non supported keyring mode = $KEYRING, only support 'file' & 'test'"
     exit 1
