@@ -166,17 +166,17 @@ fi
 
 # Calculate balance & stake & claim info for validators
 ## Balance
-export VAL_1_BALANCE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_1_RAW_BALANCE")
-export VAL_2_BALANCE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_2_RAW_BALANCE")
-export VAL_3_BALANCE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_3_RAW_BALANCE")
+export VAL_1_BALANCE=$(bc <<< "10^$DENOM_EXPONENT * $VAL_1_RAW_BALANCE")
+export VAL_2_BALANCE=$(bc <<< "10^$DENOM_EXPONENT * $VAL_2_RAW_BALANCE")
+export VAL_3_BALANCE=$(bc <<< "10^$DENOM_EXPONENT * $VAL_3_RAW_BALANCE")
 ## Stake
-export VAL_1_STAKE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_1_RAW_STAKE")
-export VAL_2_STAKE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_2_RAW_STAKE")
-export VAL_3_STAKE=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_3_RAW_STAKE")
+export VAL_1_STAKE=$(bc <<< "10^$DENOM_EXPONENT * $VAL_1_RAW_STAKE")
+export VAL_2_STAKE=$(bc <<< "10^$DENOM_EXPONENT * $VAL_2_RAW_STAKE")
+export VAL_3_STAKE=$(bc <<< "10^$DENOM_EXPONENT * $VAL_3_RAW_STAKE")
 ## Claim
-export VAL_1_CLAIM=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_1_RAW_CLAIM")
-export VAL_2_CLAIM=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_2_RAW_CLAIM")
-export VAL_3_CLAIM=$(bc <<< "10^$EVMOS_DENOM_EXPONENT * $VAL_3_RAW_CLAIM")
+export VAL_1_CLAIM=$(bc <<< "10^$DENOM_EXPONENT * $VAL_1_RAW_CLAIM")
+export VAL_2_CLAIM=$(bc <<< "10^$DENOM_EXPONENT * $VAL_2_RAW_CLAIM")
+export VAL_3_CLAIM=$(bc <<< "10^$DENOM_EXPONENT * $VAL_3_RAW_CLAIM")
 
 # Update genesis.json
 GENESIS_JSON="$VAL_HOME_1/config/genesis.json"
@@ -184,7 +184,7 @@ GENESIS_JSON_TMP="$VAL_HOME_1/config/tmp_genesis.json"
 echo "Updating genesis.json"
 ## Change denom metadata
 echo '- Add denom metadata at [app_state > bank > denom_metadata]'
-cat $GENESIS_JSON | jq '.app_state["bank"]["denom_metadata"] += [{"description": "The native EVM, governance and staking token of the '$EVMOS_CHAINNAME' Hub", "denom_units": [{"denom": "'$MIN_DENOM_SYMBOL'", "exponent": 0}, {"denom": "'$GAS_DENOM_SYMBOL'", "exponent": '$EVMOS_GAS_DENOM_EXPONENT'}, {"denom": "'$DENOM_SYMBOL'", "exponent": '$EVMOS_DENOM_EXPONENT'}],"base": "'$MIN_DENOM_SYMBOL'", "display": "'$DENOM_SYMBOL'", "name": "'$DENOM_SYMBOL'", "symbol": "'$DENOM_SYMBOL'"}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+cat $GENESIS_JSON | jq '.app_state["bank"]["denom_metadata"] += [{"description": "The native EVM, governance and staking token of the '$CHAIN_NAME' Hub", "denom_units": [{"denom": "'$MIN_DENOM_SYMBOL'", "exponent": 0}, {"denom": "'$GAS_DENOM_SYMBOL'", "exponent": '$GAS_DENOM_EXPONENT'}, {"denom": "'$DENOM_SYMBOL'", "exponent": '$DENOM_EXPONENT'}],"base": "'$MIN_DENOM_SYMBOL'", "display": "'$DENOM_SYMBOL'", "name": "'$DENOM_SYMBOL'", "symbol": "'$DENOM_SYMBOL'"}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 ## Change parameter token denominations to *min denom symbol (eg aevmos)*
 echo "- Change token denomination to $MIN_DENOM_SYMBOL"
 echo ' + [app_state > staking > params > bond_denom]'
@@ -209,9 +209,9 @@ echo "- Set claim start time in [app_state > claims > params > airdrop_start_tim
 cat $GENESIS_JSON | jq -r --arg current_date "$current_date" '.app_state["claims"]["params"]["airdrop_start_time"]=$current_date' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 ## Set claims records for validator account
 echo "- Set claim records for 3 validators in [app_state > claims > claims_records]"
-echo " + Validator $VAL_1_ADDR (node 0) can claim "$(bc <<< "$VAL_1_CLAIM / (10^$EVMOS_DENOM_EXPONENT)")$DENOM_SYMBOL
-echo " + Validator $VAL_2_ADDR (node 1) can claim "$(bc <<< "$VAL_2_CLAIM / (10^$EVMOS_DENOM_EXPONENT)")$DENOM_SYMBOL
-echo " + Validator $VAL_3_ADDR (node 2) can claim "$(bc <<< "$VAL_3_CLAIM / (10^$EVMOS_DENOM_EXPONENT)")$DENOM_SYMBOL
+echo " + Validator $VAL_1_ADDR (node 0) can claim "$(bc <<< "$VAL_1_CLAIM / (10^$DENOM_EXPONENT)")$DENOM_SYMBOL
+echo " + Validator $VAL_2_ADDR (node 1) can claim "$(bc <<< "$VAL_2_CLAIM / (10^$DENOM_EXPONENT)")$DENOM_SYMBOL
+echo " + Validator $VAL_3_ADDR (node 2) can claim "$(bc <<< "$VAL_3_CLAIM / (10^$DENOM_EXPONENT)")$DENOM_SYMBOL
 cat $GENESIS_JSON | jq '.app_state["claims"]["claims_records"]=[{"initial_claimable_amount":"'$VAL_1_CLAIM'", "actions_completed":[false, false, false, false],"address":"'$VAL_1_ADDR'"},{"initial_claimable_amount":"'$VAL_2_CLAIM'", "actions_completed":[false, false, false, false],"address":"'$VAL_2_ADDR'"},{"initial_claimable_amount":"'$VAL_3_CLAIM'", "actions_completed":[false, false, false, false],"address":"'$VAL_3_ADDR'"}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 ## Set claims decay
 duration_until_decay="86400s"
@@ -223,7 +223,7 @@ cat $GENESIS_JSON | jq '.app_state["claims"]["params"]["duration_of_decay"]="'$d
 ## Claim module account:
 ### 0xA61808Fe40fEb8B3433778BBC2ecECCAA47c8c47 || evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz
 amount_to_claim=$(bc <<< "$VAL_1_CLAIM + $VAL_2_CLAIM + $VAL_3_CLAIM")
-echo '- Claimn module account addr '$EVMOS_CLAIM_MODULE_ACCOUNT', total '$(bc <<< "$amount_to_claim / (10^$EVMOS_DENOM_EXPONENT)")' '$DENOM_SYMBOL
+echo '- Claimn module account addr '$EVMOS_CLAIM_MODULE_ACCOUNT', total '$(bc <<< "$amount_to_claim / (10^$DENOM_EXPONENT)")' '$DENOM_SYMBOL
 cat $GENESIS_JSON | jq '.app_state["bank"]["balances"] += [{"address":"'$EVMOS_CLAIM_MODULE_ACCOUNT'","coins":[{"denom":"'$MIN_DENOM_SYMBOL'", "amount":"'$amount_to_claim'"}]}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 
 
@@ -269,11 +269,11 @@ fi
 
 # Update total supply + claim values in genesis.json
 total_supply=$(bc <<< "$VAL_1_BALANCE + $VAL_2_BALANCE + $VAL_3_BALANCE + $VAL_1_CLAIM + $VAL_2_CLAIM + $VAL_3_CLAIM")
-echo 'Update original total supply = '$(bc <<< "$total_supply / (10^$EVMOS_DENOM_EXPONENT)")' '$DENOM_SYMBOL' into [app_state > bank > supply[0] > amount]'
+echo 'Update original total supply = '$(bc <<< "$total_supply / (10^$DENOM_EXPONENT)")' '$DENOM_SYMBOL' into [app_state > bank > supply[0] > amount]'
 cat $GENESIS_JSON | jq '.app_state["bank"]["supply"][0]["amount"]="'$total_supply'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 
 # Sign genesis transaction
-echo 'Generate genesis staking transaction '$(bc <<< "$VAL_1_STAKE / (10^$EVMOS_DENOM_EXPONENT)")' '$DENOM_SYMBOL' for validator '$VAL_1_KEY_NAME
+echo 'Generate genesis staking transaction '$(bc <<< "$VAL_1_STAKE / (10^$DENOM_EXPONENT)")' '$DENOM_SYMBOL' for validator '$VAL_1_KEY_NAME
 if [ "$KEYRING" = "test" ]; then
     $BINARY gentx $VAL_1_KEY_NAME "$VAL_1_STAKE"$MIN_DENOM_SYMBOL \
         --commission-rate="$VAL_COMMISSION_RATE" \
@@ -295,7 +295,7 @@ else
 fi
 [ $? -eq 0 ] || { echo "Failed to create genesis tx for validator 1"; exit 1; }
 
-echo 'Generate genesis staking transaction '$(bc <<< "$VAL_2_STAKE / (10^$EVMOS_DENOM_EXPONENT)")' '$DENOM_SYMBOL' for validator '$VAL_2_KEY_NAME
+echo 'Generate genesis staking transaction '$(bc <<< "$VAL_2_STAKE / (10^$DENOM_EXPONENT)")' '$DENOM_SYMBOL' for validator '$VAL_2_KEY_NAME
 if [ "$KEYRING" = "test" ]; then
     $BINARY gentx $VAL_2_KEY_NAME "$VAL_2_STAKE"$MIN_DENOM_SYMBOL \
         --commission-rate="$VAL_COMMISSION_RATE" \
@@ -319,7 +319,7 @@ fi
 echo "Copy generated tx to $VAL_HOME_1/config/gentx"
 cp $VAL_HOME_2/config/gentx/gentx-* $VAL_HOME_1/config/gentx/
 
-echo 'Generate genesis staking transaction '$(bc <<< "$VAL_3_STAKE / (10^$EVMOS_DENOM_EXPONENT)")' '$DENOM_SYMBOL' for validator '$VAL_3_KEY_NAME
+echo 'Generate genesis staking transaction '$(bc <<< "$VAL_3_STAKE / (10^$DENOM_EXPONENT)")' '$DENOM_SYMBOL' for validator '$VAL_3_KEY_NAME
 if [ "$KEYRING" = "test" ]; then
     $BINARY gentx $VAL_3_KEY_NAME "$VAL_3_STAKE"$MIN_DENOM_SYMBOL \
         --commission-rate="$VAL_COMMISSION_RATE" \

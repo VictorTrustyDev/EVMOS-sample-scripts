@@ -50,11 +50,11 @@ if [ -f "$DOCKER_COMPOSE_FILE" ]; then
 fi
 
 # Check EVMOS source
-if [ -d "$EVMOS_SOURCE_DIR" ]; then
+if [ -d "$SOURCE_CODE_DIR" ]; then
     echo "EVMOS repo was downloaded"
 else
     echo "Downloading EVMOS source code $GIT_BRANCH"
-    git clone "$GIT_REPO" --branch "$GIT_BRANCH" --single-branch "$EVMOS_SOURCE_DIR"
+    git clone "$GIT_REPO" --branch "$GIT_BRANCH" --single-branch "$SOURCE_CODE_DIR"
 
     if [ $? -ne 0 ]; then
         echo "Git clone EVMOS $GIT_BRANCH failed"
@@ -71,11 +71,11 @@ DOCKER_FILE="Dockerfile$CHAIN_NO"
 echo "Creating docker file: $DOCKER_FILE"
 cp template.DockerfileX "$DOCKER_FILE"
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    sed -i '' "s,_p_src_dir_,$EVMOS_SOURCE_DIR,g" "$DOCKER_FILE"
+    sed -i '' "s,_p_src_dir_,$SOURCE_CODE_DIR,g" "$DOCKER_FILE"
     sed -i '' "s/_p_daemon_binary_/$DAEMON_BINARY_NAME/g" "$DOCKER_FILE"
     sed -i '' "s/_p_home_prefix_/$VAL_HOME_PREFIX/g" "$DOCKER_FILE"
 else
-    sed -i "s,_p_src_dir_,$EVMOS_SOURCE_DIR,g" "$DOCKER_FILE"
+    sed -i "s,_p_src_dir_,$SOURCE_CODE_DIR,g" "$DOCKER_FILE"
     sed -i "s/_p_daemon_binary_/$DAEMON_BINARY_NAME/g" "$DOCKER_FILE"
     sed -i "s/_p_home_prefix_/$VAL_HOME_PREFIX/g" "$DOCKER_FILE"
 fi

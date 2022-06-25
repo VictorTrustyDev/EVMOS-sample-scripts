@@ -1,15 +1,15 @@
 #!/bin/bash
 
-EVMOS_SOURCE_DIR="./source-code-$DENOM_SYMBOL-$GIT_BRANCH"
+SOURCE_CODE_DIR="./source-code-$DENOM_SYMBOL-$GIT_BRANCH"
 
 if [ -f "$BINARY" ]; then
 	echo "Nice! Daemon binary $DAEMON_BINARY_NAME is already exists"
 else
-	if [ -d "$EVMOS_SOURCE_DIR" ]; then
+	if [ -d "$SOURCE_CODE_DIR" ]; then
 		echo "EVMOS repo was downloaded"
 	else
 		echo "Downloading EVMOS source code $GIT_BRANCH"
-		git clone "$GIT_REPO" --branch "$GIT_BRANCH" --single-branch "$EVMOS_SOURCE_DIR"
+		git clone "$GIT_REPO" --branch "$GIT_BRANCH" --single-branch "$SOURCE_CODE_DIR"
 
 		if [ $? -ne 0 ]; then
             echo "Git clone EVMOS $GIT_BRANCH failed"
@@ -18,7 +18,7 @@ else
 	fi
 
     CUR_DIR=$(pwd)
-	cd "$EVMOS_SOURCE_DIR"
+	cd "$SOURCE_CODE_DIR"
 	echo "Compiling $DAEMON_BINARY_NAME. If this is the first time you compile, it will take time, you can enjoy a cup of coffee and comeback later"
     make install
     [ $? -eq 0 ] || { echo "Failed to compile EVMOS"; exit 1; }
