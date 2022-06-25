@@ -61,10 +61,10 @@ Here are some of them:
 
 | Key | Default value | Explain |
 | --- | --- | --- |
-| `EVMOS_CHAIN_1_REPO` | https://github.com/evmos/evmos.git | Git repo to be used to build network 1 |
+| `CHAIN_1_GIT_REPO` | https://github.com/evmos/evmos.git | Git repo to be used to build network 1 |
 | `EVMOS_CHAIN_1_BRANCH` | v5.0.0 | Git branch to be used to build network 1 |
 | `CHAIN_1_ID` | evmos_9006-1 | Chain id of network 1 |
-| `EVMOS_CHAIN_2_REPO` | https://github.com/evmos/evmos.git | Git repo to be used to build network 2 |
+| `CHAIN_2_GIT_REPO` | https://github.com/evmos/evmos.git | Git repo to be used to build network 2 |
 | `EVMOS_CHAIN_2_BRANCH` | v5.0.0 | Git branch to be used to build network 2 |
 | `CHAIN_2_ID` | evmos_9007-1 | Chain id of network 2 |
 
