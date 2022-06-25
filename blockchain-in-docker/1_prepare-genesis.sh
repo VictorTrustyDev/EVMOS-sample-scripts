@@ -111,6 +111,7 @@ $BINARY init $MONIKER --chain-id $CHAIN_ID --home $VAL_HOME_3 > /dev/null 2>&1
 
 # Import validator keys
 echo 'Import validator keys'
+echo "Keyring: $KEYRING, mode $VALIDATOR_IMPORT_MODE"
 if [ $VALIDATOR_IMPORT_MODE -eq 1 ]; then # mode private_key
     if [ "$KEYRING" = "test" ]; then
         echo "- Validator 1, key name '$VAL_1_KEY_NAME'"
