@@ -52,3 +52,10 @@ Update system first `sudo apt-get update -y`
 
 - psql (PostgreSQL client)
     > sudo apt install postgresql-client -y
+
+- NodeJS
+    > curl -sL https://deb.nodesource.com/setup_16.x -o /tmp/nodesource_setup.sh
+
+    > sudo bash /tmp/nodesource_setup.sh
+
+    > sudo apt-get install -y nodejs
