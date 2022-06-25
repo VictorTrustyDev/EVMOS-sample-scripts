@@ -26,7 +26,7 @@ export CHAIN_1_COINTYPE=60 # 60 for EVMOS, 118 for Cosmos
 export CHAIN_1_VALIDATOR_IMPORT_TYPE="private_key" # 'private_key' for EVMOS, 'seed_phrase' for Cosmos. Aliases: ('private_key' or 'pk') and ('seed_phrase' or 'seed' or 'sp')
 export CHAIN_1_ACCOUNT_PREFIX="evmos"
 export CHAIN_1_GIT_REPO="https://github.com/evmos/evmos.git"
-export CHAIN_1_GIT_REPO_BRANCH="v5.0.0"
+export CHAIN_1_GIT_REPO_BRANCH="v5.0.0" # must belong to repo $CHAIN_1_GIT_REPO
 export CHAIN_1_DAEMON_BINARY_NAME="evmosd"
 export CHAIN_1_DENOM_SYMBOL="evmos"
 export CHAIN_1_MIN_DENOM_SYMBOL="aevmos"
@@ -45,7 +45,7 @@ export CHAIN_2_COINTYPE=60 # 60 for EVMOS, 118 for Cosmos
 export CHAIN_2_VALIDATOR_IMPORT_TYPE="private_key" # 'private_key' for EVMOS, 'seed_phrase' for Cosmos. Aliases: ('private_key' or 'pk') and ('seed_phrase' or 'seed' or 'sp')
 export CHAIN_2_ACCOUNT_PREFIX="evmos"
 export CHAIN_2_GIT_REPO="https://github.com/evmos/evmos.git"
-export CHAIN_2_GIT_REPO_BRANCH="v5.0.0"
+export CHAIN_2_GIT_REPO_BRANCH="v5.0.0" # must belong to repo $CHAIN_2_GIT_REPO
 export CHAIN_2_DAEMON_BINARY_NAME="evmosd"
 export CHAIN_2_DENOM_SYMBOL="evmos"
 export CHAIN_2_MIN_DENOM_SYMBOL="aevmos"
@@ -105,7 +105,8 @@ export VAL_3_CHAIN_2_SEED="stage grid emotion thumb safe myth chair dizzy beyond
 export VAL_3_CHAIN_2_PRIVATE_KEY="E0D83C6054597638469CC91A46F14B7F62705297912524059629E4674302928F"
 
 ## Hermes (IBC Relayer)
-export HERMES_VER="v0.15.0"
+export HERMES_GIT_REPO="https://github.com/informalsystems/ibc-rs.git"
+export HERMES_GIT_REPO_BRANCH="v0.15.0" # Must belong to repo $HERMES_GIT_REPO
 export HERMES_BINARY="hermes"
 export HERMES_SOURCE_DIR_PREFIX="source-code" # do NOT modify
 export HERMES_HOME_DIR=".hermes"
@@ -150,7 +151,8 @@ export BD_PG_HASURA_USER="hasura"
 export BD_PG_HASURA_PASS="PX2RNvtZ4m7fntnbRrtySB4ROG5EKk4J"
 export BD_CFG_PG_USR_PASS="6N4QtFYMt7h972uazrWTckmMvFZWIje" # Password of default user postgres
 ### Chain 1
-export BD_CFG_CHAIN_1_BRANCH="chains/evmos/mainnet"
+export BD_CFG_CHAIN_1_GIT_REPO="https://github.com/forbole/bdjuno.git"
+export BD_CFG_CHAIN_1_BRANCH="chains/evmos/mainnet" # must belong to repo $BD_CFG_CHAIN_1_GIT_REPO
 export BD_CFG_CHAIN_1_PG_PORT=5432
 export BD_CFG_CHAIN_1_ACCOUNT_PREFIX="$CHAIN_1_ACCOUNT_PREFIX"
 export BD_CFG_CHAIN_1_RPC_ADDR="127.0.0.1:$CHAIN_1_EXPOSE_RPC_TO_PORT"
@@ -162,7 +164,8 @@ export BD_CFG_CHAIN_1_DENOM_SYMBOL="$CHAIN_1_DENOM_SYMBOL" # evmos/atom/...
 export BD_CFG_CHAIN_1_MIN_DENOM_SYMBOL="$CHAIN_1_MIN_DENOM_SYMBOL" # aevmos/uatom/...
 export BD_CFG_CHAIN_1_DENOM_EXPONENT=$CHAIN_1_DENOM_EXPONENT # no of digits (18 for evmos, 6 for cosmos atom)
 ### Chain 2
-export BD_CFG_CHAIN_2_BRANCH="chains/evmos/mainnet"
+export BD_CFG_CHAIN_2_GIT_REPO="https://github.com/forbole/bdjuno.git"
+export BD_CFG_CHAIN_2_BRANCH="chains/evmos/mainnet" # must belong to repo $BD_CFG_CHAIN_2_GIT_REPO
 export BD_CFG_CHAIN_2_PG_PORT=15432
 export BD_CFG_CHAIN_2_ACCOUNT_PREFIX="$CHAIN_2_ACCOUNT_PREFIX"
 export BD_CFG_CHAIN_2_RPC_ADDR="127.0.0.1:$CHAIN_2_EXPOSE_RPC_TO_PORT"
@@ -175,12 +178,14 @@ export BD_CFG_CHAIN_2_MIN_DENOM_SYMBOL="$CHAIN_2_MIN_DENOM_SYMBOL" # aevmos/uato
 export BD_CFG_CHAIN_2_DENOM_EXPONENT=$CHAIN_2_DENOM_EXPONENT # no of digits (18 for evmos, 6 for cosmos atom)
 ### Big Dipper 2.0 for Cosmos based chains
 ### Chain 1
-export BD2_CHAIN_1_BRANCH="chains/evmos"
+export BD2_CFG_CHAIN_1_GIT_REPO="https://github.com/forbole/big-dipper-2.0-cosmos.git"
+export BD2_CFG_CHAIN_1_BRANCH="chains/evmos"
 export BD2_CFG_CHAIN_1_PORT=3800
 export BD2_CFG_CHAIN_1_PUBLIC_DOMAIN="127.0.0.1"
 export BD2_CFG_CHAIN_1_PUBLIC_RPC_26657="127.0.0.1:$CHAIN_1_EXPOSE_RPC_TO_PORT"
 ### Chain 2
-export BD2_CHAIN_2_BRANCH="chains/evmos"
+export BD2_CFG_CHAIN_2_GIT_REPO="https://github.com/forbole/big-dipper-2.0-cosmos.git"
+export BD2_CFG_CHAIN_2_BRANCH="chains/evmos"
 export BD2_CFG_CHAIN_2_PORT=3802
 export BD2_CFG_CHAIN_2_PUBLIC_DOMAIN="127.0.0.1"
 export BD2_CFG_CHAIN_2_PUBLIC_RPC_26657="127.0.0.1:$CHAIN_2_EXPOSE_RPC_TO_PORT"

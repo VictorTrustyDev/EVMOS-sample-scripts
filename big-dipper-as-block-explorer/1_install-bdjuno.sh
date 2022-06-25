@@ -77,7 +77,7 @@ if [ -d "./$BD_SOURCE_DIR" ]; then
     echo "bdjuno repo was downloaded"
 else
     echo "Downloading bdjuno source code from branch $BD_BRANCH"
-    git clone https://github.com/forbole/bdjuno.git --branch $BD_BRANCH --single-branch "$BD_SOURCE_DIR"
+    git clone "$BD_GIT_REPO" --branch "$BD_BRANCH" --single-branch "$BD_SOURCE_DIR"
 
     if [ $? -ne 0 ]; then
         echo "Git clone bdjuno branch $BD_BRANCH failed"
