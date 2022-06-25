@@ -62,3 +62,5 @@ Update system first `sudo apt-get update -y`
 
 - hasura-cli
     > curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash
+
+#### Remember to relog to all new PATH update takes effect
