@@ -1,5 +1,7 @@
 I use `Ubuntu 22.04 LTS` machine for development purpose so I will provide some command lines that helps you install tools required by scripts within this repo
 
+Update system first `sudo apt-get update -y`
+
 - Go 1.18.3
     > cd /tmp
 
@@ -35,3 +37,18 @@ I use `Ubuntu 22.04 LTS` machine for development purpose so I will provide some 
     > sudo groupadd docker
 
     > sudo usermod -aG docker $USER
+
+- docker-compose
+    > mkdir -p ~/.docker/cli-plugins/
+    
+    > curl -SL https://github.com/docker/compose/releases/download/v2.6.0/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
+
+    > chmod +x ~/.docker/cli-plugins/docker-compose
+
+    > sudo ln -s ~/.docker/cli-plugins/docker-compose /usr/bin/docker-compose
+
+- Rust
+    > curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+- psql (PostgreSQL client)
+    > sudo apt install postgresql-client -y
