@@ -33,6 +33,11 @@ export CHAIN_1_MIN_DENOM_SYMBOL="aevmos"
 export CHAIN_1_GAS_DENOM_SYMBOL="nevmos"
 export CHAIN_1_DENOM_EXPONENT=18 # no of digits (18 for evmos, 6 for cosmos atom)
 export CHAIN_1_GAS_DENOM_EXPONENT=9 # no of digits (9 for evmos, 3 for cosmos atom)
+export CHAIN_1_EXPOSE_RPC_TO_PORT=26657
+export CHAIN_1_EXPOSE_GRPC_TO_PORT=9090
+export CHAIN_1_EXPOSE_JSON_RPC_TO_PORT=8545
+export CHAIN_1_EXPOSE_REST_API_TO_PORT=1317
+export CHAIN_1_EXPOSE_P2P_TO_PORT=26656
 ### Chain 2
 export CHAIN_2_ID="evmos_9007-1"
 export CHAIN_2_COINTYPE=60
@@ -47,20 +52,15 @@ export CHAIN_2_MIN_DENOM_SYMBOL="aevmos"
 export CHAIN_2_GAS_DENOM_SYMBOL="nevmos"
 export CHAIN_2_DENOM_EXPONENT=18 # no of digits (18 for evmos, 6 for cosmos atom)
 export CHAIN_2_GAS_DENOM_EXPONENT=9 # no of digits (9 for evmos, 3 for cosmos atom)
-#### (EVMOS specific)
-### Chain 1
-export CHAIN_1_EXPOSE_RPC_TO_PORT=26657
-export CHAIN_1_EXPOSE_GRPC_TO_PORT=9090
-export CHAIN_1_EXPOSE_JSON_RPC_TO_PORT=8545
-export EVMOS_CHAIN_1_PORT_REST_API=1317
-export EVMOS_CHAIN_1_PORT_P2P=26656
-export EVMOS_CHAIN_1_CLAIM_MODULE_ACCOUNT="evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz"
-### Chain 2
 export CHAIN_2_EXPOSE_RPC_TO_PORT=36657
 export CHAIN_2_EXPOSE_GRPC_TO_PORT=19090
 export CHAIN_2_EXPOSE_JSON_RPC_TO_PORT=18545
-export EVMOS_CHAIN_2_PORT_REST_API=11317
-export EVMOS_CHAIN_2_PORT_P2P=36656
+export CHAIN_2_EXPOSE_REST_API_TO_PORT=11317
+export CHAIN_2_EXPOSE_P2P_TO_PORT=36656
+#### (EVMOS specific)
+### Chain 1
+export EVMOS_CHAIN_1_CLAIM_MODULE_ACCOUNT="evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz"
+### Chain 2
 export EVMOS_CHAIN_2_CLAIM_MODULE_ACCOUNT="evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz"
 
 ## Validators
