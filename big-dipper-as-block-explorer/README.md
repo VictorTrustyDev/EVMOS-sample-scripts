@@ -3,29 +3,29 @@
 
 ### II. Create the BDJUNO & Big Dipper 2.0 UI
 - Create chain 1
-    - Create & setup PG database, init bdjuno home `.bdjuno1`, update `.bdjuno1/config.yaml` file
+    - This create & setup PG database, init bdjuno home `.bdjuno1`, update `.bdjuno1/config.yaml` file
     > $ ./1_install-bdjuno.sh 1
 
     - Copy `genesis.json` file into bdjuno home at `.bdjuno1` & parse it
     > $ ./2_install-bdjuno.sh 1
 
-    - Run `hasura` graphql service and expose port `8080`
+    - This runs `hasura` graphql service and expose port `8080`
     > $ ./3_install-hasura.sh 1
 
-    - Run Big Dipper 2.0 (UI) and expose via port `3800`
+    - This runs Big Dipper 2.0 (UI) and expose via port `3800`
     > $ ./4_install-front-end.sh 1
 
 - Create chain 2
-    - Create & setup PG database, init bdjuno home `.bdjuno2`, update `.bdjuno2/config.yaml` file
+    - This create & setup PG database, init bdjuno home `.bdjuno2`, update `.bdjuno2/config.yaml` file
     > $ ./1_install-bdjuno.sh 2
 
     - Copy `genesis.json` file into bdjuno home at `.bdjuno2` & parse it
     > $ ./2_install-bdjuno.sh 2
 
-    - Run `hasura` graphql service and expose port `8082`
+    - This runs `hasura` graphql service and expose port `8082`
     > $ ./3_install-hasura.sh 2
 
-    - Run Big Dipper 2.0 (UI) and expose via port `3802`
+    - This runs Big Dipper 2.0 (UI) and expose via port `3802`
     > $ ./4_install-front-end.sh 2
 
 ### III. Customization

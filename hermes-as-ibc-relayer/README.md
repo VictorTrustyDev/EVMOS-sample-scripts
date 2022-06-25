@@ -19,9 +19,9 @@ You can check the IBC token hash created by the following command:
 Sample output:
 > denom: `ibc/0E8BF52B5A990E16C4AF2E5ED426503F3F0B12067FB2B4B660015A64CCE38EA0`
 
-_The coin on chain A (eg aevmos) represents as `ibc/0E8BF...38EA0` on chain B, this hash changes on different relayers_
+_The coin on chain A (eg aevmos) represents as denom `ibc/0E8BF...38EA0` on chain B, this hash changes on different relayers/channels_
 
 ### III. Attention
-- The tendermint light client id, connection id and channel id will be appends to `.hermes/config.toml` file
+- The tendermint light client id, connection id and channel id will be appends as comment lines to `.hermes/config.toml` file
 - If you send your coin (EVMOS) to a chain using different relayers (thus different channel id), your token will represent as a different `IBC/_hash_`
 - (One time only) Before you can transfer coin to another chain using IBC, you must use the relayer account to transfer in order to init an `IBC/_hash_` for the token. **This script already helps you with that**
