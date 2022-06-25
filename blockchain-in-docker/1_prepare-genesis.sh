@@ -87,7 +87,7 @@ $BINARY init $MONIKER --chain-id $CHAIN_ID --home $VAL_HOME_3 > /dev/null 2>&1
 [ $? -eq 0 ] || { echo "Err: Failed to init pseudo chain for node 2"; exit 1; }
 
 # Import validator keys
-echo 'Import validator keys'
+echo "Import validator keys for chain no $CHAIN_NO id $CHAIN_ID"
 if [ "$KEYRING" = "test" ]; then
     echo "- Validator 1, key name '$VAL_1_KEY_NAME'"
     ( echo "$VAL_1_SEED"; ) | $BINARY keys add "$VAL_1_KEY_NAME" --recover --keyring-backend "test" --home "$VAL_HOME_1"
