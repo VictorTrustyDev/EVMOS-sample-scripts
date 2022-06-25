@@ -40,8 +40,8 @@ export CHAIN_2_DAEMON_BINARY_NAME="evmosd"
 ### Chain 1
 export CHAIN_1_DENOM_SYMBOL="evmos"
 export CHAIN_1_MIN_DENOM_SYMBOL="aevmos"
-export EVMOS_CHAIN_1_GAS_DENOM_SYMBOL="nevmos"
-export EVMOS_CHAIN_1_DENOM_EXPONENT=18 # no of digits (18 for evmos, 6 for cosmos atom)
+export CHAIN_1_GAS_DENOM_SYMBOL="nevmos"
+export CHAIN_1_DENOM_EXPONENT=18 # no of digits (18 for evmos, 6 for cosmos atom)
 export EVMOS_CHAIN_1_GAS_DENOM_EXPONENT=9 # no of digits (9 for evmos, 3 for cosmos atom)
 export EVMOS_CHAIN_1_CLAIM_MODULE_ACCOUNT="evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz"
 export EVMOS_CHAIN_1_PORT_RPC=26657
@@ -52,8 +52,8 @@ export EVMOS_CHAIN_1_PORT_P2P=26656
 ### Chain 2
 export CHAIN_2_DENOM_SYMBOL="evmos"
 export CHAIN_2_MIN_DENOM_SYMBOL="aevmos"
-export EVMOS_CHAIN_2_GAS_DENOM_SYMBOL="nevmos"
-export EVMOS_CHAIN_2_DENOM_EXPONENT=18 # no of digits (18 for evmos, 6 for cosmos atom)
+export CHAIN_2_GAS_DENOM_SYMBOL="nevmos"
+export CHAIN_2_DENOM_EXPONENT=18 # no of digits (18 for evmos, 6 for cosmos atom)
 export EVMOS_CHAIN_2_GAS_DENOM_EXPONENT=9 # no of digits (9 for evmos, 3 for cosmos atom)
 export EVMOS_CHAIN_2_CLAIM_MODULE_ACCOUNT="evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz"
 export EVMOS_CHAIN_2_PORT_RPC=36657
@@ -116,7 +116,7 @@ export HERMES_CFG_CHAIN_1_GRPC_ADDR="127.0.0.1:$EVMOS_CHAIN_1_PORT_GRPC"
 export HERMES_CFG_CHAIN_1_ACCOUNT_PREFIX="$CHAIN_1_ACCOUNT_PREFIX"
 export HERMES_CFG_CHAIN_1_KEY_NAME="evmoskey"
 export HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL="$CHAIN_1_MIN_DENOM_SYMBOL"
-export HERMES_CFG_CHAIN_1_DENOM_EXPONENT=$EVMOS_CHAIN_1_DENOM_EXPONENT # no of digits
+export HERMES_CFG_CHAIN_1_DENOM_EXPONENT=$CHAIN_1_DENOM_EXPONENT # no of digits (18 for evmos, 6 for cosmos atom)
 ### Chain 2
 export HERMES_CFG_CHAIN_2_ID="$CHAIN_2_ID"
 export HERMES_CFG_CHAIN_2_RPC_ADDR="127.0.0.1:$EVMOS_CHAIN_2_PORT_RPC"
@@ -124,7 +124,7 @@ export HERMES_CFG_CHAIN_2_GRPC_ADDR="127.0.0.1:$EVMOS_CHAIN_2_PORT_GRPC"
 export HERMES_CFG_CHAIN_2_ACCOUNT_PREFIX="$CHAIN_2_ACCOUNT_PREFIX"
 export HERMES_CFG_CHAIN_2_KEY_NAME="evmoskey"
 export HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL="$CHAIN_2_MIN_DENOM_SYMBOL"
-export HERMES_CFG_CHAIN_2_DENOM_EXPONENT=$EVMOS_CHAIN_2_DENOM_EXPONENT # no of digits
+export HERMES_CFG_CHAIN_2_DENOM_EXPONENT=$CHAIN_2_DENOM_EXPONENT # no of digits
 
 ## Relayer account
 ### Chain 1
@@ -159,7 +159,7 @@ export BD_CFG_CHAIN_1_HASURA_PORT=8080
 export BD_CFG_CHAIN_1_HASURA_ACTIONBASE_PORT=3000
 export BD_CFG_CHAIN_1_DENOM_SYMBOL="$CHAIN_1_DENOM_SYMBOL" # evmos/atom/...
 export BD_CFG_CHAIN_1_MIN_DENOM_SYMBOL="$CHAIN_1_MIN_DENOM_SYMBOL" # aevmos/uatom/...
-export BD_CFG_CHAIN_1_DENOM_EXPONENT=$EVMOS_CHAIN_1_DENOM_EXPONENT # no of digits (18 for evmos, 6 for cosmos atom)
+export BD_CFG_CHAIN_1_DENOM_EXPONENT=$CHAIN_1_DENOM_EXPONENT # no of digits (18 for evmos, 6 for cosmos atom)
 ### Chain 2
 export BD_CFG_CHAIN_2_BRANCH="chains/evmos/mainnet"
 export BD_CFG_CHAIN_2_PG_PORT=15432
@@ -171,7 +171,7 @@ export BD_CFG_CHAIN_2_HASURA_PORT=8082
 export BD_CFG_CHAIN_2_HASURA_ACTIONBASE_PORT=3002
 export BD_CFG_CHAIN_2_DENOM_SYMBOL="$CHAIN_2_DENOM_SYMBOL" # evmos/atom/...
 export BD_CFG_CHAIN_2_MIN_DENOM_SYMBOL="$CHAIN_2_MIN_DENOM_SYMBOL" # aevmos/uatom...
-export BD_CFG_CHAIN_2_DENOM_EXPONENT=$EVMOS_CHAIN_2_DENOM_EXPONENT # no of digits (18 for evmos, 6 for cosmos atom)
+export BD_CFG_CHAIN_2_DENOM_EXPONENT=$CHAIN_2_DENOM_EXPONENT # no of digits (18 for evmos, 6 for cosmos atom)
 ### Big Dipper 2.0 for Cosmos based chains
 ### Chain 1
 export BD2_CHAIN_1_BRANCH="chains/evmos"
