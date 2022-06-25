@@ -4,10 +4,11 @@
 - **IMPORTANT** Open file `env.sh`, locate the variables with prefix `HERMES_CFG_CHAIN_*` and updated based on your need
 - Hermes require an account on each chain with some coins reserved for broadcast tx purpose
     + Account used by default:
-        + evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp (for both chains)
-            + Seed: raw course slim hockey salt crawl sick safe december during armed fragile
+        + Seed: raw course slim hockey salt crawl sick safe december during armed fragile
+            + EVMOS wallet address: evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp
+            + Cosmos wallet address: cosmos16euecy8mnkhdpnr4y3346h44v0gqj67zwc4laf
     + You need to manually transfer some coins (EVMOS) to this address, so the relayer can use this account to broadcast some needed transactions
-        > Sample command: `$ evmosd tx bank send val1 evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp 100000000000000000000aevmos --node tcp://127.0.0.1:26657`
+        > `$ evmosd tx bank send val1 evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp 100000000000000000000aevmos --node tcp://127.0.0.1:26657`
 
 ### II. Create the IBC relayer
 > $ ./create-relayer.sh
