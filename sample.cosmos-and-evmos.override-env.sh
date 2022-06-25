@@ -4,7 +4,7 @@
 
 export KEYRING="file" # Secure your chain, someone will absolutely transfer your token without your permission
 
-export CHAIN_1_TYPE="cosmos" # valid values are 'cosmos' or 'evmos' only, must be 'evmos' for evmos chain, otherwise 'cosmos' for other chains
+export CHAIN_1_TYPE="cosmos" # valid values are 'evmos' or 'cosmos' only, must be 'evmos' for evmos chain, otherwise 'cosmos' for other chains
 export CHAIN_1_ID="cosmos-8"
 export CHAIN_1_COINTYPE=118 # 60 for EVMOS, 118 for Cosmos
 export CHAIN_1_VALIDATOR_IMPORT_TYPE="seed_phrase" # 'private_key' for EVMOS, 'seed_phrase' for Cosmos. Aliases: ('private_key' or 'pk') and ('seed_phrase' or 'seed' or 'sp')

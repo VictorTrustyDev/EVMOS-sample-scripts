@@ -20,7 +20,7 @@ export NOTICE_DEV_ENV="This sample scripts was developed on an Ubuntu 22.04 LTS 
 ## Network
 export MONIKER='moniker'
 ### Chain 1
-export CHAIN_1_TYPE="evmos" # valid values are 'cosmos' or 'evmos' only, must be 'evmos' for evmos chain, otherwise 'cosmos' for other chains
+export CHAIN_1_TYPE="evmos" # valid values are 'evmos' or 'cosmos' only, must be 'evmos' for evmos chain, otherwise 'cosmos' for other chains
 export CHAIN_1_ID="evmos_9006-1"
 export CHAIN_1_COINTYPE=60 # 60 for EVMOS, 118 for Cosmos
 export CHAIN_1_VALIDATOR_IMPORT_TYPE="private_key" # 'private_key' for EVMOS, 'seed_phrase' for Cosmos. Aliases: ('private_key' or 'pk') and ('seed_phrase' or 'seed' or 'sp')
@@ -39,7 +39,7 @@ export CHAIN_1_EXPOSE_JSON_RPC_TO_PORT=8545
 export CHAIN_1_EXPOSE_REST_API_TO_PORT=1317
 export CHAIN_1_EXPOSE_P2P_TO_PORT=26656
 ### Chain 2
-export CHAIN_2_TYPE="evmos" # valid values are 'cosmos' or 'evmos' only, must be 'evmos' for evmos chain, otherwise 'cosmos' for other chains
+export CHAIN_2_TYPE="evmos" # valid values are 'evmos' or 'cosmos' only, must be 'evmos' for evmos chain, otherwise 'cosmos' for other chains
 export CHAIN_2_ID="evmos_9007-1"
 export CHAIN_2_COINTYPE=60 # 60 for EVMOS, 118 for Cosmos
 export CHAIN_2_VALIDATOR_IMPORT_TYPE="private_key" # 'private_key' for EVMOS, 'seed_phrase' for Cosmos. Aliases: ('private_key' or 'pk') and ('seed_phrase' or 'seed' or 'sp')
