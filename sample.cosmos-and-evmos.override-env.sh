@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# You can rename this file into `override-env.sh` to make the first network become cosmos
+# You can rename this file into `override-env.sh` to make the first network become Cosmos (gaia)
 
 export KEYRING="file" # Secure your chain, someone will absolutely transfer your token without your permission
 export VAL_KEYRING_FILE_ENCRYPTION_PASSWORD="11111111"
