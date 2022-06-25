@@ -27,6 +27,7 @@ export CHAIN_1_VALIDATOR_IMPORT_TYPE="private_key" # valid values are ('private_
 export CHAIN_1_ACCOUNT_PREFIX="evmos"
 export CHAIN_1_GIT_REPO="https://github.com/evmos/evmos.git"
 export CHAIN_1_GIT_REPO_BRANCH="v5.0.0"
+export CHAIN_1_DAEMON_BINARY_NAME="evmosd"
 ### Chain 2
 export CHAIN_2_ID="evmos_9007-1"
 export CHAIN_2_COINTYPE=60
@@ -35,8 +36,8 @@ export CHAIN_2_VALIDATOR_IMPORT_TYPE="private_key" # valid values are ('private_
 export CHAIN_2_ACCOUNT_PREFIX="evmos"
 export CHAIN_2_GIT_REPO="https://github.com/evmos/evmos.git"
 export CHAIN_2_GIT_REPO_BRANCH="v5.0.0"
+export CHAIN_2_DAEMON_BINARY_NAME="evmosd"
 ### Chain 1
-export EVMOS_CHAIN_1_DAEMON="evmosd"
 export EVMOS_CHAIN_1_DENOM_SYMBOL="evmos"
 export EVMOS_CHAIN_1_MIN_DENOM_SYMBOL="aevmos"
 export EVMOS_CHAIN_1_GAS_DENOM_SYMBOL="nevmos"
@@ -49,7 +50,6 @@ export EVMOS_CHAIN_1_PORT_JSON_RPC=8545
 export EVMOS_CHAIN_1_PORT_REST_API=1317
 export EVMOS_CHAIN_1_PORT_P2P=26656
 ### Chain 2
-export EVMOS_CHAIN_2_DAEMON="evmosd"
 export EVMOS_CHAIN_2_DENOM_SYMBOL="evmos"
 export EVMOS_CHAIN_2_MIN_DENOM_SYMBOL="aevmos"
 export EVMOS_CHAIN_2_GAS_DENOM_SYMBOL="nevmos"

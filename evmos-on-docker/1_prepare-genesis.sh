@@ -51,11 +51,11 @@ else
 fi
 
 # Binary
-export BINARY="$GOPATH/bin/$EVMOS_DAEMON"
+export BINARY="$GOPATH/bin/$DAEMON_BINARY_NAME"
 
 # Check & Install evmosd binary if not exists
 ./_make_binary.sh
-[ $? -eq 0 ] || { echo "Failed to check & build $EVMOS_DAEMON binary at $BINARY"; }
+[ $? -eq 0 ] || { echo "Failed to check & build daemon binary '$DAEMON_BINARY_NAME' at $BINARY"; }
 
 VAL_HOME_1=$VAL_HOME_PREFIX'0'
 VAL_HOME_2=$VAL_HOME_PREFIX'1'

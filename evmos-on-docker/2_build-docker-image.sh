@@ -72,11 +72,11 @@ echo "Creating docker file: $DOCKER_FILE"
 cp template.DockerfileX "$DOCKER_FILE"
 if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i '' "s,_p_src_dir_,$EVMOS_SOURCE_DIR,g" "$DOCKER_FILE"
-    sed -i '' "s/_p_daemon_binary_/$EVMOS_DAEMON/g" "$DOCKER_FILE"
+    sed -i '' "s/_p_daemon_binary_/$DAEMON_BINARY_NAME/g" "$DOCKER_FILE"
     sed -i '' "s/_p_home_prefix_/$VAL_HOME_PREFIX/g" "$DOCKER_FILE"
 else
     sed -i "s,_p_src_dir_,$EVMOS_SOURCE_DIR,g" "$DOCKER_FILE"
-    sed -i "s/_p_daemon_binary_/$EVMOS_DAEMON/g" "$DOCKER_FILE"
+    sed -i "s/_p_daemon_binary_/$DAEMON_BINARY_NAME/g" "$DOCKER_FILE"
     sed -i "s/_p_home_prefix_/$VAL_HOME_PREFIX/g" "$DOCKER_FILE"
 fi
 
