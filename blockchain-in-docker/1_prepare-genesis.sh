@@ -125,19 +125,25 @@ else
     if [ "$CHAIN_TYPE" = "evmos" ]; then
         echo "- Validator 1, key name '$VAL_1_KEY_NAME'"
         echo "** Due to evmos daemon bug, it is not possible to import seed automatically, please use the following seed:"
+        echo "___"
         echo "$VAL_1_SEED"
+        echo "___"
         echo "and encryption password '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' to encrypt seed phrase of validator 1"
         $BINARY keys add "$VAL_1_KEY_NAME" --recover --keyring-backend "file" --home "$VAL_HOME_1"
         [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
         echo "- Validator 2, key name '$VAL_2_KEY_NAME'"
         echo "** Due to evmos daemon bug, it is not possible to import seed automatically, please use the following seed:"
+        echo "___"
         echo "$VAL_2_SEED"
+        echo "___"
         echo "and encryption password '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' to encrypt seed phrase of validator 2"
         $BINARY keys add "$VAL_2_KEY_NAME" --recover --keyring-backend "file" --home "$VAL_HOME_1"
         [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
         echo "- Validator 3, key name '$VAL_3_KEY_NAME'"
         echo "** Due to evmos daemon bug, it is not possible to import seed automatically, please use the following seed:"
+        echo "___"
         echo "$VAL_3_SEED"
+        echo "___"
         echo "and encryption password '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' to encrypt seed phrase of validator 3"
         $BINARY keys add "$VAL_3_KEY_NAME" --recover --keyring-backend "file" --home "$VAL_HOME_1"
         [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
