@@ -5,13 +5,13 @@ I wrote hundred lines of comments which explains every steps in each script file
 Not only EVMOS, you can use this script to build for other chains like cosmos,... Look at [this](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/sample.cosmos-and-evmos.override-env.sh) to know how to do it
 
 #### Pre-requisites
-- [Go 1.17.5+](https://go.dev/doc/install)
+- [Go 1.17.5+](https://go.dev/doc/install) to build chain
 - [jq](https://stedolan.github.io/jq/download)
 - [yq + tomlq (build on top of jq)](https://github.com/kislyuk/yq)
-- [Rust 1.60+](https://www.rust-lang.org/tools/install) (for Hermes - IBC relayer)
+- [Rust 1.60+](https://www.rust-lang.org/tools/install) to build Hermes - IBC relayer
 - [docker](https://docs.docker.com/engine/install/) & [docker compose](https://docs.docker.com/compose/install/)
-- Node JS (for Big Dipper 2.0 Cosmos)
-- PostgreSQL client (psql) for postgres 12.5
+- Node JS to build & run Big Dipper 2.0 for Cosmos based chains
+- PostgreSQL client (psql) for postgres 12.5 to setup Big Dipper
 
 I created all of the following samples on an Ubuntu 22.04 LTS machine with 4 CPU 16 GB RAM. It can run 
 - 2 [EVMOS](https://github.com/evmos/evmos/tree/v5.0.0) chains
