@@ -18,7 +18,7 @@ export KEYRING="test" # change to file for cloud or production env (DANGER: keyr
 export NOTICE_DEV_ENV="This sample scripts was developed on an Ubuntu 22.04 LTS machine"
 
 ## Network
-export EVMOS_MONIKER='evmosAIO'
+export MONIKER='moniker'
 ### Chain 1
 export CHAIN_1_ID="evmos_9006-1"
 export CHAIN_1_COINTYPE=60
