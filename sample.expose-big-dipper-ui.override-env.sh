@@ -4,6 +4,7 @@
 # Use a domain that does not force https (like .dev, .world,...) because all expose ports of this project is http only
 
 export KEYRING="file" # Secure your chain, someone will absolutely transfer your token without your permission
+export VAL_KEYRING_FILE_ENCRYPTION_PASSWORD="11111111"
 
 export BD2_CFG_CHAIN_1_PUBLIC_DOMAIN="bigdipper.example.com"
 export BD2_CFG_CHAIN_1_PUBLIC_RPC_26657="rpc.example.com:$CHAIN_1_EXPOSE_RPC_TO_PORT"
