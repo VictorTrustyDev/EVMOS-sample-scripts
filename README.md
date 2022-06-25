@@ -44,11 +44,11 @@ without any performance issue (CPU ~20-80% per core, ram ~50% via htop).
 
 | Sample name | Port No. for chain 1 | Port No. for chain 2 | Desc |
 | --- | --- | --- | --- |
-| EVMOS on docker | 26657 | 36657 | **RPC** |
-| EVMOS on docker | 8545 | 18545 | **Json RPC** |
-| EVMOS on docker | 1317 | 11317 | **REST API** |
-| EVMOS on docker | 9090 | 19090 | gRPC |
-| EVMOS on docker | 26656 | 36656 | P2P |
+| Blockchain in docker | 26657 | 36657 | **RPC** |
+| Blockchain in docker | 8545 | 18545 | **Json RPC** |
+| Blockchain in docker | 1317 | 11317 | **REST API** |
+| Blockchain in docker | 9090 | 19090 | gRPC |
+| Blockchain in docker | 26656 | 36656 | P2P |
 | Big Dipper as Block Explorer | 3800 | 3802 | **Big Dipper front end** |
 | Big Dipper as Block Explorer | 8080 | 8082 | Hasura's graphql service |
 | Big Dipper as Block Explorer | 3000 | 3002 | bdjuno hasura action base |
@@ -56,9 +56,9 @@ without any performance issue (CPU ~20-80% per core, ram ~50% via htop).
 #### Default service name & container name used in these samples
 | Sample name | Name for chain 1 | Name for chain 2 | Desc |
 | --- | --- | --- | --- |
-| EVMOS on docker | vtevmos10 | vtevmos20 | Node 0 (validator 1) of EVMOS chain run via docker-compose |
-| EVMOS on docker | vtevmos11 | vtevmos21 | Node 1 (validator 2) of EVMOS chain run via docker-compose |
-| EVMOS on docker | vtevmos12 | vtevmos22 | Node 2 (validator 3) of EVMOS chain run via docker-compose |
+| Blockchain in docker | vtevmos10 | vtevmos20 | Node 0 (validator 1) of EVMOS chain run via docker-compose |
+| Blockchain in docker | vtevmos11 | vtevmos21 | Node 1 (validator 2) of EVMOS chain run via docker-compose |
+| Blockchain in docker | vtevmos12 | vtevmos22 | Node 2 (validator 3) of EVMOS chain run via docker-compose |
 | Hermes as IBC relayer | (hermes-svc as a shared service for both chains) | (hermes-svc as a shared service) | Hermes connects both chains (Debian* daemon service) |
 | Big Dipper as Block Explorer | bdjuno-svc1 | bdjuno-svc2 | bdjuno app (Debian* daemon service) |
 | Big Dipper as Block Explorer | bdjdb1 | bdjdb2 | bdjuno & hasura database (docker) |
