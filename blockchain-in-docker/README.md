@@ -65,14 +65,14 @@ Here are some of them:
 | `CHAIN_1_GIT_REPO_BRANCH` | v5.0.0 | Git branch to be used to build chain 1 |
 | `CHAIN_1_ID` | evmos_9006-1 | Chain id of chain 1 |
 | `CHAIN_1_TYPE` | evmos | Chain type of chain 1 |
-| `CHAIN_1_COINTYPE` | 60 | [HD key derivation path](https://docs.evmos.org/users/technical_concepts/accounts.html) for chain 1's account |
+| `CHAIN_1_COINTYPE` | 60 | [HD key derivation path](https://docs.evmos.org/users/technical_concepts/accounts.html) for chain 1's accounts |
 | `CHAIN_2_GIT_REPO` | https://github.com/evmos/evmos.git | Git repo to be used to build chain 2 |
 | `CHAIN_2_GIT_REPO_BRANCH` | v5.0.0 | Git branch to be used to build chain 2 |
 | `CHAIN_2_ID` | evmos_9007-1 | Chain id of chain 2 |
 | `CHAIN_2_TYPE` | evmos | Chain type of chain 2 |
-| `CHAIN_2_COINTYPE` | 60 | [HD key derivation path](https://docs.evmos.org/users/technical_concepts/accounts.html) for chain 2's account |
+| `CHAIN_2_COINTYPE` | 60 | [HD key derivation path](https://docs.evmos.org/users/technical_concepts/accounts.html) for chain 2's accounts |
 
 
-Performance: 2 chains created by this sample can run in parallel smoothly in a 4 core 4 gb ram machine
+Performance: 2 chains created by this sample can run in parallel smoothly in a 4 Core 4 Gb RAM machine
 
-This sample is using keyring `test`, you may need to change to `file` ([env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)) to secure your test env if needed
+This sample is using keyring-backend is `test`, you may need to change to `file` ([env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)) to secure your test env if needed

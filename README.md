@@ -1,4 +1,4 @@
-### Here you can find sample scripts and notes of how to [setup multiple EVMOS chains](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/tree/main/blockchain-in-docker) and [connect them via an IBC (using Hermes as relayer)](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/tree/main/hermes-as-ibc-relayer) to transfer tokens & coin cross chain
+### Here you can find sample scripts and notes of how to [setup multiple EVMOS chains](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/tree/main/blockchain-in-docker) and [connect them via an IBC (using Hermes as relayer)](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/tree/main/hermes-as-ibc-relayer) to transfer tokens & coin cross chain, as well as block explorer for them (using Big Dipper 2.0 for Cosmos based chains)
 
 I wrote hundred lines of comments which explains every steps in each script file and each readme file, hope that helps you guys in exploring Evmos & Cosmos Ecosystem
 
