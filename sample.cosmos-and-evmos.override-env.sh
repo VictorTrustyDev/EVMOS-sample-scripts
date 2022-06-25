@@ -3,6 +3,7 @@
 # You can rename this file into `override-env.sh` to make the first network become cosmos
 
 export KEYRING="file" # Secure your chain, someone will absolutely transfer your token without your permission
+export VAL_KEYRING_FILE_ENCRYPTION_PASSWORD="11111111"
 
 export CHAIN_1_TYPE="cosmos" # valid values are 'evmos' or 'cosmos' only, must be 'evmos' for evmos chain, otherwise 'cosmos' for other chains
 export CHAIN_1_ID="cosmos-8"
