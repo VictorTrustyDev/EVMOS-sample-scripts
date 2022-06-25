@@ -34,7 +34,9 @@ elif [ "$CHAIN_NO" = "2" ]; then
     export BD2_PUBLIC_RPC_26657="$BD2_CFG_CHAIN_2_PUBLIC_RPC_26657"
 fi
 
-echo "Creating big dipper as block explorer for $CHAIN_ID"
+export CHAIN_NAME=$(echo $DENOM_SYMBOL | tr '[:lower:]' '[:upper:]')
+
+echo "Creating big dipper as block explorer for $CHAIN_NAME chain $CHAIN_ID"
 echo "- Denom: $DENOM_SYMBOL ($DENOM_EXPONENT digits unit: $MIN_DENOM_SYMBOL)"
 echo "- RPC: $RPC_ADDR"
 echo "- gRPC: $GRPC_ADDR"

@@ -20,9 +20,9 @@ fi
 
 # Validate input
 if [ "$CHAIN_NO" = "1" ]; then
-    echo "Network 1"
+    echo "Chain 1"
 elif [ "$CHAIN_NO" = "2" ]; then
-    echo "Network 2"
+    echo "Chain 2"
 else
     echo 'Missing or incorrect chain no as first argument, valid input is 1 or 2'
     echo 'For example:'
@@ -69,7 +69,7 @@ BD2_CHAIN_CONFIG_MAINNET="$BD2_SOURCE_DIR/src/configs/chain_config.mainnet.json"
 BD2_CHAIN_CONFIG_TESTNET="$BD2_SOURCE_DIR/src/configs/chain_config.testnet.json"
 BD2_CHAIN_CONFIG_TMP="$BD2_SOURCE_DIR/src/configs/tmp_chain_config.json"
 echo "Setting up file mainnet chain config"
-cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.title="'$DENOM_SYMBOL' Block Explorer"' > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
+cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.title="'$CHAIN_NAME' Block Explorer"' > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
 cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.network="'$CHAIN_ID'"' > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
 cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.prefix["consensus"]="'$DENOM_SYMBOL'valcons"' > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
 cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.prefix["validator"]="'$DENOM_SYMBOL'valoper"' > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET

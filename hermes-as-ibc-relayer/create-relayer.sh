@@ -27,10 +27,10 @@ if [ "$HERMES_NO_CONFIRM_BALANCE" != "1" ]; then
     else
         echo "Go prepare yourself"
         echo "Hint: you can do this"
-        echo " docker exec -it vtevmos10 bash"
-        echo " evmosd tx bank send $VAL_1_KEY_NAME $REL_1_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /evmosd10"
-        echo " docker exec -it vtevmos20 bash"
-        echo " evmosd tx bank send $VAL_1_KEY_NAME $REL_2_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /evmosd20"
+        echo " docker exec -it vtevmos11 bash"
+        echo " $CHAIN_1_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_1_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /.evmosd11 --node tcp://127.0.0.1:26657"
+        echo " docker exec -it vtevmos21 bash"
+        echo " $CHAIN_2_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_2_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /.evmosd21 --node tcp://127.0.0.1:26657"
         exit 1
     fi
 fi
@@ -83,7 +83,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i '' "s/chain1_account_prefix/$HERMES_CFG_CHAIN_1_ACCOUNT_PREFIX/g" $CONFIG_TOML
     sed -i '' "s/chain1_key_name/$HERMES_CFG_CHAIN_1_KEY_NAME/g" $CONFIG_TOML
     sed -i '' "s/chain1_gas_price_denom/$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL/g" $CONFIG_TOML
-    if [ $CHAIN_1_COINTYPE -eq 60 ]; then
+    if [ $CHAIN_1_COINTYPE -eq 60 ] || [ "$CHAIN_1_TYPE" = "evmos" ]; then
         sed -i '' "s#chain1_address_type#{ derivation = 'ethermint', proto_type = { pk_type = '/ethermint.crypto.v1.ethsecp256k1.PubKey' } }#g" $CONFIG_TOML
     else
         sed -i '' "s#chain1_address_type#{ derivation = 'cosmos' }#g" $CONFIG_TOML
@@ -94,7 +94,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i '' "s/chain2_account_prefix/$HERMES_CFG_CHAIN_2_ACCOUNT_PREFIX/g" $CONFIG_TOML
     sed -i '' "s/chain2_key_name/$HERMES_CFG_CHAIN_2_KEY_NAME/g" $CONFIG_TOML
     sed -i '' "s/chain2_gas_price_denom/$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL/g" $CONFIG_TOML
-    if [ $CHAIN_2_COINTYPE -eq 60 ]; then
+    if [ $CHAIN_2_COINTYPE -eq 60 ] || [ "$CHAIN_2_TYPE" = "evmos" ]; then
         sed -i '' "s#chain2_address_type#{ derivation = 'ethermint', proto_type = { pk_type = '/ethermint.crypto.v1.ethsecp256k1.PubKey' } }#g" $CONFIG_TOML
     else
         sed -i '' "s#chain2_address_type#{ derivation = 'cosmos' }#g" $CONFIG_TOML
@@ -165,23 +165,23 @@ echo '- Creating client'
 RES_CREATE_CLIENT_1_TO_2=$($BINARY -c $CONFIG_TOML tx raw create-client $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID)
 TENDERMINT_CLIENT_1_TO_2=$(echo $RES_CREATE_CLIENT_1_TO_2 | grep -o '07-tendermint-[0-9]*')
 echo ' > Client 1 to 2: '$TENDERMINT_CLIENT_1_TO_2
-[ -z "$TENDERMINT_CLIENT_1_TO_2" ] && { echo "Unable to create tendermint light client on network 1"; exit 1; }
+[ -z "$TENDERMINT_CLIENT_1_TO_2" ] && { echo "Unable to create tendermint light client on chain 1"; exit 1; }
 
 RES_CREATE_CLIENT_2_TO_1=$($BINARY -c $CONFIG_TOML tx raw create-client $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID)
 TENDERMINT_CLIENT_2_TO_1=$(echo $RES_CREATE_CLIENT_2_TO_1 | grep -o '07-tendermint-[0-9]*')
 echo ' > Client 2 to 1: '$TENDERMINT_CLIENT_2_TO_1
-[ -z "$TENDERMINT_CLIENT_2_TO_1" ] && { echo "Unable to create tendermint light client on network 2"; exit 1; }
+[ -z "$TENDERMINT_CLIENT_2_TO_1" ] && { echo "Unable to create tendermint light client on chain 2"; exit 1; }
 
 echo '- Creating connection'
 RES_CREATE_CONN_1_TO_2=$($BINARY -c $CONFIG_TOML tx raw conn-init $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID $TENDERMINT_CLIENT_1_TO_2 $TENDERMINT_CLIENT_2_TO_1)
 CONN_1_TO_2=$(echo $RES_CREATE_CONN_1_TO_2 | grep -o 'connection-[0-9]*')
 echo ' > Connection 1 to 2: '$CONN_1_TO_2
-[ -z "$CONN_1_TO_2" ] && { echo "Unable to create connection on network 1"; exit 1; }
+[ -z "$CONN_1_TO_2" ] && { echo "Unable to create connection on chain 1"; exit 1; }
 
 RES_CREATE_CONN_2_TO_1=$($BINARY -c $CONFIG_TOML tx raw conn-try $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID $TENDERMINT_CLIENT_2_TO_1 $TENDERMINT_CLIENT_1_TO_2 -s $CONN_1_TO_2)
 CONN_2_TO_1=$(echo $RES_CREATE_CONN_2_TO_1 | grep -o 'connection-[0-9]*' | head -n 1)
 echo ' > Connection 2 to 1: '$CONN_2_TO_1
-[ -z "$CONN_2_TO_1" ] && { echo "Unable to create connection on network 2"; exit 1; }
+[ -z "$CONN_2_TO_1" ] && { echo "Unable to create connection on chain 2"; exit 1; }
 
 $BINARY -c $CONFIG_TOML tx raw conn-ack $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID $TENDERMINT_CLIENT_1_TO_2 $TENDERMINT_CLIENT_2_TO_1 -d $CONN_1_TO_2 -s $CONN_2_TO_1
 EXIT_CODE=$?
@@ -202,11 +202,11 @@ echo '- Creating channel'
 
 RES_CREATE_CHAN_1_TO_2=$($BINARY -c $CONFIG_TOML tx raw chan-open-init $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID $CONN_1_TO_2 transfer transfer -o UNORDERED)
 CHAN_1_TO_2=$(echo $RES_CREATE_CHAN_1_TO_2 | grep -o 'channel-[0-9]*')
-[ -z "$CHAN_1_TO_2" ] && { echo "ERR: Unable to create channel on network 1"; exit 1; }
+[ -z "$CHAN_1_TO_2" ] && { echo "ERR: Unable to create channel on chain 1"; exit 1; }
 
 RES_CREATE_CHAN_2_TO_1=$($BINARY -c $CONFIG_TOML tx raw chan-open-try $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID $CONN_2_TO_1 transfer transfer -s $CHAN_1_TO_2)
 CHAN_2_TO_1=$(echo $RES_CREATE_CHAN_2_TO_1 | grep -o 'channel-[0-9]*' | head -n 1)
-[ -z "$CHAN_2_TO_1" ] && { echo "ERR: Unable to create channel on network 2"; exit 1; }
+[ -z "$CHAN_2_TO_1" ] && { echo "ERR: Unable to create channel on chain 2"; exit 1; }
 
 $BINARY -c $CONFIG_TOML tx raw chan-open-ack $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID $CONN_1_TO_2 transfer transfer -d $CHAN_1_TO_2 -s $CHAN_2_TO_1
 EXIT_CODE=$?

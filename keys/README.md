@@ -16,7 +16,7 @@
     + Mnemonic: stage grid emotion thumb safe myth chair dizzy beyond casual select polar hover retire master neglect shift zero trigger section token replace truly father
     + Cosmos addr: cosmos1czg02jwz4rvu405mzxnw7h9zkzu7pm39wl6h5e
 
-#### The following is being used to create reserved account for paying IBC fee on both networks
-- evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp (for both networks)
+#### The following is being used to create reserved account for paying IBC fee on both chains
+- evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp (for both chains)
     + Mnemonic: raw course slim hockey salt crawl sick safe december during armed fragile
     + Cosmos addr: cosmos16euecy8mnkhdpnr4y3346h44v0gqj67zwc4laf

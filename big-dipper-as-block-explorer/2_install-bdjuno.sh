@@ -18,9 +18,9 @@ fi
 
 # Validate input
 if [ "$CHAIN_NO" = "1" ]; then
-    echo "Network 1"
+    echo "Chain 1"
 elif [ "$CHAIN_NO" = "2" ]; then
-    echo "Network 2"
+    echo "Chain 2"
 else
     echo 'Missing or incorrect chain no as first argument, valid input is 1 or 2'
     echo 'For example:'
@@ -39,7 +39,7 @@ fi
 GENESIS_JSON="$BD_HOME/genesis.json"
 if [ ! -f "$GENESIS_JSON" ]; then
     if [ $EXTRA_FUNC -eq 1 ]; then
-        cp '../evmos-on-docker/.evmosd'$CHAIN_NO'0/config/genesis.json' "$GENESIS_JSON"
+        cp '../blockchain-in-docker/.evmosd'$CHAIN_NO'0/config/genesis.json' "$GENESIS_JSON"
         if [ ! -f "$GENESIS_JSON" ]; then
             echo "Please copy genesis.json from your chain into $BD_HOME"
             exit 1

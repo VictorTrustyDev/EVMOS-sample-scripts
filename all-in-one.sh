@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # This script will setup
-# - 2 EVMOS networks
+# - 2 chains
 # - 1 Hermes as IBC relayer
 # - 2 Big Dipper as Block Explorer
 # In a single command!
@@ -90,7 +90,7 @@ export HERMES_NO_CONFIRM_BALANCE=1
 AIO_CUR_DIR=$(pwd)
 AIO_DIR_BD="./big-dipper-as-block-explorer"
 AIO_DIR_HERMES="./hermes-as-ibc-relayer"
-AIO_DIR_EVMOS="./evmos-on-docker"
+AIO_DIR_CHAIN="./blockchain-in-docker"
 
 echo "[Clean up previous setup]"
 
@@ -104,14 +104,14 @@ cd "$AIO_DIR_HERMES"
 ./cleanup.sh
 cd "$AIO_CUR_DIR"
 
-echo "> [EVMOS]"
-cd "$AIO_DIR_EVMOS"
+echo "> [Chains]"
+cd "$AIO_DIR_CHAIN"
 ./cleanup.sh
 cd "$AIO_CUR_DIR"
 
 echo "[Setup]"
-cd "$AIO_DIR_EVMOS"
-echo "> [EVMOS network 1]"
+cd "$AIO_DIR_CHAIN"
+echo "> [Chain 1]"
 ./1_prepare-genesis.sh 1
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed (genesis)"; exit 1; }
 sleep 2s
@@ -119,7 +119,7 @@ sleep 2s
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed (build docker image)"; exit 1; }
 sleep 2s
 docker-compose -f network1.yml up -d
-echo "> [EVMOS network 2]"
+echo "> [Chain 2]"
 ./1_prepare-genesis.sh 2
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed (genesis)"; exit 1; }
 sleep 2s
@@ -134,46 +134,46 @@ cd "$AIO_DIR_HERMES"
 if [ -f "./override-env.sh" ]; then
     source "./override-env.sh"
 fi
-echo "> [Load up token for IBC account on network 1]"
+echo "> [Load up token for IBC account on chain 1]"
 echo "Keyring: $KEYRING"
 if [ "$KEYRING" = "test" ]; then
-    docker exec -it vtevmos11 bash -c "$EVMOS_CHAIN_1_DAEMON tx bank send $VAL_2_KEY_NAME $REL_1_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /.evmosd11 --node 'tcp://127.0.0.1:26657' --yes"
+    docker exec -it vtevmos11 bash -c "$CHAIN_1_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_1_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /.evmosd11 --node 'tcp://127.0.0.1:26657' --yes"
 else
-    docker exec -it vtevmos11 bash -c "echo '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' | $EVMOS_CHAIN_1_DAEMON tx bank send $VAL_2_KEY_NAME $REL_1_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /.evmosd11 --node 'tcp://127.0.0.1:26657' --yes"
+    docker exec -it vtevmos11 bash -c "echo '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' | $CHAIN_1_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_1_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /.evmosd11 --node 'tcp://127.0.0.1:26657' --yes"
 fi
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed"; exit 1; }
-echo "> [Load up token for IBC account on network 2]"
+echo "> [Load up token for IBC account on chain 2]"
 if [ "$KEYRING" = "test" ]; then
-    docker exec -it vtevmos21 bash -c "$EVMOS_CHAIN_2_DAEMON tx bank send $VAL_2_KEY_NAME $REL_2_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /.evmosd21 --node 'tcp://127.0.0.1:26657' --yes"
+    docker exec -it vtevmos21 bash -c "$CHAIN_2_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_2_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /.evmosd21 --node 'tcp://127.0.0.1:26657' --yes"
 else
-    docker exec -it vtevmos21 bash -c "echo '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' | $EVMOS_CHAIN_2_DAEMON tx bank send $VAL_2_KEY_NAME $REL_2_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /.evmosd21 --node 'tcp://127.0.0.1:26657' --yes"
+    docker exec -it vtevmos21 bash -c "echo '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' | $CHAIN_2_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_2_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /.evmosd21 --node 'tcp://127.0.0.1:26657' --yes"
 fi
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed"; exit 1; }
 
-echo "> [Hermes]"
-./create-hermes.sh
+echo "> [Hermes as IBC relayer]"
+./create-relayer.sh
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed"; exit 1; }
 cd "$AIO_CUR_DIR"
 
 cd "$AIO_DIR_BD"
-echo "> [bdjuno for network 1]"
+echo "> [bdjuno for chain 1]"
 ./1_install-bdjuno.sh 1
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed (step 1 bdjuno)"; exit 1; }
 ./2_install-bdjuno.sh 1
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed (step 2 bdjuno)"; exit 1; }
 ./3_install-hasura.sh 1
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed (hasura)"; exit 1; }
-echo "> [bdjuno for network 2]"
+echo "> [bdjuno for chain 2]"
 ./1_install-bdjuno.sh 2
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed (step 1 bdjuno)"; exit 1; }
 ./2_install-bdjuno.sh 2
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed (step 2 bdjuno)"; exit 1; }
 ./3_install-hasura.sh 2
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed (hasura)"; exit 1; }
-echo "> [Big Dipper UI for network 1]"
+echo "> [Big Dipper UI for chain 1]"
 ./4_install-front-end.sh 1
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed"; exit 1; }
-echo "> [Big Dipper UI for network 2]"
+echo "> [Big Dipper UI for chain 2]"
 ./4_install-front-end.sh 2
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed"; exit 1; }
 

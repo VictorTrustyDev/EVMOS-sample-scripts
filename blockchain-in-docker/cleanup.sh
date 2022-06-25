@@ -7,10 +7,10 @@ down() {
     DCF="network$CHAIN_NO.yml"
 
     if [ -f "$DCF" ]; then
-        echo "Shutting down network $CHAIN_NO"
+        echo "Shutting down chain $CHAIN_NO"
         docker-compose -f "$DCF" down
     else
-        echo "Can not shutdown containers of network $CHAIN_NO because docker compose file $DCF could not be found"
+        echo "Can not shutdown containers of chain $CHAIN_NO because docker compose file $DCF could not be found"
     fi
 }
 

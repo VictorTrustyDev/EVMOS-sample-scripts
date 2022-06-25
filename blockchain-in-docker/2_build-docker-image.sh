@@ -15,25 +15,25 @@ if [ -f "./_config.sh" ]; then
     source "./_config.sh"
 else
     echo "ERR: Wrong working directory"
-    echo "ERR: Scripts must be executed within [evmos-on-docker] directory"
+    echo "ERR: Scripts must be executed within [blockchain-in-docker] directory"
     exit 1
 fi
 
 # Validate input
 if [ "$CHAIN_NO" = "1" ]; then
-    echo "Network 1"
-    export PORT_26657="$EVMOS_CHAIN_1_PORT_RPC"
-    export PORT_9090="$EVMOS_CHAIN_1_PORT_GRPC"
-    export PORT_8545="$EVMOS_CHAIN_1_PORT_JSON_RPC"
-    export PORT_1317="$EVMOS_CHAIN_1_PORT_REST_API"
-    export PORT_26656="$EVMOS_CHAIN_1_PORT_P2P"
+    echo "Chain 1"
+    export PORT_26657="$CHAIN_1_EXPOSE_RPC_TO_PORT"
+    export PORT_9090="$CHAIN_1_EXPOSE_GRPC_TO_PORT"
+    export PORT_8545="$CHAIN_1_EXPOSE_JSON_RPC_TO_PORT"
+    export PORT_1317="$CHAIN_1_EXPOSE_REST_API_TO_PORT"
+    export PORT_26656="$CHAIN_1_EXPOSE_P2P_TO_PORT"
 elif [ "$CHAIN_NO" = "2" ]; then
-    echo "Network 2"
-    export PORT_26657="$EVMOS_CHAIN_2_PORT_RPC"
-    export PORT_9090="$EVMOS_CHAIN_2_PORT_GRPC"
-    export PORT_8545="$EVMOS_CHAIN_2_PORT_JSON_RPC"
-    export PORT_1317="$EVMOS_CHAIN_2_PORT_REST_API"
-    export PORT_26656="$EVMOS_CHAIN_2_PORT_P2P"
+    echo "Chain 2"
+    export PORT_26657="$CHAIN_2_EXPOSE_RPC_TO_PORT"
+    export PORT_9090="$CHAIN_2_EXPOSE_GRPC_TO_PORT"
+    export PORT_8545="$CHAIN_2_EXPOSE_JSON_RPC_TO_PORT"
+    export PORT_1317="$CHAIN_2_EXPOSE_REST_API_TO_PORT"
+    export PORT_26656="$CHAIN_2_EXPOSE_P2P_TO_PORT"
 else
     echo 'Missing or incorrect chain no as first argument, valid input is 1 or 2'
     echo 'For example:'
@@ -50,14 +50,14 @@ if [ -f "$DOCKER_COMPOSE_FILE" ]; then
 fi
 
 # Check EVMOS source
-if [ -d "$EVMOS_SOURCE_DIR" ]; then
+if [ -d "$SOURCE_CODE_DIR" ]; then
     echo "EVMOS repo was downloaded"
 else
-    echo "Downloading EVMOS source code $SRC_VER"
-    git clone "$EVMOS_REPO" --branch "$SRC_VER" --single-branch "$EVMOS_SOURCE_DIR"
+    echo "Downloading EVMOS source code $GIT_BRANCH"
+    git clone "$GIT_REPO" --branch "$GIT_BRANCH" --single-branch "$SOURCE_CODE_DIR"
 
     if [ $? -ne 0 ]; then
-        echo "Git clone EVMOS $SRC_VER failed"
+        echo "Git clone EVMOS $GIT_BRANCH failed"
         exit 1
     fi
 fi
@@ -71,12 +71,12 @@ DOCKER_FILE="Dockerfile$CHAIN_NO"
 echo "Creating docker file: $DOCKER_FILE"
 cp template.DockerfileX "$DOCKER_FILE"
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    sed -i '' "s,_p_src_dir_,$EVMOS_SOURCE_DIR,g" "$DOCKER_FILE"
-    sed -i '' "s/_p_daemon_binary_/$EVMOS_DAEMON/g" "$DOCKER_FILE"
+    sed -i '' "s,_p_src_dir_,$SOURCE_CODE_DIR,g" "$DOCKER_FILE"
+    sed -i '' "s/_p_daemon_binary_/$DAEMON_BINARY_NAME/g" "$DOCKER_FILE"
     sed -i '' "s/_p_home_prefix_/$VAL_HOME_PREFIX/g" "$DOCKER_FILE"
 else
-    sed -i "s,_p_src_dir_,$EVMOS_SOURCE_DIR,g" "$DOCKER_FILE"
-    sed -i "s/_p_daemon_binary_/$EVMOS_DAEMON/g" "$DOCKER_FILE"
+    sed -i "s,_p_src_dir_,$SOURCE_CODE_DIR,g" "$DOCKER_FILE"
+    sed -i "s/_p_daemon_binary_/$DAEMON_BINARY_NAME/g" "$DOCKER_FILE"
     sed -i "s/_p_home_prefix_/$VAL_HOME_PREFIX/g" "$DOCKER_FILE"
 fi
 
