@@ -22,15 +22,15 @@ fi
 # Validate input
 if [ "$CHAIN_NO" = "1" ]; then
     echo "Network 1"
-    export PORT_26657="$EVMOS_CHAIN_1_PORT_RPC"
-    export PORT_9090="$EVMOS_CHAIN_1_PORT_GRPC"
+    export PORT_26657="$CHAIN_1_EXPOSE_RPC_TO_PORT"
+    export PORT_9090="$CHAIN_1_EXPOSE_GRPC_TO_PORT"
     export PORT_8545="$EVMOS_CHAIN_1_PORT_JSON_RPC"
     export PORT_1317="$EVMOS_CHAIN_1_PORT_REST_API"
     export PORT_26656="$EVMOS_CHAIN_1_PORT_P2P"
 elif [ "$CHAIN_NO" = "2" ]; then
     echo "Network 2"
-    export PORT_26657="$EVMOS_CHAIN_2_PORT_RPC"
-    export PORT_9090="$EVMOS_CHAIN_2_PORT_GRPC"
+    export PORT_26657="$CHAIN_2_EXPOSE_RPC_TO_PORT"
+    export PORT_9090="$CHAIN_2_EXPOSE_GRPC_TO_PORT"
     export PORT_8545="$EVMOS_CHAIN_2_PORT_JSON_RPC"
     export PORT_1317="$EVMOS_CHAIN_2_PORT_REST_API"
     export PORT_26656="$EVMOS_CHAIN_2_PORT_P2P"

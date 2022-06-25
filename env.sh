@@ -23,44 +23,45 @@ export MONIKER='moniker'
 export CHAIN_1_ID="evmos_9006-1"
 export CHAIN_1_COINTYPE=60
 export CHAIN_1_VALIDATOR_IMPORT_TYPE="private_key" # valid values are ('private_key' or 'pk') and ('seed' or 'seed_phrase' or 'sp')
-# For EVMOS, it must be 'private_key', for other cosmos chains, it must be 'seed_phrase'
+#### For EVMOS, it must be 'private_key', for other cosmos chains, it must be 'seed_phrase'
 export CHAIN_1_ACCOUNT_PREFIX="evmos"
 export CHAIN_1_GIT_REPO="https://github.com/evmos/evmos.git"
 export CHAIN_1_GIT_REPO_BRANCH="v5.0.0"
 export CHAIN_1_DAEMON_BINARY_NAME="evmosd"
-### Chain 2
-export CHAIN_2_ID="evmos_9007-1"
-export CHAIN_2_COINTYPE=60
-export CHAIN_2_VALIDATOR_IMPORT_TYPE="private_key" # valid values are ('private_key' or 'pk') and ('seed' or 'seed_phrase' or 'sp')
-# For EVMOS, it must be 'private_key', for other cosmos chains, it must be 'seed_phrase'
-export CHAIN_2_ACCOUNT_PREFIX="evmos"
-export CHAIN_2_GIT_REPO="https://github.com/evmos/evmos.git"
-export CHAIN_2_GIT_REPO_BRANCH="v5.0.0"
-export CHAIN_2_DAEMON_BINARY_NAME="evmosd"
-### Chain 1
 export CHAIN_1_DENOM_SYMBOL="evmos"
 export CHAIN_1_MIN_DENOM_SYMBOL="aevmos"
 export CHAIN_1_GAS_DENOM_SYMBOL="nevmos"
 export CHAIN_1_DENOM_EXPONENT=18 # no of digits (18 for evmos, 6 for cosmos atom)
-export EVMOS_CHAIN_1_GAS_DENOM_EXPONENT=9 # no of digits (9 for evmos, 3 for cosmos atom)
-export EVMOS_CHAIN_1_CLAIM_MODULE_ACCOUNT="evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz"
-export EVMOS_CHAIN_1_PORT_RPC=26657
-export EVMOS_CHAIN_1_PORT_GRPC=9090
-export EVMOS_CHAIN_1_PORT_JSON_RPC=8545
-export EVMOS_CHAIN_1_PORT_REST_API=1317
-export EVMOS_CHAIN_1_PORT_P2P=26656
+export CHAIN_1_GAS_DENOM_EXPONENT=9 # no of digits (9 for evmos, 3 for cosmos atom)
 ### Chain 2
+export CHAIN_2_ID="evmos_9007-1"
+export CHAIN_2_COINTYPE=60
+export CHAIN_2_VALIDATOR_IMPORT_TYPE="private_key" # valid values are ('private_key' or 'pk') and ('seed' or 'seed_phrase' or 'sp')
+#### For EVMOS, it must be 'private_key', for other cosmos chains, it must be 'seed_phrase'
+export CHAIN_2_ACCOUNT_PREFIX="evmos"
+export CHAIN_2_GIT_REPO="https://github.com/evmos/evmos.git"
+export CHAIN_2_GIT_REPO_BRANCH="v5.0.0"
+export CHAIN_2_DAEMON_BINARY_NAME="evmosd"
 export CHAIN_2_DENOM_SYMBOL="evmos"
 export CHAIN_2_MIN_DENOM_SYMBOL="aevmos"
 export CHAIN_2_GAS_DENOM_SYMBOL="nevmos"
 export CHAIN_2_DENOM_EXPONENT=18 # no of digits (18 for evmos, 6 for cosmos atom)
-export EVMOS_CHAIN_2_GAS_DENOM_EXPONENT=9 # no of digits (9 for evmos, 3 for cosmos atom)
-export EVMOS_CHAIN_2_CLAIM_MODULE_ACCOUNT="evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz"
-export EVMOS_CHAIN_2_PORT_RPC=36657
-export EVMOS_CHAIN_2_PORT_GRPC=19090
+export CHAIN_2_GAS_DENOM_EXPONENT=9 # no of digits (9 for evmos, 3 for cosmos atom)
+#### (EVMOS specific)
+### Chain 1
+export CHAIN_1_EXPOSE_RPC_TO_PORT=26657
+export CHAIN_1_EXPOSE_GRPC_TO_PORT=9090
+export EVMOS_CHAIN_1_PORT_JSON_RPC=8545
+export EVMOS_CHAIN_1_PORT_REST_API=1317
+export EVMOS_CHAIN_1_PORT_P2P=26656
+export EVMOS_CHAIN_1_CLAIM_MODULE_ACCOUNT="evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz"
+### Chain 2
+export CHAIN_2_EXPOSE_RPC_TO_PORT=36657
+export CHAIN_2_EXPOSE_GRPC_TO_PORT=19090
 export EVMOS_CHAIN_2_PORT_JSON_RPC=18545
 export EVMOS_CHAIN_2_PORT_REST_API=11317
 export EVMOS_CHAIN_2_PORT_P2P=36656
+export EVMOS_CHAIN_2_CLAIM_MODULE_ACCOUNT="evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz"
 
 ## Validators
 export VAL_KEYRING_FILE_ENCRYPTION_PASSWORD="11111111"
@@ -111,16 +112,16 @@ export HERMES_HOME_DIR=".hermes"
 export HERMES_RESERVED_FEE=100 # will be transfered to relayer's account and reserved for relay purpose
 ### Chain 1
 export HERMES_CFG_CHAIN_1_ID="$CHAIN_1_ID"
-export HERMES_CFG_CHAIN_1_RPC_ADDR="127.0.0.1:$EVMOS_CHAIN_1_PORT_RPC"
-export HERMES_CFG_CHAIN_1_GRPC_ADDR="127.0.0.1:$EVMOS_CHAIN_1_PORT_GRPC"
+export HERMES_CFG_CHAIN_1_RPC_ADDR="127.0.0.1:$CHAIN_1_EXPOSE_RPC_TO_PORT"
+export HERMES_CFG_CHAIN_1_GRPC_ADDR="127.0.0.1:$CHAIN_1_EXPOSE_GRPC_TO_PORT"
 export HERMES_CFG_CHAIN_1_ACCOUNT_PREFIX="$CHAIN_1_ACCOUNT_PREFIX"
 export HERMES_CFG_CHAIN_1_KEY_NAME="evmoskey"
 export HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL="$CHAIN_1_MIN_DENOM_SYMBOL"
 export HERMES_CFG_CHAIN_1_DENOM_EXPONENT=$CHAIN_1_DENOM_EXPONENT # no of digits (18 for evmos, 6 for cosmos atom)
 ### Chain 2
 export HERMES_CFG_CHAIN_2_ID="$CHAIN_2_ID"
-export HERMES_CFG_CHAIN_2_RPC_ADDR="127.0.0.1:$EVMOS_CHAIN_2_PORT_RPC"
-export HERMES_CFG_CHAIN_2_GRPC_ADDR="127.0.0.1:$EVMOS_CHAIN_2_PORT_GRPC"
+export HERMES_CFG_CHAIN_2_RPC_ADDR="127.0.0.1:$CHAIN_2_EXPOSE_RPC_TO_PORT"
+export HERMES_CFG_CHAIN_2_GRPC_ADDR="127.0.0.1:$CHAIN_2_EXPOSE_GRPC_TO_PORT"
 export HERMES_CFG_CHAIN_2_ACCOUNT_PREFIX="$CHAIN_2_ACCOUNT_PREFIX"
 export HERMES_CFG_CHAIN_2_KEY_NAME="evmoskey"
 export HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL="$CHAIN_2_MIN_DENOM_SYMBOL"
@@ -152,8 +153,8 @@ export BD_CFG_PG_USR_PASS="6N4QtFYMt7h972uazrWTckmMvFZWIje" # Password of defaul
 export BD_CFG_CHAIN_1_BRANCH="chains/evmos/mainnet"
 export BD_CFG_CHAIN_1_PG_PORT=5432
 export BD_CFG_CHAIN_1_ACCOUNT_PREFIX="$CHAIN_1_ACCOUNT_PREFIX"
-export BD_CFG_CHAIN_1_RPC_ADDR="127.0.0.1:$EVMOS_CHAIN_1_PORT_RPC"
-export BD_CFG_CHAIN_1_GRPC_ADDR="127.0.0.1:$EVMOS_CHAIN_1_PORT_GRPC"
+export BD_CFG_CHAIN_1_RPC_ADDR="127.0.0.1:$CHAIN_1_EXPOSE_RPC_TO_PORT"
+export BD_CFG_CHAIN_1_GRPC_ADDR="127.0.0.1:$CHAIN_1_EXPOSE_GRPC_TO_PORT"
 export BD_CFG_CHAIN_1_ID="$CHAIN_1_ID"
 export BD_CFG_CHAIN_1_HASURA_PORT=8080
 export BD_CFG_CHAIN_1_HASURA_ACTIONBASE_PORT=3000
@@ -164,8 +165,8 @@ export BD_CFG_CHAIN_1_DENOM_EXPONENT=$CHAIN_1_DENOM_EXPONENT # no of digits (18 
 export BD_CFG_CHAIN_2_BRANCH="chains/evmos/mainnet"
 export BD_CFG_CHAIN_2_PG_PORT=15432
 export BD_CFG_CHAIN_2_ACCOUNT_PREFIX="$CHAIN_2_ACCOUNT_PREFIX"
-export BD_CFG_CHAIN_2_RPC_ADDR="127.0.0.1:$EVMOS_CHAIN_2_PORT_RPC"
-export BD_CFG_CHAIN_2_GRPC_ADDR="127.0.0.1:$EVMOS_CHAIN_2_PORT_GRPC"
+export BD_CFG_CHAIN_2_RPC_ADDR="127.0.0.1:$CHAIN_2_EXPOSE_RPC_TO_PORT"
+export BD_CFG_CHAIN_2_GRPC_ADDR="127.0.0.1:$CHAIN_2_EXPOSE_GRPC_TO_PORT"
 export BD_CFG_CHAIN_2_ID="$CHAIN_2_ID"
 export BD_CFG_CHAIN_2_HASURA_PORT=8082
 export BD_CFG_CHAIN_2_HASURA_ACTIONBASE_PORT=3002
@@ -177,12 +178,12 @@ export BD_CFG_CHAIN_2_DENOM_EXPONENT=$CHAIN_2_DENOM_EXPONENT # no of digits (18 
 export BD2_CHAIN_1_BRANCH="chains/evmos"
 export BD2_CFG_CHAIN_1_PORT=3800
 export BD2_CFG_CHAIN_1_PUBLIC_DOMAIN="127.0.0.1"
-export BD2_CFG_CHAIN_1_PUBLIC_RPC_26657="127.0.0.1:$EVMOS_CHAIN_1_PORT_RPC"
+export BD2_CFG_CHAIN_1_PUBLIC_RPC_26657="127.0.0.1:$CHAIN_1_EXPOSE_RPC_TO_PORT"
 ### Chain 2
 export BD2_CHAIN_2_BRANCH="chains/evmos"
 export BD2_CFG_CHAIN_2_PORT=3802
 export BD2_CFG_CHAIN_2_PUBLIC_DOMAIN="127.0.0.1"
-export BD2_CFG_CHAIN_2_PUBLIC_RPC_26657="127.0.0.1:$EVMOS_CHAIN_2_PORT_RPC"
+export BD2_CFG_CHAIN_2_PUBLIC_RPC_26657="127.0.0.1:$CHAIN_2_EXPOSE_RPC_TO_PORT"
 
 ## Reflects by above config (edit at your own risk)
 export HERMES_SERVICE_NAME=$HERMES_BINARY'-svc'

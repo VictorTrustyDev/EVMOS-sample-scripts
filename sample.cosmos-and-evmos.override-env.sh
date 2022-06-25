@@ -15,7 +15,7 @@ export CHAIN_1_DENOM_SYMBOL="atom"
 export CHAIN_1_MIN_DENOM_SYMBOL="uatom"
 export CHAIN_1_GAS_DENOM_SYMBOL="natom"
 export CHAIN_1_DENOM_EXPONENT=6
-export EVMOS_CHAIN_1_GAS_DENOM_EXPONENT=3
+export CHAIN_1_GAS_DENOM_EXPONENT=3
 export EVMOS_CHAIN_1_CLAIM_MODULE_ACCOUNT="cosmos14eadktsf4zzah6har7h7a46tunnj7rq7lmppy5" # whatever, as long as it is different than 3 validators and the relayer account
 
 export REL_1_SEED="raw course slim hockey salt crawl sick safe december during armed fragile"
