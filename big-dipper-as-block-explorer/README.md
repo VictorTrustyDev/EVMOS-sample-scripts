@@ -43,7 +43,7 @@ Here are some of them:
 | `BD_CFG_CHAIN_1_PG_PORT` | 5432 | Port to expose bdjuno & hasura's Postgres DB which stores data for chain 1 |
 | `BD_CFG_CHAIN_1_RPC_ADDR` | 127.0.0.1:26657 | RPC endpoint of chain 1 |
 | `BD_CFG_CHAIN_1_GRPC_ADDR` | 127.0.0.1:9090 | gRPC endpoint of chain 1 |
-| `CHAIN_1_ID` | evmos_9006-1 | Chain id of chain 1 |
+| `BD_CFG_CHAIN_1_ID` | evmos_9006-1 | Chain id of chain 1 |
 | `BD2_CFG_CHAIN_2_PORT` | 3802 | Port to open Big Dipper 2.0 as Block Explorer UI for chain 2 |
 | `BD2_CFG_CHAIN_2_PUBLIC_DOMAIN` | 127.0.0.1 | Domain to bind the UI on (for chain 2) |
 | `BD2_CFG_CHAIN_2_PUBLIC_RPC_26657` | 127.0.0.1:36657 | Public RPC endpoint of chain 2 |
@@ -52,4 +52,4 @@ Here are some of them:
 | `BD_CFG_CHAIN_2_PG_PORT` | 15432 | Port to expose bdjuno & hasura's Postgres DB which stores data for chain 2 |
 | `BD_CFG_CHAIN_2_RPC_ADDR` | 127.0.0.1:36657 | RPC endpoint of chain 2 |
 | `BD_CFG_CHAIN_2_GRPC_ADDR` | 127.0.0.1:19090 | gRPC endpoint of chain 2 |
-| `CHAIN_2_ID` | evmos_9007-1 | Chain id of chain 2 |
+| `BD_CFG_CHAIN_2_ID` | evmos_9007-1 | Chain id of chain 2 |
