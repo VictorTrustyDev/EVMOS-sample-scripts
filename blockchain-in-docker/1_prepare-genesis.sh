@@ -101,7 +101,7 @@ if [ "$KEYRING" = "test" ]; then
 else
     if [ "$CHAIN_TYPE" = "evmos" ]; then
         echo "- Validator 1, key name '$VAL_1_KEY_NAME'"
-        echo "** Due to evmos daemon bug, it is not possible to import seed automatically, please copy & paste the following seed:"
+        echo "** Due to evmos daemon bug, it is not possible to import seed & encryption password automatically at the same time, please copy & paste the following seed:"
         echo "___"
         echo "$VAL_1_SEED"
         echo "___"
@@ -110,7 +110,7 @@ else
         $BINARY keys add "$VAL_1_KEY_NAME" --recover --keyring-backend "file" --home "$VAL_HOME_1"
         [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
         echo "- Validator 2, key name '$VAL_2_KEY_NAME'"
-        echo "** Due to evmos daemon bug, it is not possible to import seed automatically, please copy & paste the following seed:"
+        echo "** Due to evmos daemon bug, it is not possible to import seed & encryption password automatically at the same time, please copy & paste the following seed:"
         echo "___"
         echo "$VAL_2_SEED"
         echo "___"
@@ -119,7 +119,7 @@ else
         $BINARY keys add "$VAL_2_KEY_NAME" --recover --keyring-backend "file" --home "$VAL_HOME_1"
         [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
         echo "- Validator 3, key name '$VAL_3_KEY_NAME'"
-        echo "** Due to evmos daemon bug, it is not possible to import seed automatically, please copy & paste the following seed:"
+        echo "** Due to evmos daemon bug, it is not possible to import seed & encryption password automatically at the same time, please copy & paste the following seed:"
         echo "___"
         echo "$VAL_3_SEED"
         echo "___"
