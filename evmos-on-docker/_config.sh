@@ -1,6 +1,7 @@
 #!/bin/bash
 
 if [ "$CHAIN_NO" = "1" ]; then
+    export CHAIN_TYPE="$CHAIN_1_TYPE"
     export CHAIN_ID="$CHAIN_1_ID"
     export GIT_BRANCH="$CHAIN_1_GIT_REPO_BRANCH"
     export GIT_REPO="$CHAIN_1_GIT_REPO"
@@ -20,6 +21,7 @@ if [ "$CHAIN_NO" = "1" ]; then
     export ACCOUNT_PREFIX="$CHAIN_1_ACCOUNT_PREFIX"
     export EVMOS_CLAIM_MODULE_ACCOUNT="$EVMOS_CHAIN_1_CLAIM_MODULE_ACCOUNT"
 elif [ "$CHAIN_NO" = "2" ]; then
+    export CHAIN_TYPE="$CHAIN_2_TYPE"
     export CHAIN_ID="$CHAIN_2_ID"
     export GIT_BRANCH="$CHAIN_2_GIT_REPO_BRANCH"
     export GIT_REPO="$CHAIN_2_GIT_REPO"
@@ -43,12 +45,22 @@ fi
 export SOURCE_CODE_DIR="./source-code-$DENOM_SYMBOL-$GIT_BRANCH"
 export CHAIN_NAME=$(echo $DENOM_SYMBOL | tr '[:lower:]' '[:upper:]')
 export VAL_HOME_PREFIX=".evmosd$CHAIN_NO"
+export CHAIN_TYPE=$(echo $CHAIN_TYPE | tr '[:upper:]' '[:lower:]')
 
-echo "Creating $ACCOUNT_PREFIX network with chain id $CHAIN_ID"
+if [ "$CHAIN_TYPE" = "evmos" ]; then
+    export DISABLE_CLAIM=0
+else
+    export DISABLE_CLAIM=1
+fi
+
+echo "Creating $CHAIN_NAME network with chain id $CHAIN_ID"
 echo "- Account prefix: $ACCOUNT_PREFIX"
+echo "- Chain type: $CHAIN_TYPE"
 echo "- Denom symbol: $DENOM_SYMBOL ($DENOM_EXPONENT digits unit: $MIN_DENOM_SYMBOL, $GAS_DENOM_EXPONENT digits gas unit: $GAS_DENOM_SYMBOL)"
 echo "- Source code on repo: $GIT_REPO"
 echo "- Source code on branch: $GIT_BRANCH"
 echo "- Download source code to dir: $SOURCE_CODE_DIR"
 echo "- Expect deamon binary name: $DAEMON_BINARY_NAME"
-echo "- Claim module account: $EVMOS_CLAIM_MODULE_ACCOUNT"
+if [ $DISABLE_CLAIM -eq 0 ]; then
+    echo "- Claim module account: $EVMOS_CLAIM_MODULE_ACCOUNT"
+fi

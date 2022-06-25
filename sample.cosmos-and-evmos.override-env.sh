@@ -4,9 +4,10 @@
 
 export KEYRING="file" # Secure your chain, someone will absolutely transfer your token without your permission
 
+export CHAIN_1_TYPE="cosmos" # valid values are 'cosmos' or 'evmos' only, must be 'evmos' for evmos chain, otherwise 'cosmos' for other chains
 export CHAIN_1_ID="cosmos-8"
-export CHAIN_1_COINTYPE=118
-export CHAIN_1_VALIDATOR_IMPORT_TYPE="seed_phrase"
+export CHAIN_1_COINTYPE=118 # 60 for EVMOS, 118 for Cosmos
+export CHAIN_1_VALIDATOR_IMPORT_TYPE="seed_phrase" # 'private_key' for EVMOS, 'seed_phrase' for Cosmos. Aliases: ('private_key' or 'pk') and ('seed_phrase' or 'seed' or 'sp')
 export CHAIN_1_ACCOUNT_PREFIX="cosmos"
 export CHAIN_1_GIT_REPO="https://github.com/cosmos/gaia"
 export CHAIN_1_GIT_REPO_BRANCH="v7.0.2"
@@ -16,7 +17,6 @@ export CHAIN_1_MIN_DENOM_SYMBOL="uatom"
 export CHAIN_1_GAS_DENOM_SYMBOL="natom"
 export CHAIN_1_DENOM_EXPONENT=6
 export CHAIN_1_GAS_DENOM_EXPONENT=3
-export EVMOS_CHAIN_1_CLAIM_MODULE_ACCOUNT="cosmos14eadktsf4zzah6har7h7a46tunnj7rq7lmppy5" # whatever, as long as it is different than 3 validators and the relayer account
 
 export REL_1_SEED="raw course slim hockey salt crawl sick safe december during armed fragile"
 export REL_1_ADDR="cosmos16euecy8mnkhdpnr4y3346h44v0gqj67zwc4laf"

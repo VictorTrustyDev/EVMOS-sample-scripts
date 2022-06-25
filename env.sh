@@ -20,10 +20,10 @@ export NOTICE_DEV_ENV="This sample scripts was developed on an Ubuntu 22.04 LTS 
 ## Network
 export MONIKER='moniker'
 ### Chain 1
+export CHAIN_1_TYPE="evmos" # valid values are 'cosmos' or 'evmos' only, must be 'evmos' for evmos chain, otherwise 'cosmos' for other chains
 export CHAIN_1_ID="evmos_9006-1"
-export CHAIN_1_COINTYPE=60
-export CHAIN_1_VALIDATOR_IMPORT_TYPE="private_key" # valid values are ('private_key' or 'pk') and ('seed' or 'seed_phrase' or 'sp')
-#### For EVMOS, it must be 'private_key', for other cosmos chains, it must be 'seed_phrase'
+export CHAIN_1_COINTYPE=60 # 60 for EVMOS, 118 for Cosmos
+export CHAIN_1_VALIDATOR_IMPORT_TYPE="private_key" # 'private_key' for EVMOS, 'seed_phrase' for Cosmos. Aliases: ('private_key' or 'pk') and ('seed_phrase' or 'seed' or 'sp')
 export CHAIN_1_ACCOUNT_PREFIX="evmos"
 export CHAIN_1_GIT_REPO="https://github.com/evmos/evmos.git"
 export CHAIN_1_GIT_REPO_BRANCH="v5.0.0"
@@ -39,10 +39,10 @@ export CHAIN_1_EXPOSE_JSON_RPC_TO_PORT=8545
 export CHAIN_1_EXPOSE_REST_API_TO_PORT=1317
 export CHAIN_1_EXPOSE_P2P_TO_PORT=26656
 ### Chain 2
+export CHAIN_2_TYPE="evmos" # valid values are 'cosmos' or 'evmos' only, must be 'evmos' for evmos chain, otherwise 'cosmos' for other chains
 export CHAIN_2_ID="evmos_9007-1"
-export CHAIN_2_COINTYPE=60
-export CHAIN_2_VALIDATOR_IMPORT_TYPE="private_key" # valid values are ('private_key' or 'pk') and ('seed' or 'seed_phrase' or 'sp')
-#### For EVMOS, it must be 'private_key', for other cosmos chains, it must be 'seed_phrase'
+export CHAIN_2_COINTYPE=60 # 60 for EVMOS, 118 for Cosmos
+export CHAIN_2_VALIDATOR_IMPORT_TYPE="private_key" # 'private_key' for EVMOS, 'seed_phrase' for Cosmos. Aliases: ('private_key' or 'pk') and ('seed_phrase' or 'seed' or 'sp')
 export CHAIN_2_ACCOUNT_PREFIX="evmos"
 export CHAIN_2_GIT_REPO="https://github.com/evmos/evmos.git"
 export CHAIN_2_GIT_REPO_BRANCH="v5.0.0"
@@ -74,7 +74,7 @@ export VAL_GAS_LIMIT_CREATE_VALIDATOR=300000
 export VAL_1_KEY_NAME="val1"
 export VAL_1_RAW_BALANCE=50000000 # Validator 1 init with this amount of coint in balance
 export VAL_1_RAW_STAKE=7000 # Validator 1 will stake this amount
-export VAL_1_RAW_CLAIM=1000 # Validator 1 can claim this amount
+export VAL_1_RAW_CLAIM=1000 # Validator 1 can claim this amount, evmos only
 #### Chain 1
 export VAL_1_CHAIN_1_SEED="spoil senior door access upset floor decorate shield high punch senior tape pigeon base slogan height clever buffalo cat report poem weapon labor satoshi"
 export VAL_1_CHAIN_1_PRIVATE_KEY="FC3F58B007A017166DE5A340C7A2641EB37CF37081D6F9013636CEBFBAF7B1FE"
@@ -85,7 +85,7 @@ export VAL_1_CHAIN_2_PRIVATE_KEY="FC3F58B007A017166DE5A340C7A2641EB37CF37081D6F9
 export VAL_2_KEY_NAME="val2"
 export VAL_2_RAW_BALANCE=50000000 # Validator 2 init with this amount of coint in balance
 export VAL_2_RAW_STAKE=3000 # Validator 2 will stake this amount
-export VAL_2_RAW_CLAIM=1000 # Validator 2 can claim this amount
+export VAL_2_RAW_CLAIM=1000 # Validator 2 can claim this amount, evmos only
 #### Chain 1
 export VAL_2_CHAIN_1_SEED="width produce brush hour horse retreat play flag fresh broken measure culture scare broken erupt pilot buzz embody depend topic behind rigid fan battle"
 export VAL_2_CHAIN_1_PRIVATE_KEY="0172DC491B5ACD04DD378D3FD8FD9F41A0D701E070941474FADECD72E1E085B9"
@@ -96,7 +96,7 @@ export VAL_2_CHAIN_2_PRIVATE_KEY="0172DC491B5ACD04DD378D3FD8FD9F41A0D701E0709414
 export VAL_3_KEY_NAME="val3"
 export VAL_3_RAW_BALANCE=50000000 # Validator 3 init with this amount of coint in balance
 export VAL_3_RAW_STAKE=3000 # Validator 3 will stake this amount
-export VAL_3_RAW_CLAIM=1000 # Validator 3 can claim this amount
+export VAL_3_RAW_CLAIM=1000 # Validator 3 can claim this amount, evmos only
 #### Chain 1
 export VAL_3_CHAIN_1_SEED="stage grid emotion thumb safe myth chair dizzy beyond casual select polar hover retire master neglect shift zero trigger section token replace truly father"
 export VAL_3_CHAIN_1_PRIVATE_KEY="E0D83C6054597638469CC91A46F14B7F62705297912524059629E4674302928F"

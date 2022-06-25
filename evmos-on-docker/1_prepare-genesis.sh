@@ -174,9 +174,15 @@ export VAL_1_STAKE=$(bc <<< "10^$DENOM_EXPONENT * $VAL_1_RAW_STAKE")
 export VAL_2_STAKE=$(bc <<< "10^$DENOM_EXPONENT * $VAL_2_RAW_STAKE")
 export VAL_3_STAKE=$(bc <<< "10^$DENOM_EXPONENT * $VAL_3_RAW_STAKE")
 ## Claim
-export VAL_1_CLAIM=$(bc <<< "10^$DENOM_EXPONENT * $VAL_1_RAW_CLAIM")
-export VAL_2_CLAIM=$(bc <<< "10^$DENOM_EXPONENT * $VAL_2_RAW_CLAIM")
-export VAL_3_CLAIM=$(bc <<< "10^$DENOM_EXPONENT * $VAL_3_RAW_CLAIM")
+if [ $DISABLE_CLAIM -eq 0 ]; then
+    export VAL_1_CLAIM=$(bc <<< "10^$DENOM_EXPONENT * $VAL_1_RAW_CLAIM")
+    export VAL_2_CLAIM=$(bc <<< "10^$DENOM_EXPONENT * $VAL_2_RAW_CLAIM")
+    export VAL_3_CLAIM=$(bc <<< "10^$DENOM_EXPONENT * $VAL_3_RAW_CLAIM")
+else
+    export VAL_1_CLAIM=0
+    export VAL_2_CLAIM=0
+    export VAL_3_CLAIM=0
+fi
 
 # Update genesis.json
 GENESIS_JSON="$VAL_HOME_1/config/genesis.json"
@@ -208,11 +214,13 @@ current_date=$(date -u +"%Y-%m-%dT%TZ")
 echo "- Set claim start time in [app_state > claims > params > airdrop_start_time] to $current_date"
 cat $GENESIS_JSON | jq -r --arg current_date "$current_date" '.app_state["claims"]["params"]["airdrop_start_time"]=$current_date' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 ## Set claims records for validator account
-echo "- Set claim records for 3 validators in [app_state > claims > claims_records]"
-echo " + Validator $VAL_1_ADDR (node 0) can claim "$(bc <<< "$VAL_1_CLAIM / (10^$DENOM_EXPONENT)")$DENOM_SYMBOL
-echo " + Validator $VAL_2_ADDR (node 1) can claim "$(bc <<< "$VAL_2_CLAIM / (10^$DENOM_EXPONENT)")$DENOM_SYMBOL
-echo " + Validator $VAL_3_ADDR (node 2) can claim "$(bc <<< "$VAL_3_CLAIM / (10^$DENOM_EXPONENT)")$DENOM_SYMBOL
-cat $GENESIS_JSON | jq '.app_state["claims"]["claims_records"]=[{"initial_claimable_amount":"'$VAL_1_CLAIM'", "actions_completed":[false, false, false, false],"address":"'$VAL_1_ADDR'"},{"initial_claimable_amount":"'$VAL_2_CLAIM'", "actions_completed":[false, false, false, false],"address":"'$VAL_2_ADDR'"},{"initial_claimable_amount":"'$VAL_3_CLAIM'", "actions_completed":[false, false, false, false],"address":"'$VAL_3_ADDR'"}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+if [ $DISABLE_CLAIM -eq 0 ]; then
+    echo "- Set claim records for 3 validators in [app_state > claims > claims_records]"
+    echo " + Validator $VAL_1_ADDR (node 0) can claim "$(bc <<< "$VAL_1_CLAIM / (10^$DENOM_EXPONENT)")$DENOM_SYMBOL
+    echo " + Validator $VAL_2_ADDR (node 1) can claim "$(bc <<< "$VAL_2_CLAIM / (10^$DENOM_EXPONENT)")$DENOM_SYMBOL
+    echo " + Validator $VAL_3_ADDR (node 2) can claim "$(bc <<< "$VAL_3_CLAIM / (10^$DENOM_EXPONENT)")$DENOM_SYMBOL
+    cat $GENESIS_JSON | jq '.app_state["claims"]["claims_records"]=[{"initial_claimable_amount":"'$VAL_1_CLAIM'", "actions_completed":[false, false, false, false],"address":"'$VAL_1_ADDR'"},{"initial_claimable_amount":"'$VAL_2_CLAIM'", "actions_completed":[false, false, false, false],"address":"'$VAL_2_ADDR'"},{"initial_claimable_amount":"'$VAL_3_CLAIM'", "actions_completed":[false, false, false, false],"address":"'$VAL_3_ADDR'"}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+fi
 ## Set claims decay
 duration_until_decay="86400s"
 duration_of_decay="2592000s"
@@ -220,11 +228,13 @@ echo "- Set duration until decay in [app_state > claims > params > duration_unti
 cat $GENESIS_JSON | jq '.app_state["claims"]["params"]["duration_until_decay"]="'$duration_until_decay'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 echo "- Set duration of decay in [app_state > claims > params > duration_of_decay] to $duration_of_decay"
 cat $GENESIS_JSON | jq '.app_state["claims"]["params"]["duration_of_decay"]="'$duration_of_decay'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
-## Claim module account:
-### 0xA61808Fe40fEb8B3433778BBC2ecECCAA47c8c47 || evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz
-amount_to_claim=$(bc <<< "$VAL_1_CLAIM + $VAL_2_CLAIM + $VAL_3_CLAIM")
-echo '- Claimn module account addr '$EVMOS_CLAIM_MODULE_ACCOUNT', total '$(bc <<< "$amount_to_claim / (10^$DENOM_EXPONENT)")' '$DENOM_SYMBOL
-cat $GENESIS_JSON | jq '.app_state["bank"]["balances"] += [{"address":"'$EVMOS_CLAIM_MODULE_ACCOUNT'","coins":[{"denom":"'$MIN_DENOM_SYMBOL'", "amount":"'$amount_to_claim'"}]}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+if [ $DISABLE_CLAIM -eq 0 ]; then
+    ## Claim module account:
+    ### 0xA61808Fe40fEb8B3433778BBC2ecECCAA47c8c47 || evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz
+    amount_to_claim=$(bc <<< "$VAL_1_CLAIM + $VAL_2_CLAIM + $VAL_3_CLAIM")
+    echo '- Claimn module account addr '$EVMOS_CLAIM_MODULE_ACCOUNT', total '$(bc <<< "$amount_to_claim / (10^$DENOM_EXPONENT)")' '$DENOM_SYMBOL
+    cat $GENESIS_JSON | jq '.app_state["bank"]["balances"] += [{"address":"'$EVMOS_CLAIM_MODULE_ACCOUNT'","coins":[{"denom":"'$MIN_DENOM_SYMBOL'", "amount":"'$amount_to_claim'"}]}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+fi
 
 
 # Update app.toml

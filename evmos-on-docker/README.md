@@ -1,6 +1,6 @@
-### This helps you create 2 EVMOS networks ([v5.0.0](https://github.com/evmos/evmos/tree/v5.0.0)) with 3 validators on each network and run with docker compose
+### This helps you create 2 EVMOS chains ([v5.0.0](https://github.com/evmos/evmos/tree/v5.0.0)) with 3 validators on each chain and run with docker compose
 
-### I. Create first network
+### I. Create first chain
 
 > $ ./1_prepare-genesis.sh 1
 
@@ -11,7 +11,7 @@
 To turn it off
 > $ docker-compose -f network1.yml down
 
-### II. Create second network
+### II. Create second chain
 
 > $ ./1_prepare-genesis.sh 2
 
@@ -31,7 +31,7 @@ Now you can [follow this sample](https://github.com/VictorTrustyDev/EVMOS-sample
 | 1 | evmos_9006-1 | 26657 | 8545 | 1317 | 9090 | 26656 |
 | 2 | evmos_9007-1 | 36657 | 18545 | 11317 | 19090 | 36656 |
 
-- Validators (same on both networks)
+- Validators (same on both chains)
     + evmosvaloper1wuqvcpuunf7r5rg7xutqddhw55grfzc7ewkz9a
         + 50m EVMOS
         + 7k coin staked
@@ -61,13 +61,13 @@ Here are some of them:
 
 | Key | Default value | Explain |
 | --- | --- | --- |
-| `CHAIN_1_GIT_REPO` | https://github.com/evmos/evmos.git | Git repo to be used to build network 1 |
-| `CHAIN_1_GIT_REPO_BRANCH` | v5.0.0 | Git branch to be used to build network 1 |
-| `CHAIN_1_ID` | evmos_9006-1 | Chain id of network 1 |
-| `CHAIN_2_GIT_REPO` | https://github.com/evmos/evmos.git | Git repo to be used to build network 2 |
-| `CHAIN_2_GIT_REPO_BRANCH` | v5.0.0 | Git branch to be used to build network 2 |
-| `CHAIN_2_ID` | evmos_9007-1 | Chain id of network 2 |
+| `CHAIN_1_GIT_REPO` | https://github.com/evmos/evmos.git | Git repo to be used to build chain 1 |
+| `CHAIN_1_GIT_REPO_BRANCH` | v5.0.0 | Git branch to be used to build chain 1 |
+| `CHAIN_1_ID` | evmos_9006-1 | Chain id of chain 1 |
+| `CHAIN_2_GIT_REPO` | https://github.com/evmos/evmos.git | Git repo to be used to build chain 2 |
+| `CHAIN_2_GIT_REPO_BRANCH` | v5.0.0 | Git branch to be used to build chain 2 |
+| `CHAIN_2_ID` | evmos_9007-1 | Chain id of chain 2 |
 
-Performance: 2 networks created by this sample can run in parallel smoothly in a 4 core 4 gb ram machine
+Performance: 2 chains created by this sample can run in parallel smoothly in a 4 core 4 gb ram machine
 
 This sample is using keyring `test`, you may need to change to `file` ([env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)) to secure your test env if needed

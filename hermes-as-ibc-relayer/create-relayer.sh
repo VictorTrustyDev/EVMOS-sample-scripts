@@ -165,23 +165,23 @@ echo '- Creating client'
 RES_CREATE_CLIENT_1_TO_2=$($BINARY -c $CONFIG_TOML tx raw create-client $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID)
 TENDERMINT_CLIENT_1_TO_2=$(echo $RES_CREATE_CLIENT_1_TO_2 | grep -o '07-tendermint-[0-9]*')
 echo ' > Client 1 to 2: '$TENDERMINT_CLIENT_1_TO_2
-[ -z "$TENDERMINT_CLIENT_1_TO_2" ] && { echo "Unable to create tendermint light client on network 1"; exit 1; }
+[ -z "$TENDERMINT_CLIENT_1_TO_2" ] && { echo "Unable to create tendermint light client on chain 1"; exit 1; }
 
 RES_CREATE_CLIENT_2_TO_1=$($BINARY -c $CONFIG_TOML tx raw create-client $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID)
 TENDERMINT_CLIENT_2_TO_1=$(echo $RES_CREATE_CLIENT_2_TO_1 | grep -o '07-tendermint-[0-9]*')
 echo ' > Client 2 to 1: '$TENDERMINT_CLIENT_2_TO_1
-[ -z "$TENDERMINT_CLIENT_2_TO_1" ] && { echo "Unable to create tendermint light client on network 2"; exit 1; }
+[ -z "$TENDERMINT_CLIENT_2_TO_1" ] && { echo "Unable to create tendermint light client on chain 2"; exit 1; }
 
 echo '- Creating connection'
 RES_CREATE_CONN_1_TO_2=$($BINARY -c $CONFIG_TOML tx raw conn-init $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID $TENDERMINT_CLIENT_1_TO_2 $TENDERMINT_CLIENT_2_TO_1)
 CONN_1_TO_2=$(echo $RES_CREATE_CONN_1_TO_2 | grep -o 'connection-[0-9]*')
 echo ' > Connection 1 to 2: '$CONN_1_TO_2
-[ -z "$CONN_1_TO_2" ] && { echo "Unable to create connection on network 1"; exit 1; }
+[ -z "$CONN_1_TO_2" ] && { echo "Unable to create connection on chain 1"; exit 1; }
 
 RES_CREATE_CONN_2_TO_1=$($BINARY -c $CONFIG_TOML tx raw conn-try $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID $TENDERMINT_CLIENT_2_TO_1 $TENDERMINT_CLIENT_1_TO_2 -s $CONN_1_TO_2)
 CONN_2_TO_1=$(echo $RES_CREATE_CONN_2_TO_1 | grep -o 'connection-[0-9]*' | head -n 1)
 echo ' > Connection 2 to 1: '$CONN_2_TO_1
-[ -z "$CONN_2_TO_1" ] && { echo "Unable to create connection on network 2"; exit 1; }
+[ -z "$CONN_2_TO_1" ] && { echo "Unable to create connection on chain 2"; exit 1; }
 
 $BINARY -c $CONFIG_TOML tx raw conn-ack $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID $TENDERMINT_CLIENT_1_TO_2 $TENDERMINT_CLIENT_2_TO_1 -d $CONN_1_TO_2 -s $CONN_2_TO_1
 EXIT_CODE=$?
@@ -202,11 +202,11 @@ echo '- Creating channel'
 
 RES_CREATE_CHAN_1_TO_2=$($BINARY -c $CONFIG_TOML tx raw chan-open-init $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID $CONN_1_TO_2 transfer transfer -o UNORDERED)
 CHAN_1_TO_2=$(echo $RES_CREATE_CHAN_1_TO_2 | grep -o 'channel-[0-9]*')
-[ -z "$CHAN_1_TO_2" ] && { echo "ERR: Unable to create channel on network 1"; exit 1; }
+[ -z "$CHAN_1_TO_2" ] && { echo "ERR: Unable to create channel on chain 1"; exit 1; }
 
 RES_CREATE_CHAN_2_TO_1=$($BINARY -c $CONFIG_TOML tx raw chan-open-try $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID $CONN_2_TO_1 transfer transfer -s $CHAN_1_TO_2)
 CHAN_2_TO_1=$(echo $RES_CREATE_CHAN_2_TO_1 | grep -o 'channel-[0-9]*' | head -n 1)
-[ -z "$CHAN_2_TO_1" ] && { echo "ERR: Unable to create channel on network 2"; exit 1; }
+[ -z "$CHAN_2_TO_1" ] && { echo "ERR: Unable to create channel on chain 2"; exit 1; }
 
 $BINARY -c $CONFIG_TOML tx raw chan-open-ack $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID $CONN_1_TO_2 transfer transfer -d $CHAN_1_TO_2 -s $CHAN_2_TO_1
 EXIT_CODE=$?
