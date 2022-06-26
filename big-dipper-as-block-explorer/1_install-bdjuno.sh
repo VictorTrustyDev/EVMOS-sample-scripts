@@ -73,8 +73,32 @@ PGPASSWORD=$BD_CFG_PG_USR_PASS psql -h 127.0.0.1 -p $PG_PORT -d postgres -U post
 [ $? -eq 0 ] || { echo "ERR: Operation failed!"; }
 
 # Check bdjuno source
+# If the repo is different with config, show a warning
 if [ -d "./$BD_SOURCE_DIR" ]; then
-    echo "bdjuno repo was downloaded"
+    echo "bdjuno repo exists"
+    echo "Checking repo url & branch name"
+    CHK_RES_1="$(git --git-dir "./$BD_SOURCE_DIR"/.git --work-tree "./$BD_SOURCE_DIR" config --get remote.origin.url)"
+    if [ $? -ne 0 ] || [ -z "$CHK_RES_1" ]; then
+        echo "WARN! Unable to check remote origin url of git repo at $BD_SOURCE_DIR"
+        sleep 2s
+    elif [ "$CHK_RES_1" != "$BD_GIT_REPO" ]; then
+        echo "WARN! Git repo Url does not match"
+        echo "Expected: '$BD_GIT_REPO'"
+        echo "Actual: '$CHK_RES_1'"
+        echo "You should check it (script will continue execution after 10s)"
+        sleep 10s
+    fi
+    CHK_RES_2="$(git --git-dir "./$BD_SOURCE_DIR"/.git --work-tree "./$BD_SOURCE_DIR" rev-parse --abbrev-ref HEAD)"
+    if [ $? -ne 0 ] || [ -z "$CHK_RES_2" ]; then
+        echo "WARN! Unable to check branch of git repo at $BD_SOURCE_DIR"
+        sleep 2s
+    elif [ "$CHK_RES_2" != "$BD_GIT_BRANCH" ]; then
+        echo "WARN! Git Branch does not match"
+        echo "Expected: '$BD_GIT_BRANCH'"
+        echo "Actual: '$CHK_RES_2'"
+        echo "You should check it (script will continue execution after 10s)"
+        sleep 10s
+    fi
 else
     echo "Downloading bdjuno source code from branch $BD_GIT_BRANCH"
     git clone "$BD_GIT_REPO" --branch "$BD_GIT_BRANCH" --single-branch "$BD_SOURCE_DIR"

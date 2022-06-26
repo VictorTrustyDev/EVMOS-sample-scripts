@@ -40,7 +40,30 @@ fi
 
 # Check Big Dipper 2.0 source
 if [ -d "$BD2_SOURCE_DIR" ]; then
-    echo "Big Dipper 2.0 repo was downloaded"
+    echo "Big Dipper 2.0 repo exists"
+    echo "Checking repo url & branch name"
+    CHK_RES_1="$(git --git-dir "./$BD2_SOURCE_DIR"/.git --work-tree "./$BD2_SOURCE_DIR" config --get remote.origin.url)"
+    if [ $? -ne 0 ] || [ -z "$CHK_RES_1" ]; then
+        echo "WARN! Unable to check remote origin url of git repo at $BD2_SOURCE_DIR"
+        sleep 2s
+    elif [ "$CHK_RES_1" != "$BD2_GIT_REPO" ]; then
+        echo "WARN! Git repo Url does not match"
+        echo "Expected: '$BD2_GIT_REPO'"
+        echo "Actual: '$CHK_RES_1'"
+        echo "You should check it (script will continue execution after 10s)"
+        sleep 10s
+    fi
+    CHK_RES_2="$(git --git-dir "./$BD2_SOURCE_DIR"/.git --work-tree "./$BD2_SOURCE_DIR" rev-parse --abbrev-ref HEAD)"
+    if [ $? -ne 0 ] || [ -z "$CHK_RES_2" ]; then
+        echo "WARN! Unable to check branch of git repo at $BD2_SOURCE_DIR"
+        sleep 2s
+    elif [ "$CHK_RES_2" != "$BD2_BRANCH" ]; then
+        echo "WARN! Git Branch does not match"
+        echo "Expected: '$BD2_BRANCH'"
+        echo "Actual: '$CHK_RES_2'"
+        echo "You should check it (script will continue execution after 10s)"
+        sleep 10s
+    fi
 else
     echo "Downloading Big Dipper 2.0 source code from branch $BD2_BRANCH"
     git clone "$BD2_GIT_REPO" --branch "$BD2_BRANCH" --single-branch "$BD2_SOURCE_DIR"
