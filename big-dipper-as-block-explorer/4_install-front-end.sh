@@ -118,14 +118,14 @@ WORKING_DIR=$(pwd)
 # Build
 ## Install graphql-codegen 
 npm i -D @graphql-codegen/cli > /dev/null 2>&1
-[ $? -eq 0 ] || { echo "Failed to install @graphql-codegen/cli"; exit 1; }
+[ $? -eq 0 ] || { echo "ERR: Failed to install @graphql-codegen/cli"; exit 1; }
 ## Gen code
 echo 'Generating code'
 npm run graphql:codegen
-[ $? -eq 0 ] || { echo "Failed to run graphql:codegen"; exit 1; }
+[ $? -eq 0 ] || { echo "ERR: Failed to run graphql:codegen"; exit 1; }
 #echo 'Build'
 #npm run build
-#[ $? -eq 0 ] || { echo "Failed to build"; exit 1; }
+#[ $? -eq 0 ] || { echo "ERR: Failed to build"; exit 1; }
 
 cd "$CUR_DIR"
 

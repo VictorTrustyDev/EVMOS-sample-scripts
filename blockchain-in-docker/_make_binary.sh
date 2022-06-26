@@ -44,7 +44,7 @@ CUR_DIR=$(pwd)
 cd "$SOURCE_CODE_DIR"
 echo "Compiling '$DAEMON_BINARY_NAME'. If this is the first time you compile, it will take time, you can enjoy a cup of coffee and comeback later"
 make install
-[ $? -eq 0 ] || { echo "Failed to compile EVMOS"; exit 1; }
+[ $? -eq 0 ] || { echo "ERR: Failed to compile $DAEMON_BINARY_NAME"; exit 1; }
 cd "$CUR_DIR"
 
 if [ ! -f "$BINARY" ]; then

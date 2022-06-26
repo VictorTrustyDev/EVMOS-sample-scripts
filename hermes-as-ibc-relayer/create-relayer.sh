@@ -53,7 +53,7 @@ export BINARY=$(pwd)'/'$HERMES_SOURCE_DIR'/target/release/'$HERMES_BINARY
 
 # Check & Install hermes binary if not exists
 ./_make_binary.sh
-[ $? -eq 0 ] || { echo "Failed to check & build $HERMES_BINARY binary at $BINARY"; }
+[ $? -eq 0 ] || { echo "ERR: Failed to check & build $HERMES_BINARY binary at $BINARY"; }
 
 echo 'You can custom config by editing keys with prefix [HERMES_CFG_CHAIN_*] in [env.sh] file'
 sleep 3s

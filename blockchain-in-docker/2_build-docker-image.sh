@@ -108,7 +108,7 @@ fi
 # Docker build
 echo "Build new docker image $DOCKER_IMAGE_NAME"
 docker build -t "$DOCKER_IMAGE_NAME" -f "$DOCKER_FILE" .
-[ $? -eq 0 ] || { echo "Failed to build docker image"; exit 1; }
+[ $? -eq 0 ] || { echo "ERR: Failed to build docker image"; exit 1; }
 
 # Create docker-compose yml
 DOCKER_COMPOSE_FILE="network$CHAIN_NO.yml"

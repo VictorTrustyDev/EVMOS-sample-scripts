@@ -52,7 +52,7 @@ export BINARY="$GOPATH/bin/$DAEMON_BINARY_NAME"
 
 # Check & Install evmosd binary if not exists
 ./_make_binary.sh
-[ $? -eq 0 ] || { echo "Failed to check & build daemon binary '$DAEMON_BINARY_NAME' at $BINARY"; }
+[ $? -eq 0 ] || { echo "ERR: Failed to check & build daemon binary '$DAEMON_BINARY_NAME' at $BINARY"; }
 
 VAL_HOME_1=$VAL_HOME_PREFIX'0'
 VAL_HOME_2=$VAL_HOME_PREFIX'1'
@@ -78,13 +78,13 @@ $BINARY config chain-id $CHAIN_ID --home $VAL_HOME_3
 ## Genesis
 MONIKER=$MONIKER'-'$VAL_1_KEY_NAME
 $BINARY init $MONIKER --chain-id $CHAIN_ID --home $VAL_HOME_1 > /dev/null 2>&1
-[ $? -eq 0 ] || { echo "Err: Failed to init chain on node 0"; exit 1; }
+[ $? -eq 0 ] || { echo "ERR: Failed to init chain on node 0"; exit 1; }
 MONIKER=$MONIKER'-'$VAL_2_KEY_NAME
 $BINARY init $MONIKER --chain-id $CHAIN_ID --home $VAL_HOME_2 > /dev/null 2>&1
-[ $? -eq 0 ] || { echo "Err: Failed to init pseudo chain for node 1"; exit 1; }
+[ $? -eq 0 ] || { echo "ERR: Failed to init pseudo chain for node 1"; exit 1; }
 MONIKER=$MONIKER'-'$VAL_3_KEY_NAME
 $BINARY init $MONIKER --chain-id $CHAIN_ID --home $VAL_HOME_3 > /dev/null 2>&1
-[ $? -eq 0 ] || { echo "Err: Failed to init pseudo chain for node 2"; exit 1; }
+[ $? -eq 0 ] || { echo "ERR: Failed to init pseudo chain for node 2"; exit 1; }
 
 # Import validator keys
 echo "Import validator keys for chain no $CHAIN_NO id $CHAIN_ID"
@@ -306,7 +306,7 @@ else
         --chain-id $CHAIN_ID \
         --home $VAL_HOME_1 > /dev/null 2>&1
 fi
-[ $? -eq 0 ] || { echo "Failed to create genesis tx for validator 1"; exit 1; }
+[ $? -eq 0 ] || { echo "ERR: Failed to create genesis tx for validator 1"; exit 1; }
 
 echo 'Generate genesis staking transaction '$(bc <<< "$VAL_2_STAKE / (10^$DENOM_EXPONENT)")' '$DENOM_SYMBOL' for validator '$VAL_2_KEY_NAME
 if [ "$KEYRING" = "test" ]; then
@@ -328,7 +328,7 @@ else
         --chain-id $CHAIN_ID \
         --home $VAL_HOME_2 > /dev/null 2>&1
 fi
-[ $? -eq 0 ] || { echo "Failed to create genesis tx for validator 2"; exit 1; }
+[ $? -eq 0 ] || { echo "ERR: Failed to create genesis tx for validator 2"; exit 1; }
 echo "Copy generated tx to $VAL_HOME_1/config/gentx"
 cp $VAL_HOME_2/config/gentx/gentx-* $VAL_HOME_1/config/gentx/
 
@@ -352,18 +352,18 @@ else
         --chain-id $CHAIN_ID \
         --home $VAL_HOME_3 > /dev/null 2>&1
 fi
-[ $? -eq 0 ] || { echo "Failed to create genesis tx for validator 3"; exit 1; }
+[ $? -eq 0 ] || { echo "ERR: Failed to create genesis tx for validator 3"; exit 1; }
 echo "Copy generated tx to $VAL_HOME_1/config/gentx"
 cp $VAL_HOME_3/config/gentx/gentx-* $VAL_HOME_1/config/gentx/
 
 # Collect genesis tx to genesis.json
 echo "Collecting genesis transactions into genesis.json"
 $BINARY collect-gentxs --home $VAL_HOME_1 > /dev/null 2>&1
-[ $? -eq 0 ] || { echo "Failed to collect genesis transactions"; exit 1; }
+[ $? -eq 0 ] || { echo "ERR: Failed to collect genesis transactions"; exit 1; }
 
 # Validate genesis.json
 $BINARY validate-genesis --home $VAL_HOME_1
-[ $? -eq 0 ] || { echo "Failed to validate genesis"; exit 1; }
+[ $? -eq 0 ] || { echo "ERR: Failed to validate genesis"; exit 1; }
 
 
 # Update config.toml
