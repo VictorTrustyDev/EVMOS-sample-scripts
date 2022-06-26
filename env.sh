@@ -190,12 +190,14 @@ export DOCKER_IMAGE_NAME_PREFIX="evmos.victortrusty.dev:c"
 # Others # Just skip this part, don't read, no more custom-able here
 echo $NOTICE_DEV_ENV
 if [ -z "$GOPATH" ]; then
-    echo "ERR: Missing GOPATH environment variable, should be '$HOME/go'"
+    echo >&2 "ERR: Missing GOPATH environment variable, should be '$HOME/go'"
     exit 1
 fi
 command -v systemctl > /dev/null 2>&1
 if [ $? -eq 0 ]; then
     export DISABLE_SYSTEMCTL=0
+elif [ ! -d "/etc/systemd/system" ]; then
+    export DISABLE_SYSTEMCTL=1
 else
     export DISABLE_SYSTEMCTL=1
 fi

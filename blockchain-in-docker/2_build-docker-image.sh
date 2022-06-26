@@ -14,8 +14,8 @@ fi
 if [ -f "./_config.sh" ]; then
     source "./_config.sh"
 else
-    echo "ERR: Wrong working directory"
-    echo "ERR: Scripts must be executed within [blockchain-in-docker] directory"
+    echo  >&2 "ERR: Wrong working directory"
+    echo  >&2 "ERR: Scripts must be executed within [blockchain-in-docker] directory"
     exit 1
 fi
 
@@ -82,7 +82,7 @@ else
     git clone "$GIT_REPO" --branch "$GIT_BRANCH" --single-branch "$SOURCE_CODE_DIR"
 
     if [ $? -ne 0 ]; then
-        echo "ERR: Git clone $CHAIN_NAME from branch $GIT_BRANCH has failed"
+        echo  >&2 "ERR: Git clone $CHAIN_NAME from branch $GIT_BRANCH has failed"
         exit 1
     fi
 fi

@@ -11,8 +11,8 @@ fi
 if [ -f "./_config.sh" ]; then
     source "./_config.sh"
 else
-    echo "ERR: Wrong working directory"
-    echo "ERR: Scripts must be executed within [big-dipper-as-block-explorer] directory"
+    echo  >&2 "ERR: Wrong working directory"
+    echo  >&2 "ERR: Scripts must be executed within [big-dipper-as-block-explorer] directory"
     exit 1
 fi
 
@@ -41,11 +41,11 @@ if [ ! -f "$GENESIS_JSON" ]; then
     if [ $EXTRA_FUNC -eq 1 ]; then
         cp '../blockchain-in-docker/.evmosd'$CHAIN_NO'0/config/genesis.json' "$GENESIS_JSON"
         if [ ! -f "$GENESIS_JSON" ]; then
-            echo "ERR: Please copy genesis.json from your chain into $BD_HOME"
+            echo  >&2 "ERR: Please copy genesis.json from your chain into $BD_HOME"
             exit 1
         fi
     else
-        echo "ERR: Missing genesis.json file (expect: $GENESIS_JSON)"
+        echo  >&2 "ERR: Missing genesis.json file (expect: $GENESIS_JSON)"
         echo "Please copy that file from your chain"
         exit 1
     fi
@@ -57,7 +57,7 @@ $BD_BINARY parse genesis-file --genesis-file-path "$GENESIS_JSON" --home "$BD_HO
 GENESIS_CHAIN_ID=$(cat "$GENESIS_JSON" | jq .chain_id | head -n 1 | tr -d '"')
 
 if [ "$GENESIS_CHAIN_ID" != "$CHAIN_ID" ]; then
-    echo "ERR: Mis-match chain id, expect [$CHAIN_ID] but found [$GENESIS_CHAIN_ID] on genesis.json"
+    echo  >&2 "ERR: Mis-match chain id, expect [$CHAIN_ID] but found [$GENESIS_CHAIN_ID] on genesis.json"
     exit 1
 fi
 

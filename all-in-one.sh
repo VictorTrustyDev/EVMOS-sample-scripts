@@ -8,7 +8,7 @@
 # It is not recommended to use this script
 
 if [ ! -f "./env.sh" ]; then
-    echo "ERR: Wrong working directory"
+    echo  >&2 "ERR: Wrong working directory"
     exit 1
 fi
 
@@ -74,8 +74,8 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
     command -v systemctl > /dev/null 2>&1
-    if [ $? -ne 0 ]; then
-        echo "`systemd` is required!!! You better prepare an Ubuntu machine and try this later.."
+    if [ $? -ne 0 ] || [ ! -d "/etc/systemd/system" ] ; then
+        echo >&2 "`systemd` is required!!! You better prepare an Ubuntu machine and try this later.."
         exit 1
     fi
     echo " ! OK, let's go"

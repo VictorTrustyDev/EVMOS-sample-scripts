@@ -1,7 +1,7 @@
 #!/bin/bash
 
-command -v docker > /dev/null 2>&1 || { echo >&2 "docker is required"; exit 1; }
-command -v psql > /dev/null 2>&1 || { echo >&2 "psql is required, you first need to install psql client. Hint: sudo apt install postgresql-client"; exit 1; }
+command -v docker > /dev/null 2>&1 || { echo >&2 "ERR: docker is required"; exit 1; }
+command -v psql > /dev/null 2>&1 || { echo >&2 "ERR: psql is required, you first need to install psql client. Hint: sudo apt install postgresql-client"; exit 1; }
 
 source ../env.sh
 
@@ -14,8 +14,8 @@ fi
 if [ -f "./_config.sh" ]; then
     source "./_config.sh"
 else
-    echo "ERR: Wrong working directory"
-    echo "ERR: Scripts must be executed within [big-dipper-as-block-explorer] directory"
+    echo >&2 "ERR: Wrong working directory"
+    echo >&2 "ERR: Scripts must be executed within [big-dipper-as-block-explorer] directory"
     exit 1
 fi
 
@@ -25,10 +25,10 @@ if [ "$CHAIN_NO" = "1" ]; then
 elif [ "$CHAIN_NO" = "2" ]; then
     echo "Chain 2"
 else
-    echo 'ERR: Missing or incorrect chain no as first argument, valid input is 1 or 2'
-    echo 'For example:'
-    echo " $0 1"
-    echo " or: $0 2"
+    echo >&2 'ERR: Missing or incorrect chain no as first argument, valid input is 1 or 2'
+    echo >&2 'For example:'
+    echo >&2 " $0 1"
+    echo >&2 " or: $0 2"
     exit 1
 fi
 
@@ -106,7 +106,7 @@ else
     git clone "$BD_GIT_REPO" --branch "$BD_GIT_BRANCH" --single-branch "$BD_SOURCE_DIR"
 
     if [ $? -ne 0 ]; then
-        echo "ERR: Git clone bdjuno branch $BD_GIT_BRANCH failed"
+        echo >&2 "ERR: Git clone bdjuno branch $BD_GIT_BRANCH failed"
         exit 1
     fi
 fi
@@ -114,7 +114,7 @@ fi
 SCHEMA_DIR="./$BD_SOURCE_DIR/database/schema"
 
 if [ ! -d "$SCHEMA_DIR" ]; then
-  echo "ERR: Schema dir $SCHEMA_DIR could not be found"
+  echo >&2 "ERR: Schema dir $SCHEMA_DIR could not be found"
   exit 1
 fi
 
@@ -128,7 +128,7 @@ cd "./$BD_SOURCE_DIR"
 echo
 echo 'Compiling bdjuno'
 make install
-[ $? -ne 0 ] && { echo "ERR: Failed to compile"; exit 1; }
+[ $? -ne 0 ] && { echo >&2 "ERR: Failed to compile"; exit 1; }
 echo "Rename $BD_BINARY_ORIGIN into $BD_BINARY"
 mv "$BD_BINARY_ORIGIN" "$BD_BINARY"
 cd "$CUR_DIR"

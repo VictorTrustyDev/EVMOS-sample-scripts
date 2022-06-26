@@ -35,7 +35,7 @@ else
     git clone "$GIT_REPO" --branch "$GIT_BRANCH" --single-branch "$SOURCE_CODE_DIR"
 
     if [ $? -ne 0 ]; then
-        echo "ERR: Git clone $CHAIN_NAME branch $GIT_BRANCH failed"
+        echo  >&2 "ERR: Git clone $CHAIN_NAME branch $GIT_BRANCH failed"
         exit 1
     fi
 fi
@@ -48,7 +48,7 @@ make install
 cd "$CUR_DIR"
 
 if [ ! -f "$BINARY" ]; then
-    echo "ERR: Chain's source code was compiled but binary '$DAEMON_BINARY_NAME' could not be found"
+    echo  >&2 "ERR: Chain's source code was compiled but binary '$DAEMON_BINARY_NAME' could not be found"
     echo "You must find it and put it into PATH environment variable"
     echo "(It usually compile and moved to $GOPATH/bin)"
     exit 1

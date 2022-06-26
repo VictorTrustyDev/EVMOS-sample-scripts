@@ -34,7 +34,7 @@ else
     git clone "$HERMES_GIT_REPO" --branch "$HERMES_GIT_REPO_BRANCH" --single-branch "$HERMES_SOURCE_DIR"
 
     if [ $? -ne 0 ]; then
-        echo "ERR: Git clone Hermes $HERMES_GIT_REPO_BRANCH failed"
+        echo  >&2 "ERR: Git clone Hermes $HERMES_GIT_REPO_BRANCH failed"
         exit 1
     fi
 fi
@@ -48,6 +48,6 @@ cargo build --release --bin $HERMES_BINARY
 cd "$CUR_DIR"
 
 if [ ! -f "$BINARY" ]; then
-    echo "ERR: Hermes source code was compiled but binary $HERMES_BINARY could not be found"
+    echo  >&2 "ERR: Hermes source code was compiled but binary $HERMES_BINARY could not be found"
     exit 1
 fi

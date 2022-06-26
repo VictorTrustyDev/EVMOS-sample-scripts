@@ -13,8 +13,8 @@ fi
 if [ -f "./_config.sh" ]; then
     source "./_config.sh"
 else
-    echo "ERR: Wrong working directory"
-    echo "ERR: Scripts must be executed within [big-dipper-as-block-explorer] directory"
+    echo  >&2 "ERR: Wrong working directory"
+    echo  >&2 "ERR: Scripts must be executed within [big-dipper-as-block-explorer] directory"
     exit 1
 fi
 
@@ -71,7 +71,7 @@ else
     git clone "$BD2_GIT_REPO" --branch "$BD2_BRANCH" --single-branch "$BD2_SOURCE_DIR"
 
     if [ $? -ne 0 ]; then
-        echo "ERR: Git clone Big Dipper 2.0 from branch $BD2_BRANCH was failed"
+        echo  >&2 "ERR: Git clone Big Dipper 2.0 from branch $BD2_BRANCH was failed"
         exit 1
     fi
 fi

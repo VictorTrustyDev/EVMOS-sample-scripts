@@ -14,8 +14,8 @@ fi
 if [ -f "./_config.sh" ]; then
     source "./_config.sh"
 else
-    echo "ERR: Wrong working directory"
-    echo "ERR: Scripts must be executed within [blockchain-in-docker] directory"
+    echo  >&2 "ERR: Wrong working directory"
+    echo  >&2 "ERR: Scripts must be executed within [blockchain-in-docker] directory"
     exit 1
 fi
 
@@ -43,7 +43,7 @@ if [ "$KEYRING" = "file" ]; then
 elif [ "$KEYRING" = "test" ]; then
     echo "Keyring: test **WARNING** only use keyring-backend=test for development purpose on local machine or you must secure your cloud env by whitelist some IP addresses, otherwise someone will take all your token, even tho it's only a test env"
 else
-    echo "ERR: Non supported keyring mode = $KEYRING, only support 'file' & 'test'"
+    echo  >&2 "ERR: Non supported keyring mode = $KEYRING, only support 'file' & 'test'"
     exit 1
 fi
 
@@ -163,7 +163,7 @@ ADDR_PATTERN="$ACCOUNT_PREFIX[0-9][a-z0-9]+"
 if [[ $VAL_1_ADDR =~ $ADDR_PATTERN ]]; then
     echo
 else
-    echo "ERR: Validator 1 '$VAL_1_KEY_NAME' wallet address '$VAL_1_ADDR' does not starts with '$ACCOUNT_PREFIX', did you forget to update the 'CHAIN_"$CHAIN_NO"_ACCOUNT_PREFIX' var"
+    echo  >&2 "ERR: Validator 1 '$VAL_1_KEY_NAME' wallet address '$VAL_1_ADDR' does not starts with '$ACCOUNT_PREFIX', did you forget to update the 'CHAIN_"$CHAIN_NO"_ACCOUNT_PREFIX' var"
     exit 1
 fi
 
