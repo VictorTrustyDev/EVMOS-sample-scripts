@@ -1,6 +1,6 @@
 #!/bin/bash
 
-command -v cargo > /dev/null 2>&1 || { echo >&2 "Rust & Cargo was not installed. More info: https://www.rust-lang.org/tools/install . Hint: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"; exit 1; }
+command -v cargo > /dev/null 2>&1 || { echo >&2 "ERR: Rust & Cargo was not installed. More info: https://www.rust-lang.org/tools/install . Hint: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"; exit 1; }
 
 source ../env.sh
 
@@ -31,7 +31,7 @@ if [ "$HERMES_NO_CONFIRM_BALANCE" != "1" ]; then
         echo " $CHAIN_1_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_1_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /.evmosd11 --node tcp://127.0.0.1:26657"
         echo " docker exec -it vtevmos21 bash"
         echo " $CHAIN_2_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_2_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /.evmosd21 --node tcp://127.0.0.1:26657"
-        exit 1
+        exit 0
     fi
 fi
 
@@ -53,7 +53,7 @@ export BINARY=$(pwd)'/'$HERMES_SOURCE_DIR'/target/release/'$HERMES_BINARY
 
 # Check & Install hermes binary if not exists
 ./_make_binary.sh
-[ $? -eq 0 ] || { echo "ERR: Failed to check & build $HERMES_BINARY binary at $BINARY"; }
+[ $? -eq 0 ] || { echo >&2 "ERR: Failed to check & build $HERMES_BINARY binary at $BINARY"; }
 
 echo 'You can custom config by editing keys with prefix [HERMES_CFG_CHAIN_*] in [env.sh] file'
 sleep 3s
@@ -165,32 +165,32 @@ echo '- Creating client'
 RES_CREATE_CLIENT_1_TO_2=$($BINARY -c $CONFIG_TOML tx raw create-client $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID)
 TENDERMINT_CLIENT_1_TO_2=$(echo $RES_CREATE_CLIENT_1_TO_2 | grep -o '07-tendermint-[0-9]*')
 echo ' > Client 1 to 2: '$TENDERMINT_CLIENT_1_TO_2
-[ -z "$TENDERMINT_CLIENT_1_TO_2" ] && { echo "Unable to create tendermint light client on chain 1"; exit 1; }
+[ -z "$TENDERMINT_CLIENT_1_TO_2" ] && { echo "ERR: Unable to create tendermint light client on chain 1"; exit 1; }
 
 RES_CREATE_CLIENT_2_TO_1=$($BINARY -c $CONFIG_TOML tx raw create-client $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID)
 TENDERMINT_CLIENT_2_TO_1=$(echo $RES_CREATE_CLIENT_2_TO_1 | grep -o '07-tendermint-[0-9]*')
 echo ' > Client 2 to 1: '$TENDERMINT_CLIENT_2_TO_1
-[ -z "$TENDERMINT_CLIENT_2_TO_1" ] && { echo "Unable to create tendermint light client on chain 2"; exit 1; }
+[ -z "$TENDERMINT_CLIENT_2_TO_1" ] && { echo "ERR: Unable to create tendermint light client on chain 2"; exit 1; }
 
 echo '- Creating connection'
 RES_CREATE_CONN_1_TO_2=$($BINARY -c $CONFIG_TOML tx raw conn-init $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID $TENDERMINT_CLIENT_1_TO_2 $TENDERMINT_CLIENT_2_TO_1)
 CONN_1_TO_2=$(echo $RES_CREATE_CONN_1_TO_2 | grep -o 'connection-[0-9]*')
 echo ' > Connection 1 to 2: '$CONN_1_TO_2
-[ -z "$CONN_1_TO_2" ] && { echo "Unable to create connection on chain 1"; exit 1; }
+[ -z "$CONN_1_TO_2" ] && { echo "ERR: Unable to create connection on chain 1"; exit 1; }
 
 RES_CREATE_CONN_2_TO_1=$($BINARY -c $CONFIG_TOML tx raw conn-try $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID $TENDERMINT_CLIENT_2_TO_1 $TENDERMINT_CLIENT_1_TO_2 -s $CONN_1_TO_2)
 CONN_2_TO_1=$(echo $RES_CREATE_CONN_2_TO_1 | grep -o 'connection-[0-9]*' | head -n 1)
 echo ' > Connection 2 to 1: '$CONN_2_TO_1
-[ -z "$CONN_2_TO_1" ] && { echo "Unable to create connection on chain 2"; exit 1; }
+[ -z "$CONN_2_TO_1" ] && { echo "ERR: Unable to create connection on chain 2"; exit 1; }
 
 $BINARY -c $CONFIG_TOML tx raw conn-ack $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID $TENDERMINT_CLIENT_1_TO_2 $TENDERMINT_CLIENT_2_TO_1 -d $CONN_1_TO_2 -s $CONN_2_TO_1
 EXIT_CODE=$?
 sleep 2s
-[ $EXIT_CODE -eq 0 ] || { echo "Operation failed"; exit 1; }
+[ $EXIT_CODE -eq 0 ] || { echo "ERR: Operation failed"; exit 1; }
 $BINARY -c $CONFIG_TOML tx raw conn-confirm $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID $TENDERMINT_CLIENT_2_TO_1 $TENDERMINT_CLIENT_1_TO_2 -d $CONN_2_TO_1 -s $CONN_1_TO_2
 EXIT_CODE=$?
 sleep 2s
-[ $EXIT_CODE -eq 0 ] || { echo "Operation failed"; exit 1; }
+[ $EXIT_CODE -eq 0 ] || { echo "ERR: Operation failed"; exit 1; }
 
 echo ' + Testing connection 1'
 $BINARY -c $CONFIG_TOML query connection end $HERMES_CFG_CHAIN_1_ID $CONN_1_TO_2 | grep 'Open'

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-command -v docker > /dev/null 2>&1 || { echo >&2 "docker is required"; exit 1; }
-command -v 'docker-compose' > /dev/null 2>&1 || { echo >&2 "docker-compose is required"; exit 1; }
+command -v docker > /dev/null 2>&1 || { echo >&2 "ERR: docker is required"; exit 1; }
+command -v 'docker-compose' > /dev/null 2>&1 || { echo >&2 "ERR: docker-compose is required"; exit 1; }
 
 source ../env.sh
 
@@ -35,7 +35,7 @@ elif [ "$CHAIN_NO" = "2" ]; then
     export PORT_1317="$CHAIN_2_EXPOSE_REST_API_TO_PORT"
     export PORT_26656="$CHAIN_2_EXPOSE_P2P_TO_PORT"
 else
-    echo 'Missing or incorrect chain no as first argument, valid input is 1 or 2'
+    echo 'ERR: Missing or incorrect chain no as first argument, valid input is 1 or 2'
     echo 'For example:'
     echo " $0 1"
     echo " or: $0 2"
@@ -82,7 +82,7 @@ else
     git clone "$GIT_REPO" --branch "$GIT_BRANCH" --single-branch "$SOURCE_CODE_DIR"
 
     if [ $? -ne 0 ]; then
-        echo "Git clone $CHAIN_NAME from branch $GIT_BRANCH has failed"
+        echo "ERR: Git clone $CHAIN_NAME from branch $GIT_BRANCH has failed"
         exit 1
     fi
 fi
@@ -108,7 +108,7 @@ fi
 # Docker build
 echo "Build new docker image $DOCKER_IMAGE_NAME"
 docker build -t "$DOCKER_IMAGE_NAME" -f "$DOCKER_FILE" .
-[ $? -eq 0 ] || { echo "ERR: Failed to build docker image"; exit 1; }
+[ $? -eq 0 ] || { echo >&2 "ERR: Failed to build docker image"; exit 1; }
 
 # Create docker-compose yml
 DOCKER_COMPOSE_FILE="network$CHAIN_NO.yml"

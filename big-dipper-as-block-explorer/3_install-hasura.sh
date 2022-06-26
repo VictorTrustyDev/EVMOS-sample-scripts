@@ -1,7 +1,7 @@
 #!/bin/bash
 
-command -v docker > /dev/null 2>&1 || { echo >&2 "docker is required"; exit 1; }
-command -v psql > /dev/null 2>&1 || { echo >&2 "psql is required, you first need to install psql client. Hint: sudo apt install postgresql-client"; exit 1; }
+command -v docker > /dev/null 2>&1 || { echo >&2 "ERR: docker is required"; exit 1; }
+command -v psql > /dev/null 2>&1 || { echo >&2 "ERR: psql is required, you first need to install psql client. Hint: sudo apt install postgresql-client"; exit 1; }
 
 source ../env.sh
 
@@ -25,7 +25,7 @@ if [ "$CHAIN_NO" = "1" ]; then
 elif [ "$CHAIN_NO" = "2" ]; then
     echo "Chain 2"
 else
-    echo 'Missing or incorrect chain no as first argument, valid input is 1 or 2'
+    echo 'ERR: Missing or incorrect chain no as first argument, valid input is 1 or 2'
     echo 'For example:'
     echo " $0 1"
     echo " or: $0 2"
@@ -37,7 +37,7 @@ if [ -f "$BD_HASURA_BINARY" ]; then
 elif [ command -v hasura > /dev/null 2>&1 ]; then
     export BD_HASURA_BINARY="hasura"
 else
-    echo "hasura-cli is required, more info: https://hasura.io/docs/latest/graphql/core/hasura-cli/install-hasura-cli/ . Hint: curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash"
+    echo "ERR: hasura-cli is required, more info: https://hasura.io/docs/latest/graphql/core/hasura-cli/install-hasura-cli/ . Hint: curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash"
     exit 1
 fi
 

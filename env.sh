@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Pre-requisites
-command -v jq > /dev/null 2>&1 || { echo >&2 "jq not installed. More info: https://stedolan.github.io/jq/download/ (Hint: sudo apt install jq -y)"; exit 1; }
-command -v yq > /dev/null 2>&1 || { echo >&2 "yq not installed. More info: https://github.com/kislyuk/yq/ (Hint: sudo apt install python3-pip -y && pip3 install yq)"; exit 1; }
-command -v tomlq > /dev/null 2>&1 || { echo >&2 "tomlq not installed, it is expected to be delivered within yq package"; exit 1; }
-command -v bc > /dev/null 2>&1 || { echo >&2 "bc command could not be found"; exit 1; }
-command -v make > /dev/null 2>&1 || { echo >&2 "make command could not be found"; exit 1; }
-command -v go > /dev/null 2>&1 || { echo >&2 "go was not installed. More info: https://go.dev/doc/install"; exit 1; }
+command -v jq > /dev/null 2>&1 || { echo >&2 "ERR: jq not installed. More info: https://stedolan.github.io/jq/download/ (Hint: sudo apt install jq -y)"; exit 1; }
+command -v yq > /dev/null 2>&1 || { echo >&2 "ERR: yq not installed. More info: https://github.com/kislyuk/yq/ (Hint: sudo apt install python3-pip -y && pip3 install yq)"; exit 1; }
+command -v tomlq > /dev/null 2>&1 || { echo >&2 "ERR: tomlq not installed, it is expected to be delivered within yq package"; exit 1; }
+command -v bc > /dev/null 2>&1 || { echo >&2 "ERR: bc command could not be found"; exit 1; }
+command -v make > /dev/null 2>&1 || { echo >&2 "ERR: make command could not be found"; exit 1; }
+command -v go > /dev/null 2>&1 || { echo >&2 "ERR: go was not installed. More info: https://go.dev/doc/install"; exit 1; }
 
 # Configurations
 
@@ -190,7 +190,7 @@ export DOCKER_IMAGE_NAME_PREFIX="evmos.victortrusty.dev:c"
 # Others # Just skip this part, don't read, no more custom-able here
 echo $NOTICE_DEV_ENV
 if [ -z "$GOPATH" ]; then
-    echo "Missing GOPATH environment variable, should be '$HOME/go'"
+    echo "ERR: Missing GOPATH environment variable, should be '$HOME/go'"
     exit 1
 fi
 command -v systemctl > /dev/null 2>&1

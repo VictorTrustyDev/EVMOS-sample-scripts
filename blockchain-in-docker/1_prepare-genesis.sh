@@ -1,7 +1,7 @@
 #!/bin/bash
 
-command -v docker > /dev/null 2>&1 || { echo >&2 "docker is required"; exit 1; }
-command -v 'docker-compose' > /dev/null 2>&1 || { echo >&2 "docker-compose is required"; exit 1; }
+command -v docker > /dev/null 2>&1 || { echo >&2 "ERR: docker is required"; exit 1; }
+command -v 'docker-compose' > /dev/null 2>&1 || { echo >&2 "ERR: docker-compose is required"; exit 1; }
 
 source ../env.sh
 
@@ -25,7 +25,7 @@ if [ "$CHAIN_NO" = "1" ]; then
 elif [ "$CHAIN_NO" = "2" ]; then
     echo "Chain 2"
 else
-    echo 'Missing or incorrect chain no as first argument, valid input is 1 or 2'
+    echo 'ERR: Missing or incorrect chain no as first argument, valid input is 1 or 2'
     echo 'For example:'
     echo " $0 1"
     echo " or: $0 2"
@@ -43,7 +43,7 @@ if [ "$KEYRING" = "file" ]; then
 elif [ "$KEYRING" = "test" ]; then
     echo "Keyring: test **WARNING** only use keyring-backend=test for development purpose on local machine or you must secure your cloud env by whitelist some IP addresses, otherwise someone will take all your token, even tho it's only a test env"
 else
-    echo "Non supported keyring mode = $KEYRING, only support 'file' & 'test'"
+    echo "ERR: Non supported keyring mode = $KEYRING, only support 'file' & 'test'"
     exit 1
 fi
 
@@ -52,7 +52,7 @@ export BINARY="$GOPATH/bin/$DAEMON_BINARY_NAME"
 
 # Check & Install evmosd binary if not exists
 ./_make_binary.sh
-[ $? -eq 0 ] || { echo "ERR: Failed to check & build daemon binary '$DAEMON_BINARY_NAME' at $BINARY"; }
+[ $? -eq 0 ] || { echo >&2 "ERR: Failed to check & build daemon binary '$DAEMON_BINARY_NAME' at $BINARY"; }
 
 VAL_HOME_1=$VAL_HOME_PREFIX'0'
 VAL_HOME_2=$VAL_HOME_PREFIX'1'
@@ -78,26 +78,26 @@ $BINARY config chain-id $CHAIN_ID --home $VAL_HOME_3
 ## Genesis
 MONIKER=$MONIKER'-'$VAL_1_KEY_NAME
 $BINARY init $MONIKER --chain-id $CHAIN_ID --home $VAL_HOME_1 > /dev/null 2>&1
-[ $? -eq 0 ] || { echo "ERR: Failed to init chain on node 0"; exit 1; }
+[ $? -eq 0 ] || { echo >&2 "ERR: Failed to init chain on node 0"; exit 1; }
 MONIKER=$MONIKER'-'$VAL_2_KEY_NAME
 $BINARY init $MONIKER --chain-id $CHAIN_ID --home $VAL_HOME_2 > /dev/null 2>&1
-[ $? -eq 0 ] || { echo "ERR: Failed to init pseudo chain for node 1"; exit 1; }
+[ $? -eq 0 ] || { echo >&2 "ERR: Failed to init pseudo chain for node 1"; exit 1; }
 MONIKER=$MONIKER'-'$VAL_3_KEY_NAME
 $BINARY init $MONIKER --chain-id $CHAIN_ID --home $VAL_HOME_3 > /dev/null 2>&1
-[ $? -eq 0 ] || { echo "ERR: Failed to init pseudo chain for node 2"; exit 1; }
+[ $? -eq 0 ] || { echo >&2 "ERR: Failed to init pseudo chain for node 2"; exit 1; }
 
 # Import validator keys
 echo "Import validator keys for chain no $CHAIN_NO id $CHAIN_ID"
 if [ "$KEYRING" = "test" ]; then
     echo "- Validator 1, key name '$VAL_1_KEY_NAME'"
     ( echo "$VAL_1_SEED"; ) | $BINARY keys add "$VAL_1_KEY_NAME" --recover --keyring-backend "test" --home "$VAL_HOME_1"
-    [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+    [ $? -eq 0 ] || { echo >&2 "ERR: Failed to import"; exit 1; }
     echo "- Validator 2, key name '$VAL_2_KEY_NAME'"
     ( echo "$VAL_2_SEED"; ) | $BINARY keys add "$VAL_2_KEY_NAME" --recover --keyring-backend "test" --home "$VAL_HOME_1"
-    [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+    [ $? -eq 0 ] || { echo >&2 "ERR: Failed to import"; exit 1; }
     echo "- Validator 3, key name '$VAL_3_KEY_NAME'"
     ( echo "$VAL_3_SEED"; ) | $BINARY keys add "$VAL_3_KEY_NAME" --recover --keyring-backend "test" --home "$VAL_HOME_1"
-    [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+    [ $? -eq 0 ] || { echo >&2 "ERR: Failed to import"; exit 1; }
 else
     if [ "$CHAIN_TYPE" = "evmos" ]; then
         echo "- Validator 1, key name '$VAL_1_KEY_NAME'"
@@ -108,7 +108,7 @@ else
         echo "and encryption password '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' to encrypt seed phrase"
         echo "of validator 1"
         $BINARY keys add "$VAL_1_KEY_NAME" --recover --keyring-backend "file" --home "$VAL_HOME_1"
-        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+        [ $? -eq 0 ] || { echo >&2 "ERR: Failed to import"; exit 1; }
         echo "- Validator 2, key name '$VAL_2_KEY_NAME'"
         echo "** Due to evmos daemon bug, it is not possible to import seed & encryption password automatically at the same time, please copy & paste the following seed:"
         echo "___"
@@ -117,7 +117,7 @@ else
         echo "and encryption password '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' to encrypt seed phrase"
         echo "of validator 2"
         $BINARY keys add "$VAL_2_KEY_NAME" --recover --keyring-backend "file" --home "$VAL_HOME_1"
-        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+        [ $? -eq 0 ] || { echo >&2 "ERR: Failed to import"; exit 1; }
         echo "- Validator 3, key name '$VAL_3_KEY_NAME'"
         echo "** Due to evmos daemon bug, it is not possible to import seed & encryption password automatically at the same time, please copy & paste the following seed:"
         echo "___"
@@ -126,17 +126,17 @@ else
         echo "and encryption password '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' to encrypt seed phrase"
         echo "of validator 3"
         $BINARY keys add "$VAL_3_KEY_NAME" --recover --keyring-backend "file" --home "$VAL_HOME_1"
-        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+        [ $? -eq 0 ] || { echo >&2 "ERR: Failed to import"; exit 1; }
     else
         echo "- Validator 1, key name '$VAL_1_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD', seed phase '$VAL_1_SEED'"
         ( echo "$VAL_1_SEED"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys add "$VAL_1_KEY_NAME" --recover --keyring-backend "file" --home "$VAL_HOME_1"
-        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+        [ $? -eq 0 ] || { echo >&2 "ERR: Failed to import"; exit 1; }
         echo "- Validator 2, key name '$VAL_2_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD', seed phase '$VAL_2_SEED'"
         ( echo "$VAL_2_SEED"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys add "$VAL_2_KEY_NAME" --recover --keyring-backend "file" --home "$VAL_HOME_1"
-        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+        [ $? -eq 0 ] || { echo >&2 "ERR: Failed to import"; exit 1; }
         echo "- Validator 3, key name '$VAL_3_KEY_NAME', encryption password: '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD', seed phase '$VAL_3_SEED'"
         ( echo "$VAL_3_SEED"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; echo "$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD"; ) | $BINARY keys add "$VAL_3_KEY_NAME" --recover --keyring-backend "file" --home "$VAL_HOME_1"
-        [ $? -eq 0 ] || { echo "ERR: Failed to import"; exit 1; }
+        [ $? -eq 0 ] || { echo >&2 "ERR: Failed to import"; exit 1; }
     fi
 fi
 
@@ -306,7 +306,7 @@ else
         --chain-id $CHAIN_ID \
         --home $VAL_HOME_1 > /dev/null 2>&1
 fi
-[ $? -eq 0 ] || { echo "ERR: Failed to create genesis tx for validator 1"; exit 1; }
+[ $? -eq 0 ] || { echo >&2 "ERR: Failed to create genesis tx for validator 1"; exit 1; }
 
 echo 'Generate genesis staking transaction '$(bc <<< "$VAL_2_STAKE / (10^$DENOM_EXPONENT)")' '$DENOM_SYMBOL' for validator '$VAL_2_KEY_NAME
 if [ "$KEYRING" = "test" ]; then
@@ -328,7 +328,7 @@ else
         --chain-id $CHAIN_ID \
         --home $VAL_HOME_2 > /dev/null 2>&1
 fi
-[ $? -eq 0 ] || { echo "ERR: Failed to create genesis tx for validator 2"; exit 1; }
+[ $? -eq 0 ] || { echo >&2 "ERR: Failed to create genesis tx for validator 2"; exit 1; }
 echo "Copy generated tx to $VAL_HOME_1/config/gentx"
 cp $VAL_HOME_2/config/gentx/gentx-* $VAL_HOME_1/config/gentx/
 
@@ -352,18 +352,18 @@ else
         --chain-id $CHAIN_ID \
         --home $VAL_HOME_3 > /dev/null 2>&1
 fi
-[ $? -eq 0 ] || { echo "ERR: Failed to create genesis tx for validator 3"; exit 1; }
+[ $? -eq 0 ] || { echo >&2 "ERR: Failed to create genesis tx for validator 3"; exit 1; }
 echo "Copy generated tx to $VAL_HOME_1/config/gentx"
 cp $VAL_HOME_3/config/gentx/gentx-* $VAL_HOME_1/config/gentx/
 
 # Collect genesis tx to genesis.json
 echo "Collecting genesis transactions into genesis.json"
 $BINARY collect-gentxs --home $VAL_HOME_1 > /dev/null 2>&1
-[ $? -eq 0 ] || { echo "ERR: Failed to collect genesis transactions"; exit 1; }
+[ $? -eq 0 ] || { echo >&2 "ERR: Failed to collect genesis transactions"; exit 1; }
 
 # Validate genesis.json
 $BINARY validate-genesis --home $VAL_HOME_1
-[ $? -eq 0 ] || { echo "ERR: Failed to validate genesis"; exit 1; }
+[ $? -eq 0 ] || { echo >&2 "ERR: Failed to validate genesis"; exit 1; }
 
 
 # Update config.toml

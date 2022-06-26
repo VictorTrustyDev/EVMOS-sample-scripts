@@ -8,13 +8,13 @@
 # It is not recommended to use this script
 
 if [ ! -f "./env.sh" ]; then
-    echo "Wrong working directory"
+    echo "ERR: Wrong working directory"
     exit 1
 fi
 
 show_required_tools() {
     MSG="'$1' tool is required"
-    echo >&2 "$MSG"
+    echo >&2 "ERR: $MSG"
     echo >&2 "______"
     echo >&2 "The app requires following tools:"
     echo >&2 "- jq"
@@ -36,7 +36,7 @@ show_required_tools() {
     echo >&2 " + https://hasura.io/docs/latest/graphql/core/hasura-cli/install-hasura-cli/"
     echo >&2 " + Hint: curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash"
     echo >&2 "______"
-    echo >&2 "$MSG"
+    echo >&2 "ERR: $MSG"
 }
 
 command -v jq > /dev/null 2>&1 || { show_required_tools 'jq'; exit 1; }

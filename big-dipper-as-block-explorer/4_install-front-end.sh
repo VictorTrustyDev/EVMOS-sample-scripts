@@ -1,6 +1,6 @@
 #!/bin/bash
 
-command -v npm > /dev/null 2>&1 || { echo >&2 "npm is required"; exit 1; }
+command -v npm > /dev/null 2>&1 || { echo >&2 "ERR: npm is required"; exit 1; }
 
 source ../env.sh
 
@@ -24,7 +24,7 @@ if [ "$CHAIN_NO" = "1" ]; then
 elif [ "$CHAIN_NO" = "2" ]; then
     echo "Chain 2"
 else
-    echo 'Missing or incorrect chain no as first argument, valid input is 1 or 2'
+    echo 'ERR: Missing or incorrect chain no as first argument, valid input is 1 or 2'
     echo 'For example:'
     echo " $0 1"
     echo " or: $0 2"
@@ -71,7 +71,7 @@ else
     git clone "$BD2_GIT_REPO" --branch "$BD2_BRANCH" --single-branch "$BD2_SOURCE_DIR"
 
     if [ $? -ne 0 ]; then
-        echo "Git clone Big Dipper 2.0 from branch $BD2_BRANCH was failed"
+        echo "ERR: Git clone Big Dipper 2.0 from branch $BD2_BRANCH was failed"
         exit 1
     fi
 fi
@@ -118,14 +118,14 @@ WORKING_DIR=$(pwd)
 # Build
 ## Install graphql-codegen 
 npm i -D @graphql-codegen/cli > /dev/null 2>&1
-[ $? -eq 0 ] || { echo "ERR: Failed to install @graphql-codegen/cli"; exit 1; }
+[ $? -eq 0 ] || { echo >&2 "ERR: Failed to install @graphql-codegen/cli"; exit 1; }
 ## Gen code
 echo 'Generating code'
 npm run graphql:codegen
-[ $? -eq 0 ] || { echo "ERR: Failed to run graphql:codegen"; exit 1; }
+[ $? -eq 0 ] || { echo >&2 "ERR: Failed to run graphql:codegen"; exit 1; }
 #echo 'Build'
 #npm run build
-#[ $? -eq 0 ] || { echo "ERR: Failed to build"; exit 1; }
+#[ $? -eq 0 ] || { echo >&2 "ERR: Failed to build"; exit 1; }
 
 cd "$CUR_DIR"
 

@@ -25,7 +25,7 @@ if [ "$CHAIN_NO" = "1" ]; then
 elif [ "$CHAIN_NO" = "2" ]; then
     echo "Chain 2"
 else
-    echo 'Missing or incorrect chain no as first argument, valid input is 1 or 2'
+    echo 'ERR: Missing or incorrect chain no as first argument, valid input is 1 or 2'
     echo 'For example:'
     echo " $0 1"
     echo " or: $0 2"
@@ -57,20 +57,20 @@ docker run \
   -e POSTGRES_PASSWORD=$BD_CFG_PG_USR_PASS \
   -v $PG_VOL_NAME:/data/db \
   postgres:12.5
-[ $? -eq 0 ] || { echo "ERR: Failed to create a PostgreSQL container"; }
+[ $? -eq 0 ] || { echo >&2 "ERR: Failed to create a PostgreSQL container"; }
 
 echo 'Waiting DB up'
 sleep 3s
 
 echo "- Creating database $BD_PG_DB"
 PGPASSWORD=$BD_CFG_PG_USR_PASS psql -h 127.0.0.1 -p $PG_PORT -d postgres -U postgres -c "CREATE DATABASE $BD_PG_DB;"
-[ $? -eq 0 ] || { echo "ERR: Operation failed!"; }
+[ $? -eq 0 ] || { echo >&2 "ERR: Operation failed!"; }
 echo "- Creating user $BD_PG_USER"
 PGPASSWORD=$BD_CFG_PG_USR_PASS psql -h 127.0.0.1 -p $PG_PORT -d postgres -U postgres -c "CREATE USER $BD_PG_USER WITH ENCRYPTED PASSWORD '$BD_PG_PASS';"
-[ $? -eq 0 ] || { echo "ERR: Operation failed!"; }
+[ $? -eq 0 ] || { echo >&2 "ERR: Operation failed!"; }
 echo "- Grant all privileges on db $BD_PG_DB to user $BD_PG_USER"
 PGPASSWORD=$BD_CFG_PG_USR_PASS psql -h 127.0.0.1 -p $PG_PORT -d postgres -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE $BD_PG_DB TO $BD_PG_USER;"
-[ $? -eq 0 ] || { echo "ERR: Operation failed!"; }
+[ $? -eq 0 ] || { echo >&2 "ERR: Operation failed!"; }
 
 # Check bdjuno source
 # If the repo is different with config, show a warning
@@ -106,7 +106,7 @@ else
     git clone "$BD_GIT_REPO" --branch "$BD_GIT_BRANCH" --single-branch "$BD_SOURCE_DIR"
 
     if [ $? -ne 0 ]; then
-        echo "Git clone bdjuno branch $BD_GIT_BRANCH failed"
+        echo "ERR: Git clone bdjuno branch $BD_GIT_BRANCH failed"
         exit 1
     fi
 fi

@@ -22,7 +22,7 @@ if [ "$CHAIN_NO" = "1" ]; then
 elif [ "$CHAIN_NO" = "2" ]; then
     echo "Chain 2"
 else
-    echo 'Missing or incorrect chain no as first argument, valid input is 1 or 2'
+    echo 'ERR: Missing or incorrect chain no as first argument, valid input is 1 or 2'
     echo 'For example:'
     echo " $0 1"
     echo " or: $0 2"
@@ -41,18 +41,18 @@ if [ ! -f "$GENESIS_JSON" ]; then
     if [ $EXTRA_FUNC -eq 1 ]; then
         cp '../blockchain-in-docker/.evmosd'$CHAIN_NO'0/config/genesis.json' "$GENESIS_JSON"
         if [ ! -f "$GENESIS_JSON" ]; then
-            echo "Please copy genesis.json from your chain into $BD_HOME"
+            echo "ERR: Please copy genesis.json from your chain into $BD_HOME"
             exit 1
         fi
     else
-        echo "Missing genesis.json file (expect: $GENESIS_JSON)"
+        echo "ERR: Missing genesis.json file (expect: $GENESIS_JSON)"
         echo "Please copy that file from your chain"
         exit 1
     fi
 fi
 echo "Parsing genesis file"
 $BD_BINARY parse genesis-file --genesis-file-path "$GENESIS_JSON" --home "$BD_HOME"
-[ $? -eq 0 ] || { echo "ERR: Failed to parse genesis.json!"; exit 1; }
+[ $? -eq 0 ] || { echo >&2 "ERR: Failed to parse genesis.json!"; exit 1; }
 ## Check chain id
 GENESIS_CHAIN_ID=$(cat "$GENESIS_JSON" | jq .chain_id | head -n 1 | tr -d '"')
 
