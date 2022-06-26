@@ -49,9 +49,32 @@ if [ -f "$DOCKER_COMPOSE_FILE" ]; then
     docker-compose -f "$DOCKER_COMPOSE_FILE" down
 fi
 
-# Check EVMOS source
+# Check source
 if [ -d "$SOURCE_CODE_DIR" ]; then
-    echo "EVMOS repo was downloaded"
+    echo "$CHAIN_NAME repo exists at $SOURCE_CODE_DIR"
+    echo "Checking repo url & branch name"
+    CHK_RES_1="$(git --git-dir "./$SOURCE_CODE_DIR"/.git --work-tree "./$SOURCE_CODE_DIR" config --get remote.origin.url)"
+    if [ $? -ne 0 ] || [ -z "$CHK_RES_1" ]; then
+        echo "WARN! Unable to check remote origin url of git repo at $SOURCE_CODE_DIR"
+        sleep 2s
+    elif [ "$CHK_RES_1" != "$GIT_REPO" ]; then
+        echo "WARN! Git repo Url does not match"
+        echo "Expected: '$GIT_REPO'"
+        echo "Actual: '$CHK_RES_1'"
+        echo "You should check it (script will continue execution after 10s)"
+        sleep 10s
+    fi
+    CHK_RES_2="$(git --git-dir "./$SOURCE_CODE_DIR"/.git --work-tree "./$SOURCE_CODE_DIR" rev-parse --abbrev-ref HEAD)"
+    if [ $? -ne 0 ] || [ -z "$CHK_RES_2" ]; then
+        echo "WARN! Unable to check branch of git repo at $SOURCE_CODE_DIR"
+        sleep 2s
+    elif [ "$CHK_RES_2" != "$GIT_BRANCH" ]; then
+        echo "WARN! Git Branch does not match"
+        echo "Expected: '$GIT_BRANCH'"
+        echo "Actual: '$CHK_RES_2'"
+        echo "You should check it (script will continue execution after 10s)"
+        sleep 10s
+    fi
 else
     echo "Downloading EVMOS source code $GIT_BRANCH"
     git clone "$GIT_REPO" --branch "$GIT_BRANCH" --single-branch "$SOURCE_CODE_DIR"
