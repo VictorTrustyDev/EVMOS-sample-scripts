@@ -8,7 +8,7 @@
 # It is not recommended to use this script
 
 if [ ! -f "./env.sh" ]; then
-    echo  >&2 "ERR: Wrong working directory"
+    echo >&2 "ERR: Wrong working directory"
     exit 1
 fi
 

@@ -14,8 +14,8 @@ fi
 if [ -f "./_config.sh" ]; then
     source "./_config.sh"
 else
-    echo  >&2 "ERR: Wrong working directory"
-    echo  >&2 "ERR: Scripts must be executed within [big-dipper-as-block-explorer] directory"
+    echo >&2 "ERR: Wrong working directory"
+    echo >&2 "ERR: Scripts must be executed within [big-dipper-as-block-explorer] directory"
     exit 1
 fi
 
@@ -25,10 +25,10 @@ if [ "$CHAIN_NO" = "1" ]; then
 elif [ "$CHAIN_NO" = "2" ]; then
     echo "Chain 2"
 else
-    echo 'ERR: Missing or incorrect chain no as first argument, valid input is 1 or 2'
-    echo 'For example:'
-    echo " $0 1"
-    echo " or: $0 2"
+    echo >&2 'ERR: Missing or incorrect chain no as first argument, valid input is 1 or 2'
+    echo >&2 'For example:'
+    echo >&2 " $0 1"
+    echo >&2 " or: $0 2"
     exit 1
 fi
 
@@ -37,7 +37,7 @@ if [ -f "$BD_HASURA_BINARY" ]; then
 elif [ command -v hasura > /dev/null 2>&1 ]; then
     export BD_HASURA_BINARY="hasura"
 else
-    echo  >&2 "ERR: hasura-cli is required, more info: https://hasura.io/docs/latest/graphql/core/hasura-cli/install-hasura-cli/ . Hint: curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash"
+    echo >&2 "ERR: hasura-cli is required, more info: https://hasura.io/docs/latest/graphql/core/hasura-cli/install-hasura-cli/ . Hint: curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash"
     exit 1
 fi
 

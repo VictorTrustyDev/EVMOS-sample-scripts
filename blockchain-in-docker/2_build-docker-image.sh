@@ -14,8 +14,8 @@ fi
 if [ -f "./_config.sh" ]; then
     source "./_config.sh"
 else
-    echo  >&2 "ERR: Wrong working directory"
-    echo  >&2 "ERR: Scripts must be executed within [blockchain-in-docker] directory"
+    echo >&2 "ERR: Wrong working directory"
+    echo >&2 "ERR: Scripts must be executed within [blockchain-in-docker] directory"
     exit 1
 fi
 
@@ -35,10 +35,10 @@ elif [ "$CHAIN_NO" = "2" ]; then
     export PORT_1317="$CHAIN_2_EXPOSE_REST_API_TO_PORT"
     export PORT_26656="$CHAIN_2_EXPOSE_P2P_TO_PORT"
 else
-    echo 'ERR: Missing or incorrect chain no as first argument, valid input is 1 or 2'
-    echo 'For example:'
-    echo " $0 1"
-    echo " or: $0 2"
+    echo >&2 'ERR: Missing or incorrect chain no as first argument, valid input is 1 or 2'
+    echo >&2 'For example:'
+    echo >&2 " $0 1"
+    echo >&2 " or: $0 2"
     exit 1
 fi
 
@@ -82,7 +82,7 @@ else
     git clone "$GIT_REPO" --branch "$GIT_BRANCH" --single-branch "$SOURCE_CODE_DIR"
 
     if [ $? -ne 0 ]; then
-        echo  >&2 "ERR: Git clone $CHAIN_NAME from branch $GIT_BRANCH has failed"
+        echo >&2 "ERR: Git clone $CHAIN_NAME from branch $GIT_BRANCH has failed"
         exit 1
     fi
 fi

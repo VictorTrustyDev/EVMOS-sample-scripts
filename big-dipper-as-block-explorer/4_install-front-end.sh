@@ -13,8 +13,8 @@ fi
 if [ -f "./_config.sh" ]; then
     source "./_config.sh"
 else
-    echo  >&2 "ERR: Wrong working directory"
-    echo  >&2 "ERR: Scripts must be executed within [big-dipper-as-block-explorer] directory"
+    echo >&2 "ERR: Wrong working directory"
+    echo >&2 "ERR: Scripts must be executed within [big-dipper-as-block-explorer] directory"
     exit 1
 fi
 
@@ -24,10 +24,10 @@ if [ "$CHAIN_NO" = "1" ]; then
 elif [ "$CHAIN_NO" = "2" ]; then
     echo "Chain 2"
 else
-    echo 'ERR: Missing or incorrect chain no as first argument, valid input is 1 or 2'
-    echo 'For example:'
-    echo " $0 1"
-    echo " or: $0 2"
+    echo >&2 'ERR: Missing or incorrect chain no as first argument, valid input is 1 or 2'
+    echo >&2 'For example:'
+    echo >&2 " $0 1"
+    echo >&2 " or: $0 2"
     exit 1
 fi
 
@@ -71,7 +71,7 @@ else
     git clone "$BD2_GIT_REPO" --branch "$BD2_BRANCH" --single-branch "$BD2_SOURCE_DIR"
 
     if [ $? -ne 0 ]; then
-        echo  >&2 "ERR: Git clone Big Dipper 2.0 from branch $BD2_BRANCH was failed"
+        echo >&2 "ERR: Git clone Big Dipper 2.0 from branch $BD2_BRANCH was failed"
         exit 1
     fi
 fi
