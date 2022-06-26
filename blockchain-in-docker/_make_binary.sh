@@ -6,9 +6,9 @@ if [ -f "$BINARY" ]; then
 	echo "Nice! Daemon binary $DAEMON_BINARY_NAME is already exists"
 else
 	if [ -d "$SOURCE_CODE_DIR" ]; then
-		echo "EVMOS repo was downloaded"
+		echo "$CHAIN_NAME repo was downloaded"
 	else
-		echo "Downloading EVMOS source code $GIT_BRANCH"
+		echo "Downloading $CHAIN_NAME source code $GIT_BRANCH"
 		git clone "$GIT_REPO" --branch "$GIT_BRANCH" --single-branch "$SOURCE_CODE_DIR"
 
 		if [ $? -ne 0 ]; then
