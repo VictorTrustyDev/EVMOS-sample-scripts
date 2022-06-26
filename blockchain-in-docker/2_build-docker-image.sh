@@ -76,11 +76,11 @@ if [ -d "$SOURCE_CODE_DIR" ]; then
         sleep 10s
     fi
 else
-    echo "Downloading EVMOS source code $GIT_BRANCH"
+    echo "Downloading $CHAIN_NAME source code $GIT_BRANCH"
     git clone "$GIT_REPO" --branch "$GIT_BRANCH" --single-branch "$SOURCE_CODE_DIR"
 
     if [ $? -ne 0 ]; then
-        echo "Git clone EVMOS $GIT_BRANCH failed"
+        echo "Git clone $CHAIN_NAME from branch $GIT_BRANCH has failed"
         exit 1
     fi
 fi
