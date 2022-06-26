@@ -68,6 +68,8 @@ if [ -d "$SOURCE_CODE_DIR" ]; then
     if [ $? -ne 0 ] || [ -z "$CHK_RES_2" ]; then
         echo "WARN! Unable to check branch of git repo at $SOURCE_CODE_DIR"
         sleep 2s
+    elif [ "$CHK_RES_2" = "HEAD" ]; then
+        echo "WARN! Can not check branch"
     elif [ "$CHK_RES_2" != "$GIT_BRANCH" ]; then
         echo "WARN! Git Branch does not match"
         echo "Expected: '$GIT_BRANCH'"

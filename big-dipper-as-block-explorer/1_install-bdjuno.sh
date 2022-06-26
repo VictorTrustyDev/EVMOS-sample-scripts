@@ -92,6 +92,8 @@ if [ -d "./$BD_SOURCE_DIR" ]; then
     if [ $? -ne 0 ] || [ -z "$CHK_RES_2" ]; then
         echo "WARN! Unable to check branch of git repo at $BD_SOURCE_DIR"
         sleep 2s
+    elif [ "$CHK_RES_2" = "HEAD" ]; then
+        echo "WARN! Can not check branch"
     elif [ "$CHK_RES_2" != "$BD_GIT_BRANCH" ]; then
         echo "WARN! Git Branch does not match"
         echo "Expected: '$BD_GIT_BRANCH'"
