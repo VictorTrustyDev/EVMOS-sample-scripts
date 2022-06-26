@@ -29,7 +29,7 @@ export HERMES_CFG_CHAIN_1_DENOM_EXPONENT=$CHAIN_1_DENOM_EXPONENT # no of digits
 
 # Big Dipper
 export BD_CFG_CHAIN_1_GIT_REPO="https://github.com/forbole/bdjuno.git"
-export BD_CFG_CHAIN_1_BRANCH="chains/cosmos/mainnet"
+export BD_CFG_CHAIN_1_GIT_REPO_BRANCH="chains/cosmos/mainnet"
 export BD_CFG_CHAIN_1_ACCOUNT_PREFIX="$CHAIN_1_ACCOUNT_PREFIX"
 export BD_CFG_CHAIN_1_ID="$CHAIN_1_ID"
 export BD_CFG_CHAIN_1_DENOM_SYMBOL="$CHAIN_1_DENOM_SYMBOL"

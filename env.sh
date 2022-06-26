@@ -144,7 +144,7 @@ export BD_PG_HASURA_PASS="PX2RNvtZ4m7fntnbRrtySB4ROG5EKk4J"
 export BD_CFG_PG_USR_PASS="6N4QtFYMt7h972uazrWTckmMvFZWIje" # Password of default user postgres
 ### Chain 1
 export BD_CFG_CHAIN_1_GIT_REPO="https://github.com/forbole/bdjuno.git"
-export BD_CFG_CHAIN_1_BRANCH="chains/evmos/mainnet" # must belong to repo $BD_CFG_CHAIN_1_GIT_REPO
+export BD_CFG_CHAIN_1_GIT_REPO_BRANCH="chains/evmos/mainnet" # must belong to repo $BD_CFG_CHAIN_1_GIT_REPO
 export BD_CFG_CHAIN_1_PG_PORT=5432
 export BD_CFG_CHAIN_1_ACCOUNT_PREFIX="$CHAIN_1_ACCOUNT_PREFIX"
 export BD_CFG_CHAIN_1_RPC_ADDR="127.0.0.1:$CHAIN_1_EXPOSE_RPC_TO_PORT"
@@ -157,7 +157,7 @@ export BD_CFG_CHAIN_1_MIN_DENOM_SYMBOL="$CHAIN_1_MIN_DENOM_SYMBOL" # aevmos/uato
 export BD_CFG_CHAIN_1_DENOM_EXPONENT=$CHAIN_1_DENOM_EXPONENT # no of digits (18 for evmos, 6 for cosmos atom)
 ### Chain 2
 export BD_CFG_CHAIN_2_GIT_REPO="https://github.com/forbole/bdjuno.git"
-export BD_CFG_CHAIN_2_BRANCH="chains/evmos/mainnet" # must belong to repo $BD_CFG_CHAIN_2_GIT_REPO
+export BD_CFG_CHAIN_2_GIT_REPO_BRANCH="chains/evmos/mainnet" # must belong to repo $BD_CFG_CHAIN_2_GIT_REPO
 export BD_CFG_CHAIN_2_PG_PORT=15432
 export BD_CFG_CHAIN_2_ACCOUNT_PREFIX="$CHAIN_2_ACCOUNT_PREFIX"
 export BD_CFG_CHAIN_2_RPC_ADDR="127.0.0.1:$CHAIN_2_EXPOSE_RPC_TO_PORT"
