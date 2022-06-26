@@ -109,6 +109,9 @@ cd "$AIO_DIR_CHAIN"
 ./cleanup.sh
 cd "$AIO_CUR_DIR"
 
+echo >&2 "ERR AIO: Operation stopped"
+exit 1
+
 echo "[Setup]"
 cd "$AIO_DIR_CHAIN"
 echo "> [Chain 1]"
