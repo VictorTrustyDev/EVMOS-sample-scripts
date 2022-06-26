@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Pre-requisites
-command -v jq > /dev/null 2>&1 || { echo >&2 "jq not installed. More info: https://stedolan.github.io/jq/download/ (Hint: sudo apt install jq -y)"; exit 1; }
-command -v yq > /dev/null 2>&1 || { echo >&2 "yq not installed. More info: https://github.com/kislyuk/yq/ (Hint: sudo apt install python3-pip -y && pip3 install yq)"; exit 1; }
-command -v tomlq > /dev/null 2>&1 || { echo >&2 "tomlq not installed, it is expected to be delivered within yq package"; exit 1; }
-command -v bc > /dev/null 2>&1 || { echo >&2 "bc command could not be found"; exit 1; }
-command -v make > /dev/null 2>&1 || { echo >&2 "make command could not be found"; exit 1; }
-command -v go > /dev/null 2>&1 || { echo >&2 "go was not installed. More info: https://go.dev/doc/install"; exit 1; }
+command -v jq > /dev/null 2>&1 || { echo >&2 "ERR: jq not installed. More info: https://stedolan.github.io/jq/download/ (Hint: sudo apt install jq -y)"; exit 1; }
+command -v yq > /dev/null 2>&1 || { echo >&2 "ERR: yq not installed. More info: https://github.com/kislyuk/yq/ (Hint: sudo apt install python3-pip -y && pip3 install yq)"; exit 1; }
+command -v tomlq > /dev/null 2>&1 || { echo >&2 "ERR: tomlq not installed, it is expected to be delivered within yq package"; exit 1; }
+command -v bc > /dev/null 2>&1 || { echo >&2 "ERR: bc command could not be found"; exit 1; }
+command -v make > /dev/null 2>&1 || { echo >&2 "ERR: make command could not be found"; exit 1; }
+command -v go > /dev/null 2>&1 || { echo >&2 "ERR: go was not installed. More info: https://go.dev/doc/install"; exit 1; }
 
 # Configurations
 
@@ -144,7 +144,7 @@ export BD_PG_HASURA_PASS="PX2RNvtZ4m7fntnbRrtySB4ROG5EKk4J"
 export BD_CFG_PG_USR_PASS="6N4QtFYMt7h972uazrWTckmMvFZWIje" # Password of default user postgres
 ### Chain 1
 export BD_CFG_CHAIN_1_GIT_REPO="https://github.com/forbole/bdjuno.git"
-export BD_CFG_CHAIN_1_BRANCH="chains/evmos/mainnet" # must belong to repo $BD_CFG_CHAIN_1_GIT_REPO
+export BD_CFG_CHAIN_1_GIT_REPO_BRANCH="chains/evmos/mainnet" # must belong to repo $BD_CFG_CHAIN_1_GIT_REPO
 export BD_CFG_CHAIN_1_PG_PORT=5432
 export BD_CFG_CHAIN_1_ACCOUNT_PREFIX="$CHAIN_1_ACCOUNT_PREFIX"
 export BD_CFG_CHAIN_1_RPC_ADDR="127.0.0.1:$CHAIN_1_EXPOSE_RPC_TO_PORT"
@@ -157,7 +157,7 @@ export BD_CFG_CHAIN_1_MIN_DENOM_SYMBOL="$CHAIN_1_MIN_DENOM_SYMBOL" # aevmos/uato
 export BD_CFG_CHAIN_1_DENOM_EXPONENT=$CHAIN_1_DENOM_EXPONENT # no of digits (18 for evmos, 6 for cosmos atom)
 ### Chain 2
 export BD_CFG_CHAIN_2_GIT_REPO="https://github.com/forbole/bdjuno.git"
-export BD_CFG_CHAIN_2_BRANCH="chains/evmos/mainnet" # must belong to repo $BD_CFG_CHAIN_2_GIT_REPO
+export BD_CFG_CHAIN_2_GIT_REPO_BRANCH="chains/evmos/mainnet" # must belong to repo $BD_CFG_CHAIN_2_GIT_REPO
 export BD_CFG_CHAIN_2_PG_PORT=15432
 export BD_CFG_CHAIN_2_ACCOUNT_PREFIX="$CHAIN_2_ACCOUNT_PREFIX"
 export BD_CFG_CHAIN_2_RPC_ADDR="127.0.0.1:$CHAIN_2_EXPOSE_RPC_TO_PORT"
@@ -190,12 +190,14 @@ export DOCKER_IMAGE_NAME_PREFIX="evmos.victortrusty.dev:c"
 # Others # Just skip this part, don't read, no more custom-able here
 echo $NOTICE_DEV_ENV
 if [ -z "$GOPATH" ]; then
-    echo "Missing GOPATH environment variable, should be '$HOME/go'"
+    echo >&2 "ERR: Missing GOPATH environment variable, should be '$HOME/go'"
     exit 1
 fi
 command -v systemctl > /dev/null 2>&1
 if [ $? -eq 0 ]; then
     export DISABLE_SYSTEMCTL=0
+elif [ ! -d "/etc/systemd/system" ]; then
+    export DISABLE_SYSTEMCTL=1
 else
     export DISABLE_SYSTEMCTL=1
 fi

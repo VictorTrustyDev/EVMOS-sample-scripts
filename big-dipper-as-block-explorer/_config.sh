@@ -7,7 +7,7 @@ if [ "$CHAIN_NO" = "1" ]; then
     export RPC_ADDR=$BD_CFG_CHAIN_1_RPC_ADDR
     export GRPC_ADDR=$BD_CFG_CHAIN_1_GRPC_ADDR
     export BD_GIT_REPO="$BD_CFG_CHAIN_1_GIT_REPO"
-    export BD_BRANCH="$BD_CFG_CHAIN_1_BRANCH"
+    export BD_GIT_BRANCH="$BD_CFG_CHAIN_1_GIT_REPO_BRANCH"
     export BD_HASURA_PORT=$BD_CFG_CHAIN_1_HASURA_PORT
     export BD_HASURA_ACTIONBASE_PORT=$BD_CFG_CHAIN_1_HASURA_ACTIONBASE_PORT
     export DENOM_SYMBOL="$BD_CFG_CHAIN_1_DENOM_SYMBOL"
@@ -25,7 +25,7 @@ elif [ "$CHAIN_NO" = "2" ]; then
     export RPC_ADDR=$BD_CFG_CHAIN_2_RPC_ADDR
     export GRPC_ADDR=$BD_CFG_CHAIN_2_GRPC_ADDR
     export BD_GIT_REPO="$BD_CFG_CHAIN_2_GIT_REPO"
-    export BD_BRANCH="$BD_CFG_CHAIN_2_BRANCH"
+    export BD_GIT_BRANCH="$BD_CFG_CHAIN_2_GIT_REPO_BRANCH"
     export BD_HASURA_PORT=$BD_CFG_CHAIN_2_HASURA_PORT
     export BD_HASURA_ACTIONBASE_PORT=$BD_CFG_CHAIN_2_HASURA_ACTIONBASE_PORT
     export DENOM_SYMBOL="$BD_CFG_CHAIN_2_DENOM_SYMBOL"
@@ -47,7 +47,7 @@ echo "- gRPC: $GRPC_ADDR"
 echo "- Postgres port: $PG_PORT"
 echo "- Account prefix: $ACCOUNT_PREFIX"
 echo "- Expose UI at port: $BD2_PORT"
-echo "- bdjuno repo $BD_GIT_REPO branch $BD_BRANCH"
+echo "- bdjuno repo $BD_GIT_REPO branch $BD_GIT_BRANCH"
 echo "- bd2 repo $BD2_GIT_REPO branch $BD2_BRANCH"
 
 export BD_HOME=$(pwd)"/.bdjuno$CHAIN_NO"

@@ -8,13 +8,13 @@
 # It is not recommended to use this script
 
 if [ ! -f "./env.sh" ]; then
-    echo "Wrong working directory"
+    echo >&2 "ERR: Wrong working directory"
     exit 1
 fi
 
 show_required_tools() {
     MSG="'$1' tool is required"
-    echo >&2 "$MSG"
+    echo >&2 "ERR: $MSG"
     echo >&2 "______"
     echo >&2 "The app requires following tools:"
     echo >&2 "- jq"
@@ -36,7 +36,7 @@ show_required_tools() {
     echo >&2 " + https://hasura.io/docs/latest/graphql/core/hasura-cli/install-hasura-cli/"
     echo >&2 " + Hint: curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash"
     echo >&2 "______"
-    echo >&2 "$MSG"
+    echo >&2 "ERR: $MSG"
 }
 
 command -v jq > /dev/null 2>&1 || { show_required_tools 'jq'; exit 1; }
@@ -74,8 +74,8 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
     command -v systemctl > /dev/null 2>&1
-    if [ $? -ne 0 ]; then
-        echo "`systemd` is required!!! You better prepare an Ubuntu machine and try this later.."
+    if [ $? -ne 0 ] || [ ! -d "/etc/systemd/system" ] ; then
+        echo >&2 "`systemd` is required!!! You better prepare an Ubuntu machine and try this later.."
         exit 1
     fi
     echo " ! OK, let's go"
@@ -184,3 +184,4 @@ echo "1. Check 3 validator containers & make sure they are proceducing block"
 echo "2. Make sure bdjuno & hasura services are ok"
 echo "3. Go to block explorer UI and check things there"
 echo "4. Check Hermes is working well"
+echo "5. Make sure the service files at '/etc/systemd/system/*.service' has correct working directort and execution path (in case you changed any repo/branch)"

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-command -v docker > /dev/null 2>&1 || { echo >&2 "docker is required"; exit 1; }
-command -v 'docker-compose' > /dev/null 2>&1 || { echo >&2 "docker-compose is required"; exit 1; }
+command -v docker > /dev/null 2>&1 || { echo >&2 "ERR: docker is required"; exit 1; }
+command -v 'docker-compose' > /dev/null 2>&1 || { echo >&2 "ERR: docker-compose is required"; exit 1; }
 
 source ../env.sh
 
@@ -14,8 +14,8 @@ fi
 if [ -f "./_config.sh" ]; then
     source "./_config.sh"
 else
-    echo "ERR: Wrong working directory"
-    echo "ERR: Scripts must be executed within [blockchain-in-docker] directory"
+    echo >&2 "ERR: Wrong working directory"
+    echo >&2 "Scripts must be executed within [blockchain-in-docker] directory"
     exit 1
 fi
 
@@ -35,10 +35,10 @@ elif [ "$CHAIN_NO" = "2" ]; then
     export PORT_1317="$CHAIN_2_EXPOSE_REST_API_TO_PORT"
     export PORT_26656="$CHAIN_2_EXPOSE_P2P_TO_PORT"
 else
-    echo 'Missing or incorrect chain no as first argument, valid input is 1 or 2'
-    echo 'For example:'
-    echo " $0 1"
-    echo " or: $0 2"
+    echo >&2 'ERR: Missing or incorrect chain no as first argument, valid input is 1 or 2'
+    echo >&2 'For example:'
+    echo >&2 " $0 1"
+    echo >&2 " or: $0 2"
     exit 1
 fi
 
@@ -49,15 +49,40 @@ if [ -f "$DOCKER_COMPOSE_FILE" ]; then
     docker-compose -f "$DOCKER_COMPOSE_FILE" down
 fi
 
-# Check EVMOS source
+# Check source
 if [ -d "$SOURCE_CODE_DIR" ]; then
-    echo "EVMOS repo was downloaded"
+    echo "$CHAIN_NAME repo exists at $SOURCE_CODE_DIR"
+    echo "Checking repo url & branch name"
+    CHK_RES_1="$(git --git-dir "./$SOURCE_CODE_DIR"/.git --work-tree "./$SOURCE_CODE_DIR" config --get remote.origin.url)"
+    if [ $? -ne 0 ] || [ -z "$CHK_RES_1" ]; then
+        echo "WARN! Unable to check remote origin url of git repo at $SOURCE_CODE_DIR"
+        sleep 2s
+    elif [ "$CHK_RES_1" != "$GIT_REPO" ]; then
+        echo "WARN! Git repo Url does not match"
+        echo "Expected: '$GIT_REPO'"
+        echo "Actual: '$CHK_RES_1'"
+        echo "You should check it (script will continue execution after 10s)"
+        sleep 10s
+    fi
+    CHK_RES_2="$(git --git-dir "./$SOURCE_CODE_DIR"/.git --work-tree "./$SOURCE_CODE_DIR" rev-parse --abbrev-ref HEAD)"
+    if [ $? -ne 0 ] || [ -z "$CHK_RES_2" ]; then
+        echo "WARN! Unable to check branch of git repo at $SOURCE_CODE_DIR"
+        sleep 2s
+    elif [ "$CHK_RES_2" = "HEAD" ]; then
+        echo "WARN! Can not check branch"
+    elif [ "$CHK_RES_2" != "$GIT_BRANCH" ]; then
+        echo "WARN! Git Branch does not match"
+        echo "Expected: '$GIT_BRANCH'"
+        echo "Actual: '$CHK_RES_2'"
+        echo "You should check it (script will continue execution after 10s)"
+        sleep 10s
+    fi
 else
-    echo "Downloading EVMOS source code $GIT_BRANCH"
+    echo "Downloading $CHAIN_NAME source code $GIT_BRANCH"
     git clone "$GIT_REPO" --branch "$GIT_BRANCH" --single-branch "$SOURCE_CODE_DIR"
 
     if [ $? -ne 0 ]; then
-        echo "Git clone EVMOS $GIT_BRANCH failed"
+        echo >&2 "ERR: Git clone $CHAIN_NAME from branch $GIT_BRANCH has failed"
         exit 1
     fi
 fi
@@ -83,7 +108,7 @@ fi
 # Docker build
 echo "Build new docker image $DOCKER_IMAGE_NAME"
 docker build -t "$DOCKER_IMAGE_NAME" -f "$DOCKER_FILE" .
-[ $? -eq 0 ] || { echo "Failed to build docker image"; exit 1; }
+[ $? -eq 0 ] || { echo >&2 "ERR: Failed to build docker image"; exit 1; }
 
 # Create docker-compose yml
 DOCKER_COMPOSE_FILE="network$CHAIN_NO.yml"
