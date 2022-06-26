@@ -12,7 +12,7 @@ if [ -f "./_config.sh" ]; then
     source "./_config.sh"
 else
     echo >&2 "ERR: Wrong working directory"
-    echo >&2 "ERR: Scripts must be executed within [big-dipper-as-block-explorer] directory"
+    echo >&2 "Scripts must be executed within [big-dipper-as-block-explorer] directory"
     exit 1
 fi
 
