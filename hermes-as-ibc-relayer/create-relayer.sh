@@ -335,3 +335,4 @@ if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
 fi
 
 echo '### Done'
+echo "Notice!!! Make sure the service file at '/etc/systemd/system/$HERMES_SERVICE_NAME.service' has correct working directort and execution path (in case you changed any repo/branch)"

@@ -173,3 +173,5 @@ else
     echo "OK, you can run it now"
     echo "Hint: npm run dev"
 fi
+
+echo "Notice!!! Make sure the service file at '/etc/systemd/system/$BD2_SERVICE_NAME.service' has correct working directort and execution path (in case you changed any repo/branch)"
