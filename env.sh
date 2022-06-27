@@ -122,14 +122,14 @@ export HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL="$CHAIN_2_MIN_DENOM_SYMBOL"
 export HERMES_CFG_CHAIN_2_DENOM_EXPONENT=$CHAIN_2_DENOM_EXPONENT # no of digits
 
 ## Relayer account
+## Since relayer require an account on each chain with coins to sign and broadcast tx
+## so you have to provide account and load them some coins (for example: $HERMES_RESERVED_FEE)
 ### Chain 1
 export REL_1_SEED="raw course slim hockey salt crawl sick safe december during armed fragile"
-export REL_1_ADDR="evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp"
+export REL_1_ADDR="evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp" # Wallet address of the above seed on EVMOS chain
 ### Chain 2
-#export REL_2_SEED="above name soft reunion change cabin rack outside wedding orange dice impact"
-#export REL_2_ADDR="evmos157g0zpv77su6awh04wec5s2jdyrk62jy40ck58"
 export REL_2_SEED="raw course slim hockey salt crawl sick safe december during armed fragile"
-export REL_2_ADDR="evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp"
+export REL_2_ADDR="evmos1metw56lk3k4vhkh0vzxlr8p4mzpjvttmagvekp" # Wallet address of the above seed on EVMOS chain
 
 ## Big Dipper (bdjuno)
 export BD_BINARY_ORIGIN="$GOPATH/bin/bdjuno"

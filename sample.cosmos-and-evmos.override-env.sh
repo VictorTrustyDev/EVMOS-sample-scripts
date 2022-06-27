@@ -2,7 +2,7 @@
 
 # You can rename this file into `override-env.sh` to make the first network become Cosmos (gaia)
 
-export KEYRING="file" # Secure your chain, someone will absolutely transfer your token without your permission
+export KEYRING="file" # Secure your chain otherwise someone will absolutely transfer your token without your permission if you use keyring 'test'
 export VAL_KEYRING_FILE_ENCRYPTION_PASSWORD="11111111"
 
 export CHAIN_1_TYPE="cosmos" # valid values are 'evmos' or 'cosmos' only, must be 'evmos' for evmos chain, otherwise 'cosmos' for other chains
@@ -19,7 +19,7 @@ export CHAIN_1_DENOM_EXPONENT=6
 export CHAIN_1_GAS_DENOM_EXPONENT=3
 
 export REL_1_SEED="raw course slim hockey salt crawl sick safe december during armed fragile"
-export REL_1_ADDR="cosmos16euecy8mnkhdpnr4y3346h44v0gqj67zwc4laf"
+export REL_1_ADDR="cosmos16euecy8mnkhdpnr4y3346h44v0gqj67zwc4laf" # Wallet address of the above seed on Cosmos chain
 
 # IBC Hermes
 export HERMES_CFG_CHAIN_1_ID="$CHAIN_1_ID"
