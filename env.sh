@@ -19,7 +19,7 @@ export NOTICE_DEV_ENV="This sample scripts was developed on an Ubuntu 22.04 LTS 
 
 ## Network
 export MONIKER='moniker'
-export NUMBER_OF_VALIDATOR=5
+export NUMBER_OF_VALIDATOR=5 # Maximum number of active validators. If number of validators more than this, only the first X validators will be choosen (order by power)
 ### Chain 1
 export CHAIN_1_TYPE="evmos" # valid values are 'evmos' or 'cosmos' only, must be 'evmos' for evmos chain, otherwise 'cosmos' for other chains
 export CHAIN_1_ID="evmos_9006-1"
