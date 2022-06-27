@@ -19,6 +19,7 @@ export NOTICE_DEV_ENV="This sample scripts was developed on an Ubuntu 22.04 LTS 
 
 ## Network
 export MONIKER='moniker'
+export NUMBER_OF_VALIDATOR=5
 ### Chain 1
 export CHAIN_1_TYPE="evmos" # valid values are 'evmos' or 'cosmos' only, must be 'evmos' for evmos chain, otherwise 'cosmos' for other chains
 export CHAIN_1_ID="evmos_9006-1"

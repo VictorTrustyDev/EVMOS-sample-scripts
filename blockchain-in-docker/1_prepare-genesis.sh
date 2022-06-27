@@ -191,6 +191,11 @@ fi
 GENESIS_JSON="$VAL_HOME_1/config/genesis.json"
 GENESIS_JSON_TMP="$VAL_HOME_1/config/tmp_genesis.json"
 echo "Updating genesis.json"
+## Change number of validators
+if [ ! -z "$NUMBER_OF_VALIDATOR" ] && [ $NUMBER_OF_VALIDATOR -gt 0 ]; then
+    echo "- Limit number of validator of the chain to maximum $NUMBER_OF_VALIDATOR validators at [app_state > staking > params > max_validators]"
+    cat $GENESIS_JSON | jq '.app_state["staking"]["params"]["max_validators"]="'$NUMBER_OF_VALIDATOR'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+fi
 ## Change denom metadata
 echo '- Add denom metadata at [app_state > bank > denom_metadata]'
 cat $GENESIS_JSON | jq '.app_state["bank"]["denom_metadata"] += [{"description": "The native EVM, governance and staking token of the '$CHAIN_NAME' Hub", "denom_units": [{"denom": "'$MIN_DENOM_SYMBOL'", "exponent": 0}, {"denom": "'$GAS_DENOM_SYMBOL'", "exponent": '$GAS_DENOM_EXPONENT'}, {"denom": "'$DENOM_SYMBOL'", "exponent": '$DENOM_EXPONENT'}],"base": "'$MIN_DENOM_SYMBOL'", "display": "'$DENOM_SYMBOL'", "name": "'$DENOM_SYMBOL'", "symbol": "'$DENOM_SYMBOL'"}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
