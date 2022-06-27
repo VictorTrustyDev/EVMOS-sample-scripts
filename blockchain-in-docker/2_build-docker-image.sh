@@ -122,6 +122,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i '' "s/_p_1317_/$PORT_1317/g" "$DOCKER_COMPOSE_FILE"
     sed -i '' "s/_p_26656_/$PORT_26656/g" "$DOCKER_COMPOSE_FILE"
     sed -i '' "s/_p_image_prefix_/$DOCKER_IMAGE_NAME_PREFIX/g" "$DOCKER_COMPOSE_FILE"
+    sed -i '' "s/_p_home_prefix_/$VAL_HOME_PREFIX/g" "$DOCKER_COMPOSE_FILE"
 else
     sed -i "s/_p_chain_no_/$CHAIN_NO/g" "$DOCKER_COMPOSE_FILE"
     sed -i "s/_p_26657_/$PORT_26657/g" "$DOCKER_COMPOSE_FILE"
@@ -130,6 +131,7 @@ else
     sed -i "s/_p_1317_/$PORT_1317/g" "$DOCKER_COMPOSE_FILE"
     sed -i "s/_p_26656_/$PORT_26656/g" "$DOCKER_COMPOSE_FILE"
     sed -i "s/_p_image_prefix_/$DOCKER_IMAGE_NAME_PREFIX/g" "$DOCKER_COMPOSE_FILE"
+    sed -i "s/_p_home_prefix_/$VAL_HOME_PREFIX/g" "$DOCKER_COMPOSE_FILE"
 fi
 echo '- Expose ports:'
 echo "+ 26657 => $PORT_26657"

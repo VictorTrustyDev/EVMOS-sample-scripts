@@ -6,20 +6,20 @@
 > cd /gov-sample-proposals/evmos/
 
 2. Submit proposal
-> evmosd tx gov submit-proposal param-change "./1-gov_min_deposit_change.json" --from val1 --node tcp://127.0.0.1:26657 --home /.evmosd20 --gas 300000
+> evmosd tx gov submit-proposal param-change "./1-gov_min_deposit_change.json" --from val1 --node tcp://127.0.0.1:26657 --home /.evmosd2 --gas 300000
 
 3. Vote
 > docker exec -it vtevmos20 bash
 
-> evmosd tx gov vote `[proposal id eg 1]` yes --gas auto --from val1 --home /.evmosd20
+> evmosd tx gov vote `[proposal id eg 1]` yes --gas auto --from val1 --home /.evmosd2
 
 > docker exec -it vtevmos21 bash
 
-> evmosd tx gov vote `[proposal id eg 1]` yes --gas auto --from val2 --home /.evmosd21
+> evmosd tx gov vote `[proposal id eg 1]` yes --gas auto --from val2 --home /.evmosd2
 
 > docker exec -it vtevmos22 bash
 
-> evmosd tx gov vote `[proposal id eg 1]` yes --gas auto --from val3 --home /.evmosd22
+> evmosd tx gov vote `[proposal id eg 1]` yes --gas auto --from val3 --home /.evmosd2
 
 4. Result:
 - Previous:
