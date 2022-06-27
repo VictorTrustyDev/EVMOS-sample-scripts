@@ -3,6 +3,9 @@ data/
 extra_func.lic
 override-env.sh
 *.swp
+*.bak
+tmp_*
+tmp/
 
 source-code*/
 
