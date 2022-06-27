@@ -249,6 +249,9 @@ if [ $DISABLE_CLAIM -eq 0 ]; then
     echo '- Claimn module account addr '$EVMOS_CLAIM_MODULE_ACCOUNT', total '$(bc <<< "$amount_to_claim / (10^$DENOM_EXPONENT)")' '$DENOM_SYMBOL
     cat $GENESIS_JSON | jq '.app_state["bank"]["balances"] += [{"address":"'$EVMOS_CLAIM_MODULE_ACCOUNT'","coins":[{"denom":"'$MIN_DENOM_SYMBOL'", "amount":"'$amount_to_claim'"}]}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 fi
+## Gov deposit
+echo '- Set minimum deposit to '$MINIMUM_GOV_DEPOSIT' '$DENOM_SYMBOL' by setting [app_state > gov > deposit_params > min_deposit[0] > amount]'
+cat $GENESIS_JSON | jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["amount"]="'$(bc <<< "$MINIMUM_GOV_DEPOSIT * (10^$DENOM_EXPONENT)")'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 
 
 # Update app.toml
