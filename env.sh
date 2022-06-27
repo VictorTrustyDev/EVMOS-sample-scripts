@@ -1,5 +1,8 @@
 #!/bin/bash
 
+### IMPORTANT NOTICE
+### It is not recommended to modify this file directly. Instead you can create a file named `override-env.sh` and write modified values there
+
 # Pre-requisites
 command -v jq > /dev/null 2>&1 || { echo >&2 "ERR: jq not installed. More info: https://stedolan.github.io/jq/download/ (Hint: sudo apt install jq -y)"; exit 1; }
 command -v yq > /dev/null 2>&1 || { echo >&2 "ERR: yq not installed. More info: https://github.com/kislyuk/yq/ (Hint: sudo apt install python3-pip -y && pip3 install yq)"; exit 1; }
