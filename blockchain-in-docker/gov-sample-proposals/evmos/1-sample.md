@@ -11,15 +11,15 @@
 3. Vote
 > docker exec -it vtevmos20 bash
 
-> evmosd tx gov vote 1 yes --gas auto --from val1 --home /.evmosd20
+> evmosd tx gov vote `[proposal id eg 1]` yes --gas auto --from val1 --home /.evmosd20
 
 > docker exec -it vtevmos21 bash
 
-> evmosd tx gov vote 1 yes --gas auto --from val2 --home /.evmosd21
+> evmosd tx gov vote `[proposal id eg 1]` yes --gas auto --from val2 --home /.evmosd21
 
 > docker exec -it vtevmos22 bash
 
-> evmosd tx gov vote 1 yes --gas auto --from val3 --home /.evmosd22
+> evmosd tx gov vote `[proposal id eg 1]` yes --gas auto --from val3 --home /.evmosd22
 
 4. Result:
 - Previous:
