@@ -191,6 +191,11 @@ fi
 GENESIS_JSON="$VAL_HOME_1/config/genesis.json"
 GENESIS_JSON_TMP="$VAL_HOME_1/config/tmp_genesis.json"
 echo "Updating genesis.json"
+## Change number of validators
+if [ ! -z "$NUMBER_OF_VALIDATOR" ] && [ $NUMBER_OF_VALIDATOR -gt 0 ]; then
+    echo "- Limit number of validator of the chain to maximum $NUMBER_OF_VALIDATOR validators at [app_state > staking > params > max_validators]"
+    cat $GENESIS_JSON | jq '.app_state["staking"]["params"]["max_validators"]="'$NUMBER_OF_VALIDATOR'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+fi
 ## Change denom metadata
 echo '- Add denom metadata at [app_state > bank > denom_metadata]'
 cat $GENESIS_JSON | jq '.app_state["bank"]["denom_metadata"] += [{"description": "The native EVM, governance and staking token of the '$CHAIN_NAME' Hub", "denom_units": [{"denom": "'$MIN_DENOM_SYMBOL'", "exponent": 0}, {"denom": "'$GAS_DENOM_SYMBOL'", "exponent": '$GAS_DENOM_EXPONENT'}, {"denom": "'$DENOM_SYMBOL'", "exponent": '$DENOM_EXPONENT'}],"base": "'$MIN_DENOM_SYMBOL'", "display": "'$DENOM_SYMBOL'", "name": "'$DENOM_SYMBOL'", "symbol": "'$DENOM_SYMBOL'"}]' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
@@ -202,20 +207,26 @@ echo ' + [app_state > crisis > constant_fee > denom]'
 cat $GENESIS_JSON | jq '.app_state["crisis"]["constant_fee"]["denom"]="'$MIN_DENOM_SYMBOL'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 echo ' + [app_state > gov > deposit_params > min_deposit[0] > denom]'
 cat $GENESIS_JSON | jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="'$MIN_DENOM_SYMBOL'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
-echo ' + [app_state > evm > params > evm_denom]'
-cat $GENESIS_JSON | jq '.app_state["evm"]["params"]["evm_denom"]="'$MIN_DENOM_SYMBOL'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
-echo ' + [app_state > inflation > params > mint_denom]'
-cat $GENESIS_JSON | jq '.app_state["inflation"]["params"]["mint_denom"]="'$MIN_DENOM_SYMBOL'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
-echo ' + [app_state > claims > params > claims_denom]'
-cat $GENESIS_JSON | jq '.app_state["claims"]["params"]["claims_denom"]="'$MIN_DENOM_SYMBOL'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+if [ "$CHAIN_TYPE" = "evmos" ]; then
+    echo ' + [app_state > evm > params > evm_denom]'
+    cat $GENESIS_JSON | jq '.app_state["evm"]["params"]["evm_denom"]="'$MIN_DENOM_SYMBOL'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+    echo ' + [app_state > inflation > params > mint_denom]'
+    cat $GENESIS_JSON | jq '.app_state["inflation"]["params"]["mint_denom"]="'$MIN_DENOM_SYMBOL'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+    echo ' + [app_state > claims > params > claims_denom]'
+    cat $GENESIS_JSON | jq '.app_state["claims"]["params"]["claims_denom"]="'$MIN_DENOM_SYMBOL'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+fi
+echo ' + [app_state > mint > params > mint_denom]'
+cat $GENESIS_JSON | jq '.app_state["mint"]["params"]["mint_denom"]="'$MIN_DENOM_SYMBOL'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 ## Set gas limit
 CONS_BLOCK_GAS_LIMIT=10000000
 echo "- Set gas limit per block in [consensus_params > block > max_gas] to $CONS_BLOCK_GAS_LIMIT"
 cat $GENESIS_JSON | jq '.consensus_params["block"]["max_gas"]="'$CONS_BLOCK_GAS_LIMIT'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 ## Set claims start time
 current_date=$(date -u +"%Y-%m-%dT%TZ")
-echo "- Set claim start time in [app_state > claims > params > airdrop_start_time] to $current_date"
-cat $GENESIS_JSON | jq -r --arg current_date "$current_date" '.app_state["claims"]["params"]["airdrop_start_time"]=$current_date' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+if [ $DISABLE_CLAIM -eq 0 ]; then
+    echo "- Set claim start time in [app_state > claims > params > airdrop_start_time] to $current_date"
+    cat $GENESIS_JSON | jq -r --arg current_date "$current_date" '.app_state["claims"]["params"]["airdrop_start_time"]=$current_date' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+fi
 ## Set claims records for validator account
 if [ $DISABLE_CLAIM -eq 0 ]; then
     echo "- Set claim records for 3 validators in [app_state > claims > claims_records]"
