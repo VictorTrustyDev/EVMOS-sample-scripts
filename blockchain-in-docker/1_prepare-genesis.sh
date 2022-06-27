@@ -213,6 +213,8 @@ echo ' + [app_state > inflation > params > mint_denom]'
 cat $GENESIS_JSON | jq '.app_state["inflation"]["params"]["mint_denom"]="'$MIN_DENOM_SYMBOL'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 echo ' + [app_state > claims > params > claims_denom]'
 cat $GENESIS_JSON | jq '.app_state["claims"]["params"]["claims_denom"]="'$MIN_DENOM_SYMBOL'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+echo ' + [app_state > mint > params > mint_denom]'
+cat $GENESIS_JSON | jq '.app_state["mint"]["params"]["mint_denom"]="'$MIN_DENOM_SYMBOL'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 ## Set gas limit
 CONS_BLOCK_GAS_LIMIT=10000000
 echo "- Set gas limit per block in [consensus_params > block > max_gas] to $CONS_BLOCK_GAS_LIMIT"
