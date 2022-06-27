@@ -17,6 +17,8 @@ services:
       - NODE=0
     restart: always
     image: _p_image_prefix__p_chain_no_
+    volumes:
+      - ./gov-sample-proposals:/gov-sample-proposals
   vtevmos_p_chain_no_1:
     container_name: vtevmos_p_chain_no_1
     networks:
@@ -27,6 +29,8 @@ services:
       - vtevmos_p_chain_no_0
     restart: always
     image: _p_image_prefix__p_chain_no_
+    volumes:
+      - ./gov-sample-proposals:/gov-sample-proposals
   vtevmos_p_chain_no_2:
     container_name: vtevmos_p_chain_no_2
     networks:
@@ -37,3 +41,5 @@ services:
       - vtevmos_p_chain_no_0
     restart: always
     image: _p_image_prefix__p_chain_no_
+    volumes:
+      - ./gov-sample-proposals:/gov-sample-proposals
