@@ -24,6 +24,7 @@ export NOTICE_DEV_ENV="This sample scripts was developed on an Ubuntu 22.04 LTS 
 export MONIKER='moniker'
 export NUMBER_OF_VALIDATOR=5 # Maximum number of active validators. If number of validators more than this, only the first X validators will be choosen (order by power)
 export MINIMUM_GOV_DEPOSIT=64 # Minimum amount of coins required to submit a proposal
+export VOTING_PERIOID_IN_MINUTES=2880 # 2880 minutes = 2 days
 ### Chain 1
 export CHAIN_1_TYPE="evmos" # valid values are 'evmos' or 'cosmos' only, must be 'evmos' for evmos chain, otherwise 'cosmos' for other chains
 export CHAIN_1_ID="evmos_9006-1"
