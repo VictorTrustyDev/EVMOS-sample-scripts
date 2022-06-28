@@ -14,26 +14,35 @@ services:
     networks:
       - vtevmosnw_p_chain_no_
     environment:
-      - NODE=0
+      - NODE_IDX=0
     restart: always
     image: _p_image_prefix__p_chain_no_
+    volumes:
+      - ./gov-sample-proposals:/gov-sample-proposals
+      - ./_p_home_prefix_0:/_p_home_prefix_
   vtevmos_p_chain_no_1:
     container_name: vtevmos_p_chain_no_1
     networks:
       - vtevmosnw_p_chain_no_
     environment:
-      - NODE=1
+      - NODE_IDX=1
     depends_on:
       - vtevmos_p_chain_no_0
     restart: always
     image: _p_image_prefix__p_chain_no_
+    volumes:
+      - ./gov-sample-proposals:/gov-sample-proposals
+      - ./_p_home_prefix_1:/_p_home_prefix_
   vtevmos_p_chain_no_2:
     container_name: vtevmos_p_chain_no_2
     networks:
       - vtevmosnw_p_chain_no_
     environment:
-      - NODE=2
+      - NODE_IDX=2
     depends_on:
       - vtevmos_p_chain_no_0
     restart: always
     image: _p_image_prefix__p_chain_no_
+    volumes:
+      - ./gov-sample-proposals:/gov-sample-proposals
+      - ./_p_home_prefix_2:/_p_home_prefix_

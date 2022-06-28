@@ -75,3 +75,16 @@ Here are some of them:
 Performance: 2 chains created by this sample can run in parallel smoothly in a 4 Core 4 Gb RAM machine
 
 This sample is using keyring-backend is `test`, you may need to change to `file` ([env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)) to secure your test env if needed
+
+### V. Mapped volumes
+
+| Network | Chain ID | Container name | Home dir within container | Mapped home dir in host machine |
+| --- | --- | --- | --- | --- |
+| 1 | evmos_9006-1 | vtevmos10 (val1) | /.evmosd1 | /path/to/EVMOS-sample-scripts/blockchain-in-docker/.evmosd10 |
+| 1 | evmos_9006-1 | vtevmos11 (val2) | /.evmosd1 | /path/to/EVMOS-sample-scripts/blockchain-in-docker/.evmosd11 |
+| 1 | evmos_9006-1 | vtevmos12 (val3) | /.evmosd1 | /path/to/EVMOS-sample-scripts/blockchain-in-docker/.evmosd12 |
+| 2 | evmos_9007-1 | vtevmos20 (val1) | /.evmosd2 | /path/to/EVMOS-sample-scripts/blockchain-in-docker/.evmosd20 |
+| 2 | evmos_9007-1 | vtevmos21 (val2) | /.evmosd2 | /path/to/EVMOS-sample-scripts/blockchain-in-docker/.evmosd21 |
+| 2 | evmos_9007-1 | vtevmos22 (val3) | /.evmosd2 | /path/to/EVMOS-sample-scripts/blockchain-in-docker/.evmosd22 |
+
+The [gov-sample-proposals](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/tree/main/blockchain-in-docker/gov-sample-proposals) also mapped to `/gov-sample-proposals` vol within each container

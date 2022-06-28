@@ -1,0 +1,20 @@
+{
+    "title": "Decrease the minimum deposit amount for governance proposals and maximum deposit period",
+    "description": "If successful, this parameter-change governance proposal that will change the minimum deposit from 64 EVMOS to 100000 aevmos and max deposit period changes from 14 days to 7 days",
+    "changes": [
+        {
+            "subspace": "gov",
+            "key": "depositparams",
+            "value": {
+                "min_deposit": [
+                    {
+                        "denom": "aevmos",
+                        "amount": "100000"
+                    }
+                ],
+                "max_deposit_period": "604800000000000"
+            }
+        }
+    ],
+    "deposit": "65000000000000000000aevmos"
+}

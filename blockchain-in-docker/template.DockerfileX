@@ -15,16 +15,12 @@ COPY --from=build-env /go/victortrusty.dev/build/_p_daemon_binary_ /usr/bin/_p_d
 
 RUN apt-get update -y
 RUN apt-get install ca-certificates jq -y
+RUN useradd -m _p_user_name_ --uid=_p_user_id_
 
-WORKDIR /_p_home_prefix_0
-COPY ./_p_home_prefix_0 .
-WORKDIR /_p_home_prefix_1
-COPY ./_p_home_prefix_1 .
-WORKDIR /_p_home_prefix_2
-COPY ./_p_home_prefix_2 .
+USER _p_user_id_:_p_group_id_
 
 WORKDIR /root
 
 EXPOSE 26656 26657 1317 9090 8545
 
-ENTRYPOINT /usr/bin/_p_daemon_binary_ start --home "/_p_home_prefix_$NODE"
+ENTRYPOINT /usr/bin/_p_daemon_binary_ start --home "/_p_home_prefix_"

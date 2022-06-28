@@ -1,5 +1,8 @@
 #!/bin/bash
 
+### IMPORTANT NOTICE
+### It is not recommended to modify this file directly. Instead you can create a file named `override-env.sh` and write modified values there
+
 # Pre-requisites
 command -v jq > /dev/null 2>&1 || { echo >&2 "ERR: jq not installed. More info: https://stedolan.github.io/jq/download/ (Hint: sudo apt install jq -y)"; exit 1; }
 command -v yq > /dev/null 2>&1 || { echo >&2 "ERR: yq not installed. More info: https://github.com/kislyuk/yq/ (Hint: sudo apt install python3-pip -y && pip3 install yq)"; exit 1; }
@@ -20,6 +23,7 @@ export NOTICE_DEV_ENV="This sample scripts was developed on an Ubuntu 22.04 LTS 
 ## Network
 export MONIKER='moniker'
 export NUMBER_OF_VALIDATOR=5 # Maximum number of active validators. If number of validators more than this, only the first X validators will be choosen (order by power)
+export MINIMUM_GOV_DEPOSIT=64 # Minimum amount of coins required to submit a proposal
 ### Chain 1
 export CHAIN_1_TYPE="evmos" # valid values are 'evmos' or 'cosmos' only, must be 'evmos' for evmos chain, otherwise 'cosmos' for other chains
 export CHAIN_1_ID="evmos_9006-1"
