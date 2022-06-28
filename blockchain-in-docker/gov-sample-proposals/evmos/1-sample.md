@@ -24,7 +24,7 @@ You can check the proposal via commands or [web UI like big dipper](https://gith
 
 Change will take effects after voting period ends (default 14 days)
 
-_Trick: You can reduce voting period to few minutes by override the `VOTING_PERIOID_IN_MINUTES` variable_
+_Trick: You can reduce voting period by override the `VOTING_PERIOID_IN_MINUTES` variable (eg: export VOTING_PERIOID_IN_MINUTES=15) so the voting periods only last for 15 minutes_
 
 3. Result:
 - Previous:
