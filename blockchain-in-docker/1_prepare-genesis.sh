@@ -254,7 +254,7 @@ echo '- Set minimum deposit to '$MINIMUM_GOV_DEPOSIT' '$DENOM_SYMBOL' by setting
 cat $GENESIS_JSON | jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["amount"]="'$(bc <<< "$MINIMUM_GOV_DEPOSIT * (10^$DENOM_EXPONENT)")'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 ## Gov voting period
 echo '- Set voting period to '$VOTING_PERIOID_IN_MINUTES' minutes by setting [app_state > gov > voting_params > voting_period]'
-cat $GENESIS_JSON | jq '.app_state["gov"]["voting_params"]["voting_period"]="'$(bc <<< "$VOTING_PERIOID_IN_MINUTES * 60000000000")'"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
+cat $GENESIS_JSON | jq '.app_state["gov"]["voting_params"]["voting_period"]="${VOTING_PERIOID_IN_MINUTES}m"' > $GENESIS_JSON_TMP && mv $GENESIS_JSON_TMP $GENESIS_JSON
 
 # Update app.toml
 update_app() {
