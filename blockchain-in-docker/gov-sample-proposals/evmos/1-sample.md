@@ -22,7 +22,9 @@ You can check the proposal via commands or [web UI like big dipper](https://gith
 
 > evmosd tx gov vote `[proposal id eg 1]` yes --gas auto --from val3 --home /.evmosd2
 
-Change will take effects after voting period ends (default 14 days). You can reduce voting period to few minutes by override the `VOTING_PERIOID_IN_MINUTES` variable
+Change will take effects after voting period ends (default 14 days)
+
+_Trick: You can reduce voting period to few minutes by override the `VOTING_PERIOID_IN_MINUTES` variable_
 
 3. Result:
 - Previous:
