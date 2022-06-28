@@ -5,4 +5,4 @@
 
 > cd /gov-sample-proposals/denom-cosmos-on-evmos/
 
-> evmosd tx gov submit-proposal param-change "./2-gov-register-coin.json" --from val1 --node tcp://127.0.0.1:26657 --home /.evmosd2 --gas 300000 --deposit 65000000000000000000aevmos
+> evmosd tx gov submit-proposal param-change "./2-gov-register-coin.json" --from val1 --node tcp://127.0.0.1:26657 --home /.evmosd2 --gas 300000
