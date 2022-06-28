@@ -420,12 +420,4 @@ echo "Updating config.toml part 3"
 echo '- Clean seeds of node 0'
 cat $CONFIG_TOML | tomlq '.p2p["seeds"]=""' --toml-output > $CONFIG_TOML_TMP && mv $CONFIG_TOML_TMP $CONFIG_TOML
 
-echo "Due to container runs with root permission, it will also changes permissiong of files within home folders to root so we need to chmod all of them to 777 so scripts can remove them later without touching sudo command"
-echo "- $VAL_HOME_1"
-chmod -R 777 "$VAL_HOME_1"
-echo "- $VAL_HOME_2"
-chmod -R 777 "$VAL_HOME_2"
-echo "- $VAL_HOME_3"
-chmod -R 777 "$VAL_HOME_3"
-
 echo '### Done, you can move to next step'

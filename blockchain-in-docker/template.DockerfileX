@@ -15,6 +15,9 @@ COPY --from=build-env /go/victortrusty.dev/build/_p_daemon_binary_ /usr/bin/_p_d
 
 RUN apt-get update -y
 RUN apt-get install ca-certificates jq -y
+RUN useradd -m _p_user_name_ --uid=_p_user_id_
+
+USER _p_user_id_:_p_group_id_
 
 WORKDIR /root
 

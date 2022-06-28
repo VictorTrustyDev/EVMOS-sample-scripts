@@ -99,10 +99,16 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i '' "s,_p_src_dir_,$SOURCE_CODE_DIR,g" "$DOCKER_FILE"
     sed -i '' "s/_p_daemon_binary_/$DAEMON_BINARY_NAME/g" "$DOCKER_FILE"
     sed -i '' "s/_p_home_prefix_/$VAL_HOME_PREFIX/g" "$DOCKER_FILE"
+    sed -i '' "s/_p_user_name_/$USER/g" "$DOCKER_FILE"
+    sed -i '' "s/_p_user_id_/$(id -u)/g" "$DOCKER_FILE"
+    sed -i '' "s/_p_group_id_/$(id -g)/g" "$DOCKER_FILE"
 else
     sed -i "s,_p_src_dir_,$SOURCE_CODE_DIR,g" "$DOCKER_FILE"
     sed -i "s/_p_daemon_binary_/$DAEMON_BINARY_NAME/g" "$DOCKER_FILE"
     sed -i "s/_p_home_prefix_/$VAL_HOME_PREFIX/g" "$DOCKER_FILE"
+    sed -i "s/_p_user_name_/$USER/g" "$DOCKER_FILE"
+    sed -i "s/_p_user_id_/$(id -u)/g" "$DOCKER_FILE"
+    sed -i "s/_p_group_id_/$(id -g)/g" "$DOCKER_FILE"
 fi
 
 # Docker build
