@@ -76,14 +76,14 @@ $BINARY config chain-id $CHAIN_ID --home $VAL_HOME_1
 $BINARY config chain-id $CHAIN_ID --home $VAL_HOME_2
 $BINARY config chain-id $CHAIN_ID --home $VAL_HOME_3
 ## Genesis
-MONIKER=$MONIKER'-'$VAL_1_KEY_NAME
-$BINARY init $MONIKER --chain-id $CHAIN_ID --home $VAL_HOME_1 > /dev/null 2>&1
+VAL_MONIKER=$MONIKER'-'$VAL_1_KEY_NAME
+$BINARY init $VAL_MONIKER --chain-id $CHAIN_ID --home $VAL_HOME_1 > /dev/null 2>&1
 [ $? -eq 0 ] || { echo >&2 "ERR: Failed to init chain on node 0"; exit 1; }
-MONIKER=$MONIKER'-'$VAL_2_KEY_NAME
-$BINARY init $MONIKER --chain-id $CHAIN_ID --home $VAL_HOME_2 > /dev/null 2>&1
+VAL_MONIKER=$MONIKER'-'$VAL_2_KEY_NAME
+$BINARY init $VAL_MONIKER --chain-id $CHAIN_ID --home $VAL_HOME_2 > /dev/null 2>&1
 [ $? -eq 0 ] || { echo >&2 "ERR: Failed to init pseudo chain for node 1"; exit 1; }
-MONIKER=$MONIKER'-'$VAL_3_KEY_NAME
-$BINARY init $MONIKER --chain-id $CHAIN_ID --home $VAL_HOME_3 > /dev/null 2>&1
+VAL_MONIKER=$MONIKER'-'$VAL_3_KEY_NAME
+$BINARY init $VAL_MONIKER --chain-id $CHAIN_ID --home $VAL_HOME_3 > /dev/null 2>&1
 [ $? -eq 0 ] || { echo >&2 "ERR: Failed to init pseudo chain for node 2"; exit 1; }
 
 # Import validator keys
