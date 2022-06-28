@@ -28,9 +28,9 @@ if [ "$HERMES_NO_CONFIRM_BALANCE" != "1" ]; then
         echo "Go prepare yourself"
         echo "Hint: you can do this"
         echo " docker exec -it vtevmos11 bash"
-        echo " $CHAIN_1_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_1_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /.evmosd11 --node tcp://127.0.0.1:26657"
+        echo " $CHAIN_1_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_1_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /.evmosd1 --node tcp://127.0.0.1:26657"
         echo " docker exec -it vtevmos21 bash"
-        echo " $CHAIN_2_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_2_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /.evmosd21 --node tcp://127.0.0.1:26657"
+        echo " $CHAIN_2_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_2_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /.evmosd2 --node tcp://127.0.0.1:26657"
         exit 0
     fi
 fi
