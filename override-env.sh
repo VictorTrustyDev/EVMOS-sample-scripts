@@ -2,11 +2,11 @@
 
 export VOTING_PERIOID_IN_MINUTES=2
 
-export BD2_CFG_CHAIN_1_PUBLIC_DOMAIN="evmos0.mytwdns.com"
-export BD2_CFG_CHAIN_1_PUBLIC_RPC_26657="evmos0.mytwdns.com:$CHAIN_1_EXPOSE_RPC_TO_PORT"
+export BD2_CFG_CHAIN_1_PUBLIC_DOMAIN="test-evmos.victortrusty.dev"
+export BD2_CFG_CHAIN_1_PUBLIC_RPC_26657="test-evmos.victortrusty.dev:$CHAIN_1_EXPOSE_RPC_TO_PORT"
 
-export BD2_CFG_CHAIN_2_PUBLIC_DOMAIN="evmos0.mytwdns.com"
-export BD2_CFG_CHAIN_2_PUBLIC_RPC_26657="evmos0.mytwdns.com:$CHAIN_2_EXPOSE_RPC_TO_PORT"
+export BD2_CFG_CHAIN_2_PUBLIC_DOMAIN="test-evmos.victortrusty.dev"
+export BD2_CFG_CHAIN_2_PUBLIC_RPC_26657="test-evmos.victortrusty.dev:$CHAIN_2_EXPOSE_RPC_TO_PORT"
 
 
 export KEYRING="test" #file" # Secure your chain, someone will absolutely transfer your token without your permission
