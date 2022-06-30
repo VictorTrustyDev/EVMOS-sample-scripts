@@ -206,11 +206,12 @@ echo ' > Connection 2 to 1: '$CONN_2_TO_1
 $BINARY -c $CONFIG_TOML tx raw conn-ack $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID $TENDERMINT_CLIENT_1_TO_2 $TENDERMINT_CLIENT_2_TO_1 -d $CONN_1_TO_2 -s $CONN_2_TO_1
 EXIT_CODE=$?
 sleep 2s
-[ $EXIT_CODE -eq 0 ] || { echo >&2 "ERR: Operation failed"; exit 1; }
+[ $EXIT_CODE -eq 0 ] || { echo >&2 "ERR: Operation failed (tx raw conn-ack)"; exit 1; }
+
 $BINARY -c $CONFIG_TOML tx raw conn-confirm $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID $TENDERMINT_CLIENT_2_TO_1 $TENDERMINT_CLIENT_1_TO_2 -d $CONN_2_TO_1 -s $CONN_1_TO_2
 EXIT_CODE=$?
 sleep 2s
-[ $EXIT_CODE -eq 0 ] || { echo >&2 "ERR: Operation failed"; exit 1; }
+[ $EXIT_CODE -eq 0 ] || { echo >&2 "ERR: Operation failed (tx raw conn-confirm)"; exit 1; }
 
 echo ' + Testing connection 1'
 $BINARY -c $CONFIG_TOML query connection end $HERMES_CFG_CHAIN_1_ID $CONN_1_TO_2 | grep 'Open'
@@ -242,6 +243,7 @@ $BINARY -c $CONFIG_TOML tx raw chan-open-ack $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_
 EXIT_CODE=$?
 sleep 2s
 [ $EXIT_CODE -eq 0 ] || { echo >&2 "ERR: Operation failed (chan-open-ack)"; exit 1; }
+
 $BINARY -c $CONFIG_TOML tx raw chan-open-confirm $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID $CONN_2_TO_1 transfer transfer -d $CHAN_2_TO_1 -s $CHAN_1_TO_2
 EXIT_CODE=$?
 sleep 2s
