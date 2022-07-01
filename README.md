@@ -49,6 +49,7 @@ without any performance issue (CPU ~20-80% per core, ram ~50% via htop)
 | --- | --- | --- | --- |
 | Blockchain in docker | 26657 | 36657 | **RPC** |
 | Blockchain in docker | 8545 | 18545 | **Json RPC** |
+| Blockchain in docker | 8546 | 18546 | **Websocket Json RPC** |
 | Blockchain in docker | 1317 | 11317 | **REST API** |
 | Blockchain in docker | 9090 | 19090 | gRPC |
 | Blockchain in docker | 26656 | 36656 | P2P |

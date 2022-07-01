@@ -26,10 +26,10 @@ Now you can [follow this sample](https://github.com/VictorTrustyDev/EVMOS-sample
 
 ### III. Network stats
 
-| Network | Chain ID | RPC | Json RPC | REST | gRPC | P2P |
-| --- | --- | --- | --- | --- | --- | --- |
-| 1 | evmos_9006-1 | 26657 | 8545 | 1317 | 9090 | 26656 |
-| 2 | evmos_9007-1 | 36657 | 18545 | 11317 | 19090 | 36656 |
+| Network | Chain ID | RPC | Json RPC | Websocket Json RPC | REST | gRPC | P2P |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | evmos_9006-1 | 26657 | 8545 | 8546 | 1317 | 9090 | 26656 |
+| 2 | evmos_9007-1 | 36657 | 18545 | 18546 | 11317 | 19090 | 36656 |
 
 - Validators (same on both chains)
     + evmosvaloper1wuqvcpuunf7r5rg7xutqddhw55grfzc7ewkz9a

@@ -21,6 +21,6 @@ USER _p_user_id_:_p_group_id_
 
 WORKDIR /root
 
-EXPOSE 26656 26657 1317 9090 8545
+EXPOSE 26656 26657 1317 9090 8545 8546
 
 ENTRYPOINT /usr/bin/_p_daemon_binary_ start --home "/_p_home_prefix_"

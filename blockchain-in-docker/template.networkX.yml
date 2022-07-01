@@ -7,6 +7,7 @@ services:
     container_name: vtevmos_p_chain_no_0
     ports:
       - "_p_8545_:8545"
+      - "_p_8546_:8546"
       - "_p_26657_:26657"
       - "_p_1317_:1317"
       - "_p_9090_:9090"
