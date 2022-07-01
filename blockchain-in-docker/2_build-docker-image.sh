@@ -25,6 +25,7 @@ if [ "$CHAIN_NO" = "1" ]; then
     export PORT_26657="$CHAIN_1_EXPOSE_RPC_TO_PORT"
     export PORT_9090="$CHAIN_1_EXPOSE_GRPC_TO_PORT"
     export PORT_8545="$CHAIN_1_EXPOSE_JSON_RPC_TO_PORT"
+    export PORT_8546="$CHAIN_1_EXPOSE_WEBSOCKET_JSON_RPC_TO_PORT"
     export PORT_1317="$CHAIN_1_EXPOSE_REST_API_TO_PORT"
     export PORT_26656="$CHAIN_1_EXPOSE_P2P_TO_PORT"
 elif [ "$CHAIN_NO" = "2" ]; then
@@ -32,6 +33,7 @@ elif [ "$CHAIN_NO" = "2" ]; then
     export PORT_26657="$CHAIN_2_EXPOSE_RPC_TO_PORT"
     export PORT_9090="$CHAIN_2_EXPOSE_GRPC_TO_PORT"
     export PORT_8545="$CHAIN_2_EXPOSE_JSON_RPC_TO_PORT"
+    export PORT_8546="$CHAIN_2_EXPOSE_WEBSOCKET_JSON_RPC_TO_PORT"
     export PORT_1317="$CHAIN_2_EXPOSE_REST_API_TO_PORT"
     export PORT_26656="$CHAIN_2_EXPOSE_P2P_TO_PORT"
 else
@@ -125,6 +127,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i '' "s/_p_26657_/$PORT_26657/g" "$DOCKER_COMPOSE_FILE"
     sed -i '' "s/_p_9090_/$PORT_9090/g" "$DOCKER_COMPOSE_FILE"
     sed -i '' "s/_p_8545_/$PORT_8545/g" "$DOCKER_COMPOSE_FILE"
+    sed -i '' "s/_p_8546_/$PORT_8546/g" "$DOCKER_COMPOSE_FILE"
     sed -i '' "s/_p_1317_/$PORT_1317/g" "$DOCKER_COMPOSE_FILE"
     sed -i '' "s/_p_26656_/$PORT_26656/g" "$DOCKER_COMPOSE_FILE"
     sed -i '' "s/_p_image_prefix_/$DOCKER_IMAGE_NAME_PREFIX/g" "$DOCKER_COMPOSE_FILE"
@@ -134,6 +137,7 @@ else
     sed -i "s/_p_26657_/$PORT_26657/g" "$DOCKER_COMPOSE_FILE"
     sed -i "s/_p_9090_/$PORT_9090/g" "$DOCKER_COMPOSE_FILE"
     sed -i "s/_p_8545_/$PORT_8545/g" "$DOCKER_COMPOSE_FILE"
+    sed -i "s/_p_8546_/$PORT_8546/g" "$DOCKER_COMPOSE_FILE"
     sed -i "s/_p_1317_/$PORT_1317/g" "$DOCKER_COMPOSE_FILE"
     sed -i "s/_p_26656_/$PORT_26656/g" "$DOCKER_COMPOSE_FILE"
     sed -i "s/_p_image_prefix_/$DOCKER_IMAGE_NAME_PREFIX/g" "$DOCKER_COMPOSE_FILE"
@@ -143,6 +147,7 @@ echo '- Expose ports:'
 echo "+ 26657 => $PORT_26657"
 echo "+ 9090 => $PORT_9090"
 echo "+ 8545 => $PORT_8545"
+echo "+ 8546 => $PORT_8546"
 echo "+ 1317 => $PORT_1317"
 echo "+ 26658 => $PORT_26656"
 
