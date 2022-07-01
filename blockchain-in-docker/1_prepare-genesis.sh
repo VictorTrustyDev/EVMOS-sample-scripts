@@ -270,6 +270,8 @@ update_app() {
     cat $APP_TOML | tomlq '.api["address"]="tcp://0.0.0.0:1317"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
     echo "- Bind Json-RPC to 0.0.0.0:8545 by updating [json-rpc > address]"
     cat $APP_TOML | tomlq '."json-rpc"["address"]="0.0.0.0:8545"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
+    echo "- Bind Websocket Json-RPC to 0.0.0.0:8546 by updating [json-rpc > ws-address]"
+    cat $APP_TOML | tomlq '."json-rpc"["ws-address"]="0.0.0.0:8546"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
     echo "- Bind gRPC to 0.0.0.0:9090 by updating [grpc > address]"
     cat $APP_TOML | tomlq '.grpc["address"]="0.0.0.0:9090"' --toml-output > $APP_TOML_TMP && mv $APP_TOML_TMP $APP_TOML
 }
