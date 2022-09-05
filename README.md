@@ -31,7 +31,7 @@ without any performance issue (CPU ~20-80% per core, ram ~50% via htop)
 
 ### Software versions:
 
-- [Evmos v6.0.1](https://github.com/evmos/evmos/tree/v6.0.1)
+- [Evmos v8.1.0](https://github.com/evmos/evmos/tree/v8.1.0)
 - [Hermes v0.15.0](https://github.com/informalsystems/ibc-rs/tree/v0.15.0)
 - [bdjuno branch evmos](https://github.com/forbole/bdjuno/tree/chains/evmos/mainnet)
 - [Big Dipper 2.0 for Cosmos chains branch evmos](https://github.com/forbole/big-dipper-2.0-cosmos/tree/chains/evmos)
