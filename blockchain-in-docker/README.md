@@ -1,4 +1,4 @@
-### This helps you create 2 EVMOS chains ([v6.0.1](https://github.com/evmos/evmos/tree/v6.0.1)) with 3 validators on each chain and run with docker compose
+### This helps you create 2 EVMOS chains ([v8.1.0](https://github.com/evmos/evmos/tree/v8.1.0)) with 3 validators on each chain and run with docker compose
 
 ### I. Create first chain
 
