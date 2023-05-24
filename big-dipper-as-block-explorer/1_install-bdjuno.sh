@@ -60,7 +60,7 @@ docker run \
 [ $? -eq 0 ] || { echo >&2 "ERR: Failed to create a PostgreSQL container"; }
 
 echo 'Waiting DB up'
-sleep 3s
+sleep 20s
 
 echo "- Creating database $BD_PG_DB"
 PGPASSWORD=$BD_CFG_PG_USR_PASS psql -h 127.0.0.1 -p $PG_PORT -d postgres -U postgres -c "CREATE DATABASE $BD_PG_DB;"
