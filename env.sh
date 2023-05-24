@@ -27,11 +27,11 @@ export MINIMUM_GOV_DEPOSIT=64 # Minimum amount of coins required to submit a pro
 export VOTING_PERIOID_IN_MINUTES=2880 # 2880 minutes = 2 days
 ### Chain 1
 export CHAIN_1_TYPE="evmos" # valid values are 'evmos' or 'cosmos' only, must be 'evmos' for evmos chain, otherwise 'cosmos' for other chains
-export CHAIN_1_ID="evmos_9006-1"
+export CHAIN_1_ID="evmos_9000-5"
 export CHAIN_1_COINTYPE=60 # 60 for EVMOS, 118 for Cosmos
 export CHAIN_1_ACCOUNT_PREFIX="evmos"
 export CHAIN_1_GIT_REPO="https://github.com/evmos/evmos.git"
-export CHAIN_1_GIT_REPO_BRANCH="v8.1.0" # must belong to repo $CHAIN_1_GIT_REPO
+export CHAIN_1_GIT_REPO_BRANCH="v12.1.2" # must belong to repo $CHAIN_1_GIT_REPO
 export CHAIN_1_DAEMON_BINARY_NAME="evmosd"
 export CHAIN_1_DENOM_SYMBOL="evmos"
 export CHAIN_1_MIN_DENOM_SYMBOL="aevmos"
@@ -46,11 +46,11 @@ export CHAIN_1_EXPOSE_REST_API_TO_PORT=1317
 export CHAIN_1_EXPOSE_P2P_TO_PORT=26656
 ### Chain 2
 export CHAIN_2_TYPE="evmos" # valid values are 'evmos' or 'cosmos' only, must be 'evmos' for evmos chain, otherwise 'cosmos' for other chains
-export CHAIN_2_ID="evmos_9007-1"
+export CHAIN_2_ID="evmos_9000-6"
 export CHAIN_2_COINTYPE=60 # 60 for EVMOS, 118 for Cosmos
 export CHAIN_2_ACCOUNT_PREFIX="evmos"
 export CHAIN_2_GIT_REPO="https://github.com/evmos/evmos.git"
-export CHAIN_2_GIT_REPO_BRANCH="v8.1.0" # must belong to repo $CHAIN_2_GIT_REPO
+export CHAIN_2_GIT_REPO_BRANCH="v12.1.2" # must belong to repo $CHAIN_2_GIT_REPO
 export CHAIN_2_DAEMON_BINARY_NAME="evmosd"
 export CHAIN_2_DENOM_SYMBOL="evmos"
 export CHAIN_2_MIN_DENOM_SYMBOL="aevmos"
