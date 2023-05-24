@@ -77,55 +77,61 @@ else
 fi
 
 # npm environment variables
-NPM_ENV="$BD2_SOURCE_DIR/.env"
+NPM_ENV="$BD2_UI_DIR/.env"
 echo "Setting up file $NPM_ENV"
 echo -e "
-NEXT_PUBLIC_GRAPHQL_URL=http://$BD2_PUBLIC_DOMAIN:$BD_HASURA_PORT/v1/graphql
-\nNEXT_PUBLIC_GRAPHQL_WS=ws://$BD2_PUBLIC_DOMAIN:$BD_HASURA_PORT/v1/graphql
+\nGRAPHQL_URL=http://$BD2_PUBLIC_DOMAIN:$BD_HASURA_PORT/v1/graphql
+\nGRAPHQL_WS=ws://$BD2_PUBLIC_DOMAIN:$BD_HASURA_PORT/v1/graphql
 \nNODE_ENV=test
 \nPORT=$BD2_PORT
-\nNEXT_PUBLIC_URL=http://$BD2_PUBLIC_DOMAIN:$BD2_PORT
-\nNEXT_PUBLIC_RPC_WEBSOCKET=ws://$BD2_PUBLIC_RPC_26657/websocket
+\nRPC_WEBSOCKET=ws://$BD2_PUBLIC_RPC_26657/websocket
 \nNEXT_PUBLIC_CHAIN_TYPE=mainnet
+\nPROJECT_NAME=web-$CHAIN_NAME
+\nNEXT_PUBLIC_URL=http://$BD2_PUBLIC_DOMAIN:$BD2_PORT
 " > "$NPM_ENV"
 
 # BD2 chain config
-BD2_CHAIN_CONFIG_MAINNET="$BD2_SOURCE_DIR/src/configs/chain_config.mainnet.json"
-BD2_CHAIN_CONFIG_TESTNET="$BD2_SOURCE_DIR/src/configs/chain_config.testnet.json"
-BD2_CHAIN_CONFIG_TMP="$BD2_SOURCE_DIR/src/configs/tmp_chain_config.json"
-echo "Setting up file mainnet chain config"
+BD2_CHAIN_CONFIG_MAINNET="$BD2_UI_DIR/src/chain.json"
+BD2_CHAIN_CONFIG_TMP="$BD2_UI_DIR/src/tmp_chain.json"
+echo "Setting up file chain config"
+cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.chainName="'$CHAIN_NAME'"' > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
 cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.title="'$CHAIN_NAME' Block Explorer"' > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
-cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.network="'$CHAIN_ID'"' > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
-cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.prefix["consensus"]="'$DENOM_SYMBOL'valcons"' > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
-cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.prefix["validator"]="'$DENOM_SYMBOL'valoper"' > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
-cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.prefix["account"]="'$ACCOUNT_PREFIX'"' > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
-cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.primaryTokenUnit="'$MIN_DENOM_SYMBOL'"' > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
-cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.votingPowerTokenUnit="'$MIN_DENOM_SYMBOL'"' > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
-cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.tokenUnits["'$MIN_DENOM_SYMBOL'"]["display"]="'$DENOM_SYMBOL'"' > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
-cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.tokenUnits["'$MIN_DENOM_SYMBOL'"]["exponent"]='$DENOM_EXPONENT > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
-echo "Setting up file testnet chain config"
-cp "$BD2_CHAIN_CONFIG_MAINNET" "$BD2_CHAIN_CONFIG_TESTNET"
+cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.chains[0].network="'$CHAIN_ID'"' > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
+cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.chains[0].chainType="Devnet"' > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
+cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.chains[0].genesis["height"]=1' > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
+cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.chains[0].prefix["consensus"]="'$DENOM_SYMBOL'valcons"' > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
+cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.chains[0].prefix["validator"]="'$DENOM_SYMBOL'valoper"' > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
+cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.chains[0].prefix["account"]="'$ACCOUNT_PREFIX'"' > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
+cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.chains[0].primaryTokenUnit="'$MIN_DENOM_SYMBOL'"' > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
+cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.chains[0].votingPowerTokenUnit="'$MIN_DENOM_SYMBOL'"' > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
+cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.chains[0].tokenUnits["'$MIN_DENOM_SYMBOL'"]["display"]="'$DENOM_SYMBOL'"' > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
+cat "$BD2_CHAIN_CONFIG_MAINNET" | jq '.chains[0].tokenUnits["'$MIN_DENOM_SYMBOL'"]["exponent"]='$DENOM_EXPONENT > $BD2_CHAIN_CONFIG_TMP && mv $BD2_CHAIN_CONFIG_TMP $BD2_CHAIN_CONFIG_MAINNET
 
 # BD2 codegen config
-BD2_CODEGEN_YML="$BD2_SOURCE_DIR/codegen.yml"
-BD2_CODEGEN_YML_TMP="$BD2_SOURCE_DIR/tmp_codegen.yml"
+BD2_CODEGEN_YML="$BD2_UI_DIR/codegen.yml"
+BD2_CODEGEN_YML_TMP="$BD2_UI_DIR/tmp_codegen.yml"
 echo "Setting up file $BD2_CODEGEN_YML"
-cat "$BD2_CODEGEN_YML" | yq '.generates["./src/graphql/types/general_types.tsx"]["schema"]="http://'$BD2_PUBLIC_DOMAIN':'$BD_HASURA_PORT'/v1/graphql"' -Y > "$BD2_CODEGEN_YML_TMP" && mv "$BD2_CODEGEN_YML_TMP" "$BD2_CODEGEN_YML"
+echo "- Update graphql schema"
+cat "$BD2_CODEGEN_YML" | yq '.generates["./src/graphql/types/general_types.ts"]["schema"]="http://'$BD2_PUBLIC_DOMAIN':'$BD_HASURA_PORT'/v1/graphql"' -Y > "$BD2_CODEGEN_YML_TMP" && mv "$BD2_CODEGEN_YML_TMP" "$BD2_CODEGEN_YML"
 
 CUR_DIR=$(pwd)
-cd "$BD2_SOURCE_DIR"
+cd "$BD2_UI_DIR"
 WORKING_DIR=$(pwd)
+echo "Working dir: $WORKING_DIR"
 # Build
-## Install graphql-codegen 
-npm i -D @graphql-codegen/cli > /dev/null 2>&1
-[ $? -eq 0 ] || { echo >&2 "ERR: Failed to install @graphql-codegen/cli"; exit 1; }
 ## Gen code
+echo 'Fix error files'
+FILE_TOKEN_PRICE='./src/graphql/general/token_price.graphql'
+TMP_FILE_TOKEN_PRICE='./src/graphql/general/tmp.token_price.graphql'
+sed '/id/d' "$FILE_TOKEN_PRICE" > "$TMP_FILE_TOKEN_PRICE" && mv "$TMP_FILE_TOKEN_PRICE" "$FILE_TOKEN_PRICE"
 echo 'Generating code'
-npm run graphql:codegen
+yarn run graphql:codegen > /dev/null 2>&1
 [ $? -eq 0 ] || { echo >&2 "ERR: Failed to run graphql:codegen"; exit 1; }
-#echo 'Build'
-#npm run build
-#[ $? -eq 0 ] || { echo >&2 "ERR: Failed to build"; exit 1; }
+echo 'Build'
+yarn install
+corepack enable
+yarn run build
+[ $? -eq 0 ] || { echo >&2 "ERR: Failed to build"; exit 1; }
 
 cd "$CUR_DIR"
 
@@ -149,7 +155,7 @@ if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
 \n[Service]
 \nUser=$USER
 \nWorkingDirectory=$WORKING_DIR
-\nExecStart=$(which npm) run dev
+\nExecStart=$(which yarn) run start
 \nRestart=always
 \nRestartSec=3
 \nLimitNOFILE=4096

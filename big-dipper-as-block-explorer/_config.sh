@@ -38,7 +38,7 @@ elif [ "$CHAIN_NO" = "2" ]; then
     export BD2_PUBLIC_RPC_26657="$BD2_CFG_CHAIN_2_PUBLIC_RPC_26657"
 fi
 
-export CHAIN_NAME=$(echo $DENOM_SYMBOL | tr '[:lower:]' '[:upper:]')
+export CHAIN_NAME=$(echo $DENOM_SYMBOL | tr '[:lower:]' '[:lower:]')
 
 echo "Creating big dipper as block explorer for $CHAIN_NAME chain $CHAIN_ID"
 echo "- Denom: $DENOM_SYMBOL ($DENOM_EXPONENT digits unit: $MIN_DENOM_SYMBOL)"
@@ -55,4 +55,5 @@ export BD_SERVICE_NAME="bdjuno-svc$CHAIN_NO"
 export BD_SOURCE_DIR="source-code-bdjuno-$DENOM_SYMBOL-$CHAIN_NO"
 export BD2_SERVICE_NAME="bd2-svc$CHAIN_NO"
 export BD2_SOURCE_DIR="source-code-bd2-$DENOM_SYMBOL-$CHAIN_NO"
+export BD2_UI_DIR="$BD2_SOURCE_DIR/apps/web-evmos"
 export BD_BINARY="$GOPATH/bin/bdjuno$CHAIN_NO"
