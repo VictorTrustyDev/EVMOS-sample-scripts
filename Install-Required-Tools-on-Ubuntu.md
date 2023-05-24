@@ -60,6 +60,13 @@ Update system first `sudo apt-get update -y`
 
     > sudo apt-get install -y nodejs
 
+- Yarn
+    > curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+
+    > echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+
+    > sudo apt update -y && sudo apt-get install -y yarn
+
 - hasura-cli
     > curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash
 
