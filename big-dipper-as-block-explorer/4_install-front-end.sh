@@ -1,6 +1,7 @@
 #!/bin/bash
 
 command -v npm > /dev/null 2>&1 || { echo >&2 "ERR: npm is required"; exit 1; }
+command -v yarn > /dev/null 2>&1 || { echo >&2 "ERR: yarn is required"; exit 1; }
 
 source ../env.sh
 

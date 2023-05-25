@@ -32,6 +32,7 @@ show_required_tools() {
     echo >&2 "- psql (PostgreSQL client)"
     echo >&2 " + Hint: sudo apt install postgresql-client"
     echo >&2 "- npm"
+    echo >&2 "- yarn"
     echo >&2 "- hasura-cli"
     echo >&2 " + https://hasura.io/docs/latest/graphql/core/hasura-cli/install-hasura-cli/"
     echo >&2 " + Hint: curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash"
@@ -50,6 +51,7 @@ command -v 'docker-compose' > /dev/null 2>&1 || { show_required_tools 'docker-co
 command -v cargo > /dev/null 2>&1 || { show_required_tools 'cargo'; exit 1; }
 command -v psql > /dev/null 2>&1 || { show_required_tools 'psql'; exit 1; }
 command -v npm > /dev/null 2>&1 || { show_required_tools 'npm'; exit 1; }
+command -v yarn > /dev/null 2>&1 || { show_required_tools 'yarn'; exit 1; }
 
 source "./env.sh"
 if [ -f "$BD_HASURA_BINARY" ]; then
