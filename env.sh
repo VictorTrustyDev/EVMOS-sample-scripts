@@ -106,7 +106,7 @@ export VAL_3_CHAIN_2_SEED="stage grid emotion thumb safe myth chair dizzy beyond
 
 ## Hermes (IBC Relayer)
 export HERMES_GIT_REPO="https://github.com/informalsystems/ibc-rs.git"
-export HERMES_GIT_REPO_BRANCH="v0.15.0" # Must belong to repo $HERMES_GIT_REPO
+export HERMES_GIT_REPO_BRANCH="v1.5.0" # Must belong to repo $HERMES_GIT_REPO
 export HERMES_BINARY="hermes"
 export HERMES_SOURCE_DIR_PREFIX="source-code" # do NOT modify
 export HERMES_HOME_DIR=".hermes"

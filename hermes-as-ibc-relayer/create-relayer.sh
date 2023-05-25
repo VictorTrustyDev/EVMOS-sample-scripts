@@ -28,9 +28,9 @@ if [ "$HERMES_NO_CONFIRM_BALANCE" != "1" ]; then
         echo "Go prepare yourself"
         echo "Hint: you can do this"
         echo " docker exec -it vtevmos11 bash"
-        echo " $CHAIN_1_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_1_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /.evmosd1 --node tcp://127.0.0.1:26657"
+	echo " $CHAIN_1_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_1_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /.evmosd1 --node tcp://127.0.0.1:26657 --yes --gas-prices $(bc <<< "20 * 10 ^ $CHAIN_1_GAS_DENOM_EXPONENT ")$CHAIN_1_MIN_DENOM_SYMBOL"
         echo " docker exec -it vtevmos21 bash"
-        echo " $CHAIN_2_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_2_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /.evmosd2 --node tcp://127.0.0.1:26657"
+        echo " $CHAIN_2_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_2_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /.evmosd2 --node tcp://127.0.0.1:26657 --yes --gas-prices $(bc <<< "20 * 10 ^ $CHAIN_2_GAS_DENOM_EXPONENT ")$CHAIN_2_MIN_DENOM_SYMBOL"
         exit 0
     fi
 fi
@@ -54,6 +54,9 @@ export BINARY=$(pwd)'/'$HERMES_SOURCE_DIR'/target/release/'$HERMES_BINARY
 # Check & Install hermes binary if not exists
 ./_make_binary.sh
 [ $? -eq 0 ] || { echo >&2 "ERR: Failed to check & build $HERMES_BINARY binary at $BINARY"; }
+
+echo 'Force exit'
+exit 1
 
 echo 'You can custom config by editing keys with prefix [HERMES_CFG_CHAIN_*] in [env.sh] file'
 sleep 3s
