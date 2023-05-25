@@ -18,6 +18,7 @@ if [ "$CHAIN_NO" = "1" ]; then
     export BD2_PORT=$BD2_CFG_CHAIN_1_PORT
     export BD2_PUBLIC_DOMAIN="$BD2_CFG_CHAIN_1_PUBLIC_DOMAIN"
     export BD2_PUBLIC_RPC_26657="$BD2_CFG_CHAIN_1_PUBLIC_RPC_26657"
+    export BD2_PROJECT_NAME="$BD2_CFG_CHAIN_1_PROJECT_NAME"
 elif [ "$CHAIN_NO" = "2" ]; then
     export CHAIN_ID="$BD_CFG_CHAIN_2_ID"
     export PG_PORT=$BD_CFG_CHAIN_2_PG_PORT
@@ -36,6 +37,7 @@ elif [ "$CHAIN_NO" = "2" ]; then
     export BD2_PORT=$BD2_CFG_CHAIN_2_PORT
     export BD2_PUBLIC_DOMAIN="$BD2_CFG_CHAIN_2_PUBLIC_DOMAIN"
     export BD2_PUBLIC_RPC_26657="$BD2_CFG_CHAIN_2_PUBLIC_RPC_26657"
+    export BD2_PROJECT_NAME="$BD2_CFG_CHAIN_2_PROJECT_NAME"
 fi
 
 export CHAIN_NAME=$(echo $DENOM_SYMBOL | tr '[:lower:]' '[:lower:]')
@@ -55,5 +57,5 @@ export BD_SERVICE_NAME="bdjuno-svc$CHAIN_NO"
 export BD_SOURCE_DIR="source-code-bdjuno-$DENOM_SYMBOL-$CHAIN_NO"
 export BD2_SERVICE_NAME="bd2-svc$CHAIN_NO"
 export BD2_SOURCE_DIR="source-code-bd2-$DENOM_SYMBOL-$CHAIN_NO"
-export BD2_UI_DIR="$BD2_SOURCE_DIR/apps/web-evmos"
+export BD2_UI_DIR="$BD2_SOURCE_DIR/apps/$BD2_PROJECT_NAME"
 export BD_BINARY="$GOPATH/bin/bdjuno$CHAIN_NO"

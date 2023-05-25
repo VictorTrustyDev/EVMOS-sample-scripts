@@ -77,18 +77,22 @@ else
 fi
 
 # npm environment variables
-NPM_ENV="$BD2_UI_DIR/.env"
+NPM_ENV="$BD2_SOURCE_DIR/.env"
 echo "Setting up file $NPM_ENV"
 echo -e "
 \nGRAPHQL_URL=http://$BD2_PUBLIC_DOMAIN:$BD_HASURA_PORT/v1/graphql
+\nNEXT_PUBLIC_GRAPHQL_URL=http://$BD2_PUBLIC_DOMAIN:$BD_HASURA_PORT/v1/graphql
 \nGRAPHQL_WS=ws://$BD2_PUBLIC_DOMAIN:$BD_HASURA_PORT/v1/graphql
+\nNEXT_PUBLIC_GRAPHQL_WS=ws://$BD2_PUBLIC_DOMAIN:$BD_HASURA_PORT/v1/graphql
 \nNODE_ENV=test
 \nPORT=$BD2_PORT
 \nRPC_WEBSOCKET=ws://$BD2_PUBLIC_RPC_26657/websocket
-\nNEXT_PUBLIC_CHAIN_TYPE=mainnet
-\nPROJECT_NAME=web-$CHAIN_NAME
-\nNEXT_PUBLIC_URL=http://$BD2_PUBLIC_DOMAIN:$BD2_PORT
+\nNEXT_PUBLIC_RPC_WEBSOCKET=ws://$BD2_PUBLIC_RPC_26657/websocket
+\nNEXT_PUBLIC_CHAIN_TYPE=Devnet
+\nPROJECT_NAME=$BD2_PROJECT_NAME
 " > "$NPM_ENV"
+
+cp "$NPM_ENV" "$BD2_UI_DIR"
 
 # BD2 chain config
 BD2_CHAIN_CONFIG_MAINNET="$BD2_UI_DIR/src/chain.json"
@@ -115,9 +119,11 @@ echo "- Update graphql schema"
 cat "$BD2_CODEGEN_YML" | yq '.generates["./src/graphql/types/general_types.ts"]["schema"]="http://'$BD2_PUBLIC_DOMAIN':'$BD_HASURA_PORT'/v1/graphql"' -Y > "$BD2_CODEGEN_YML_TMP" && mv "$BD2_CODEGEN_YML_TMP" "$BD2_CODEGEN_YML"
 
 CUR_DIR=$(pwd)
-cd "$BD2_UI_DIR"
+cd "$BD2_SOURCE_DIR"
 WORKING_DIR=$(pwd)
 echo "Working dir: $WORKING_DIR"
+cd "$CUR_DIR"
+cd "$BD2_UI_DIR"
 # Build
 ## Gen code
 echo 'Fix error files'
@@ -128,10 +134,17 @@ echo 'Generating code'
 yarn run graphql:codegen > /dev/null 2>&1
 [ $? -eq 0 ] || { echo >&2 "ERR: Failed to run graphql:codegen"; exit 1; }
 echo 'Build'
+cd "$WORKING_DIR"
 yarn install
 corepack enable
 yarn run build
-[ $? -eq 0 ] || { echo >&2 "ERR: Failed to build"; exit 1; }
+[ $? -eq 0 ] || { echo >&2 "ERR: Failed to build in root source dir"; exit 1; }
+
+cd "$CUR_DIR"
+cd "$BD2_UI_DIR"
+corepack enable
+yarn run build
+[ $? -eq 0 ] || { echo >&2 "ERR: Failed to build in web app source dir"; exit 1; }
 
 cd "$CUR_DIR"
 
