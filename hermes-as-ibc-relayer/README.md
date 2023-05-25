@@ -1,4 +1,4 @@
-### This helps you create a IBC relayer service using Hermes ([v0.15.0](https://github.com/informalsystems/ibc-rs/tree/v0.15.0)) to transfer coins between 2 chains
+### This helps you create a IBC relayer service using Hermes ([v1.5.0](https://github.com/informalsystems/ibc-rs/tree/v1.5.0)) to transfer coins between 2 chains
 
 ### I. Prepare
 - **IMPORTANT** Open file `env.sh`, locate the variables with prefix `HERMES_CFG_CHAIN_*` and updated based on your need
