@@ -12,3 +12,4 @@ source-code*/
 *genesis.json
 *config.toml
 *app.toml
+rel_*_seed.key
