@@ -28,7 +28,7 @@ _Trick: You can reduce voting period by override the `VOTING_PERIOID_IN_MINUTES`
 
 3. Result:
 - Previous:
-    > evmosd q params subspace gov depositparams --chain-id evmos_9007-1 --node tcp://127.0.0.1:36657
+    > evmosd q params subspace gov depositparams --chain-id evmos_9000-6 --node tcp://127.0.0.1:36657
 
     > key: depositparams
 
@@ -37,7 +37,7 @@ _Trick: You can reduce voting period by override the `VOTING_PERIOID_IN_MINUTES`
     > value: '{"min_deposit":[{"denom":"aevmos","amount":"64000000000000000000"}],"max_deposit_period":"172800000000000"}'
 
 - Later:
-    > evmosd q params subspace gov depositparams --chain-id evmos_9007-1 --node tcp://127.0.0.1:36657
+    > evmosd q params subspace gov depositparams --chain-id evmos_9000-6 --node tcp://127.0.0.1:36657
 
     > key: depositparams
 

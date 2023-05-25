@@ -1,4 +1,4 @@
-### This helps you create 2 EVMOS chains ([v8.1.0](https://github.com/evmos/evmos/tree/v8.1.0)) with 3 validators on each chain and run with docker compose
+### This helps you create 2 EVMOS chains ([v12.1.3](https://github.com/evmos/evmos/tree/v12.1.3)) with 3 validators on each chain and run with docker compose
 
 ### I. Create first chain
 
@@ -28,8 +28,8 @@ Now you can [follow this sample](https://github.com/VictorTrustyDev/EVMOS-sample
 
 | Network | Chain ID | RPC | Json RPC | Websocket Json RPC | REST | gRPC | P2P |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | evmos_9006-1 | 26657 | 8545 | 8546 | 1317 | 9090 | 26656 |
-| 2 | evmos_9007-1 | 36657 | 18545 | 18546 | 11317 | 19090 | 36656 |
+| 1 | evmos_9000-5 | 26657 | 8545 | 8546 | 1317 | 9090 | 26656 |
+| 2 | evmos_9000-6 | 36657 | 18545 | 18546 | 11317 | 19090 | 36656 |
 
 - Validators (same on both chains)
     + evmosvaloper1wuqvcpuunf7r5rg7xutqddhw55grfzc7ewkz9a
@@ -62,15 +62,15 @@ Here are some of them:
 | Key | Default value | Explain |
 | --- | --- | --- |
 | `CHAIN_1_GIT_REPO` | https://github.com/evmos/evmos.git | Git repo to be used to build chain 1 |
-| `CHAIN_1_GIT_REPO_BRANCH` | v6.0.1 | Git branch to be used to build chain 1 |
-| `CHAIN_1_ID` | evmos_9006-1 | Chain id of chain 1 |
+| `CHAIN_1_GIT_REPO_BRANCH` | v12.1.3 | Git branch to be used to build chain 1 |
+| `CHAIN_1_ID` | evmos_9000-5 | Chain id of chain 1 |
 | `CHAIN_1_TYPE` | evmos | Chain type of chain 1 |
-| `CHAIN_1_COINTYPE` | 60 | [HD key derivation path](https://docs.evmos.org/users/technical_concepts/accounts.html) for chain 1's accounts |
+| `CHAIN_1_COINTYPE` | 60 | [HD key derivation path](https://docs.evmos.org/protocol/concepts/accounts#evmos-accounts) for chain 1's accounts |
 | `CHAIN_2_GIT_REPO` | https://github.com/evmos/evmos.git | Git repo to be used to build chain 2 |
-| `CHAIN_2_GIT_REPO_BRANCH` | v6.0.1 | Git branch to be used to build chain 2 |
-| `CHAIN_2_ID` | evmos_9007-1 | Chain id of chain 2 |
+| `CHAIN_2_GIT_REPO_BRANCH` | v12.1.3 | Git branch to be used to build chain 2 |
+| `CHAIN_2_ID` | evmos_9000-6 | Chain id of chain 2 |
 | `CHAIN_2_TYPE` | evmos | Chain type of chain 2 |
-| `CHAIN_2_COINTYPE` | 60 | [HD key derivation path](https://docs.evmos.org/users/technical_concepts/accounts.html) for chain 2's accounts |
+| `CHAIN_2_COINTYPE` | 60 | [HD key derivation path](https://docs.evmos.org/protocol/concepts/accounts#evmos-accounts) for chain 2's accounts |
 
 Performance: 2 chains created by this sample can run in parallel smoothly in a 4 Core 4 Gb RAM machine
 
@@ -80,11 +80,11 @@ This sample is using keyring-backend is `test`, you may need to change to `file`
 
 | Network | Chain ID | Container name | Home dir within container | Mapped home dir in host machine |
 | --- | --- | --- | --- | --- |
-| 1 | evmos_9006-1 | vtevmos10 (val1) | /.evmosd1 | /path/to/EVMOS-sample-scripts/blockchain-in-docker/.evmosd10 |
-| 1 | evmos_9006-1 | vtevmos11 (val2) | /.evmosd1 | /path/to/EVMOS-sample-scripts/blockchain-in-docker/.evmosd11 |
-| 1 | evmos_9006-1 | vtevmos12 (val3) | /.evmosd1 | /path/to/EVMOS-sample-scripts/blockchain-in-docker/.evmosd12 |
-| 2 | evmos_9007-1 | vtevmos20 (val1) | /.evmosd2 | /path/to/EVMOS-sample-scripts/blockchain-in-docker/.evmosd20 |
-| 2 | evmos_9007-1 | vtevmos21 (val2) | /.evmosd2 | /path/to/EVMOS-sample-scripts/blockchain-in-docker/.evmosd21 |
-| 2 | evmos_9007-1 | vtevmos22 (val3) | /.evmosd2 | /path/to/EVMOS-sample-scripts/blockchain-in-docker/.evmosd22 |
+| 1 | evmos_9000-5 | vtevmos10 (val1) | /.evmosd1 | /path/to/EVMOS-sample-scripts/blockchain-in-docker/.evmosd10 |
+| 1 | evmos_9000-5 | vtevmos11 (val2) | /.evmosd1 | /path/to/EVMOS-sample-scripts/blockchain-in-docker/.evmosd11 |
+| 1 | evmos_9000-5 | vtevmos12 (val3) | /.evmosd1 | /path/to/EVMOS-sample-scripts/blockchain-in-docker/.evmosd12 |
+| 2 | evmos_9000-6 | vtevmos20 (val1) | /.evmosd2 | /path/to/EVMOS-sample-scripts/blockchain-in-docker/.evmosd20 |
+| 2 | evmos_9000-6 | vtevmos21 (val2) | /.evmosd2 | /path/to/EVMOS-sample-scripts/blockchain-in-docker/.evmosd21 |
+| 2 | evmos_9000-6 | vtevmos22 (val3) | /.evmosd2 | /path/to/EVMOS-sample-scripts/blockchain-in-docker/.evmosd22 |
 
 The [gov-sample-proposals](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/tree/main/blockchain-in-docker/gov-sample-proposals) also mapped to `/gov-sample-proposals` vol within each container
