@@ -73,6 +73,17 @@ echo "- Relayer tx broadcast account key name: $HERMES_CFG_CHAIN_2_KEY_NAME"
 echo "- Gas price denom: $HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL"
 sleep 3s
 
+if [ $CHAIN_1_COINTYPE -eq 60 ] || [ "$CHAIN_1_TYPE" = "evmos" ]; then
+	GAS_PRICE_1="$(bc <<< "20 * 10 ^ ($HERMES_CFG_CHAIN_1_DENOM_EXPONENT/2)")"
+else
+	GAS_PRICE_1=2
+fi
+if [ $CHAIN_2_COINTYPE -eq 60 ] || [ "$CHAIN_2_TYPE" = "evmos" ]; then
+	GAS_PRICE_2="$(bc <<< "20 * 10 ^ ($HERMES_CFG_CHAIN_2_DENOM_EXPONENT/2)")"
+else
+	GAS_PRICE_2=2
+fi
+
 echo "Initializing file config.toml"
 CONFIG_TOML=$HERMES_HOME_DIR'/config.toml'
 cp "./template-config.toml" "$CONFIG_TOML"
@@ -82,6 +93,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i '' "s,chain1_grpc_addr,$HERMES_CFG_CHAIN_1_GRPC_ADDR,g" $CONFIG_TOML
     sed -i '' "s/chain1_account_prefix/$HERMES_CFG_CHAIN_1_ACCOUNT_PREFIX/g" $CONFIG_TOML
     sed -i '' "s/chain1_key_name/$HERMES_CFG_CHAIN_1_KEY_NAME/g" $CONFIG_TOML
+    sed -i '' "s/chain1_gas_price_amt/$GAS_PRICE_1/g" $CONFIG_TOML
     sed -i '' "s/chain1_gas_price_denom/$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL/g" $CONFIG_TOML
     if [ $CHAIN_1_COINTYPE -eq 60 ] || [ "$CHAIN_1_TYPE" = "evmos" ]; then
         sed -i '' "s#chain1_address_type#{ derivation = 'ethermint', proto_type = { pk_type = '/ethermint.crypto.v1.ethsecp256k1.PubKey' } }#g" $CONFIG_TOML
@@ -93,6 +105,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i '' "s,chain2_grpc_addr,$HERMES_CFG_CHAIN_2_GRPC_ADDR,g" $CONFIG_TOML
     sed -i '' "s/chain2_account_prefix/$HERMES_CFG_CHAIN_2_ACCOUNT_PREFIX/g" $CONFIG_TOML
     sed -i '' "s/chain2_key_name/$HERMES_CFG_CHAIN_2_KEY_NAME/g" $CONFIG_TOML
+    sed -i '' "s/chain2_gas_price_amt/$GAS_PRICE_2/g" $CONFIG_TOML
     sed -i '' "s/chain2_gas_price_denom/$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL/g" $CONFIG_TOML
     if [ $CHAIN_2_COINTYPE -eq 60 ] || [ "$CHAIN_2_TYPE" = "evmos" ]; then
         sed -i '' "s#chain2_address_type#{ derivation = 'ethermint', proto_type = { pk_type = '/ethermint.crypto.v1.ethsecp256k1.PubKey' } }#g" $CONFIG_TOML
@@ -105,6 +118,7 @@ else
     sed -i "s,chain1_grpc_addr,$HERMES_CFG_CHAIN_1_GRPC_ADDR,g" $CONFIG_TOML
     sed -i "s/chain1_account_prefix/$HERMES_CFG_CHAIN_1_ACCOUNT_PREFIX/g" $CONFIG_TOML
     sed -i "s/chain1_key_name/$HERMES_CFG_CHAIN_1_KEY_NAME/g" $CONFIG_TOML
+    sed -i "s/chain1_gas_price_amt/$GAS_PRICE_1/g" $CONFIG_TOML
     sed -i "s/chain1_gas_price_denom/$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL/g" $CONFIG_TOML
     if [ $CHAIN_1_COINTYPE -eq 60 ]; then
         sed -i "s#chain1_address_type#{ derivation = 'ethermint', proto_type = { pk_type = '/ethermint.crypto.v1.ethsecp256k1.PubKey' } }#g" $CONFIG_TOML
@@ -116,6 +130,7 @@ else
     sed -i "s,chain2_grpc_addr,$HERMES_CFG_CHAIN_2_GRPC_ADDR,g" $CONFIG_TOML
     sed -i "s/chain2_account_prefix/$HERMES_CFG_CHAIN_2_ACCOUNT_PREFIX/g" $CONFIG_TOML
     sed -i "s/chain2_key_name/$HERMES_CFG_CHAIN_2_KEY_NAME/g" $CONFIG_TOML
+    sed -i "s/chain2_gas_price_amt/$GAS_PRICE_2/g" $CONFIG_TOML
     sed -i "s/chain2_gas_price_denom/$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL/g" $CONFIG_TOML
     if [ $CHAIN_2_COINTYPE -eq 60 ]; then
         sed -i "s#chain2_address_type#{ derivation = 'ethermint', proto_type = { pk_type = '/ethermint.crypto.v1.ethsecp256k1.PubKey' } }#g" $CONFIG_TOML
@@ -206,7 +221,6 @@ sleep 2s
 
 echo '- Creating channel'
 
-echo "Command: $BINARY --config $CONFIG_TOML create channel --a-chain $HERMES_CFG_CHAIN_1_ID --a-connection $CONN_1_TO_2 --a-port transfer --b-port transfer"
 RES_CREATE_CHAN_1_TO_2=$($BINARY --config $CONFIG_TOML create channel --a-chain $HERMES_CFG_CHAIN_1_ID --a-connection $CONN_1_TO_2 --a-port transfer --b-port transfer)
 CHAN_1_TO_2=$(echo $RES_CREATE_CHAN_1_TO_2 | grep -o 'channel-[0-9]*' | head -n 1)
 [ -z "$CHAN_1_TO_2" ] && {

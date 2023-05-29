@@ -155,7 +155,7 @@ max_gas = 400000
 
 # Specify the price per gas used of the fee to submit a transaction and
 # the denomination of the fee. Required
-gas_price = { price = 99, denom = 'chain1_gas_price_denom' }
+gas_price = { price = chain1_gas_price_amt, denom = 'chain1_gas_price_denom' }
 
 # Specify the ratio by which to increase the gas estimate used to compute the fee,
 # to account for potential estimation error. Default: 0.1, ie. 10%.
@@ -247,7 +247,7 @@ key_name = 'chain2_key_name'
 store_prefix = 'ibc'
 default_gas = 100000
 max_gas = 400000
-gas_price = { price = 99, denom = 'chain2_gas_price_denom' }
+gas_price = { price = chain2_gas_price_amt, denom = 'chain2_gas_price_denom' }
 gas_multiplier = 1.1
 max_msg_num = 30
 max_tx_size = 2097152
