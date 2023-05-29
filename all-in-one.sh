@@ -32,6 +32,7 @@ show_required_tools() {
     echo >&2 "- psql (PostgreSQL client)"
     echo >&2 " + Hint: sudo apt install postgresql-client"
     echo >&2 "- npm"
+    echo >&2 "- yarn"
     echo >&2 "- hasura-cli"
     echo >&2 " + https://hasura.io/docs/latest/graphql/core/hasura-cli/install-hasura-cli/"
     echo >&2 " + Hint: curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash"
@@ -50,6 +51,7 @@ command -v 'docker-compose' > /dev/null 2>&1 || { show_required_tools 'docker-co
 command -v cargo > /dev/null 2>&1 || { show_required_tools 'cargo'; exit 1; }
 command -v psql > /dev/null 2>&1 || { show_required_tools 'psql'; exit 1; }
 command -v npm > /dev/null 2>&1 || { show_required_tools 'npm'; exit 1; }
+command -v yarn > /dev/null 2>&1 || { show_required_tools 'yarn'; exit 1; }
 
 source "./env.sh"
 if [ -f "$BD_HASURA_BINARY" ]; then
@@ -92,6 +94,9 @@ AIO_DIR_BD="./big-dipper-as-block-explorer"
 AIO_DIR_HERMES="./hermes-as-ibc-relayer"
 AIO_DIR_CHAIN="./blockchain-in-docker"
 
+GAS_PRICE_1="$(bc <<< "20 * (10^$CHAIN_1_GAS_DENOM_EXPONENT)")$CHAIN_1_MIN_DENOM_SYMBOL"
+GAS_PRICE_2="$(bc <<< "20 * (10^$CHAIN_2_GAS_DENOM_EXPONENT)")$CHAIN_2_MIN_DENOM_SYMBOL"
+
 echo "[Clean up previous setup]"
 
 echo "> [Big Dipper]"
@@ -127,7 +132,7 @@ sleep 2s
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed (build docker image)"; exit 1; }
 sleep 2s
 docker-compose -f network2.yml up -d
-sleep 5s
+sleep 20s
 
 cd "$AIO_CUR_DIR"
 cd "$AIO_DIR_HERMES"
@@ -137,16 +142,16 @@ fi
 echo "> [Load up token for IBC account on chain 1]"
 echo "Keyring: $KEYRING"
 if [ "$KEYRING" = "test" ]; then
-    docker exec -it vtevmos11 bash -c "$CHAIN_1_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_1_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /.evmosd1 --node 'tcp://127.0.0.1:26657' --yes"
+    docker exec -it vtevmos11 bash -c "$CHAIN_1_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_1_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --gas-prices $GAS_PRICE_1 --home /.evmosd1 --node 'tcp://127.0.0.1:26657' --yes"
 else
-    docker exec -it vtevmos11 bash -c "echo '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' | $CHAIN_1_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_1_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /.evmosd1 --node 'tcp://127.0.0.1:26657' --yes"
+    docker exec -it vtevmos11 bash -c "echo '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' | $CHAIN_1_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_1_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --gas-prices $GAS_PRICE_1 --home /.evmosd1 --node 'tcp://127.0.0.1:26657' --yes"
 fi
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed"; exit 1; }
 echo "> [Load up token for IBC account on chain 2]"
 if [ "$KEYRING" = "test" ]; then
-    docker exec -it vtevmos21 bash -c "$CHAIN_2_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_2_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /.evmosd2 --node 'tcp://127.0.0.1:26657' --yes"
+    docker exec -it vtevmos21 bash -c "$CHAIN_2_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_2_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --gas-prices $GAS_PRICE_2 --home /.evmosd2 --node 'tcp://127.0.0.1:26657' --yes"
 else
-    docker exec -it vtevmos21 bash -c "echo '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' | $CHAIN_2_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_2_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /.evmosd2 --node 'tcp://127.0.0.1:26657' --yes"
+    docker exec -it vtevmos21 bash -c "echo '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' | $CHAIN_2_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_2_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --gas-prices $GAS_PRICE_2 --home /.evmosd2 --node 'tcp://127.0.0.1:26657' --yes"
 fi
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed"; exit 1; }
 

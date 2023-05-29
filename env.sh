@@ -27,11 +27,11 @@ export MINIMUM_GOV_DEPOSIT=64 # Minimum amount of coins required to submit a pro
 export VOTING_PERIOID_IN_MINUTES=2880 # 2880 minutes = 2 days
 ### Chain 1
 export CHAIN_1_TYPE="evmos" # valid values are 'evmos' or 'cosmos' only, must be 'evmos' for evmos chain, otherwise 'cosmos' for other chains
-export CHAIN_1_ID="evmos_9006-1"
+export CHAIN_1_ID="evmos_9000-5"
 export CHAIN_1_COINTYPE=60 # 60 for EVMOS, 118 for Cosmos
 export CHAIN_1_ACCOUNT_PREFIX="evmos"
 export CHAIN_1_GIT_REPO="https://github.com/evmos/evmos.git"
-export CHAIN_1_GIT_REPO_BRANCH="v8.1.0" # must belong to repo $CHAIN_1_GIT_REPO
+export CHAIN_1_GIT_REPO_BRANCH="v12.1.3" # must belong to repo $CHAIN_1_GIT_REPO
 export CHAIN_1_DAEMON_BINARY_NAME="evmosd"
 export CHAIN_1_DENOM_SYMBOL="evmos"
 export CHAIN_1_MIN_DENOM_SYMBOL="aevmos"
@@ -46,11 +46,11 @@ export CHAIN_1_EXPOSE_REST_API_TO_PORT=1317
 export CHAIN_1_EXPOSE_P2P_TO_PORT=26656
 ### Chain 2
 export CHAIN_2_TYPE="evmos" # valid values are 'evmos' or 'cosmos' only, must be 'evmos' for evmos chain, otherwise 'cosmos' for other chains
-export CHAIN_2_ID="evmos_9007-1"
+export CHAIN_2_ID="evmos_9000-6"
 export CHAIN_2_COINTYPE=60 # 60 for EVMOS, 118 for Cosmos
 export CHAIN_2_ACCOUNT_PREFIX="evmos"
 export CHAIN_2_GIT_REPO="https://github.com/evmos/evmos.git"
-export CHAIN_2_GIT_REPO_BRANCH="v8.1.0" # must belong to repo $CHAIN_2_GIT_REPO
+export CHAIN_2_GIT_REPO_BRANCH="v12.1.3" # must belong to repo $CHAIN_2_GIT_REPO
 export CHAIN_2_DAEMON_BINARY_NAME="evmosd"
 export CHAIN_2_DENOM_SYMBOL="evmos"
 export CHAIN_2_MIN_DENOM_SYMBOL="aevmos"
@@ -106,7 +106,7 @@ export VAL_3_CHAIN_2_SEED="stage grid emotion thumb safe myth chair dizzy beyond
 
 ## Hermes (IBC Relayer)
 export HERMES_GIT_REPO="https://github.com/informalsystems/ibc-rs.git"
-export HERMES_GIT_REPO_BRANCH="v0.15.0" # Must belong to repo $HERMES_GIT_REPO
+export HERMES_GIT_REPO_BRANCH="v1.5.0" # Must belong to repo $HERMES_GIT_REPO
 export HERMES_BINARY="hermes"
 export HERMES_SOURCE_DIR_PREFIX="source-code" # do NOT modify
 export HERMES_HOME_DIR=".hermes"
@@ -179,13 +179,17 @@ export BD_CFG_CHAIN_2_DENOM_EXPONENT=$CHAIN_2_DENOM_EXPONENT # no of digits (18 
 ### Big Dipper 2.0 for Cosmos based chains
 ### Chain 1
 export BD2_CFG_CHAIN_1_GIT_REPO="https://github.com/forbole/big-dipper-2.0-cosmos.git"
-export BD2_CFG_CHAIN_1_BRANCH="chains/evmos"
+export BD2_CFG_CHAIN_1_BRANCH="web-evmos@2.14.1"
+export BD2_CFG_CHAIN_1_PROJECT_NAME="web-evmos" # project name under ./apps/
+export BD2_CFG_CHAIN_1_CHAIN_NAME="evmos" # chain name to be set into ./apps/web-x/src/chain.json
 export BD2_CFG_CHAIN_1_PORT=3800
 export BD2_CFG_CHAIN_1_PUBLIC_DOMAIN="127.0.0.1"
 export BD2_CFG_CHAIN_1_PUBLIC_RPC_26657="127.0.0.1:$CHAIN_1_EXPOSE_RPC_TO_PORT"
 ### Chain 2
 export BD2_CFG_CHAIN_2_GIT_REPO="https://github.com/forbole/big-dipper-2.0-cosmos.git"
-export BD2_CFG_CHAIN_2_BRANCH="chains/evmos"
+export BD2_CFG_CHAIN_2_BRANCH="web-evmos@2.14.1"
+export BD2_CFG_CHAIN_2_PROJECT_NAME="web-evmos" # project name under ./apps/
+export BD2_CFG_CHAIN_2_CHAIN_NAME="evmos" # chain name to be set into ./apps/web-x/src/chain.json
 export BD2_CFG_CHAIN_2_PORT=3802
 export BD2_CFG_CHAIN_2_PUBLIC_DOMAIN="127.0.0.1"
 export BD2_CFG_CHAIN_2_PUBLIC_RPC_26657="127.0.0.1:$CHAIN_2_EXPOSE_RPC_TO_PORT"

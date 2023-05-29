@@ -28,9 +28,9 @@ if [ "$HERMES_NO_CONFIRM_BALANCE" != "1" ]; then
         echo "Go prepare yourself"
         echo "Hint: you can do this"
         echo " docker exec -it vtevmos11 bash"
-        echo " $CHAIN_1_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_1_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /.evmosd1 --node tcp://127.0.0.1:26657"
+	echo " $CHAIN_1_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_1_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /.evmosd1 --node tcp://127.0.0.1:26657 --yes --gas-prices $(bc <<< "20 * 10 ^ $CHAIN_1_GAS_DENOM_EXPONENT ")$CHAIN_1_MIN_DENOM_SYMBOL"
         echo " docker exec -it vtevmos21 bash"
-        echo " $CHAIN_2_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_2_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /.evmosd2 --node tcp://127.0.0.1:26657"
+        echo " $CHAIN_2_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_2_ADDR "$(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")"$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /.evmosd2 --node tcp://127.0.0.1:26657 --yes --gas-prices $(bc <<< "20 * 10 ^ $CHAIN_2_GAS_DENOM_EXPONENT ")$CHAIN_2_MIN_DENOM_SYMBOL"
         exit 0
     fi
 fi
@@ -73,6 +73,17 @@ echo "- Relayer tx broadcast account key name: $HERMES_CFG_CHAIN_2_KEY_NAME"
 echo "- Gas price denom: $HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL"
 sleep 3s
 
+if [ $CHAIN_1_COINTYPE -eq 60 ] || [ "$CHAIN_1_TYPE" = "evmos" ]; then
+	GAS_PRICE_1="$(bc <<< "20 * 10 ^ ($HERMES_CFG_CHAIN_1_DENOM_EXPONENT/2)")"
+else
+	GAS_PRICE_1=2
+fi
+if [ $CHAIN_2_COINTYPE -eq 60 ] || [ "$CHAIN_2_TYPE" = "evmos" ]; then
+	GAS_PRICE_2="$(bc <<< "20 * 10 ^ ($HERMES_CFG_CHAIN_2_DENOM_EXPONENT/2)")"
+else
+	GAS_PRICE_2=2
+fi
+
 echo "Initializing file config.toml"
 CONFIG_TOML=$HERMES_HOME_DIR'/config.toml'
 cp "./template-config.toml" "$CONFIG_TOML"
@@ -82,6 +93,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i '' "s,chain1_grpc_addr,$HERMES_CFG_CHAIN_1_GRPC_ADDR,g" $CONFIG_TOML
     sed -i '' "s/chain1_account_prefix/$HERMES_CFG_CHAIN_1_ACCOUNT_PREFIX/g" $CONFIG_TOML
     sed -i '' "s/chain1_key_name/$HERMES_CFG_CHAIN_1_KEY_NAME/g" $CONFIG_TOML
+    sed -i '' "s/chain1_gas_price_amt/$GAS_PRICE_1/g" $CONFIG_TOML
     sed -i '' "s/chain1_gas_price_denom/$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL/g" $CONFIG_TOML
     if [ $CHAIN_1_COINTYPE -eq 60 ] || [ "$CHAIN_1_TYPE" = "evmos" ]; then
         sed -i '' "s#chain1_address_type#{ derivation = 'ethermint', proto_type = { pk_type = '/ethermint.crypto.v1.ethsecp256k1.PubKey' } }#g" $CONFIG_TOML
@@ -93,6 +105,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i '' "s,chain2_grpc_addr,$HERMES_CFG_CHAIN_2_GRPC_ADDR,g" $CONFIG_TOML
     sed -i '' "s/chain2_account_prefix/$HERMES_CFG_CHAIN_2_ACCOUNT_PREFIX/g" $CONFIG_TOML
     sed -i '' "s/chain2_key_name/$HERMES_CFG_CHAIN_2_KEY_NAME/g" $CONFIG_TOML
+    sed -i '' "s/chain2_gas_price_amt/$GAS_PRICE_2/g" $CONFIG_TOML
     sed -i '' "s/chain2_gas_price_denom/$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL/g" $CONFIG_TOML
     if [ $CHAIN_2_COINTYPE -eq 60 ] || [ "$CHAIN_2_TYPE" = "evmos" ]; then
         sed -i '' "s#chain2_address_type#{ derivation = 'ethermint', proto_type = { pk_type = '/ethermint.crypto.v1.ethsecp256k1.PubKey' } }#g" $CONFIG_TOML
@@ -105,6 +118,7 @@ else
     sed -i "s,chain1_grpc_addr,$HERMES_CFG_CHAIN_1_GRPC_ADDR,g" $CONFIG_TOML
     sed -i "s/chain1_account_prefix/$HERMES_CFG_CHAIN_1_ACCOUNT_PREFIX/g" $CONFIG_TOML
     sed -i "s/chain1_key_name/$HERMES_CFG_CHAIN_1_KEY_NAME/g" $CONFIG_TOML
+    sed -i "s/chain1_gas_price_amt/$GAS_PRICE_1/g" $CONFIG_TOML
     sed -i "s/chain1_gas_price_denom/$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL/g" $CONFIG_TOML
     if [ $CHAIN_1_COINTYPE -eq 60 ]; then
         sed -i "s#chain1_address_type#{ derivation = 'ethermint', proto_type = { pk_type = '/ethermint.crypto.v1.ethsecp256k1.PubKey' } }#g" $CONFIG_TOML
@@ -116,6 +130,7 @@ else
     sed -i "s,chain2_grpc_addr,$HERMES_CFG_CHAIN_2_GRPC_ADDR,g" $CONFIG_TOML
     sed -i "s/chain2_account_prefix/$HERMES_CFG_CHAIN_2_ACCOUNT_PREFIX/g" $CONFIG_TOML
     sed -i "s/chain2_key_name/$HERMES_CFG_CHAIN_2_KEY_NAME/g" $CONFIG_TOML
+    sed -i "s/chain2_gas_price_amt/$GAS_PRICE_2/g" $CONFIG_TOML
     sed -i "s/chain2_gas_price_denom/$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL/g" $CONFIG_TOML
     if [ $CHAIN_2_COINTYPE -eq 60 ]; then
         sed -i "s#chain2_address_type#{ derivation = 'ethermint', proto_type = { pk_type = '/ethermint.crypto.v1.ethsecp256k1.PubKey' } }#g" $CONFIG_TOML
@@ -129,13 +144,17 @@ echo "Restore replayer account"
 echo "-Importing seed"
 echo " [$REL_1_SEED]"
 echo " as relayer account for chain $HERMES_CFG_CHAIN_1_ID"
-$BINARY -c "$CONFIG_TOML" keys restore --mnemonic "$REL_1_SEED" --hd-path "m/44'/$CHAIN_1_COINTYPE'/0'/0/0" "$HERMES_CFG_CHAIN_1_ID" --name "$HERMES_CFG_CHAIN_1_KEY_NAME"
+REL_1_SEED_FILE="rel_1_seed.key"
+echo "$REL_1_SEED" > "$REL_1_SEED_FILE"
+$BINARY --config "$CONFIG_TOML" keys add --mnemonic-file "$REL_1_SEED_FILE" --hd-path "m/44'/$CHAIN_1_COINTYPE'/0'/0/0" --chain "$HERMES_CFG_CHAIN_1_ID" --key-name "$HERMES_CFG_CHAIN_1_KEY_NAME"
 echo "-Importing seed"
 echo " [$REL_2_SEED]"
 echo " as relayer account for chain $HERMES_CFG_CHAIN_2_ID"
-$BINARY -c "$CONFIG_TOML" keys restore --mnemonic "$REL_2_SEED" --hd-path "m/44'/$CHAIN_2_COINTYPE'/0'/0/0" "$HERMES_CFG_CHAIN_2_ID" --name "$HERMES_CFG_CHAIN_2_KEY_NAME"
+REL_2_SEED_FILE="rel_2_seed.key"
+echo "$REL_2_SEED" > "$REL_2_SEED_FILE"
+$BINARY --config "$CONFIG_TOML" keys add --mnemonic-file "$REL_2_SEED_FILE" --hd-path "m/44'/$CHAIN_2_COINTYPE'/0'/0/0" --chain "$HERMES_CFG_CHAIN_2_ID" --key-name "$HERMES_CFG_CHAIN_2_KEY_NAME"
 ## Extract addr
-export CHECK_REL_1_ADDR="$($BINARY -c "$CONFIG_TOML" keys list "$HERMES_CFG_CHAIN_1_ID" | grep "$HERMES_CFG_CHAIN_1_KEY_NAME" | sed 's/.*\('$CHAIN_1_ACCOUNT_PREFIX'[a-z0-9]*\).*/\1/')"
+export CHECK_REL_1_ADDR="$($BINARY --config "$CONFIG_TOML" keys list --chain "$HERMES_CFG_CHAIN_1_ID" | grep "$HERMES_CFG_CHAIN_1_KEY_NAME" | sed 's/.*\('$CHAIN_1_ACCOUNT_PREFIX'[a-z0-9]*\).*/\1/')"
 if [ -z "$CHECK_REL_1_ADDR" ]; then
     echo >&2 "ERR: Relayer account on $HERMES_CFG_CHAIN_1_ID was imported but could not befound! Did you set the following variables correctly?"
     echo " + HERMES_CFG_CHAIN_1_KEY_NAME=$HERMES_CFG_CHAIN_1_KEY_NAME"
@@ -147,7 +166,7 @@ else
     echo >&2 "ERR: Relayer account on $HERMES_CFG_CHAIN_1_ID after import has wallet address is '$CHECK_REL_1_ADDR', it is different with configuration variable 'REL_1_ADDR'=$REL_1_ADDR"
     exit 1
 fi
-export CHECK_REL_2_ADDR="$($BINARY -c "$CONFIG_TOML" keys list "$HERMES_CFG_CHAIN_2_ID" | grep "$HERMES_CFG_CHAIN_2_KEY_NAME" | sed 's/.*\('$CHAIN_2_ACCOUNT_PREFIX'[a-z0-9]*\).*/\1/')"
+export CHECK_REL_2_ADDR="$($BINARY --config "$CONFIG_TOML" keys list --chain "$HERMES_CFG_CHAIN_2_ID" | grep "$HERMES_CFG_CHAIN_2_KEY_NAME" | sed 's/.*\('$CHAIN_2_ACCOUNT_PREFIX'[a-z0-9]*\).*/\1/')"
 if [ -z "$CHECK_REL_2_ADDR" ]; then
     echo >&2 "ERR: Relayer account on $HERMES_CFG_CHAIN_2_ID was imported but could not befound! Did you set the following variables correctly?"
     echo " + HERMES_CFG_CHAIN_2_KEY_NAME=$HERMES_CFG_CHAIN_2_KEY_NAME"
@@ -162,7 +181,7 @@ fi
 
 echo "Creating client, connection and channels"
 echo '- Creating client'
-RES_CREATE_CLIENT_1_TO_2=$($BINARY -c $CONFIG_TOML tx raw create-client $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID)
+RES_CREATE_CLIENT_1_TO_2=$($BINARY --config $CONFIG_TOML create client --host-chain $HERMES_CFG_CHAIN_1_ID --reference-chain $HERMES_CFG_CHAIN_2_ID)
 TENDERMINT_CLIENT_1_TO_2=$(echo $RES_CREATE_CLIENT_1_TO_2 | grep -o '07-tendermint-[0-9]*')
 echo ' > Client 1 to 2: '$TENDERMINT_CLIENT_1_TO_2
 [ -z "$TENDERMINT_CLIENT_1_TO_2" ] && {
@@ -172,8 +191,8 @@ echo ' > Client 1 to 2: '$TENDERMINT_CLIENT_1_TO_2
     exit 1;
 }
 
-RES_CREATE_CLIENT_2_TO_1=$($BINARY -c $CONFIG_TOML tx raw create-client $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID)
-TENDERMINT_CLIENT_2_TO_1=$(echo $RES_CREATE_CLIENT_2_TO_1 | grep -o '07-tendermint-[0-9]*')
+RES_CREATE_CLIENT_2_TO_1=$($BINARY --config $CONFIG_TOML create client --host-chain $HERMES_CFG_CHAIN_2_ID --reference-chain $HERMES_CFG_CHAIN_1_ID)
+TENDERMINT_CLIENT_2_TO_1=$(echo $RES_CREATE_CLIENT_2_TO_1 | grep -o '07-tendermint-[0-9]*' | head -n 1)
 echo ' > Client 2 to 1: '$TENDERMINT_CLIENT_2_TO_1
 [ -z "$TENDERMINT_CLIENT_2_TO_1" ] && {
     echo >&2 "Response:";
@@ -183,8 +202,8 @@ echo ' > Client 2 to 1: '$TENDERMINT_CLIENT_2_TO_1
 }
 
 echo '- Creating connection'
-RES_CREATE_CONN_1_TO_2=$($BINARY -c $CONFIG_TOML tx raw conn-init $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID $TENDERMINT_CLIENT_1_TO_2 $TENDERMINT_CLIENT_2_TO_1)
-CONN_1_TO_2=$(echo $RES_CREATE_CONN_1_TO_2 | grep -o 'connection-[0-9]*')
+RES_CREATE_CONN_1_TO_2=$($BINARY --config $CONFIG_TOML create connection --a-chain $HERMES_CFG_CHAIN_1_ID --a-client $TENDERMINT_CLIENT_1_TO_2 --b-client $TENDERMINT_CLIENT_2_TO_1)
+CONN_1_TO_2=$(echo $RES_CREATE_CONN_1_TO_2 | grep -o 'connection-[0-9]*' | head -n 1)
 echo ' > Connection 1 to 2: '$CONN_1_TO_2
 [ -z "$CONN_1_TO_2" ] && {
     echo >&2 "Response:";
@@ -193,36 +212,17 @@ echo ' > Connection 1 to 2: '$CONN_1_TO_2
     exit 1;
 }
 
-RES_CREATE_CONN_2_TO_1=$($BINARY -c $CONFIG_TOML tx raw conn-try $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID $TENDERMINT_CLIENT_2_TO_1 $TENDERMINT_CLIENT_1_TO_2 -s $CONN_1_TO_2)
-CONN_2_TO_1=$(echo $RES_CREATE_CONN_2_TO_1 | grep -o 'connection-[0-9]*' | head -n 1)
-echo ' > Connection 2 to 1: '$CONN_2_TO_1
-[ -z "$CONN_2_TO_1" ] && {
-    echo >&2 "Response:";
-    echo >&2 "$RES_CREATE_CONN_2_TO_1";
-    echo >&2 "ERR: Unable to create connection on chain 2";
-    exit 1;
-}
+CONN_2_TO_1="$CONN_1_TO_2"
 
-$BINARY -c $CONFIG_TOML tx raw conn-ack $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID $TENDERMINT_CLIENT_1_TO_2 $TENDERMINT_CLIENT_2_TO_1 -d $CONN_1_TO_2 -s $CONN_2_TO_1
-EXIT_CODE=$?
-sleep 2s
-[ $EXIT_CODE -eq 0 ] || { echo >&2 "ERR: Operation failed (tx raw conn-ack)"; exit 1; }
-
-$BINARY -c $CONFIG_TOML tx raw conn-confirm $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID $TENDERMINT_CLIENT_2_TO_1 $TENDERMINT_CLIENT_1_TO_2 -d $CONN_2_TO_1 -s $CONN_1_TO_2
-EXIT_CODE=$?
-sleep 2s
-[ $EXIT_CODE -eq 0 ] || { echo >&2 "ERR: Operation failed (tx raw conn-confirm)"; exit 1; }
-
+sleep 5s
 echo ' + Testing connection 1'
-$BINARY -c $CONFIG_TOML query connection end $HERMES_CFG_CHAIN_1_ID $CONN_1_TO_2 | grep 'Open'
-
-echo ' + Testing connection 2'
-$BINARY -c $CONFIG_TOML query connection end $HERMES_CFG_CHAIN_2_ID $CONN_2_TO_1 | grep 'Open'
+$BINARY --config $CONFIG_TOML query connection end --chain $HERMES_CFG_CHAIN_1_ID --connection $CONN_1_TO_2 | grep 'Open'
+sleep 2s
 
 echo '- Creating channel'
 
-RES_CREATE_CHAN_1_TO_2=$($BINARY -c $CONFIG_TOML tx raw chan-open-init $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID $CONN_1_TO_2 transfer transfer -o UNORDERED)
-CHAN_1_TO_2=$(echo $RES_CREATE_CHAN_1_TO_2 | grep -o 'channel-[0-9]*')
+RES_CREATE_CHAN_1_TO_2=$($BINARY --config $CONFIG_TOML create channel --a-chain $HERMES_CFG_CHAIN_1_ID --a-connection $CONN_1_TO_2 --a-port transfer --b-port transfer)
+CHAN_1_TO_2=$(echo $RES_CREATE_CHAN_1_TO_2 | grep -o 'channel-[0-9]*' | head -n 1)
 [ -z "$CHAN_1_TO_2" ] && {
     echo >&2 "Response:";
     echo >&2 "$RES_CREATE_CHAN_1_TO_2";
@@ -230,30 +230,10 @@ CHAN_1_TO_2=$(echo $RES_CREATE_CHAN_1_TO_2 | grep -o 'channel-[0-9]*')
     exit 1;
 }
 
-RES_CREATE_CHAN_2_TO_1=$($BINARY -c $CONFIG_TOML tx raw chan-open-try $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID $CONN_2_TO_1 transfer transfer -s $CHAN_1_TO_2)
-CHAN_2_TO_1=$(echo $RES_CREATE_CHAN_2_TO_1 | grep -o 'channel-[0-9]*' | head -n 1)
-[ -z "$CHAN_2_TO_1" ] && {
-    echo >&2 "Response:";
-    echo >&2 "$RES_CREATE_CHAN_2_TO_1";
-    echo >&2 "ERR: Unable to create channel on chain 2";
-    exit 1;
-}
-
-$BINARY -c $CONFIG_TOML tx raw chan-open-ack $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID $CONN_1_TO_2 transfer transfer -d $CHAN_1_TO_2 -s $CHAN_2_TO_1
-EXIT_CODE=$?
-sleep 2s
-[ $EXIT_CODE -eq 0 ] || { echo >&2 "ERR: Operation failed (chan-open-ack)"; exit 1; }
-
-$BINARY -c $CONFIG_TOML tx raw chan-open-confirm $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID $CONN_2_TO_1 transfer transfer -d $CHAN_2_TO_1 -s $CHAN_1_TO_2
-EXIT_CODE=$?
-sleep 2s
-[ $EXIT_CODE -eq 0 ] || { echo >&2 "ERR: Operation failed (chan-open-confirm)"; exit 1; }
+CHAN_2_TO_1="$CHAN_1_TO_2"
 
 echo ' + Testing channel 1'
-$BINARY -c $CONFIG_TOML query channel end $HERMES_CFG_CHAIN_1_ID transfer $CHAN_1_TO_2 | grep 'Open'
-
-echo ' + Testing channel 2'
-$BINARY -c $CONFIG_TOML query channel end $HERMES_CFG_CHAIN_2_ID transfer $CHAN_2_TO_1 | grep 'Open'
+#$BINARY --config $CONFIG_TOML query channel end $HERMES_CFG_CHAIN_1_ID transfer $CHAN_1_TO_2 | grep 'Open'
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i '' "s/NoteClient1/Client 1 to 2: $TENDERMINT_CLIENT_1_TO_2/g" $CONFIG_TOML
@@ -274,34 +254,31 @@ fi
 echo 'Initialize token hash on opposite channel'
 echo "- Init for $HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL on $HERMES_CFG_CHAIN_2_ID"
 echo ' + FT-Transfer from '$HERMES_CFG_CHAIN_1_ID' to '$HERMES_CFG_CHAIN_2_ID
-$BINARY -c $CONFIG_TOML tx raw ft-transfer $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID transfer $CHAN_1_TO_2 1 --timeout-height-offset 1000 --number-msgs 1 --denom $HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL
+$BINARY --config $CONFIG_TOML tx ft-transfer --dst-chain $HERMES_CFG_CHAIN_2_ID --src-chain $HERMES_CFG_CHAIN_1_ID --src-port transfer --src-channel $CHAN_1_TO_2 --timeout-seconds 1000 --amount 1000 --denom $HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL
 EXIT_CODE=$?
 sleep 2s
 [ $EXIT_CODE -eq 0 ] || { echo >&2 "ERR: Operation failed (ft-transfer)"; exit 1; }
-echo ' + Send `recv_packet` to '$HERMES_CFG_CHAIN_2_ID
-$BINARY -c $CONFIG_TOML tx raw packet-recv $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID transfer $CHAN_1_TO_2
-EXIT_CODE=$?
+
+$BINARY --config $CONFIG_TOML tx packet-recv --dst-chain $HERMES_CFG_CHAIN_2_ID --src-chain $HERMES_CFG_CHAIN_1_ID --src-port transfer --src-channel $CHAN_1_TO_2
 sleep 2s
 [ $EXIT_CODE -eq 0 ] || { echo >&2 "ERR: Operation failed (packet-recv)"; exit 1; }
-echo ' + Send acknowledgement to '$HERMES_CFG_CHAIN_1_ID
-$BINARY -c $CONFIG_TOML tx raw packet-ack $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID transfer $CHAN_1_TO_2
-EXIT_CODE=$?
-sleep 2s
-[ $EXIT_CODE -eq 0 ] || { echo >&2 "ERR: Operation failed (packet-ack)"; exit 1; }
+
 echo "- Init for $HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL on $HERMES_CFG_CHAIN_1_ID"
 echo ' + FT-Transfer from '$HERMES_CFG_CHAIN_2_ID' to '$HERMES_CFG_CHAIN_1_ID
-$BINARY -c $CONFIG_TOML tx raw ft-transfer $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID transfer $CHAN_2_TO_1 1 --timeout-height-offset 1000 --number-msgs 1 --denom $HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL
+$BINARY --config $CONFIG_TOML tx ft-transfer --dst-chain $HERMES_CFG_CHAIN_1_ID --src-chain $HERMES_CFG_CHAIN_2_ID --src-port transfer --src-channel $CHAN_1_TO_2 --timeout-seconds 1000 --amount 1000 --denom $HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL
 EXIT_CODE=$?
 sleep 2s
 [ $EXIT_CODE -eq 0 ] || { echo >&2 "ERR: Operation failed (ft-transfer)"; exit 1; }
-echo ' + Send `recv_packet` to '$HERMES_CFG_CHAIN_1_ID
-$BINARY -c $CONFIG_TOML tx raw packet-recv $HERMES_CFG_CHAIN_1_ID $HERMES_CFG_CHAIN_2_ID transfer $CHAN_2_TO_1
-EXIT_CODE=$?
+
+$BINARY --config $CONFIG_TOML tx packet-recv --dst-chain $HERMES_CFG_CHAIN_1_ID --src-chain $HERMES_CFG_CHAIN_2_ID --src-port transfer --src-channel $CHAN_2_TO_1
 sleep 2s
 [ $EXIT_CODE -eq 0 ] || { echo >&2 "ERR: Operation failed (packet-recv)"; exit 1; }
-echo ' + Send acknowledgement to '$HERMES_CFG_CHAIN_2_ID
-$BINARY -c $CONFIG_TOML tx raw packet-ack $HERMES_CFG_CHAIN_2_ID $HERMES_CFG_CHAIN_1_ID transfer $CHAN_2_TO_1
-EXIT_CODE=$?
+
+$BINARY --config $CONFIG_TOML tx packet-ack --dst-chain $HERMES_CFG_CHAIN_2_ID --src-chain $HERMES_CFG_CHAIN_1_ID --src-port transfer --src-channel $CHAN_1_TO_2
+sleep 2s
+[ $EXIT_CODE -eq 0 ] || { echo >&2 "ERR: Operation failed (packet-ack)"; exit 1; }
+
+$BINARY --config $CONFIG_TOML tx packet-ack --dst-chain $HERMES_CFG_CHAIN_1_ID --src-chain $HERMES_CFG_CHAIN_2_ID --src-port transfer --src-channel $CHAN_2_TO_1
 sleep 2s
 [ $EXIT_CODE -eq 0 ] || { echo >&2 "ERR: Operation failed (packet-ack)"; exit 1; }
 
@@ -314,14 +291,14 @@ echo '- Channel 1 to 2: '$CHAN_1_TO_2
 echo '- Channel 2 to 1: '$CHAN_2_TO_1
 echo "> The above information was saved as comment lines in [$CONFIG_TOML], you can review it any time"
 echo '## NOTICE: Always run hermes binary with path of config.toml as input:'
-echo " > $BINARY -c $CONFIG_TOML [command]"
+echo " > $BINARY --config $CONFIG_TOML [command]"
 
 echo 'Final steps need to be done'
 echo '- Update config file '$CONFIG_TOML
 echo ' + Add [chains.packet_filter] for chain '$HERMES_CFG_CHAIN_1_ID' allows transfer via '$CHAN_1_TO_2
 echo ' + Add [chains.packet_filter] for chain '$HERMES_CFG_CHAIN_2_ID' allows transfer via '$CHAN_2_TO_1
 echo ' + Validate config'
-echo ' $ '$BINARY' -c '$CONFIG_TOML' config validate'
+echo ' $ '$BINARY' --config '$CONFIG_TOML' config validate'
 
 # Re-Start service
 if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
@@ -346,7 +323,7 @@ if [ $DISABLE_SYSTEMCTL -eq 0 ]; then
 \nType=simple
 \nUser=$USER
 \nWorkingDirectory=$WORKING_DIR
-\nExecStart=$BINARY -c $CONFIG_TOML --json start
+\nExecStart=$BINARY --config $CONFIG_TOML --json start
 \nRestart=always
 \nRestartSec=2
 \n[Install]

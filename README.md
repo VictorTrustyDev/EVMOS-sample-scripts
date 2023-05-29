@@ -5,22 +5,22 @@ I wrote hundred lines of comments which explains every steps in each script file
 Not only EVMOS, you can use this script to build for other chains like cosmos,... Look at [this](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/sample.cosmos-and-evmos.override-env.sh) to know how to do it
 
 #### Pre-requisites
-- [Go 1.17.5+](https://go.dev/doc/install) to build chains
+- [Go 1.20.2+](https://go.dev/doc/install) to build chains
 - [jq](https://stedolan.github.io/jq/download)
 - [yq + tomlq (build on top of jq)](https://github.com/kislyuk/yq)
 - [Rust 1.60+](https://www.rust-lang.org/tools/install) to build Hermes - IBC relayer
 - [docker](https://docs.docker.com/engine/install/) & [docker compose](https://docs.docker.com/compose/install/)
-- Node JS to build & run Big Dipper 2.0 for Cosmos based chains
+- Node JS & Yarn to build & run Big Dipper 2.0 for Cosmos based chains
 - PostgreSQL client (psql) for postgres 12.5 to setup Big Dipper
 - [Hasura cli](https://hasura.io/docs/latest/graphql/core/hasura-cli/install-hasura-cli/) for bdjuno
 
 You can find commands to install the above tools [here](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/Install-Required-Tools-on-Ubuntu.md)
 
 I created all of the following samples on an Ubuntu 22.04 LTS machine with 4 CPU 16 GB RAM. It can run
-- 2 [EVMOS](https://github.com/evmos/evmos/tree/v6.0.1) chains
-- 1 [Hermes](https://github.com/informalsystems/ibc-rs/tree/v0.15.0) as IBC relayer to connect those chains
+- 2 [EVMOS](https://github.com/evmos/evmos/tree/v12.1.3) chains
+- 1 [Hermes](https://github.com/informalsystems/ibc-rs/tree/v1.5.0) as IBC relayer to connect those chains
 - 2 [bdjuno & hasura](https://github.com/forbole/bdjuno/tree/chains/evmos/mainnet) as block explorer's backend & graphql service
-- 2 [Big Dipper 2.0](https://github.com/forbole/big-dipper-2.0-cosmos/tree/chains/evmos) as block explorer's frontend
+- 2 [Big Dipper 2.0](https://github.com/forbole/big-dipper-2.0-cosmos) as block explorer's frontend
 
 without any performance issue (CPU ~20-80% per core, ram ~50% via htop)
 
@@ -31,16 +31,16 @@ without any performance issue (CPU ~20-80% per core, ram ~50% via htop)
 
 ### Software versions:
 
-- [Evmos v8.1.0](https://github.com/evmos/evmos/tree/v8.1.0)
-- [Hermes v0.15.0](https://github.com/informalsystems/ibc-rs/tree/v0.15.0)
+- [Evmos v12.1.3](https://github.com/evmos/evmos/tree/v12.1.3)
+- [Hermes v1.5.0](https://github.com/informalsystems/ibc-rs/tree/v1.5.0)
 - [bdjuno branch evmos](https://github.com/forbole/bdjuno/tree/chains/evmos/mainnet)
-- [Big Dipper 2.0 for Cosmos chains branch evmos](https://github.com/forbole/big-dipper-2.0-cosmos/tree/chains/evmos)
+- [Big Dipper 2.0 for Cosmos chains v2.x](https://github.com/forbole/big-dipper-2.0-cosmos)
 
 #### Customization
 - You can change their version by updating file [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)
 - This sample is using keyring `test`, you may need to change to `file` for secure your test env if needed in [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)
 - You can create `override-env.sh` file and override values of [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh)
-- The [sample.cosmos-and-evmos.override-env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/sample.cosmos-and-evmos.override-env.sh) file contains example which tell you how to override variables of [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh) and make the chain 1 use [Cosmos (gaia) source](https://github.com/cosmos/gaia/tree/v7.0.2), rename it to `override-env.sh` to make it effectives
+- The [sample.cosmos-and-evmos.override-env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/sample.cosmos-and-evmos.override-env.sh) file contains example which tell you how to override variables of [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh) and make the chain 1 use [Cosmos (gaia) source](https://github.com/cosmos/gaia/tree/v10.0.0), rename it to `override-env.sh` to make it effectives
 - The [sample.expose-big-dipper-ui.override-env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/sample.expose-big-dipper-ui.override-env.sh) file contains example which tell you how to override variables of [env.sh](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/env.sh) and make the block explorer UI (Big Dipper 2.0) accessible from outside world, rename it to `override-env.sh` to make it effectives
 
 #### Default ports used in these samples

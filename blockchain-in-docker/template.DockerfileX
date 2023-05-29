@@ -1,4 +1,4 @@
-FROM golang:stretch AS build-env
+FROM golang:1.20.4-bullseye AS build-env
 
 RUN apt-get update -y
 RUN apt-get install git -y
@@ -9,7 +9,7 @@ COPY _p_src_dir_ .
 
 RUN make -B build
 
-FROM golang:stretch
+FROM golang:1.20.4-bullseye
 
 COPY --from=build-env /go/victortrusty.dev/build/_p_daemon_binary_ /usr/bin/_p_daemon_binary_
 
