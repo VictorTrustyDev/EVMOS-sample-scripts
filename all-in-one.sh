@@ -132,7 +132,7 @@ sleep 2s
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed (build docker image)"; exit 1; }
 sleep 2s
 docker-compose -f network2.yml up -d
-sleep 5s
+sleep 20s
 
 cd "$AIO_CUR_DIR"
 cd "$AIO_DIR_HERMES"
