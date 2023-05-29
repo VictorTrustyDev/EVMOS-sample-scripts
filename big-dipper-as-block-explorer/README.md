@@ -34,6 +34,7 @@ Here are some of them:
 | `BD2_CFG_CHAIN_1_PORT` | 3800 | Port to open Big Dipper 2.0 as Block Explorer UI for chain 1 |
 | `BD2_CFG_CHAIN_1_PUBLIC_DOMAIN` | 127.0.0.1 | Domain to bind the UI on (for chain 1) |
 | `BD2_CFG_CHAIN_1_PUBLIC_RPC_26657` | 127.0.0.1:26657 | Public RPC endpoint of chain 1 |
+| `BD2_CFG_CHAIN_1_PROJECT_NAME` | web-evmos | Chain-specific app dir within [BD2 web ui project](https://github.com/forbole/big-dipper-2.0-cosmos/tree/main/apps) |
 | `BD_CFG_CHAIN_1_HASURA_PORT` | 8080 | Port to open hasura graphql service for chain 1 |
 | `BD_CFG_CHAIN_1_HASURA_ACTIONBASE_PORT` | 3000 | Port for bdjuno to open hasura action for chain 1 |
 | `BD_CFG_CHAIN_1_PG_PORT` | 5432 | Port to expose bdjuno & hasura's Postgres DB which stores data for chain 1 |
@@ -43,6 +44,7 @@ Here are some of them:
 | `BD2_CFG_CHAIN_2_PORT` | 3802 | Port to open Big Dipper 2.0 as Block Explorer UI for chain 2 |
 | `BD2_CFG_CHAIN_2_PUBLIC_DOMAIN` | 127.0.0.1 | Domain to bind the UI on (for chain 2) |
 | `BD2_CFG_CHAIN_2_PUBLIC_RPC_26657` | 127.0.0.1:36657 | Public RPC endpoint of chain 2 |
+| `BD2_CFG_CHAIN_2_PROJECT_NAME` | web-evmos | Chain-specific app dir within [BD2 web ui project](https://github.com/forbole/big-dipper-2.0-cosmos/tree/main/apps) |
 | `BD_CFG_CHAIN_2_HASURA_PORT` | 8082 | Port to open hasura graphql service for chain 2 |
 | `BD_CFG_CHAIN_2_HASURA_ACTIONBASE_PORT` | 3002 | Port for bdjuno to open hasura action for chain 2 |
 | `BD_CFG_CHAIN_2_PG_PORT` | 15432 | Port to expose bdjuno & hasura's Postgres DB which stores data for chain 2 |
