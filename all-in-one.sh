@@ -94,6 +94,9 @@ AIO_DIR_BD="./big-dipper-as-block-explorer"
 AIO_DIR_HERMES="./hermes-as-ibc-relayer"
 AIO_DIR_CHAIN="./blockchain-in-docker"
 
+GAS_PRICE_1="$(bc <<< "20 * (10^$CHAIN_1_GAS_DENOM_EXPONENT)")$CHAIN_1_MIN_DENOM_SYMBOL"
+GAS_PRICE_2="$(bc <<< "20 * (10^$CHAIN_2_GAS_DENOM_EXPONENT)")$CHAIN_2_MIN_DENOM_SYMBOL"
+
 echo "[Clean up previous setup]"
 
 echo "> [Big Dipper]"
@@ -139,16 +142,16 @@ fi
 echo "> [Load up token for IBC account on chain 1]"
 echo "Keyring: $KEYRING"
 if [ "$KEYRING" = "test" ]; then
-    docker exec -it vtevmos11 bash -c "$CHAIN_1_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_1_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /.evmosd1 --node 'tcp://127.0.0.1:26657' --yes"
+    docker exec -it vtevmos11 bash -c "$CHAIN_1_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_1_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --gas-prices $GAS_PRICE_1 --home /.evmosd1 --node 'tcp://127.0.0.1:26657' --yes"
 else
-    docker exec -it vtevmos11 bash -c "echo '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' | $CHAIN_1_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_1_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --home /.evmosd1 --node 'tcp://127.0.0.1:26657' --yes"
+    docker exec -it vtevmos11 bash -c "echo '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' | $CHAIN_1_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_1_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_1_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL --gas-prices $GAS_PRICE_1 --home /.evmosd1 --node 'tcp://127.0.0.1:26657' --yes"
 fi
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed"; exit 1; }
 echo "> [Load up token for IBC account on chain 2]"
 if [ "$KEYRING" = "test" ]; then
-    docker exec -it vtevmos21 bash -c "$CHAIN_2_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_2_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /.evmosd2 --node 'tcp://127.0.0.1:26657' --yes"
+    docker exec -it vtevmos21 bash -c "$CHAIN_2_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_2_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --gas-prices $GAS_PRICE_2 --home /.evmosd2 --node 'tcp://127.0.0.1:26657' --yes"
 else
-    docker exec -it vtevmos21 bash -c "echo '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' | $CHAIN_2_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_2_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --home /.evmosd2 --node 'tcp://127.0.0.1:26657' --yes"
+    docker exec -it vtevmos21 bash -c "echo '$VAL_KEYRING_FILE_ENCRYPTION_PASSWORD' | $CHAIN_2_DAEMON_BINARY_NAME tx bank send $VAL_2_KEY_NAME $REL_2_ADDR $(bc <<< "$HERMES_RESERVED_FEE * (10^$HERMES_CFG_CHAIN_2_DENOM_EXPONENT)")$HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL --gas-prices $GAS_PRICE_2 --home /.evmosd2 --node 'tcp://127.0.0.1:26657' --yes"
 fi
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed"; exit 1; }
 
