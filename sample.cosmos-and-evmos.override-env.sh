@@ -38,3 +38,4 @@ export BD_CFG_CHAIN_1_DENOM_EXPONENT=$CHAIN_1_DENOM_EXPONENT
 export BD2_CFG_CHAIN_1_GIT_REPO="https://github.com/forbole/big-dipper-2.0-cosmos.git"
 export BD2_CFG_CHAIN_1_BRANCH="web-cosmos@2.15.1"
 export BD2_CFG_CHAIN_1_PROJECT_NAME="web-cosmos"
+export BD2_CFG_CHAIN_1_CHAIN_NAME="cosmos"

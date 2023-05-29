@@ -19,6 +19,7 @@ if [ "$CHAIN_NO" = "1" ]; then
     export BD2_PUBLIC_DOMAIN="$BD2_CFG_CHAIN_1_PUBLIC_DOMAIN"
     export BD2_PUBLIC_RPC_26657="$BD2_CFG_CHAIN_1_PUBLIC_RPC_26657"
     export BD2_PROJECT_NAME="$BD2_CFG_CHAIN_1_PROJECT_NAME"
+    export BD2_CHAIN_NAME="$BD2_CFG_CHAIN_1_CHAIN_NAME"
 elif [ "$CHAIN_NO" = "2" ]; then
     export CHAIN_ID="$BD_CFG_CHAIN_2_ID"
     export PG_PORT=$BD_CFG_CHAIN_2_PG_PORT
@@ -38,9 +39,10 @@ elif [ "$CHAIN_NO" = "2" ]; then
     export BD2_PUBLIC_DOMAIN="$BD2_CFG_CHAIN_2_PUBLIC_DOMAIN"
     export BD2_PUBLIC_RPC_26657="$BD2_CFG_CHAIN_2_PUBLIC_RPC_26657"
     export BD2_PROJECT_NAME="$BD2_CFG_CHAIN_2_PROJECT_NAME"
+    export BD2_CHAIN_NAME="$BD2_CFG_CHAIN_2_CHAIN_NAME"
 fi
 
-export CHAIN_NAME=$(echo $DENOM_SYMBOL | tr '[:lower:]' '[:lower:]')
+export CHAIN_NAME=$(echo $BD2_CHAIN_NAME | tr '[:upper:]' '[:lower:]')
 
 echo "Creating big dipper as block explorer for $CHAIN_NAME chain $CHAIN_ID"
 echo "- Denom: $DENOM_SYMBOL ($DENOM_EXPONENT digits unit: $MIN_DENOM_SYMBOL)"
