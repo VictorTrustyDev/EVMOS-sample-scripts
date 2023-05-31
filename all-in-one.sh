@@ -119,20 +119,20 @@ cd "$AIO_DIR_CHAIN"
 echo "> [Chain 1]"
 ./1_prepare-genesis.sh 1
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed (genesis)"; exit 1; }
-sleep 2s
+sleep 2
 ./2_build-docker-image.sh 1
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed (build docker image)"; exit 1; }
-sleep 2s
+sleep 2
 docker-compose -f network1.yml up -d
 echo "> [Chain 2]"
 ./1_prepare-genesis.sh 2
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed (genesis)"; exit 1; }
-sleep 2s
+sleep 2
 ./2_build-docker-image.sh 2
 [ $? -eq 0 ] || { echo >&2 "ERR AIO: Operation failed (build docker image)"; exit 1; }
-sleep 2s
+sleep 2
 docker-compose -f network2.yml up -d
-sleep 20s
+sleep 20
 
 cd "$AIO_CUR_DIR"
 cd "$AIO_DIR_HERMES"

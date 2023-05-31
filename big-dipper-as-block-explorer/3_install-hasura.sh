@@ -45,7 +45,7 @@ BD_HASURA_CON_NAME="bdjhasura$CHAIN_NO"
 
 echo 'Remove existing containers'
 docker rm -f $BD_HASURA_CON_NAME
-sleep 1s
+sleep 1
 
 echo 'Preparing DB'
 echo 'Dropping old data if exists'
@@ -80,7 +80,7 @@ docker run \
   hasura/graphql-engine:v2.7.0
 
 echo 'Wait hasura up'
-sleep 3s
+sleep 3
 
 echo 'Applying Hasura metadata'
 
