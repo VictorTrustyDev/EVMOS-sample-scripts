@@ -17,7 +17,7 @@ Not only EVMOS, you can use this script to build for other chains like cosmos,..
 You can find commands to install the above tools [here](https://github.com/VictorTrustyDev/EVMOS-sample-scripts/blob/main/Install-Required-Tools-on-Ubuntu.md)
 
 I created all of the following samples on an Ubuntu 22.04 LTS machine with 4 CPU 16 GB RAM. It can run
-- 2 [EVMOS](https://github.com/evmos/evmos/tree/v12.1.3) chains
+- 2 [EVMOS](https://github.com/evmos/evmos/tree/v12.1.4) chains
 - 1 [Hermes](https://github.com/informalsystems/ibc-rs/tree/v1.5.0) as IBC relayer to connect those chains
 - 2 [bdjuno & hasura](https://github.com/forbole/bdjuno/tree/chains/evmos/mainnet) as block explorer's backend & graphql service
 - 2 [Big Dipper 2.0](https://github.com/forbole/big-dipper-2.0-cosmos) as block explorer's frontend
@@ -31,7 +31,7 @@ without any performance issue (CPU ~20-80% per core, ram ~50% via htop)
 
 ### Software versions:
 
-- [Evmos v12.1.3](https://github.com/evmos/evmos/tree/v12.1.3)
+- [Evmos v12.1.4](https://github.com/evmos/evmos/tree/v12.1.4)
 - [Hermes v1.5.0](https://github.com/informalsystems/ibc-rs/tree/v1.5.0)
 - [bdjuno branch evmos](https://github.com/forbole/bdjuno/tree/chains/evmos/mainnet)
 - [Big Dipper 2.0 for Cosmos chains v2.x](https://github.com/forbole/big-dipper-2.0-cosmos)
