@@ -9,18 +9,18 @@ if [ -d "$SOURCE_CODE_DIR" ]; then
     CHK_RES_1="$(git --git-dir "./$SOURCE_CODE_DIR"/.git --work-tree "./$SOURCE_CODE_DIR" config --get remote.origin.url)"
     if [ $? -ne 0 ] || [ -z "$CHK_RES_1" ]; then
         echo "WARN! Unable to check remote origin url of git repo at $SOURCE_CODE_DIR"
-        sleep 2s
+        sleep 2
     elif [ "$CHK_RES_1" != "$GIT_REPO" ]; then
         echo "WARN! Git repo Url does not match"
         echo "Expected: '$GIT_REPO'"
         echo "Actual: '$CHK_RES_1'"
         echo "You should check it (script will continue execution after 10s)"
-        sleep 10s
+        sleep 10
     fi
     CHK_RES_2="$(git --git-dir "./$SOURCE_CODE_DIR"/.git --work-tree "./$SOURCE_CODE_DIR" rev-parse --abbrev-ref HEAD)"
     if [ $? -ne 0 ] || [ -z "$CHK_RES_2" ]; then
         echo "WARN! Unable to check branch of git repo at $SOURCE_CODE_DIR"
-        sleep 2s
+        sleep 2
     elif [ "$CHK_RES_2" = "HEAD" ]; then
         echo "WARN! Can not check branch"
     elif [ "$CHK_RES_2" != "$GIT_BRANCH" ]; then
@@ -28,7 +28,7 @@ if [ -d "$SOURCE_CODE_DIR" ]; then
         echo "Expected: '$GIT_BRANCH'"
         echo "Actual: '$CHK_RES_2'"
         echo "You should check it (script will continue execution after 10s)"
-        sleep 10s
+        sleep 10
     fi
 else
     echo "Downloading $CHAIN_NAME source code $GIT_BRANCH"

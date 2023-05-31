@@ -56,7 +56,7 @@ export BINARY=$(pwd)'/'$HERMES_SOURCE_DIR'/target/release/'$HERMES_BINARY
 [ $? -eq 0 ] || { echo >&2 "ERR: Failed to check & build $HERMES_BINARY binary at $BINARY"; }
 
 echo 'You can custom config by editing keys with prefix [HERMES_CFG_CHAIN_*] in [env.sh] file'
-sleep 3s
+sleep 3
 
 echo "Chain ID: $HERMES_CFG_CHAIN_1_ID and $HERMES_CFG_CHAIN_2_ID"
 echo "Chain 1:"
@@ -71,7 +71,7 @@ echo "- gRPC: $HERMES_CFG_CHAIN_2_GRPC_ADDR"
 echo "- Account prefix: $HERMES_CFG_CHAIN_2_ACCOUNT_PREFIX"
 echo "- Relayer tx broadcast account key name: $HERMES_CFG_CHAIN_2_KEY_NAME"
 echo "- Gas price denom: $HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL"
-sleep 3s
+sleep 3
 
 if [ $CHAIN_1_COINTYPE -eq 60 ] || [ "$CHAIN_1_TYPE" = "evmos" ]; then
 	GAS_PRICE_1="$(bc <<< "20 * 10 ^ ($HERMES_CFG_CHAIN_1_DENOM_EXPONENT/2)")"
@@ -214,10 +214,10 @@ echo ' > Connection 1 to 2: '$CONN_1_TO_2
 
 CONN_2_TO_1="$CONN_1_TO_2"
 
-sleep 5s
+sleep 5
 echo ' + Testing connection 1'
 $BINARY --config $CONFIG_TOML query connection end --chain $HERMES_CFG_CHAIN_1_ID --connection $CONN_1_TO_2 | grep 'Open'
-sleep 2s
+sleep 2
 
 echo '- Creating channel'
 
@@ -256,30 +256,30 @@ echo "- Init for $HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL on $HERMES_CFG_CHAIN
 echo ' + FT-Transfer from '$HERMES_CFG_CHAIN_1_ID' to '$HERMES_CFG_CHAIN_2_ID
 $BINARY --config $CONFIG_TOML tx ft-transfer --dst-chain $HERMES_CFG_CHAIN_2_ID --src-chain $HERMES_CFG_CHAIN_1_ID --src-port transfer --src-channel $CHAN_1_TO_2 --timeout-seconds 1000 --amount 1000 --denom $HERMES_CFG_CHAIN_1_GAS_PRICE_DENOM_SYMBOL
 EXIT_CODE=$?
-sleep 2s
+sleep 2
 [ $EXIT_CODE -eq 0 ] || { echo >&2 "ERR: Operation failed (ft-transfer)"; exit 1; }
 
 $BINARY --config $CONFIG_TOML tx packet-recv --dst-chain $HERMES_CFG_CHAIN_2_ID --src-chain $HERMES_CFG_CHAIN_1_ID --src-port transfer --src-channel $CHAN_1_TO_2
-sleep 2s
+sleep 2
 [ $EXIT_CODE -eq 0 ] || { echo >&2 "ERR: Operation failed (packet-recv)"; exit 1; }
 
 echo "- Init for $HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL on $HERMES_CFG_CHAIN_1_ID"
 echo ' + FT-Transfer from '$HERMES_CFG_CHAIN_2_ID' to '$HERMES_CFG_CHAIN_1_ID
 $BINARY --config $CONFIG_TOML tx ft-transfer --dst-chain $HERMES_CFG_CHAIN_1_ID --src-chain $HERMES_CFG_CHAIN_2_ID --src-port transfer --src-channel $CHAN_1_TO_2 --timeout-seconds 1000 --amount 1000 --denom $HERMES_CFG_CHAIN_2_GAS_PRICE_DENOM_SYMBOL
 EXIT_CODE=$?
-sleep 2s
+sleep 2
 [ $EXIT_CODE -eq 0 ] || { echo >&2 "ERR: Operation failed (ft-transfer)"; exit 1; }
 
 $BINARY --config $CONFIG_TOML tx packet-recv --dst-chain $HERMES_CFG_CHAIN_1_ID --src-chain $HERMES_CFG_CHAIN_2_ID --src-port transfer --src-channel $CHAN_2_TO_1
-sleep 2s
+sleep 2
 [ $EXIT_CODE -eq 0 ] || { echo >&2 "ERR: Operation failed (packet-recv)"; exit 1; }
 
 $BINARY --config $CONFIG_TOML tx packet-ack --dst-chain $HERMES_CFG_CHAIN_2_ID --src-chain $HERMES_CFG_CHAIN_1_ID --src-port transfer --src-channel $CHAN_1_TO_2
-sleep 2s
+sleep 2
 [ $EXIT_CODE -eq 0 ] || { echo >&2 "ERR: Operation failed (packet-ack)"; exit 1; }
 
 $BINARY --config $CONFIG_TOML tx packet-ack --dst-chain $HERMES_CFG_CHAIN_1_ID --src-chain $HERMES_CFG_CHAIN_2_ID --src-port transfer --src-channel $CHAN_2_TO_1
-sleep 2s
+sleep 2
 [ $EXIT_CODE -eq 0 ] || { echo >&2 "ERR: Operation failed (packet-ack)"; exit 1; }
 
 echo 'Information summary'

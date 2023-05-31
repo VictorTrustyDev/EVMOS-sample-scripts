@@ -8,18 +8,18 @@ if [ -d "$HERMES_SOURCE_DIR" ]; then
     CHK_RES_1="$(git --git-dir "./$HERMES_SOURCE_DIR"/.git --work-tree "./$HERMES_SOURCE_DIR" config --get remote.origin.url)"
     if [ $? -ne 0 ] || [ -z "$CHK_RES_1" ]; then
         echo "WARN! Unable to check remote origin url of git repo at $HERMES_SOURCE_DIR"
-        sleep 2s
+        sleep 2
     elif [ "$CHK_RES_1" != "$HERMES_GIT_REPO" ]; then
         echo "WARN! Git repo Url does not match"
         echo "Expected: '$HERMES_GIT_REPO'"
         echo "Actual: '$CHK_RES_1'"
         echo "You should check it (script will continue execution after 10s)"
-        sleep 10s
+        sleep 10
     fi
     CHK_RES_2="$(git --git-dir "./$HERMES_SOURCE_DIR"/.git --work-tree "./$HERMES_SOURCE_DIR" rev-parse --abbrev-ref HEAD)"
     if [ $? -ne 0 ] || [ -z "$CHK_RES_2" ]; then
         echo "WARN! Unable to check branch of git repo at $HERMES_SOURCE_DIR"
-        sleep 2s
+        sleep 2
     elif [ "$CHK_RES_2" = "HEAD" ]; then
         echo "WARN! Can not check branch"
     elif [ "$CHK_RES_2" != "$HERMES_GIT_REPO_BRANCH" ]; then
@@ -27,7 +27,7 @@ if [ -d "$HERMES_SOURCE_DIR" ]; then
         echo "Expected: '$HERMES_GIT_REPO_BRANCH'"
         echo "Actual: '$CHK_RES_2'"
         echo "You should check it (script will continue execution after 10s)"
-        sleep 10s
+        sleep 10
     fi
 else
     echo "Downloading Hermes source code $HERMES_GIT_REPO_BRANCH"
@@ -42,7 +42,7 @@ fi
 CUR_DIR=$(pwd)
 cd "$HERMES_SOURCE_DIR"
 echo "Compiling $HERMES_BINARY. If this is the first time you compile, it will take time, you can enjoy a cup of coffee and comeback later"
-sleep 3s
+sleep 3
 cargo build --release --bin $HERMES_BINARY
 [ $? -eq 0 ] || { echo >&2 "ERR: Failed to compile Hermes"; exit 1; }
 cd "$CUR_DIR"
