@@ -1,4 +1,4 @@
-### This helps you create 2 EVMOS chains ([v12.1.4](https://github.com/evmos/evmos/tree/v12.1.4)) with 3 validators on each chain and run with docker compose
+### This helps you create 2 EVMOS chains ([v12.1.6](https://github.com/evmos/evmos/tree/v12.1.6)) with 3 validators on each chain and run with docker compose
 
 ### I. Create first chain
 
@@ -62,12 +62,12 @@ Here are some of them:
 | Key | Default value | Explain |
 | --- | --- | --- |
 | `CHAIN_1_GIT_REPO` | https://github.com/evmos/evmos.git | Git repo to be used to build chain 1 |
-| `CHAIN_1_GIT_REPO_BRANCH` | v12.1.4 | Git branch to be used to build chain 1 |
+| `CHAIN_1_GIT_REPO_BRANCH` | v12.1.6 | Git branch to be used to build chain 1 |
 | `CHAIN_1_ID` | evmos_9000-5 | Chain id of chain 1 |
 | `CHAIN_1_TYPE` | evmos | Chain type of chain 1 |
 | `CHAIN_1_COINTYPE` | 60 | [HD key derivation path](https://docs.evmos.org/protocol/concepts/accounts#evmos-accounts) for chain 1's accounts |
 | `CHAIN_2_GIT_REPO` | https://github.com/evmos/evmos.git | Git repo to be used to build chain 2 |
-| `CHAIN_2_GIT_REPO_BRANCH` | v12.1.4 | Git branch to be used to build chain 2 |
+| `CHAIN_2_GIT_REPO_BRANCH` | v12.1.6 | Git branch to be used to build chain 2 |
 | `CHAIN_2_ID` | evmos_9000-6 | Chain id of chain 2 |
 | `CHAIN_2_TYPE` | evmos | Chain type of chain 2 |
 | `CHAIN_2_COINTYPE` | 60 | [HD key derivation path](https://docs.evmos.org/protocol/concepts/accounts#evmos-accounts) for chain 2's accounts |
