@@ -123,7 +123,7 @@ account_prefix = 'chain1_account_prefix'
 
 # Specify the name of the private key to use for signing transactions. Required
 # See the Adding Keys chapter for more information about managing signing keys:
-#   https://hermes.informal.systems/commands/keys/index.html#adding-keys
+#   https://hermes.informal.systems/documentation/commands/keys/index.html#adding-keys
 key_name = 'chain1_key_name'
 
 # Specify the address type which determines:
